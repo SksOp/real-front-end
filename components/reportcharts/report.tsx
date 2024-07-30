@@ -1,25 +1,34 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import { Card } from "../ui/card";
+import { ReportCard } from "../ui/reportCard";
 
-interface ReportProps {
-    title:string
-    value: () => string
-    color: string
-    description: string 
-}
+export const Report = () => {
+  return (
+    <div className="grid grid-cols-2 gap-4 px-2">
+      <ReportCard
+        title="Average Rental Value"
+        value={() => "10,000"}
+        color="green"
+        description="Last 24 hours"
+      />
+      <ReportCard
+        title="Total Rental Value"
+        value={() => "10,000"}
+        color="green"
+        description="Last 24 hours"
+      />
 
-export const ReportCard : React.FC<ReportProps> = (props) => {
-
-    return (
-        <Card>
-        <CardHeader>
-          <CardDescription>{props.title}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>{props.value()}</p>
-        </CardContent>
-        <CardFooter>
-          <p>{props.description}</p>
-        </CardFooter>
-      </Card>   
-    )
-}
+      <ReportCard
+        title="YoY Growth"
+        value={() => "10,000"}
+        color="green"
+        description="Last 24 hours"
+      />
+      <ReportCard
+        title="Total Rental Transactions"
+        value={() => "10,000"}
+        color="green"
+        description="Last 24 hours"
+      />
+    </div>
+  );
+};
