@@ -13,7 +13,7 @@ interface IconOptionProps {
 
 function FilterIcons({ option }: IconOptionProps) {
   switch (option) {
-    case "Area":
+    case "Location":
       return <AreaIcon className="w-6 h-6" />;
     case "Dashboard":
       return <DashboardIcon className="w-6 h-6" />;

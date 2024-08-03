@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import AreaDrawerView from "./area-drawer-view";
 import DashboardDrawerView from "./dashboard-drawer-view";
 import FilterIcons from "./filter-icons";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 function Filters() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -66,11 +67,18 @@ function Filters() {
       label: "Developer",
       options: ["A", "B", "C"],
     },
+    // {
+    //   value: selectedArea,
+    //   onChange: (val: any) => handleChange(setSelectedArea, val),
+    //   placeholder: "Area",
+    //   label: "Area",
+    //   options: Area,
+    // },
     {
-      value: selectedArea,
-      onChange: (val: any) => handleChange(setSelectedArea, val),
-      placeholder: "Area",
-      label: "Area",
+      value: selectedLocation,
+      onChange: (val: any) => handleChange(setSelectedLocation, val),
+      placeholder: "Location",
+      label: "Location",
       options: Area,
     },
     {
@@ -138,11 +146,12 @@ function Filters() {
                 <Button
                   variant="outline"
                   className={cn(
-                    "min-w-[120px] rounded-full",
+                    "min-w-[120px] rounded-full items-center justify-center gap-1",
                     select.value ? "bg-primary " : "bg-background"
                   )}
                 >
                   {select.label}
+                  <ChevronDown className="h-4 w-4" />
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="max-h-[60%] ">
@@ -152,10 +161,12 @@ function Filters() {
                     {select.label}
                   </DrawerTitle>
                 </DrawerHeader>
-                {select.label === "Area" ? (
+                {select.label === "Location" ? (
                   <AreaDrawerView
                     mostPopular={Area.MostPopularAreas}
                     otherAreas={Area.OtherAreas}
+                    selectedLocation={selectedLocation}
+                    setSelectedLocation={setSelectedLocation}
                   />
                 ) : select.label === "Dashboard" ? (
                   <DashboardDrawerView />
@@ -174,7 +185,7 @@ function Filters() {
                             />
                             <label
                               htmlFor={option || ""}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              className="text-sm font-medium leading-none "
                             >
                               {option}
                             </label>

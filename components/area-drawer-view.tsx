@@ -5,9 +5,16 @@ import { Input } from "./ui/input";
 interface AreaDrawerViewProps {
   mostPopular: string[];
   otherAreas: string[];
+  selectedLocation: string | null;
+  setSelectedLocation: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function AreaDrawerView({ mostPopular, otherAreas }: AreaDrawerViewProps) {
+function AreaDrawerView({
+  mostPopular,
+  otherAreas,
+  selectedLocation,
+  setSelectedLocation,
+}: AreaDrawerViewProps) {
   return (
     <div className="flex flex-col justify-start items-start gap-4 w-full p-2">
       <Input
@@ -18,9 +25,21 @@ function AreaDrawerView({ mostPopular, otherAreas }: AreaDrawerViewProps) {
         <h3 className="text-base font-normal mb-2">Most Popular</h3>
         <ul className="flex flex-col gap-4">
           {mostPopular.map((area, idx) => (
-            <li key={idx} className="text-muted">
-              {area}
-            </li>
+            <div key={idx} className="flex items-center  py-2">
+              <input
+                type="radio"
+                name={area}
+                checked={selectedLocation === area}
+                onChange={() => setSelectedLocation(area)}
+                className="hidden"
+              />
+              <label
+                htmlFor={area || ""}
+                className="text-sm font-medium text-muted leading-none "
+              >
+                {area}
+              </label>
+            </div>
           ))}
         </ul>
       </div>

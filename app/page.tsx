@@ -27,6 +27,7 @@ export default function Home() {
         </TabsList>
         <TabsContent value="insights">
           <Filters />
+          <Report />
         </TabsContent>
         <TabsContent value="my-listings">
           <ScrollArea className="overflow-y-scroll">
