@@ -1,3 +1,4 @@
+import { Report } from "@/components/reportcharts/report";
 import Layout from "@/layout";
 import {
   Tabs,
