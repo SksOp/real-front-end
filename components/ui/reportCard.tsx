@@ -19,7 +19,7 @@ export const ReportCard : React.FC<ReportProps> = (props) => {
             <p className="text-2xl font-semibold">{props.value}</p>
           </CardContent>
           <CardFooter className="py-3">
-            <p>{props.description}</p>
+            <div>{props.description}</div>
           </CardFooter>
         </Card>   
     )

@@ -1,13 +1,6 @@
-interface MonthlyData {
-  sales: number;
-  Transactions: number;
-}
+import { TransactionAverageValues, SalesTransactionsType } from "./types";
 
-interface TransactionAverageValues {
-  [year: string]: {
-    [month: string]: MonthlyData;
-  };
-}
+
 
 interface TransactionData {
   averageValue: string;
@@ -18,6 +11,7 @@ interface TransactionData {
   growthYoyValue: string;
   totalTransactions: string;
   growthTotalTransactions: string;
+  SalesTransactions :SalesTransactionsType | null
 }
 
 const formatValue = (value: number): string => {
@@ -39,6 +33,28 @@ const getPreviousMonth = (monthIndex: number, yearIndex: number): { month: strin
   };
 };
 
+const convertToSalesTransactions = (data: TransactionAverageValues): SalesTransactionsType => {
+  const salesTransactions: SalesTransactionsType = {};
+
+  const monthOrder = [
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+  ];
+
+  for (const year in data) {
+    if (!salesTransactions[year]) {
+      salesTransactions[year] = {};
+    }
+    const sortedMonths = Object.keys(data[year]).sort((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
+    for (const month of sortedMonths) {
+      salesTransactions[year][month] = {
+        Transactions: data[year][month].Transactions
+      };
+    }
+  }
+
+  return salesTransactions;
+};
+
 export const getTransactionData = (data: TransactionAverageValues): TransactionData => {
   if (!data) {
     return {
@@ -49,9 +65,11 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
       growthTotalValue: "0",
       growthAverageValue: "0",
       growthYoyValue: "0",
-      growthTotalTransactions: "0"
+      growthTotalTransactions: "0",
+      SalesTransactions: null
     };
   }
+  const salesTransactions: SalesTransactionsType = convertToSalesTransactions(data);
 
   const years = Object.keys(data).sort();
   if (years.length < 2) {
@@ -63,7 +81,8 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
       growthTotalValue: "0",
       growthAverageValue: "0",
       growthYoyValue: "0",
-      growthTotalTransactions: "0"
+      growthTotalTransactions: "0",
+      SalesTransactions: null
     };
   }
 
@@ -102,6 +121,7 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
     yoyGrowth: `${yoyGrowth.toFixed(2)}%`,
     growthYoyValue: `${yoyGrowth.toFixed(2)}%`,
     totalTransactions: formatValue(totalTransactionsPreviousYear),
-    growthTotalTransactions: `${growthTotalTransactions.toFixed(2)}%`
+    growthTotalTransactions: `${growthTotalTransactions.toFixed(2)}%`,
+    SalesTransactions : salesTransactions
   };
 };
