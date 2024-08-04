@@ -11,6 +11,8 @@ import PropertiesCard from "@/components/propertiesCard";
 import Report from "@/components/reportcharts/report";
 import { PropertiesList } from "@/constants/properties";
 import Layout from "@/layout";
+import { Caladea } from "next/font/google";
+import Calculator from "@/components/calculator";
 
 function InsightPage() {
   return (
@@ -25,6 +27,9 @@ function InsightPage() {
           <TabsTrigger value="my-listings">My listings</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
         </TabsList>
+        <TabsContent value="explore">
+          <Calculator />
+        </TabsContent>
         <TabsContent value="insights">
           <Filters />
           <Report />
