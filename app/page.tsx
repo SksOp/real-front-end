@@ -12,6 +12,7 @@ import Filters from "@/components/filters";
 import PropertiesCard from "@/components/propertiesCard";
 import { PropertiesList } from "@/constants/properties";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Calculator from "@/components/calculator";
 
 export default function Home() {
   return (
@@ -26,6 +27,9 @@ export default function Home() {
           <TabsTrigger value="my-listings">My listings</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
         </TabsList>
+        <TabsContent value="explore">
+          <Calculator />
+        </TabsContent>
         <TabsContent value="insights">
           <Filters />
         </TabsContent>
