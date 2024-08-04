@@ -22,9 +22,7 @@ function NavBottom({
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("home")}
       >
-        <HomeIcon
-          className={selected === "home" ? "fill-[#141414]" : "fill-[#BBBBBB]"}
-        />
+        <HomeIcon isActive={selected === "home"} />
         {selected === "home" && <p className="font-bold text-sm">Home</p>}
       </Link>
       <Link
@@ -32,9 +30,7 @@ function NavBottom({
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("insights")}
       >
-        <InsightIcon
-          className={selected === "insights" ? "fill-[#141414]" : ""}
-        />
+        <InsightIcon isActive={selected === "insights"} />
         {selected === "insights" && (
           <p className="font-bold text-sm">Insights</p>
         )}
@@ -44,7 +40,7 @@ function NavBottom({
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("my-page")}
       >
-        <BookIcon className={selected === "my-page" ? "fill-[#141414]" : ""} />
+        <BookIcon isActive={selected === "my-page"} />
         {selected === "my-page" && <p className="font-bold text-sm">My Page</p>}
       </Link>
       <Link
@@ -52,9 +48,7 @@ function NavBottom({
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("connections")}
       >
-        <UserIcon
-          className={selected === "connections" ? "fill-[#141414]" : ""}
-        />
+        <UserIcon isActive={selected === "connections"} />
         {selected === "connections" && (
           <p className="font-bold text-sm">Connections</p>
         )}
@@ -64,9 +58,7 @@ function NavBottom({
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("settings")}
       >
-        <SettingIcon
-          className={selected === "settings" ? "fill-[#141414]" : ""}
-        />
+        <SettingIcon isActive={selected === "settings"} />
         {selected === "settings" && (
           <p className="font-bold text-sm">Settings</p>
         )}
