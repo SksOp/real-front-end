@@ -6,6 +6,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Area } from "@/constants/area";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 function Calculator() {
   const [transactionType, setTransactionType] = React.useState<string | null>(
@@ -13,6 +25,7 @@ function Calculator() {
   );
   const [usage, setUsage] = React.useState<string | null>(null);
   const [propertyType, setPropertyType] = React.useState<string | null>(null);
+  const [Location, setLocation] = React.useState<string | null>(null);
 
   const handleChange = (
     setter: React.Dispatch<React.SetStateAction<any>>,
@@ -78,33 +91,146 @@ function Calculator() {
         <AccordionContent className="p-2 flex flex-col items-start justify-center gap-2">
           {radioOptions.map((radio, idx) => (
             <div key={idx} className="">
-              <label
+              <Label
                 htmlFor={radio.label}
                 className="text-base font-medium block"
               >
                 {radio.label}
-              </label>
-              <div className="flex justify-start items-center gap-4 py-2">
+              </Label>
+              <RadioGroup className="flex justify-start items-center gap-4 py-2">
                 {radio.options.map((option, idx) => (
                   <div className="flex items-center justify-start gap-2">
-                    <input
-                      type="radio"
-                      name={option}
-                      checked={radio.value === option}
+                    <RadioGroupItem
+                      value={option}
+                      id={option}
                       onChange={() => radio.onChange(option)}
-                      className="form-radio  h-4 w-4 text-muted transition duration-150 ease-in-out"
+                      className="border-2 border-gray-300 text-muted rounded-full w-5 h-5"
                     />
-                    <label
-                      htmlFor={option || ""}
-                      className="text-base font-medium "
-                    >
-                      {option}
-                    </label>
+                    <Label htmlFor={option}>{option}</Label>
                   </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
           ))}
+          <div className="w-full">
+            <Label htmlFor={"location"} className="text-base font-medium block">
+              Location
+            </Label>
+            <Select>
+              <SelectTrigger className="border-0 bg-muted-foreground rounded-none">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent className="">
+                {Area.MostPopularAreas.map((area, idx) => (
+                  <SelectItem key={idx} value={area}>
+                    {area}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-full">
+            <Label
+              htmlFor={"developer"}
+              className="text-base font-medium block"
+            >
+              Developer
+            </Label>
+            <Select>
+              <SelectTrigger className="border-0 bg-muted-foreground rounded-none">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent className="">
+                {["A", "B", "C", "D"].map((area, idx) => (
+                  <SelectItem key={idx} value={area}>
+                    {area}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-full flex justify-center items-center gap-2">
+            <div className="w-1/2">
+              <Label
+                htmlFor={"bedrooms"}
+                className="text-base font-medium block"
+              >
+                Bedrooms
+              </Label>
+              <Select>
+                <SelectTrigger className="border-0 bg-muted-foreground rounded-none">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent className="">
+                  {["1", "2", "3", "4"].map((area, idx) => (
+                    <SelectItem key={idx} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="w-1/2">
+              <Label
+                htmlFor={"bathrooms"}
+                className="text-base font-medium block"
+              >
+                Bathrooms
+              </Label>
+              <Select>
+                <SelectTrigger className="border-0 bg-muted-foreground rounded-none">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent className="">
+                  {["1", "2", "3", "4"].map((area, idx) => (
+                    <SelectItem key={idx} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="w-full flex justify-center items-center gap-2">
+            <div className="w-1/2">
+              <Label
+                htmlFor={"room-type"}
+                className="text-base font-medium block"
+              >
+                Room Type
+              </Label>
+              <Select>
+                <SelectTrigger className="border-0 bg-muted-foreground rounded-none">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent className="">
+                  {["Apartment", "Villa", "Land"].map((area, idx) => (
+                    <SelectItem key={idx} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="w-1/2">
+              <Label htmlFor={"area"} className="text-base font-medium block">
+                Area
+              </Label>
+              <Input
+                type="text"
+                className="border-0 bg-muted-foreground rounded-none"
+              />
+            </div>
+          </div>
+
+          <div className="w-full mt-4">
+            <Button
+              variant={"secondary"}
+              className="w-full rounded-full text-center text-lg font-bold h-14"
+            >
+              Calculate
+            </Button>
+          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
