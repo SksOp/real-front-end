@@ -10,7 +10,7 @@ import { GrowthChart } from "../salestransactions/salestransactions";
 import { SalesTransactionsType } from "@/transcation/types";
 import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
 
-export const Report = () => {
+function Report() {
   const [averageValue, setAverageValue] = React.useState("");
   const [totalValue, setTotalValue] = React.useState("");
   const [yoyGrowth, setYoYGrowth] = React.useState("");
@@ -21,7 +21,8 @@ export const Report = () => {
   const [growthYoyValue, setGrowthYoyValue] = React.useState("");
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
-  const [salesTransactions, setSalesTransactions] = React.useState<SalesTransactionsType | null>()
+  const [salesTransactions, setSalesTransactions] =
+    React.useState<SalesTransactionsType | null>();
   useEffect(() => {
     console.log("fetching data");
     fetchAverageValues().then((data) => {
@@ -46,10 +47,10 @@ export const Report = () => {
         setGrowthTotalValue(growthTotalValue);
         setGrowthYoyValue(growthYoyValue);
         setGrowthTotalTransactions(growthTotalTransactions);
-        setSalesTransactions(SalesTransactions)
+        setSalesTransactions(SalesTransactions);
       }
     });
-  },[]);
+  }, []);
 
   return (
     <>
@@ -158,8 +159,10 @@ export const Report = () => {
           }
         />
       </div>
-      <SalesMarketTrend data = {salesTransactions} />
+      <SalesMarketTrend data={salesTransactions} />
       <GrowthChart data={salesTransactions} />
     </>
   );
-};
+}
+
+export default Report;
