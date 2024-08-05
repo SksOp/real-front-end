@@ -27,9 +27,23 @@ export interface SalesTransactionsType {
   }
 }
 
+export interface TransactionVsSalesType{
+  [year: string]:{
+    [month: string]: {
+      sales: number;
+      Transactions: number;
+    }
+  }
+}
+
 export interface salesMonthlyAverage {
   [year: string]: { [monthNumber: number]: number };
 }
 export interface MonthlyAveragePropertyArea {
   [year: string]: { [monthName: string]: number };
 }
+
+export interface LocationSalesTransaction {
+  [year: string]: { [location: string]: {sales: number, Transactions: number}};
+}
+

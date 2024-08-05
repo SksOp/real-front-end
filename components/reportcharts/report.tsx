@@ -3,12 +3,14 @@
 import React, { useEffect } from "react";
 import { Card } from "../ui/card";
 import { ReportCard } from "../ui/reportCard";
-import { fetchAverageValues } from "@/actions/functions";
+import { fetchAverageValues, fetchLocationSales } from "@/actions/functions";
 import { getTransactionData } from "@/transcation/charts";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
 import { GrowthChart } from "../salestransactions/salestransactions";
-import { SalesTransactionsType } from "@/transcation/types";
+import { LocationSalesTransaction, SalesTransactionsType, TransactionAverageValues } from "@/transcation/types";
 import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
+import { TransactionVsSales } from "../ transactions-Sales-comparision/ transactions-Sales-comparision";
+import { LocationSales } from "../location-sales/location-sales";
 
 export const Report = () => {
   const [averageValue, setAverageValue] = React.useState("");
@@ -21,7 +23,16 @@ export const Report = () => {
   const [growthYoyValue, setGrowthYoyValue] = React.useState("");
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
+<<<<<<< Updated upstream
   const [salesTransactions, setSalesTransactions] = React.useState<SalesTransactionsType | null>()
+=======
+  const [salesTransactions, setSalesTransactions] =
+    React.useState<SalesTransactionsType | null>();
+
+  const [data, setData] = React.useState<TransactionAverageValues>({})
+  const [locationSales, setLocationSales] = React.useState<LocationSalesTransaction | null>(null);
+  const [locationTransction , setLocationTransction] = React.useState<LocationSalesTransaction | null>(null);
+>>>>>>> Stashed changes
   useEffect(() => {
     console.log("fetching data");
     fetchAverageValues().then((data) => {
@@ -46,10 +57,25 @@ export const Report = () => {
         setGrowthTotalValue(growthTotalValue);
         setGrowthYoyValue(growthYoyValue);
         setGrowthTotalTransactions(growthTotalTransactions);
+<<<<<<< Updated upstream
         setSalesTransactions(SalesTransactions)
       }
     });
   },[]);
+=======
+        setSalesTransactions(SalesTransactions);
+        setData(data);
+      }
+    });
+
+
+    fetchLocationSales().then((data) => {
+      console.log("outside component:",data)
+      setLocationSales(data);
+      setLocationTransction(data);
+    })
+  }, []);
+>>>>>>> Stashed changes
 
   return (
     <>
@@ -158,8 +184,16 @@ export const Report = () => {
           }
         />
       </div>
+<<<<<<< Updated upstream
       <SalesMarketTrend data = {salesTransactions} />
       <GrowthChart data={salesTransactions} />
+=======
+      <SalesMarketTrend data={salesTransactions!} />
+      <GrowthChart data={salesTransactions!} />
+      <TransactionVsSales data={data!}/>
+      <LocationSales data={locationSales!}/>
+
+>>>>>>> Stashed changes
     </>
   );
 };
