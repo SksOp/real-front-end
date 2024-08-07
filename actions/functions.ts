@@ -1,6 +1,6 @@
 "use server";
 
-import { LocationSalesTransaction, TransactionAverageValues} from "@/transcation/types";
+import { BedroomType, LocationSalesTransaction, TransactionAverageValues} from "@/transcation/types";
 
 // import { LocationSales } from "@/charts/location-sales";
 import axios from "axios";
@@ -20,6 +20,18 @@ export const fetchAverageValues =
 export const fetchLocationSales = 
   async (): Promise<LocationSalesTransaction | null> => {
     const URL = process.env.LOCATION_SALES_TRANSACTION_URL!;
+    try {
+      const res = await axios.get(URL);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  export const fetchBedrooms = 
+  async (): Promise<BedroomType[] | null  > => {
+    const URL = process.env.DISTINCT_BEDROOM_URL!;
     try {
       const res = await axios.get(URL);
       return res.data;

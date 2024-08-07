@@ -3,15 +3,25 @@
 import React, { useEffect } from "react";
 import { Card } from "../ui/card";
 import { ReportCard } from "../ui/reportCard";
-import { fetchAverageValues, fetchLocationSales } from "@/actions/functions";
+import {
+  fetchAverageValues,
+  fetchBedrooms,
+  fetchLocationSales,
+} from "@/actions/functions";
 import { getTransactionData } from "@/transcation/charts";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
 import { GrowthChart } from "../salestransactions/salestransactions";
-import { LocationSalesTransaction, SalesTransactionsType, TransactionAverageValues } from "@/transcation/types";
+import {
+  BedroomType,
+  LocationSalesTransaction,
+  SalesTransactionsType,
+  TransactionAverageValues,
+} from "@/transcation/types";
 import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
 import { TransactionVsSales } from "../ transactions-Sales-comparision/ transactions-Sales-comparision";
 import { LocationSales } from "../location-sales/location-sales";
 import { LocationTransaction } from "../location-transaction/location-transaction";
+import { Bedrooms } from "../bedrooms/bedrooms";
 
 export const Report = () => {
   const [averageValue, setAverageValue] = React.useState("");
@@ -27,9 +37,13 @@ export const Report = () => {
   const [salesTransactions, setSalesTransactions] =
     React.useState<SalesTransactionsType | null>();
 
-  const [data, setData] = React.useState<TransactionAverageValues>({})
-  const [locationSales, setLocationSales] = React.useState<LocationSalesTransaction | null>(null);
-  const [locationTransction , setLocationTransction] = React.useState<LocationSalesTransaction | null>(null);
+  const [data, setData] = React.useState<TransactionAverageValues>({});
+  const [locationSales, setLocationSales] =
+    React.useState<LocationSalesTransaction | null>(null);
+  const [locationTransction, setLocationTransction] =
+    React.useState<LocationSalesTransaction | null>(null);
+
+  const [bedrooms, setBedrooms] = React.useState<BedroomType[]|null>(null);
   useEffect(() => {
     console.log("fetching data");
     fetchAverageValues().then((data) => {
@@ -59,13 +73,19 @@ export const Report = () => {
       }
     });
 
-
     fetchLocationSales().then((data) => {
-      console.log("outside component:",data)
+      // console.log("outside component:", data);
       setLocationSales(data);
       setLocationTransction(data);
-    })
-  }, []);
+    });
+
+    fetchBedrooms().then((data) => {
+      if (data) {
+        console.log("Bedroom data:", data)
+        setBedrooms(data);
+      }
+    });
+  });
 
   return (
     <>
@@ -176,10 +196,10 @@ export const Report = () => {
       </div>
       <SalesMarketTrend data={salesTransactions!} />
       <GrowthChart data={salesTransactions!} />
-      <TransactionVsSales data={data!}/>
-      <LocationSales data={locationSales!}/>
-      <LocationTransaction data={locationTransction!}/>
-
+      <TransactionVsSales data={data!} />
+      <LocationSales data={locationSales!} />
+      <LocationTransaction data={locationTransction!} />
+      <Bedrooms data={bedrooms!} />
     </>
   );
 };
