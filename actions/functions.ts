@@ -19,7 +19,7 @@ export const fetchAverageValues =
 
 export const fetchLocationSales = 
   async (): Promise<LocationSalesTransaction | null> => {
-    const URL = process.env.LOCATION_SALES_URL!;
+    const URL = process.env.LOCATION_SALES_TRANSACTION_URL!;
     try {
       const res = await axios.get(URL);
       return res.data;

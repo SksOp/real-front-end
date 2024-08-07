@@ -20,12 +20,12 @@ import {
 import { LocationSalesTransaction } from "@/transcation/types"
 
 interface ChartDataType {
-  [year: string]: { location: string; sales: number }[]
+  [year: string]: { location: string; Transaction: number }[]
 }
 
 const chartConfig = {
-  sales: {
-    label: "sales",
+    Transaction: {
+    label: "Transaction",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
@@ -46,11 +46,11 @@ const convertData = (data: LocationSalesTransaction): ChartDataType => {
       )
 
       if (existingLocation) {
-        existingLocation.sales += locationSales[location].sales
+        existingLocation.Transaction += locationSales[location].Transactions
       } else {
         result[year].push({
           location: location,
-          sales: locationSales[location].sales,
+          Transaction: locationSales[location].Transactions,
         })
       }
     }
@@ -59,7 +59,7 @@ const convertData = (data: LocationSalesTransaction): ChartDataType => {
   return result
 }
 
-export function LocationSales({ data }: { data: LocationSalesTransaction }) {
+export function LocationTransaction({ data }: { data: LocationSalesTransaction }) {
   const chartData = convertData(data)
 
   return (
@@ -93,7 +93,7 @@ export function LocationSales({ data }: { data: LocationSalesTransaction }) {
               content={<ChartTooltipContent indicator="line" />}
             />
             <Area
-              dataKey="sales"
+              dataKey="Transaction"
               type="natural"
               fill="var(--color-desktop)"
               fillOpacity={0.4}

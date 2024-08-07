@@ -11,6 +11,7 @@ import { LocationSalesTransaction, SalesTransactionsType, TransactionAverageValu
 import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
 import { TransactionVsSales } from "../ transactions-Sales-comparision/ transactions-Sales-comparision";
 import { LocationSales } from "../location-sales/location-sales";
+import { LocationTransaction } from "../location-transaction/location-transaction";
 
 export const Report = () => {
   const [averageValue, setAverageValue] = React.useState("");
@@ -23,16 +24,12 @@ export const Report = () => {
   const [growthYoyValue, setGrowthYoyValue] = React.useState("");
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
-<<<<<<< Updated upstream
-  const [salesTransactions, setSalesTransactions] = React.useState<SalesTransactionsType | null>()
-=======
   const [salesTransactions, setSalesTransactions] =
     React.useState<SalesTransactionsType | null>();
 
   const [data, setData] = React.useState<TransactionAverageValues>({})
   const [locationSales, setLocationSales] = React.useState<LocationSalesTransaction | null>(null);
   const [locationTransction , setLocationTransction] = React.useState<LocationSalesTransaction | null>(null);
->>>>>>> Stashed changes
   useEffect(() => {
     console.log("fetching data");
     fetchAverageValues().then((data) => {
@@ -57,12 +54,6 @@ export const Report = () => {
         setGrowthTotalValue(growthTotalValue);
         setGrowthYoyValue(growthYoyValue);
         setGrowthTotalTransactions(growthTotalTransactions);
-<<<<<<< Updated upstream
-        setSalesTransactions(SalesTransactions)
-      }
-    });
-  },[]);
-=======
         setSalesTransactions(SalesTransactions);
         setData(data);
       }
@@ -75,7 +66,6 @@ export const Report = () => {
       setLocationTransction(data);
     })
   }, []);
->>>>>>> Stashed changes
 
   return (
     <>
@@ -184,16 +174,12 @@ export const Report = () => {
           }
         />
       </div>
-<<<<<<< Updated upstream
-      <SalesMarketTrend data = {salesTransactions} />
-      <GrowthChart data={salesTransactions} />
-=======
       <SalesMarketTrend data={salesTransactions!} />
       <GrowthChart data={salesTransactions!} />
       <TransactionVsSales data={data!}/>
       <LocationSales data={locationSales!}/>
+      <LocationTransaction data={locationTransction!}/>
 
->>>>>>> Stashed changes
     </>
   );
 };
