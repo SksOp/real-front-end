@@ -1,0 +1,58 @@
+import { PropertiescardProps } from "@/types/propertyCard";
+
+export const PropertiesList: PropertiescardProps[] = [
+  {
+    imageUrl: "/prop1.png",
+    name: "Beautiful Apartment",
+    location: "Downtown, City",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: 1500,
+    price: 2000000,
+  },
+  {
+    imageUrl: "/prop2.png",
+    name: "Cozy House",
+    location: "Suburb, City",
+    bedrooms: 4,
+    bathrooms: 3,
+    area: 2500,
+    price: 3500000,
+  },
+  {
+    imageUrl: "/prop3.png",
+    name: "Modern Condo",
+    location: "City Center, City",
+    bedrooms: 2,
+    bathrooms: 1,
+    area: 1000,
+    price: 1500000,
+  },
+  {
+    imageUrl: "/prop4.png",
+    name: "Luxurious Villa",
+    location: "Beachside, City",
+    bedrooms: 5,
+    bathrooms: 4,
+    area: 4000,
+    price: 5000000,
+  },
+  {
+    imageUrl: "/prop3.png",
+    name: "Modern Condo",
+    location: "City Center, City",
+    bedrooms: 2,
+    bathrooms: 1,
+    area: 1000,
+    price: 1500000,
+  },
+  {
+    imageUrl: "/prop4.png",
+    name: "Luxurious Villa",
+    location: "Beachside, City",
+    bedrooms: 5,
+    bathrooms: 4,
+    area: 4000,
+    price: 5000000,
+  },
+];

@@ -23,7 +23,7 @@ import { LocationSales } from "../location-sales/location-sales";
 import { LocationTransaction } from "../location-transaction/location-transaction";
 import { Bedrooms } from "../bedrooms/bedrooms";
 
-export const Report = () => {
+function Report() {
   const [averageValue, setAverageValue] = React.useState("");
   const [totalValue, setTotalValue] = React.useState("");
   const [yoyGrowth, setYoYGrowth] = React.useState("");
@@ -35,7 +35,8 @@ export const Report = () => {
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
   const [salesTransactions, setSalesTransactions] =
-    React.useState<SalesTransactionsType | null>();
+   
+    React.useState<SalesTransactionsType | null>();;
 
   const [data, setData] = React.useState<TransactionAverageValues>({});
   const [locationSales, setLocationSales] =
@@ -68,7 +69,7 @@ export const Report = () => {
         setGrowthTotalValue(growthTotalValue);
         setGrowthYoyValue(growthYoyValue);
         setGrowthTotalTransactions(growthTotalTransactions);
-        setSalesTransactions(SalesTransactions);
+        setSalesTransactions(SalesTransactions);;
         setData(data);
       }
     });
@@ -85,7 +86,7 @@ export const Report = () => {
         setBedrooms(data);
       }
     });
-  });
+  }, []);
 
   return (
     <>
@@ -202,4 +203,6 @@ export const Report = () => {
       <Bedrooms data={bedrooms!} />
     </>
   );
-};
+}
+
+export default Report;
