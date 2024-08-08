@@ -16,7 +16,7 @@ function NavBottom({
   handleIconClick: (iconName: string) => void;
 }) {
   return (
-    <div className="fixed bottom-0  border-2 shadow-lg left-0  px-8 py-6   bg-background w-full flex justify-between items-center z-50 ">
+    <div className="fixed bottom-0  border-2 shadow-lg left-0 px-8 py-6   bg-background w-full flex justify-between items-center z-50 ">
       <Link
         href="/home"
         className="flex justify-center items-center gap-2 w-1/5"

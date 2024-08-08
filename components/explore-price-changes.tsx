@@ -104,7 +104,7 @@ function ExplorePriceChanges() {
   return (
     <ExploreFormats title={"Price Changes"}>
       <Tabs defaultValue="by-property">
-        <TabsList className="w-full gap-3 items-center justify-start bg-background ">
+        <TabsList className="w-full gap-3 items-center justify-start bg-background mt-2">
           <TabsTrigger
             value="by-property"
             className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary data-[state=active]:text-muted"

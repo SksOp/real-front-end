@@ -23,7 +23,7 @@ function InsightPage() {
     <Layout page="insights">
       <Tabs
         defaultValue="explore"
-        className="w-full items-center justify-center"
+        className="w-full items-center mt-12  justify-center"
       >
         <TabsList className="w-full items-center justify-between px-4 py-3">
           <TabsTrigger value="explore">Explore</TabsTrigger>
@@ -31,10 +31,10 @@ function InsightPage() {
           <TabsTrigger value="my-listings">My listings</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
         </TabsList>
-        <TabsContent value="explore">
+        <TabsContent value="explore" className="mb-20">
           <ExploreTab />
         </TabsContent>
-        <TabsContent value="insights">
+        <TabsContent value="insights" className="">
           <Filters />
           <Report />
         </TabsContent>

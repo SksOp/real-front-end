@@ -18,7 +18,9 @@ function Layout({
   return (
     <>
       <Navbar />
-      {children}
+      <div className="min-h-screen max-w-screen overflow-y-auto">
+        {children}
+      </div>
       <NavBottom selected={selected} handleIconClick={handleIconClick} />
     </>
   );

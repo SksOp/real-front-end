@@ -2,6 +2,11 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import ExplorePriceChanges from "./explore-price-changes";
 import ExploreDemand from "./explore-demand";
+import ExploreActiveListing from "./explore-area-listing";
+import ExploreAdsTab from "./explore-ads-tab";
+import { ScrollArea } from "./ui/scroll-area";
+import ExploreListingIndex from "./explore-listing-index";
+import ExploreTotalSales from "./explore-total-sales";
 
 function ExploreTab() {
   return (
@@ -28,10 +33,14 @@ function ExploreTab() {
       </TabsList>
       <TabsContent
         value="all"
-        className="flex flex-col gap-4 justify-center items-start "
+        className="flex flex-col gap-8 justify-center items-start "
       >
         <ExplorePriceChanges />
         <ExploreDemand />
+        <ExploreTotalSales />
+        <ExploreAdsTab />
+        <ExploreActiveListing />
+        <ExploreListingIndex />
       </TabsContent>
     </Tabs>
   );
