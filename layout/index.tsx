@@ -10,18 +10,13 @@ function Layout({
   children: React.ReactNode;
   page: string;
 }) {
-  const [selected, setSelected] = useState<string>(page);
-
-  const handleIconClick = (iconName: string) => {
-    setSelected(iconName);
-  };
   return (
     <>
       <Navbar />
       <div className="min-h-screen max-w-screen overflow-y-auto">
         {children}
       </div>
-      <NavBottom selected={selected} handleIconClick={handleIconClick} />
+      <NavBottom selected={page} />
     </>
   );
 }
