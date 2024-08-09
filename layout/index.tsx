@@ -3,8 +3,14 @@ import React, { useState } from "react";
 import Navbar from "./nav/navBar";
 import NavBottom from "./nav/navBottom";
 
-function Layout({ children }: { children: React.ReactNode }) {
-  const [selected, setSelected] = useState<string>("home");
+function Layout({
+  children,
+  page,
+}: {
+  children: React.ReactNode;
+  page: string;
+}) {
+  const [selected, setSelected] = useState<string>(page);
 
   const handleIconClick = (iconName: string) => {
     setSelected(iconName);

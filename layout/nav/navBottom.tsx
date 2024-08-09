@@ -5,6 +5,7 @@ import {
   SettingIcon,
   UserIcon,
 } from "@/public/svg/navIcons";
+import Link from "next/link";
 import React from "react";
 
 function NavBottom({
@@ -16,51 +17,52 @@ function NavBottom({
 }) {
   return (
     <div className="fixed bottom-0  border-2 shadow-lg left-0  px-8 py-6   bg-background w-full flex justify-between items-center z-50 ">
-      <div
+      <Link
+        href="/home"
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("home")}
       >
-        <HomeIcon
-          className={selected === "home" ? "fill-[#141414]" : "fill-[#BBBBBB]"}
-        />
+        <HomeIcon isActive={selected === "home"} />
         {selected === "home" && <p className="font-bold text-sm">Home</p>}
-      </div>
-      <div
+      </Link>
+      <Link
+        href="/insights"
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("insights")}
       >
-        <InsightIcon
-          className={selected === "insights" ? "fill-[#141414]" : ""}
-        />
+        <InsightIcon isActive={selected === "insights"} />
         {selected === "insights" && (
           <p className="font-bold text-sm">Insights</p>
         )}
-      </div>
-      <div
+      </Link>
+      <Link
+        href="/my-page"
         className="flex justify-center items-center gap-2 w-1/5"
-        onClick={() => handleIconClick("book")}
+        onClick={() => handleIconClick("my-page")}
       >
-        <BookIcon className={selected === "book" ? "fill-[#141414]" : ""} />
-        {selected === "book" && <p className="font-bold text-sm">Book</p>}
-      </div>
-      <div
+        <BookIcon isActive={selected === "my-page"} />
+        {selected === "my-page" && <p className="font-bold text-sm">My Page</p>}
+      </Link>
+      <Link
+        href="/connections"
         className="flex justify-center items-center gap-2 w-1/5"
-        onClick={() => handleIconClick("users")}
+        onClick={() => handleIconClick("connections")}
       >
-        <UserIcon className={selected === "users" ? "fill-[#141414]" : ""} />
-        {selected === "users" && <p className="font-bold text-sm">Users</p>}
-      </div>
-      <div
+        <UserIcon isActive={selected === "connections"} />
+        {selected === "connections" && (
+          <p className="font-bold text-sm">Connections</p>
+        )}
+      </Link>
+      <Link
+        href="/settings"
         className="flex justify-center items-center gap-2 w-1/5"
         onClick={() => handleIconClick("settings")}
       >
-        <SettingIcon
-          className={selected === "settings" ? "fill-[#141414]" : ""}
-        />
+        <SettingIcon isActive={selected === "settings"} />
         {selected === "settings" && (
           <p className="font-bold text-sm">Settings</p>
         )}
-      </div>
+      </Link>
     </div>
   );
 }

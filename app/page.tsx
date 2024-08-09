@@ -1,11 +1,15 @@
-import { GrowthChart } from "@/components/salestransactions/salestransactions";
-import { Report } from "@/components/reportcharts/report";
+"use client";
 import Layout from "@/layout";
-import Image from "next/image";
+import React, { use, useEffect } from "react";
+import InsightPage from "./insights/page";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return <Layout>
-      <Report/>
-      
-     </Layout>;
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/insights");
+  });
+
+  return <div>dashboard</div>;
 }

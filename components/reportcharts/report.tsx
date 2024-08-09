@@ -30,7 +30,7 @@ import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
 import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
 import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
 
-export const Report = () => {
+function Report() {
   const [averageValue, setAverageValue] = React.useState("");
   const [totalValue, setTotalValue] = React.useState("");
   const [yoyGrowth, setYoYGrowth] = React.useState("");
@@ -42,7 +42,8 @@ export const Report = () => {
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
   const [salesTransactions, setSalesTransactions] =
-    React.useState<SalesTransactionsType | null>(null);
+   
+    React.useState<SalesTransactionsType | null>(null);;
 
   const [data, setData] = React.useState<TransactionAverageValues|null>(null);
   const [locationSales, setLocationSales] =
@@ -76,7 +77,7 @@ export const Report = () => {
         setGrowthTotalValue(growthTotalValue);
         setGrowthYoyValue(growthYoyValue);
         setGrowthTotalTransactions(growthTotalTransactions);
-        setSalesTransactions(SalesTransactions);
+        setSalesTransactions(SalesTransactions);;
         setData(data);
       }
     });
@@ -92,11 +93,7 @@ export const Report = () => {
       }
       
     });
-
-    fetchResidentialVsCommercialType().then((data) => {
-      setResidentialVsCommercialData(data);
-    });
-  },[]);
+  });
 
   return (
     <>
@@ -218,4 +215,6 @@ export const Report = () => {
       <FlatvsVillavsLand/>
     </>
   );
-};
+}
+
+export default Report;
