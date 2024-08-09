@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
-import { SalesTransactionsType } from "@/transcation/types"
+import { TrendingUp } from 'lucide-react';
+import { CartesianGrid, Line, LineChart, XAxis } from 'recharts';
+import { SalesTransactionsType } from '@/transcation/types';
 
 import {
   Card,
@@ -11,26 +11,26 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import React, { useState } from "react"
+} from '@/components/ui/chart';
+import React, { useState } from 'react';
 
 const chartConfig = {
   desktop: {
-    label: "Transactions",
-    color: "#A9A1F4",
+    label: 'Transactions',
+    color: '#A9A1F4',
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function GrowthChart({ data }: { data: SalesTransactionsType }) {
+export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
   // Add a check to handle the case where data is undefined or null
   if (!data) {
-    return <p>No data available</p>
+    return <p>No data available</p>;
   }
 
   //sort in reverse order that means the largest comes first
@@ -41,16 +41,18 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
 
   const ChartData = data[selectedYear];
 
-  const chartDataArray = Object.entries(ChartData).map(([month, transactions]) => ({
-    month,
-    transactions: transactions.Transactions,
-  }));
+  const chartDataArray = Object.entries(ChartData).map(
+    ([month, transactions]) => ({
+      month,
+      transactions: transactions.Transactions,
+    })
+  );
 
   return (
     <Card className="py-2 border-none">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
-          {"Sales Transactions"} 
+          {'Sales Transactions'}
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
@@ -63,7 +65,9 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
             ))}
           </select>
         </CardTitle>
-        <CardDescription>Aliquam porta nisl dolor, molestie pellentesque</CardDescription>
+        <CardDescription>
+          Aliquam porta nisl dolor, molestie pellentesque
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -106,5 +110,5 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
