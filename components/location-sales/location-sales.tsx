@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { Area, AreaChart, BarChart, Bar, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
@@ -10,98 +10,119 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import { LocationSalesTransaction } from "@/transcation/types"
+} from "@/components/ui/chart";
+import { LocationSalesTransaction } from "@/transcation/types";
+import { useState } from "react";
 
 interface ChartDataType {
-  [year: string]: { location: string; sales: number }[]
+  [year: string]: { location: string; sales: number }[];
 }
 
 const chartConfig = {
   sales: {
     label: "sales",
-    color: "hsl(var(--chart-1))",
+    color: "#A9A1F4",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 const convertData = (data: LocationSalesTransaction): ChartDataType => {
-  const result: ChartDataType = {}
+  const result: ChartDataType = {};
 
   for (const year in data) {
     if (!result[year]) {
-      result[year] = []
+      result[year] = [];
     }
 
-    const locationSales = data[year]
+    const locationSales = data[year];
 
     for (const location in locationSales) {
       const existingLocation = result[year].find(
         (loc) => loc.location === location
-      )
+      );
 
       if (existingLocation) {
-        existingLocation.sales += locationSales[location].sales
+        existingLocation.sales += locationSales[location].sales;
       } else {
         result[year].push({
           location: location,
           sales: locationSales[location].sales,
-        })
+        });
       }
     }
+
+    // Sort locations by sales in descending order
+    result[year].sort((a, b) => b.sales - a.sales);
   }
 
-  return result
-}
+  return result;
+};
 
 export function LocationSales({ data }: { data: LocationSalesTransaction }) {
-  const chartData = convertData(data)
+  const chartData = convertData(data);
+  const [selectedYear, setSelectedYear] = useState<number>(2024);
 
+  if(!data) {
+    return null
+  }
+
+  const years = Object.keys(data);
   return (
-    <Card className="overflow-hidden">
+    <Card className="border-none">
       <CardHeader>
-        <CardTitle>Area Chart</CardTitle>
+        <CardTitle className="flex justify-between items-center">
+          Sales
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            className="ml-2 p-0.5 rounded text-sm"
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          </CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing total Sales at a location
         </CardDescription>
       </CardHeader>
-      <CardContent className="overflow-hidden">
-        <ChartContainer config={chartConfig}>
-          <AreaChart
-            accessibilityLayer
-            data={chartData["2024"]}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-            width={2000}
+      <div className="overflow-x-scroll scrollbar-hide overflow:hidden">
+        <CardContent>
+          <ChartContainer
+            config={chartConfig}
+            className="w-[15000px] h-[300px]"
           >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="location"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Area
-              dataKey="sales"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-            />
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
+
+            <BarChart
+              data={chartData["2024"]}
+              className="w-[15000px] h-[300px]"
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="location"
+                tickLine={true}
+                tickMargin={10}
+                axisLine={true}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Bar dataKey="sales" fill="#A9A1F4" radius={8} fillOpacity={0.5} />
+            </BarChart>
+
+            
+          </ChartContainer>
+        </CardContent>
+      </div>
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
@@ -115,5 +136,17 @@ export function LocationSales({ data }: { data: LocationSalesTransaction }) {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
+
+// // Add this CSS to your global stylesheet or in a relevant CSS/SCSS file
+// <style jsx global>{`
+//   .scrollbar-hide {
+//     -ms-overflow-style: none;  /* IE and Edge */
+//     scrollbar-width: none;  /* Firefox */
+//   }
+
+//   .scrollbar-hide::-webkit-scrollbar {
+//     display: none;  /* Safari and Chrome */
+//   }
+// `}</style>

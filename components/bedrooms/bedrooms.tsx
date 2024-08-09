@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart, Cell } from "recharts"
+import * as React from "react";
+import { TrendingUp } from "lucide-react";
+import { Label, Pie, PieChart, Cell } from "recharts";
 
 import {
   Card,
@@ -11,14 +11,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import { BedroomType } from "@/transcation/types"
+} from "@/components/ui/chart";
+import { BedroomType } from "@/transcation/types";
 
 // Example chart configuration, update the colors as needed
 const chartConfig: ChartConfig = {
@@ -36,16 +36,28 @@ const chartConfig: ChartConfig = {
   "Shop": { label: "Shop", color: "#1e40af" },
   "Single Room": { label: "Single Room", color: "#1e3a8a" },
   "Studio": { label: "Studio", color: "#6366f1" },
-}
+};
 
-export function Bedrooms({ data }: { data: BedroomType[] }) {
-  const totalProperties = data.reduce((acc, curr) => acc + curr.property_count, 0)
+type BedRoomProps = {
+  bedrooms: string;
+  property_count: number;
+  fill?: string;
+};
+
+export function Bedrooms({ data }: { data: BedroomType }) {
+  if (!data) return null;
+
+  const chartData : BedRoomProps[] = data.map((d) => ({ ...d, fill: chartConfig[d.bedrooms]?.color})) 
+  let totalProperties = 0;
+  data.forEach((val) => {
+    totalProperties += val.property_count;
+  });
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Bedrooms</CardTitle>
+        <CardDescription>2023-2024x`</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -58,16 +70,13 @@ export function Bedrooms({ data }: { data: BedroomType[] }) {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={data}
+              data={chartData}
               dataKey="property_count"
               nameKey="bedrooms"
               innerRadius={60}
+              outerRadius={80}
               strokeWidth={5}
             >
-              {data.map((entry, index) => {
-                const color = chartConfig[entry.bedrooms]?.color || "#000000";
-                return <Cell key={`cell-${index}`} fill={color} />;
-              })}
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -93,9 +102,8 @@ export function Bedrooms({ data }: { data: BedroomType[] }) {
                           Properties
                         </tspan>
                       </text>
-                    )
+                    );
                   }
-                  return null
                 }}
               />
             </Pie>
@@ -111,5 +119,5 @@ export function Bedrooms({ data }: { data: BedroomType[] }) {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

@@ -47,7 +47,13 @@ export interface LocationSalesTransaction {
   [year: string]: { [location: string]: {sales: number, Transactions: number}};
 }
 
-export interface BedroomType {
+export type BedroomType = {
   bedrooms: string; property_count: number
+}[]
+
+export interface ResidentialVsCommercialType {
+  [year: number]: {
+    [usage: string]: number;
+  };
 }
 

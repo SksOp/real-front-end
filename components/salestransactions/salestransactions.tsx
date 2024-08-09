@@ -1,8 +1,17 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
-import { SalesTransactionsType } from "@/transcation/types"
+import { TrendingUp } from "lucide-react";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  Area,
+  Tooltip,
+  ResponsiveContainer,
+  AreaChart,
+} from "recharts";
+import { SalesTransactionsType } from "@/transcation/types";
 
 import {
   Card,
@@ -11,26 +20,26 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import React, { useState } from "react"
+} from "@/components/ui/chart";
+import React, { useState } from "react";
 
 const chartConfig = {
   desktop: {
     label: "Transactions",
     color: "#A9A1F4",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function GrowthChart({ data }: { data: SalesTransactionsType }) {
   // Add a check to handle the case where data is undefined or null
   if (!data) {
-    return <p>No data available</p>
+    return <p>No data available</p>;
   }
 
   //sort in reverse order that means the largest comes first
@@ -41,16 +50,18 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
 
   const ChartData = data[selectedYear];
 
-  const chartDataArray = Object.entries(ChartData).map(([month, transactions]) => ({
-    month,
-    transactions: transactions.Transactions,
-  }));
+  const chartDataArray = Object.entries(ChartData).map(
+    ([month, transactions]) => ({
+      month,
+      transactions: transactions.Transactions,
+    })
+  );
 
   return (
     <Card className="py-2 border-none">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
-          {"Sales Transactions"} 
+          {"Sales Transactions"}
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
@@ -67,34 +78,48 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={chartDataArray}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Line
-              dataKey="transactions"
-              type="natural"
-              stroke="var(--color-desktop)"
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart
+              data={chartDataArray}
+              margin={{
+                left: 12,
+                right: 12,
+              }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <Tooltip content={<ChartTooltipContent hideLabel />} />
+              <Area
+                type="natural"
+                dataKey="transactions"
+                stroke="#A9A1F4"
+                fillOpacity={0.4}
+                fill="#A9A1F4"
+                dot={{
+                  fill:"#A9A1F4"
+                }}
+              />
+              <Line
+                dataKey="transactions"
+                type="natural"
+                stroke="#A9A1F4"
+                strokeWidth={2}
+                dot={true}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
@@ -106,5 +131,5 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

@@ -7,6 +7,7 @@ import {
   fetchAverageValues,
   fetchBedrooms,
   fetchLocationSales,
+  fetchResidentialVsCommercialType,
 } from "@/actions/functions";
 import { getTransactionData } from "@/transcation/charts";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
@@ -14,6 +15,7 @@ import { GrowthChart } from "../salestransactions/salestransactions";
 import {
   BedroomType,
   LocationSalesTransaction,
+  ResidentialVsCommercialType,
   SalesTransactionsType,
   TransactionAverageValues,
 } from "@/transcation/types";
@@ -22,6 +24,11 @@ import { TransactionVsSales } from "../ transactions-Sales-comparision/ transact
 import { LocationSales } from "../location-sales/location-sales";
 import { LocationTransaction } from "../location-transaction/location-transaction";
 import { Bedrooms } from "../bedrooms/bedrooms";
+import {ResidentialVsCommercial} from "../ResidentialVsCommercial/ResidentialVsCommercial";
+import { FreeholdvsLease } from "../FreeholdvsLease/FreeholdvsLease";
+import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
+import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
+import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
 
 export const Report = () => {
   const [averageValue, setAverageValue] = React.useState("");
@@ -35,17 +42,18 @@ export const Report = () => {
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
   const [salesTransactions, setSalesTransactions] =
-    React.useState<SalesTransactionsType | null>();
+    React.useState<SalesTransactionsType | null>(null);
 
-  const [data, setData] = React.useState<TransactionAverageValues>({});
+  const [data, setData] = React.useState<TransactionAverageValues|null>(null);
   const [locationSales, setLocationSales] =
     React.useState<LocationSalesTransaction | null>(null);
   const [locationTransction, setLocationTransction] =
     React.useState<LocationSalesTransaction | null>(null);
 
-  const [bedrooms, setBedrooms] = React.useState<BedroomType[]|null>(null);
+  const [bedrooms, setBedrooms] = React.useState<BedroomType | null>(null);
+
+  const [residentialVsCommercialData, setResidentialVsCommercialData] = React.useState<ResidentialVsCommercialType | null>(null);
   useEffect(() => {
-    console.log("fetching data");
     fetchAverageValues().then((data) => {
       const {
         averageValue,
@@ -74,18 +82,21 @@ export const Report = () => {
     });
 
     fetchLocationSales().then((data) => {
-      // console.log("outside component:", data);
       setLocationSales(data);
       setLocationTransction(data);
     });
 
     fetchBedrooms().then((data) => {
       if (data) {
-        console.log("Bedroom data:", data)
         setBedrooms(data);
       }
+      
     });
-  });
+
+    fetchResidentialVsCommercialType().then((data) => {
+      setResidentialVsCommercialData(data);
+    });
+  },[]);
 
   return (
     <>
@@ -196,10 +207,15 @@ export const Report = () => {
       </div>
       <SalesMarketTrend data={salesTransactions!} />
       <GrowthChart data={salesTransactions!} />
-      <TransactionVsSales data={data!} />
-      <LocationSales data={locationSales!} />
+      {/* <TransactionVsSales data={data!} /> */}
+      <SalesIndexBenchmarking data={data!} />
       <LocationTransaction data={locationTransction!} />
+      <LocationSales data={locationSales!} />
       <Bedrooms data={bedrooms!} />
+      <ResidentialVsCommercial data={residentialVsCommercialData!} />
+      <FreeholdvsLease/>
+      <OffplanvsReady/>
+      <FlatvsVillavsLand/>
     </>
   );
 };
