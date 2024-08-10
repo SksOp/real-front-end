@@ -71,28 +71,28 @@
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Black.ttf");
+  src: url("../public/fonts/Satoshi-Black.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Bold.ttf");
+  src: url("../public/fonts/Satoshi-Bold.ttf");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Italic.ttf");
+  src: url("../public/fonts/Satoshi-Italic.ttf");
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Light.ttf");
+  src: url("../public/fonts/Satoshi-Light.ttf");
   font-weight: lighter;
   font-style: normal;
 }
