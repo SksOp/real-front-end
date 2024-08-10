@@ -30,7 +30,7 @@ import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
 import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
 import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
 
-function Report() {
+export const Report = () => {
   const [averageValue, setAverageValue] = React.useState("");
   const [totalValue, setTotalValue] = React.useState("");
   const [yoyGrowth, setYoYGrowth] = React.useState("");
@@ -42,8 +42,12 @@ function Report() {
   const [growthTotalTransactions, setGrowthTotalTransactions] =
     React.useState("");
   const [salesTransactions, setSalesTransactions] =
+<<<<<<< Updated upstream
    
     React.useState<SalesTransactionsType | null>(null);;
+=======
+    React.useState<SalesTransactionsType | null>(null);
+>>>>>>> Stashed changes
 
   const [data, setData] = React.useState<TransactionAverageValues|null>(null);
   const [locationSales, setLocationSales] =
@@ -77,7 +81,11 @@ function Report() {
         setGrowthTotalValue(growthTotalValue);
         setGrowthYoyValue(growthYoyValue);
         setGrowthTotalTransactions(growthTotalTransactions);
+<<<<<<< Updated upstream
         setSalesTransactions(SalesTransactions);;
+=======
+        setSalesTransactions(SalesTransactions);
+>>>>>>> Stashed changes
         setData(data);
       }
     });
@@ -93,7 +101,15 @@ function Report() {
       }
       
     });
+<<<<<<< Updated upstream
   });
+=======
+
+    fetchResidentialVsCommercialType().then((data) => {
+      setResidentialVsCommercialData(data);
+    });
+  },[]);
+>>>>>>> Stashed changes
 
   return (
     <>
@@ -215,6 +231,4 @@ function Report() {
       <FlatvsVillavsLand/>
     </>
   );
-}
-
-export default Report;
+};
