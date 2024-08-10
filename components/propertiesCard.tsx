@@ -27,17 +27,13 @@ function PropertiesCard({
   price,
 }: PropertiescardProps) {
   return (
-    <Card className="w-full p-4 border-0 flex justify-start gap-4">
-      <div className="w-1/3 ">
-        <img
-          src={imageUrl}
-          alt={name}
-          className="object-cover rounded-lg h-full w-full"
-        />
+    <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
+      <div className="flex-grow ">
+        <img src={imageUrl} alt={name} className="object-cover rounded-lg " />
       </div>
       <div className="flex w-2/3 flex-col justify-between">
         <div>
-          <h3 className="text-lg font-medium">{name}</h3>
+          <h3 className="text-lg font-extrabold">{name}</h3>
           <div className="flex justify-start text-sm items-center gap-2">
             <LocationIcon className="w-4 h-4" />
             <p className="text-muted font-light">{location}</p>
@@ -59,7 +55,7 @@ function PropertiesCard({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-medium">{formatPrice(price)}</h3>
+          <h3 className="text-lg font-extrabold">{formatPrice(price)}</h3>
           <div className="flex justify-end items-center gap-2 cursor-pointer">
             <LightBulbIcon className="w-5 h-5" />
             <p className="text-primary-foreground text-sm font-semibold">
