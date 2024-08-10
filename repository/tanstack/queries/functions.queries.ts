@@ -2,14 +2,17 @@ import {
   SalesReqBody,
   fetchAverageTransactions,
   fetchAverageValues,
+  fetchBedrooms,
+  fetchLocationSales,
+  fetchResidentialVsCommercialType,
   fetchSales,
-} from '@/repository/resources/fuctions.api';
-import { queryOptions, useMutation } from '@tanstack/react-query';
-import { queryClient } from '../query-client';
+} from "@/repository/resources/fuctions.api";
+import { queryOptions, useMutation } from "@tanstack/react-query";
+import { queryClient } from "../query-client";
 
 export const getAverageTransaction = () => {
   return queryOptions({
-    queryKey: ['avg-transaction'],
+    queryKey: ["avg-transaction"],
     queryFn: async () => {
       const resp = await fetchAverageTransactions();
       // queryClient.setQueryData(["avg-transaction"], resp);
@@ -20,9 +23,9 @@ export const getAverageTransaction = () => {
 };
 
 export const getAverageValues = () => {
-  console.log('getAverageValues');
+  console.log("getAverageValues");
   return queryOptions({
-    queryKey: ['avg-values'],
+    queryKey: ["avg-values"],
     queryFn: () => {
       return fetchAverageValues();
     },
@@ -35,5 +38,35 @@ export const useTransactionMonthlyAverage = () => {
     mutationFn: (data: SalesReqBody) => {
       return fetchSales(data);
     },
+  });
+};
+
+export const getLocationSales = () => {
+  return queryOptions({
+    queryKey: ["loacation-sales"],
+    queryFn: () => {
+      return fetchLocationSales();
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const getBedrooms = () => {
+  return queryOptions({
+    queryKey: ["bedrooms-data"],
+    queryFn: () => {
+      return fetchBedrooms();
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const getResidentialVsCommercialType = () => {
+  return queryOptions({
+    queryKey: ["residential-vs-commercial-type"],
+    queryFn: () => {
+      return fetchResidentialVsCommercialType();
+    },
+    staleTime: 1000 * 60 * 5,
   });
 };

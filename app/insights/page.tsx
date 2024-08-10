@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Tabs,
@@ -8,15 +9,10 @@ import {
 import Filters from "@/components/filters";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PropertiesCard from "@/components/propertiesCard";
-import Report from "@/components/reportcharts/report";
+import { Report } from "@/components/reportcharts/report";
 import { PropertiesList } from "@/constants/properties";
 import Layout from "@/layout";
-import { Caladea } from "next/font/google";
-import Calculator from "@/components/calculator";
 import ExploreTab from "@/components/explore-tab";
-import ExploreFormats from "@/components/explore-formats";
-import { ChartStyle } from "@/components/ui/chart";
-import ExplorePriceChanges from "@/components/explore-price-changes";
 
 function InsightPage() {
   return (
