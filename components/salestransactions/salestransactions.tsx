@@ -35,7 +35,6 @@ const chartConfig = {
     color: '#A9A1F4',
   },
 } satisfies ChartConfig;
-} satisfies ChartConfig;
 
 export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
   // Add a check to handle the case where data is undefined or null
@@ -52,12 +51,6 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
 
   const ChartData = data[selectedYear];
 
-  const chartDataArray = Object.entries(ChartData).map(
-    ([month, transactions]) => ({
-      month,
-      transactions: transactions.Transactions,
-    })
-  );
   const chartDataArray = Object.entries(ChartData).map(
     ([month, transactions]) => ({
       month,
@@ -141,6 +134,5 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
         </div>
       </CardFooter>
     </Card>
-  );
   );
 }

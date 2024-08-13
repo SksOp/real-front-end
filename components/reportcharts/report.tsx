@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { ReportCard } from "../ui/reportCard";
-import { getTransactionData } from "@/transcation/charts";
+import { getTransactionData } from "@/transcation/dataConverter";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
 import { GrowthChart } from "../salestransactions/salestransactions";
 import {

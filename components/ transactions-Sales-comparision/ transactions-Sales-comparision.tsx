@@ -91,8 +91,6 @@ export function TransactionVsSales({ data }: { data: TransactionVsSalesType }) {
       {/* <CardDescription>Aliquam porta nisl dolor, molestie pellentesque</CardDescription> */}
       </CardHeader>
       <CardContent>
-      
-        {selectedYear && (
           <ChartContainer config={chartConfig}>
             <BarChart data={chartData[selectedYear]}>
               <CartesianGrid vertical={false} />
@@ -111,7 +109,6 @@ export function TransactionVsSales({ data }: { data: TransactionVsSalesType }) {
               <Bar dataKey="Transactions" fill="hsl(var(--chart-2))" radius={4} />
             </BarChart>
           </ChartContainer>
-        )}
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">

@@ -8,7 +8,7 @@ import {
 import Filters from "@/components/filters";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PropertiesCard from "@/components/propertiesCard";
-import Report from "@/components/reportcharts/report";
+import {Report} from "@/components/reportcharts/report";
 import { PropertiesList } from "@/constants/properties";
 import Layout from "@/layout";
 import { Caladea } from "next/font/google";
