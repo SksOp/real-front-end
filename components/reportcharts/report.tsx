@@ -58,6 +58,7 @@ export const Report = () => {
   }
 
   const transactionData = getTransactionData(avgValue!);
+
   // const [datat, setData] = React.useState<TransactionAverageValues | null>(
   //   null
   // );
