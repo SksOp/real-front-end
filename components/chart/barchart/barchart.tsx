@@ -52,7 +52,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   customTooltipProps = {}, // Additional custom props for the Tooltip component
 }) => {
 
-  // console.log("data inside the barchart", data)
+  console.log("data inside the barchart", data)
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any) : string => {
     const result = tickFormatter(value);

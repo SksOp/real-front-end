@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { TrendingUp } from "lucide-react";
 import {
@@ -31,8 +31,8 @@ import React, { useState } from "react";
 
 const chartConfig = {
   desktop: {
-    label: 'Transactions',
-    color: '#A9A1F4',
+    label: "Transactions",
+    color: "#A9A1F4",
   },
 } satisfies ChartConfig;
 
@@ -62,7 +62,7 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
     <Card className="py-2 border-none">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
-          {'Sales Transactions'}
+          {"Sales Transactions"}
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
@@ -111,7 +111,7 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
                 fillOpacity={0.4}
                 fill="#A9A1F4"
                 dot={{
-                  fill:"#A9A1F4"
+                  fill: "#A9A1F4",
                 }}
               />
               <Line

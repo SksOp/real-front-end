@@ -205,7 +205,9 @@ const convertData = (data: LocationSalesTransaction): ChartDataType => {
 };
 
 export function LocationSales({ data }: { data: LocationSalesTransaction }) {
+  console.log("location sales preData ", data);
   const chartData = convertData(data);
+  console.log("chart data", chartData);
   const [selectedYear, setSelectedYear] = useState<number>(2024);
 
   if (!data) {
@@ -240,6 +242,8 @@ export function LocationSales({ data }: { data: LocationSalesTransaction }) {
 
   const footerDescription: string = "January - June 2024";
 
+
+
   return (
     <CardWrapper
       title={title}
@@ -248,6 +252,7 @@ export function LocationSales({ data }: { data: LocationSalesTransaction }) {
       footer={footer}
       footerDescription={footerDescription}
     >
+      {/* <>hello</> */}
       <Barchart
         data={chartData[selectedYear.toString()]}
         gridStroke="#ccc"

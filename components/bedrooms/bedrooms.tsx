@@ -57,7 +57,7 @@ export function Bedrooms({ data }: { data: BedroomType }) {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Bedrooms</CardTitle>
-        <CardDescription>2023-2024x`</CardDescription>
+        <CardDescription>2023-2024`</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

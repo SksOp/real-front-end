@@ -79,7 +79,7 @@ export function SalesIndexBenchmarking({ data }: { data: TransactionVsSalesType 
     return <p>No data available</p>;
   }
 
-  console.log("data:", data)
+  // console.log("data:", data)
 
   const chartData = transformData(data);
   const years = Object.keys(chartData);

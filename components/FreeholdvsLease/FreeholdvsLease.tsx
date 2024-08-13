@@ -15,7 +15,7 @@ export function FreeholdvsLease() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Progress</CardTitle>
+        <CardTitle>Freehold vs Lease</CardTitle>
         <CardDescription>
           {"You're average more steps a day this year than last year."}
         </CardDescription>
