@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { TransactionVsSalesType } from "@/transcation/types";
+import { fetchSalesIndexBenchmarkType, TransactionVsSalesType } from "@/transcation/types";
 
 import {
   Card,
@@ -58,21 +58,7 @@ function transformData(data: TransactionVsSalesType): ChartDataType {
   return accumulatedData;
 }
 
-function calculatePercentile(arr: number[], percentile: number): number {
-  arr.sort((a, b) => a - b);
-  const rank = percentile * (arr.length - 1);
-  const lowerIndex = Math.floor(rank);
-  const upperIndex = Math.ceil(rank);
-
-  if (lowerIndex === upperIndex) {
-    return arr[lowerIndex];
-  }
-
-  const weight = rank - lowerIndex;
-  return arr[lowerIndex] * (1 - weight) + arr[upperIndex] * weight;
-}
-
-export function SalesIndexBenchmarking({ data }: { data: TransactionVsSalesType }) {
+export function SalesIndexBenchmarking({ data }: { data: fetchSalesIndexBenchmarkType }) {
   const [selectedYear, setSelectedYear] = useState<string>("2024");
 
   if (!data) {

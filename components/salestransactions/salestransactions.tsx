@@ -28,35 +28,50 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import React, { useState } from "react";
+import { SalesTransactions } from "@/actions/salestransaction";
+import { SalesChartDataTypeMonthly, SalesChartDataTypeQuaterly, SalesChartDataTypeYearly } from "../sales-market-trend/sales-market-trend";
 
 const chartConfig = {
   desktop: {
-    label: "Transactions",
+    label: "Sales",
     color: "#A9A1F4",
   },
 } satisfies ChartConfig;
 
-export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
+export function GrowthChart({ data }: { data: SalesTransactionsType}) {
   // Add a check to handle the case where data is undefined or null
+  const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
+  const salestransaction = new SalesTransactions();
+  const [chartData, setChartData] = React.useState<
+    | SalesChartDataTypeYearly[]
+    | SalesChartDataTypeQuaterly[]
+    | SalesChartDataTypeMonthly[]
+  >(salestransaction.getYearlySalesData({ data }));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
   if (!data) {
-    return <p>No data available</p>;
-    return <p>No data available</p>;
+    return <>No data available</>;
   }
+  const years = Object.keys(data);
 
-  //sort in reverse order that means the largest comes first
-  const years = Object.keys(data).sort().reverse();
+  if (!data) return null;
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [selectedYear, setSelectedYear] = useState(years[0]);
-
-  const ChartData = data[selectedYear];
-
-  const chartDataArray = Object.entries(ChartData).map(
-    ([month, transactions]) => ({
-      month,
-      transactions: transactions.Transactions,
-    })
-  );
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = salestransaction.getYearlySalesData({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = salestransaction.getQuarterlySalesData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = salestransaction.getMonthlySalesData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }
+  }
 
   return (
     <Card className="py-2 border-none">
@@ -64,11 +79,11 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
         <CardTitle className="flex justify-between items-center">
           {"Sales Transactions"}
           <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
+            value={selectedOption}
+            onChange={handelOption}
             className="ml-2 p-0.5 rounded text-sm"
           >
-            {years.map((year) => (
+            {Option.map((year) => (
               <option key={year} value={year}>
                 {year}
               </option>
@@ -83,10 +98,10 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
         <ChartContainer config={chartConfig}>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart
-              data={chartDataArray}
+              data={chartData}
               margin={{
-                left: 12,
-                right: 12,
+                left: 4,
+                right: 4,
               }}
             >
               <defs>
@@ -97,16 +112,16 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
               </defs>
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="duration"
                 tickLine={false}
                 axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) => value.slice(0, 3)}
+                tickMargin={1}
+                // tickFormatter={(value) => value.slice(0, 4)}
               />
               <Tooltip content={<ChartTooltipContent hideLabel />} />
               <Area
                 type="natural"
-                dataKey="transactions"
+                dataKey="property_count"
                 stroke="#A9A1F4"
                 fillOpacity={0.4}
                 fill="#A9A1F4"
@@ -115,7 +130,7 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
                 }}
               />
               <Line
-                dataKey="transactions"
+                dataKey="property_count"
                 type="natural"
                 stroke="#A9A1F4"
                 strokeWidth={2}

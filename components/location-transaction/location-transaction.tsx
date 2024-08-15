@@ -19,9 +19,10 @@ import {
 } from "@/components/ui/chart"
 import { LocationSalesTransaction } from "@/transcation/types"
 import { useState } from "react"
+import { Transactions } from "@/actions/sales"
 
 interface ChartDataType {
-  [year: string]: { location: string; Transaction: number }[]
+  [year: string]: { [month:string] : {location: string; Transaction: number} }
 }
 
 const chartConfig = {
@@ -31,46 +32,50 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const convertData = (data: LocationSalesTransaction): ChartDataType => {
-  const result: ChartDataType = {}
 
-  for (const year in data) {
-    if (!result[year]) {
-      result[year] = []
-    }
 
-    const locationSales = data[year]
+export interface TransactionsChartDataTypeYearly {
+  location: string;
+  transactions: number;
+}
 
-    for (const location in locationSales) {
-      const existingLocation = result[year].find(
-        (loc) => loc.location === location
-      )
-
-      if (existingLocation) {
-        existingLocation.Transaction += locationSales[location].Transactions
-      } else {
-        result[year].push({
-          location: location,
-          Transaction: locationSales[location].Transactions,
-        })
-      }
-    }
-    result[year].sort((a, b) => b.Transaction - a.Transaction);
-  }
-
-  return result
+export interface TransactionsChartDataTypeQuaterly {
+  location: string;
+  transactions: number;
+}
+export interface TransactionsChartDataTypeMonthly {
+  location: string;
+  transactions: number;
 }
 
 export function LocationTransaction({ data }: { data: LocationSalesTransaction }) {
-  const [selectedYear, setSelectedYear] = useState<number>(2024);
+  const [selectedOption, setSelectedOption] = useState<string>("Yearly");
+  const Transaction = new Transactions;
+  const [chartData, setChartData] = useState<TransactionsChartDataTypeYearly[] | TransactionsChartDataTypeQuaterly[] | TransactionsChartDataTypeMonthly[]>(Transaction.getYearlyTransactions({data}));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
   if (!data) {
-    return <p>No data available</p>;
+    return <>No data available</>;
   }
-
-  const chartData = convertData(data)
-
-  
   const years = Object.keys(data);
+
+
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = Transaction.getYearlyTransactions({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = Transaction.getQuarterlyTransactions({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = Transaction.getMonthlyTransactions({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }
+  }
 
 
   return (
@@ -79,11 +84,11 @@ export function LocationTransaction({ data }: { data: LocationSalesTransaction }
         <CardTitle className="flex justify-between items-center">
           Transactions
           <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            value={selectedOption}
+            onChange={handelOption}
             className="ml-2 p-0.5 rounded text-sm"
           >
-            {years.map((year) => (
+            {Option.map((year) => (
               <option key={year} value={year}>
                 {year}
               </option>
@@ -99,7 +104,8 @@ export function LocationTransaction({ data }: { data: LocationSalesTransaction }
           <ChartContainer config={chartConfig} className="w-[15000px] h-[300px]">
             <AreaChart
               accessibilityLayer
-              data={chartData["2024"]}
+              data={chartData}
+              height={900}
               margin={{
                 left: 12,    
                 right: 12, 
@@ -110,14 +116,15 @@ export function LocationTransaction({ data }: { data: LocationSalesTransaction }
                 dataKey="location"
                 tickLine={true}
                 axisLine={true}
-                tickMargin={8}
+                tickMargin={1000}
+                tickFormatter={(value) => value.slice(0, 3)}
               />
               <ChartTooltip
                 cursor={true}
                 content={<ChartTooltipContent indicator="line" />}
               />
               <Area
-                dataKey="Transaction"
+                dataKey="transactions"
                 type="natural"
                 fill="#A9A1F4"
                 fillOpacity={0.4}

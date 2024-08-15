@@ -52,7 +52,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   customTooltipProps = {}, // Additional custom props for the Tooltip component
 }) => {
 
-  console.log("data inside the barchart", data)
+  // console.log("data inside the barchart", data)
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any) : string => {
     const result = tickFormatter(value);
@@ -67,7 +67,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
         {...customGridProps} // Apply custom grid props
       />
       <XAxis
-        dataKey="month" // Customizable XAxis dataKey
+        dataKey={xAxisDataKey} // Customizable XAxis dataKey
         tickLine={tickLine} // Customizable tickLine
         tickMargin={tickMargin} // Customizable tickMargin
         axisLine={axisLine} // Customizable axisLine
@@ -79,7 +79,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
         {...customTooltipProps} // Apply custom Tooltip props
       />
       <Bar 
-        dataKey="desktop" // Customizable dataKey
+        dataKey={yAxisDataKey} // Customizable dataKey
         fill={barColor} 
         radius={barRadius} 
         {...customBarProps} // Apply custom Bar props

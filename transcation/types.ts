@@ -54,17 +54,22 @@ export interface LocationSalesTransaction {
   };
 }
 
-export type BedroomType = {
-  year: number;
-  month: string;
-  bedrooms: string;
-  property_count: number;
-}[];
+export interface BedroomType {
+  [year: string]: {
+    [month: string]: {
+      [bedrooms: string]: {
+        property_count: number;
+      };
+    };
+  };
+}
 
 export interface ResidentialVsCommercialType {
   [year: string]: {
     [month : string]: { 
-      [usage: string]: number;
+      [usage: string]:{
+        property_count: number;
+      };
     }
   };
 }
@@ -83,4 +88,10 @@ export interface OffplanvsReadyType {
       [status: number]: number;
     }
   };
+}
+
+export interface fetchSalesIndexBenchmarkType {
+  years: string;
+  quarters : string;
+  months :string
 }

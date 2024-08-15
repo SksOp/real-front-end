@@ -1,5 +1,8 @@
 // "use server";
 
+import { fetchSalesIndexBenchmarkType, FreeholdVsLeaseType, OffplanvsReadyType, ResidentialVsCommercialType } from "@/transcation/types";
+import axios from "axios";
+
 // import { BedroomType, LocationSalesTransaction, ResidentialVsCommercialType, TransactionAverageValues} from "@/transcation/types";
 
 // // import { LocationSales } from "@/charts/location-sales";
@@ -41,29 +44,95 @@
 //     }
 //   }
 
-//   export const fetchResidentialVsCommercialType = async (): Promise<ResidentialVsCommercialType | null> => {
-//     const URL = process.env.RESIDENTIAL_COMMERCIAL_URL!;
-//     try {
-//       const res = await axios.get(URL);
-//       const data: { year: number; usage: string; property_count: number }[] = res.data;
+  export const fetchFreeholdVsLease = async (): Promise<FreeholdVsLeaseType | null> => {
+    const URL = process.env.FREEHOLD_LEASE_URL!;
+    try {
+      const res = await axios.get(URL);
+      const data: { year: string; month: string; tenure: number; property_count: number }[] = res.data;
 
-//       // Transforming data
-//       const transformedData: ResidentialVsCommercialType = {};
+      // Transforming data
+      const transformedData: FreeholdVsLeaseType = {};
 
-//       data.forEach(item => {
-//         const { year, usage, property_count } = item;
-//         if (!transformedData[year]) {
-//           transformedData[year] = {};
-//         }
-//         if (!transformedData[year][usage]) {
-//           transformedData[year][usage] = 0;
-//         }
-//         transformedData[year][usage] += property_count;
-//       });
+      data.forEach(item => {
+        const { year, month, tenure, property_count } = item;
+        if (!transformedData[year]) {
+          transformedData[year] = {};
+        }
+        if (!transformedData[year][month]) {
+          transformedData[year][month] = {};
+        }
+        if (!transformedData[year][month][tenure]) {
+          transformedData[year][month][tenure] = 0
+        }
+        transformedData[year][month][tenure] += property_count;
+      });
 
-//       return transformedData;
-//     } catch (error) {
-//       console.error(error);
-//       return null;
-//     }
-//   };
+      console.log("transformedData: ",transformedData);
+
+      return transformedData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+
+
+  // export interface OffplanvsReadyType {
+  //   [year: string]: {
+  //     [month : string]: { 
+  //       [status: number]: number;
+  //     }
+  //   };
+  // }
+
+
+  export const fetchOffplanVsLease = async (): Promise<OffplanvsReadyType | null> => {
+    const URL = process.env.OFFPLAN_READY_URL!;
+    try {
+      const res = await axios.get(URL);
+      const data: { year: string; month: string; status: number; property_count: number }[] = res.data;
+
+      // Transforming data
+      const transformedData: OffplanvsReadyType = {};
+
+      data.forEach(item => {
+        const { year, month, status, property_count } = item;
+        if (!transformedData[year]) {
+          transformedData[year] = {};
+        }
+        if (!transformedData[year][month]) {
+          transformedData[year][month] = {};
+        }
+        if (!transformedData[year][month][status]) {
+          transformedData[year][month][status] = 0
+        }
+        transformedData[year][month][status] += property_count;
+      });
+
+      console.log("transformedData: ",transformedData);
+
+      return transformedData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+
+  export const fetchSalesIndexBenchmark = async (): Promise<fetchSalesIndexBenchmarkType | null> => {
+    const URL = process.env.SALES_INDEX_URL!;
+    try {
+      const res = await axios.get(URL);
+      const data: {years: string;
+        quarters : string;
+        months :string} = res.data;
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+
+  

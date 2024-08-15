@@ -69,6 +69,8 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
       SalesTransactions: null
     };
   }
+
+  console.log("data", data);
   const salesTransactions: SalesTransactionsType = convertToSalesTransactions(data);
 
   const years = Object.keys(data).sort();

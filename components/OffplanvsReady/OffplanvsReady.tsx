@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts"
 
 import {
@@ -11,169 +10,183 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartContainer } from "@/components/ui/chart"
-import { OffplanvsReadyType } from "@/transcation/types"
+import { FreeholdVsLeaseType, OffplanvsReadyType } from "@/transcation/types"
+import React from "react"
+import { FrVsRe } from "@/actions/freeholdvs"
+import { OfVsRe } from "@/actions/offplanvsready"
 
-type Timeframe = "monthly" | "quarterly" | "yearly"
-
-function transformData(
-  data: OffplanvsReadyType,
-  timeframe: Timeframe,
-  period: string[]
-) {
-  let transformedData = []
-
-  if (timeframe === "monthly") {
-    transformedData = period.map((month) => {
-      const [year, monthKey] = month.split("-")
-      const offplan = data[year]?.[monthKey]?.["1"] || 0
-      const ready = data[year]?.[monthKey]?.["0"] || 0
-      return { date: month, offplan, ready }
-    })
-  } else if (timeframe === "quarterly") {
-    transformedData = period.map((quarter) => {
-      const [year, quarterKey] = quarter.split("-")
-      const quarterMonths = ["01", "04", "07", "10"]
-      let offplan = 0
-      let ready = 0
-      quarterMonths.forEach((month) => {
-        offplan += data[year]?.[month]?.["1"] || 0
-        ready += data[year]?.[month]?.["0"] || 0
-      })
-      return { date: quarter, offplan, ready }
-    })
-  } else {
-    transformedData = period.map((year) => {
-      let offplan = 0
-      let ready = 0
-      Object.keys(data[year] || {}).forEach((month) => {
-        offplan += data[year][month]["1"] || 0
-        ready += data[year][month]["0"] || 0
-      })
-      return { date: year, offplan, ready }
-    })
-  }
-
-  return transformedData
+export interface OfReChartDataTypeYearly {
+  Ofplan: number;
+  Ready: number;
 }
 
-export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
+export interface OfReChartDataTypeQuaterly {
+  Ofplan: number;
+  Ready: number;
+}
+export interface OfReChartDataTypeMonthly {
+  Ofplan: number;
+  Ready: number;
+}
 
-  console.log("offplan vs ready", data)
-  
-  const [timeframe, setTimeframe] = useState<Timeframe>("yearly")
-  const [period, setPeriod] = useState<string[]>(data ? Object.keys(data).slice(-12):[])
-  if(!data)return null
-  
-  const handleTimeframeChange = (newTimeframe: Timeframe) => {
-    setTimeframe(newTimeframe)
+export function OffplanvsReady({data}:{data: OffplanvsReadyType}) {
 
-    if (newTimeframe === "yearly") {
-      setPeriod(Object.keys(data).slice(-12))
-    } else if (newTimeframe === "monthly") {
-      const months = []
-      for (let i = 0; i < 12; i++) {
-        const currentDate = new Date()
-        const year = currentDate.getFullYear()
-        const month = currentDate.getMonth() + 1 - i
-        months.push(`${year}-${String(month).padStart(2, "0")}`)
-      }
-      setPeriod(months.reverse())
-    } else if (newTimeframe === "quarterly") {
-      const quarters = []
-      const currentDate = new Date()
-      for (let i = 0; i < 12; i++) {
-        const year = currentDate.getFullYear()
-        const quarter = Math.floor(currentDate.getMonth() / 3) + 1 - i
-        quarters.push(`${year}-Q${quarter}`)
-      }
-      setPeriod(quarters.reverse())
+  const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
+  const frvsre = new OfVsRe;
+  const [chartData, setChartData] = React.useState<
+    | OfReChartDataTypeYearly
+    | OfReChartDataTypeQuaterly
+    | OfReChartDataTypeMonthly
+  >(frvsre.getYearlyData({ data }));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
+
+  console.log("data", data);
+  console.log("chart data", chartData);
+
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = frvsre.getYearlyData({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = frvsre.getQuarterlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = frvsre.getMonthlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
     }
   }
 
-  const chartData = transformData(data, timeframe, period)
 
   return (
-    // <Card>
-    //   <CardHeader>
-    //     <CardTitle>Offplan vs Ready</CardTitle>
-    //     <CardDescription>
-    //       {`You're comparing ${timeframe} data over the last 12 periods.`}
-    //     </CardDescription>
-    //   </CardHeader>
-    //   <CardContent className="grid gap-4">
-    //     <div className="grid auto-rows-min gap-2">
-    //       <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-    //         Offplan
-    //         <span className="text-sm font-normal text-muted-foreground">
-    //           vs Ready
-    //         </span>
-    //       </div>
-    //       <div className="flex gap-4">
-    //         <button onClick={() => handleTimeframeChange("monthly")}>
-    //           Monthly
-    //         </button>
-    //         <button onClick={() => handleTimeframeChange("quarterly")}>
-    //           Quarterly
-    //         </button>
-    //         <button onClick={() => handleTimeframeChange("yearly")}>
-    //           Yearly
-    //         </button>
-    //       </div>
-    //       <ChartContainer
-    //         config={{
-    //           steps: {
-    //             label: "Steps",
-    //             color: "#A9A1F4",
-    //           },
-    //         }}
-    //         className="aspect-auto h-[200px] w-full"
-    //       >
-    //         <BarChart
-    //           accessibilityLayer
-    //           layout="vertical"
-    //           margin={{
-    //             left: 0,
-    //             top: 0,
-    //             right: 0,
-    //             bottom: 0,
-    //           }}
-    //           data={chartData}
-    //         >
-    //           <Bar
-    //             dataKey="offplan"
-    //             fill="#A9A1F4"
-    //             radius={4}
-    //             barSize={32}
-    //           >
-    //             <LabelList
-    //               position="insideLeft"
-    //               dataKey="offplan"
-    //               offset={8}
-    //               fontSize={12}
-    //               fill="white"
-    //             />
-    //           </Bar>
-    //           <Bar
-    //             dataKey="ready"
-    //             fill="var(--color-steps)"
-    //             radius={4}
-    //             barSize={32}
-    //           >
-    //             <LabelList
-    //               position="insideRight"
-    //               dataKey="ready"
-    //               offset={8}
-    //               fontSize={12}
-    //               fill="hsl(var(--muted-foreground))"
-    //             />
-    //           </Bar>
-    //           <YAxis dataKey="date" type="category" tickCount={1} hide />
-    //           <XAxis dataKey="offplan" type="number" hide />
-    //         </BarChart>
-    //       </ChartContainer>
-    //     </div>
-    //   </CardContent>
-    // </Card>
-    <>hello</>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          OffPlan vs Ready
+          <select
+            value={selectedOption}
+            onChange={handelOption}
+            className="ml-2 p-0.5 rounded text-sm"
+          >
+            {Option.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+          </CardTitle>
+        <CardDescription>
+          {"You're average more steps a day this year than last year."}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <div className="grid auto-rows-min gap-2">
+          <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
+          {chartData?.Ofplan}
+            <span className="text-sm font-normal text-muted-foreground">
+              Freehold
+            </span>
+          </div>
+          <ChartContainer
+            config={{
+              steps: {
+                label: "Ofplan",
+                color: "hsl(var(--chart-1))",
+              },
+            }}
+            className="aspect-auto h-[32px] w-full"
+          >
+            <BarChart
+              accessibilityLayer
+              layout="vertical"
+              margin={{
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+              }}
+              data={[
+                {
+                  date: selectedOption,
+                  steps: chartData?.Ofplan,
+                },
+              ]}
+            >
+              <Bar
+                dataKey="Ofplan"
+                fill="var(--color-steps)"
+                radius={4}
+                barSize={32}
+              >
+                <LabelList
+                  position="insideLeft"
+                  dataKey="date"
+                  offset={8}
+                  fontSize={12}
+                  fill="white"
+                />
+              </Bar>
+              <YAxis dataKey="date" type="category" tickCount={1} hide />
+              <XAxis dataKey="Ofplan" type="number" hide />
+            </BarChart>
+          </ChartContainer>
+        </div>
+        <div className="grid auto-rows-min gap-2">
+          <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
+          {chartData?.Ready}
+            <span className="text-sm font-normal text-muted-foreground">
+              Ready
+            </span>
+          </div>
+          <ChartContainer
+            config={{
+              steps: {
+                label: "Ready",
+                color: "hsl(var(--muted))",
+              },
+            }}
+            className="aspect-auto h-[32px] w-full"
+          >
+            <BarChart
+              accessibilityLayer
+              layout="vertical"
+              margin={{
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+              }}
+              data={[
+                {
+                  date: selectedOption,
+                  steps: chartData?.Ready,
+                },
+              ]}
+            >
+              <Bar
+                dataKey="Ready"
+                fill="var(--color-steps)"
+                radius={4}
+                barSize={32}
+              >
+                <LabelList
+                  position="insideLeft"
+                  dataKey="date"
+                  offset={8}
+                  fontSize={12}
+                  fill="hsl(var(--muted-foreground))"
+                />
+              </Bar>
+              <YAxis dataKey="date" type="category" tickCount={1} hide />
+              <XAxis dataKey="Ready" type="number" hide />
+            </BarChart>
+          </ChartContainer>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
