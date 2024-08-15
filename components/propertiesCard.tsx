@@ -1,18 +1,19 @@
-import React from "react";
-import { Card } from "./ui/card";
+import React from 'react';
+import { Card } from './ui/card';
 import {
   AreaSizeIcon,
   BathIcon,
   BedIcon,
   LightBulbIcon,
   LocationIcon,
-} from "@/public/svg/icons";
-import { PropertiescardProps } from "@/types/propertyCard";
+} from '@/public/svg/icons';
+import { PropertiescardProps } from '@/types/propertyCard';
+import Image from 'next/image';
 
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "AED",
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'AED',
     minimumFractionDigits: 0,
   }).format(price);
 }
@@ -29,7 +30,7 @@ function PropertiesCard({
   return (
     <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
       <div className="flex-grow ">
-        <img src={imageUrl} alt={name} className="object-cover rounded-lg " />
+        <Image src={imageUrl} alt={name} className="object-cover rounded-lg " />
       </div>
       <div className="flex w-2/3 flex-col justify-between">
         <div>

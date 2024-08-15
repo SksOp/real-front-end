@@ -1,23 +1,23 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { Label } from "./ui/label";
+} from './ui/accordion';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Label } from './ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
-import { Area } from "@/constants/area";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+} from './ui/select';
+import { Area } from '@/constants/area';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
 
 function Calculator() {
   const [transactionType, setTransactionType] = React.useState<string | null>(
@@ -38,23 +38,23 @@ function Calculator() {
     {
       value: transactionType,
       onChange: (val: string) => handleChange(setTransactionType, val),
-      placeholder: "Transaction Type",
-      label: "Transaction Type",
-      options: ["Sales", "Rental"],
+      placeholder: 'Transaction Type',
+      label: 'Transaction Type',
+      options: ['Sales', 'Rental'],
     },
     {
       value: usage,
       onChange: (val: string) => handleChange(setUsage, val),
-      placeholder: "Usage",
-      label: "Usage",
-      options: ["Residential", "Commercial"],
+      placeholder: 'Usage',
+      label: 'Usage',
+      options: ['Residential', 'Commercial'],
     },
     {
       value: propertyType,
       onChange: (val: string) => handleChange(setPropertyType, val),
-      placeholder: "Property Type",
-      label: "Property Type",
-      options: ["Apartment", "Villa", "Land"],
+      placeholder: 'Property Type',
+      label: 'Property Type',
+      options: ['Apartment', 'Villa', 'Land'],
     },
   ];
 
@@ -62,23 +62,23 @@ function Calculator() {
     {
       value: transactionType,
       onChange: (val: string) => handleChange(setTransactionType, val),
-      placeholder: "Transaction Type",
-      label: "Transaction Type",
-      options: ["Sales", "Rental"],
+      placeholder: 'Transaction Type',
+      label: 'Transaction Type',
+      options: ['Sales', 'Rental'],
     },
     {
       value: usage,
       onChange: (val: string) => handleChange(setUsage, val),
-      placeholder: "Usage",
-      label: "Usage",
-      options: ["Residential", "Commercial"],
+      placeholder: 'Usage',
+      label: 'Usage',
+      options: ['Residential', 'Commercial'],
     },
     {
       value: propertyType,
       onChange: (val: string) => handleChange(setPropertyType, val),
-      placeholder: "Property Type",
-      label: "Property Type",
-      options: ["Apartment", "Villa", "Land"],
+      placeholder: 'Property Type',
+      label: 'Property Type',
+      options: ['Apartment', 'Villa', 'Land'],
     },
   ];
 
@@ -99,7 +99,10 @@ function Calculator() {
               </Label>
               <RadioGroup className="flex justify-start items-center gap-4 py-2">
                 {radio.options.map((option, idx) => (
-                  <div className="flex items-center justify-start gap-2">
+                  <div
+                    key={idx}
+                    className="flex items-center justify-start gap-2"
+                  >
                     <RadioGroupItem
                       value={option}
                       id={option}
@@ -113,7 +116,7 @@ function Calculator() {
             </div>
           ))}
           <div className="w-full">
-            <Label htmlFor={"location"} className="text-base font-medium block">
+            <Label htmlFor={'location'} className="text-base font-medium block">
               Location
             </Label>
             <Select>
@@ -131,7 +134,7 @@ function Calculator() {
           </div>
           <div className="w-full">
             <Label
-              htmlFor={"developer"}
+              htmlFor={'developer'}
               className="text-base font-medium block"
             >
               Developer
@@ -141,7 +144,7 @@ function Calculator() {
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent className="">
-                {["A", "B", "C", "D"].map((area, idx) => (
+                {['A', 'B', 'C', 'D'].map((area, idx) => (
                   <SelectItem key={idx} value={area}>
                     {area}
                   </SelectItem>
@@ -152,7 +155,7 @@ function Calculator() {
           <div className="w-full flex justify-center items-center gap-2">
             <div className="w-1/2">
               <Label
-                htmlFor={"bedrooms"}
+                htmlFor={'bedrooms'}
                 className="text-base font-medium block"
               >
                 Bedrooms
@@ -162,7 +165,7 @@ function Calculator() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent className="">
-                  {["1", "2", "3", "4"].map((area, idx) => (
+                  {['1', '2', '3', '4'].map((area, idx) => (
                     <SelectItem key={idx} value={area}>
                       {area}
                     </SelectItem>
@@ -172,7 +175,7 @@ function Calculator() {
             </div>
             <div className="w-1/2">
               <Label
-                htmlFor={"bathrooms"}
+                htmlFor={'bathrooms'}
                 className="text-base font-medium block"
               >
                 Bathrooms
@@ -182,7 +185,7 @@ function Calculator() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent className="">
-                  {["1", "2", "3", "4"].map((area, idx) => (
+                  {['1', '2', '3', '4'].map((area, idx) => (
                     <SelectItem key={idx} value={area}>
                       {area}
                     </SelectItem>
@@ -194,7 +197,7 @@ function Calculator() {
           <div className="w-full flex justify-center items-center gap-2">
             <div className="w-1/2">
               <Label
-                htmlFor={"room-type"}
+                htmlFor={'room-type'}
                 className="text-base font-medium block"
               >
                 Room Type
@@ -204,7 +207,7 @@ function Calculator() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent className="">
-                  {["Apartment", "Villa", "Land"].map((area, idx) => (
+                  {['Apartment', 'Villa', 'Land'].map((area, idx) => (
                     <SelectItem key={idx} value={area}>
                       {area}
                     </SelectItem>
@@ -213,7 +216,7 @@ function Calculator() {
               </Select>
             </div>
             <div className="w-1/2">
-              <Label htmlFor={"area"} className="text-base font-medium block">
+              <Label htmlFor={'area'} className="text-base font-medium block">
                 Area
               </Label>
               <Input
@@ -225,7 +228,7 @@ function Calculator() {
 
           <div className="w-full mt-4">
             <Button
-              variant={"secondary"}
+              variant={'secondary'}
               className="w-full rounded-full text-center text-lg font-bold h-14"
             >
               Calculate
