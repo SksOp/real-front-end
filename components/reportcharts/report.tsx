@@ -19,6 +19,7 @@ import {
   getAverageValues,
   getBedrooms,
   getLocationSales,
+  getOffplanVsReady,
   getResidentialVsCommercialType,
 } from "@/repository/tanstack/queries/functions.queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -28,33 +29,8 @@ import { Bedrooms } from "../bedrooms/bedrooms";
 import { ResidentialVsCommercial } from "../ResidentialVsCommercial/ResidentialVsCommercial";
 import { FreeholdvsLease } from "../FreeholdvsLease/FreeholdvsLease";
 import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
-import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
-import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
-import { fetchFreeholdVsLease, fetchOffplanVsLease, fetchSalesIndexBenchmark } from "@/actions/functions";
 
 export const Report = () => {
-
-  const [freeholdvsLease, setFreeholdvsLease] = useState<FreeholdVsLeaseType>({});
-  const [offplanvsready, setOffplanvsready] = useState<OffplanvsReadyType>({});
-
-  const [salesIndexBenchmark, setSalesIndexBenchmark] = useState<fetchSalesIndexBenchmarkType>({});
-
-  useEffect(() => {
-    fetchFreeholdVsLease().then((res) => {
-      console.log("freeholdvsLease", res);
-      if (res) setFreeholdvsLease(res);
-    })
-
-    fetchOffplanVsLease().then((res) => {
-      if (res) setOffplanvsready(res!)
-    })
-    
-    fetchSalesIndexBenchmark().then((res) => {
-      if (res) setSalesIndexBenchmark(res)
-    })
-
-
-  })
 
   const {
     data: avgValue,
@@ -76,11 +52,21 @@ export const Report = () => {
     isLoading: isLoading4,
     isError: isError4,
   } = useSuspenseQuery(getResidentialVsCommercialType());
+  const {
+    data: offplanvsready,
+    isLoading: isLoading5,
+    isError: isError5,
+  } = useSuspenseQuery(getOffplanVsReady());
+  const {
+    data: freeholdbslease,
+    isLoading: isLoading6,
+    isError: isError6,
+  } = useSuspenseQuery(getOffplanVsReady());
 
-  if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 ||isLoading5 || isLoading6) {
     return <div>Loading...</div>;
   }
-  if (isError1 || isError2 || isError3 || isError4) {
+  if (isError1 || isError2 || isError3 || isError4 || isError5 || isError6) {
     return <div>Error</div>;
   }
 
@@ -202,8 +188,8 @@ export const Report = () => {
       <LocationSales data={locationSales!} />
       <Bedrooms data={bedrooms!} />
       <ResidentialVsCommercial data={residentialVsCommercialData!} />
-      <FreeholdvsLease data={freeholdvsLease!} />
-      <OffplanvsReady data={offplanvsready}/>
+      <FreeholdvsLease data={freeholdbslease!} />
+      <OffplanvsReady data={offplanvsready!}/>
       {/* <FlatvsVillavsLand /> */}
     </>
   );

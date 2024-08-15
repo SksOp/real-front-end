@@ -1,6 +1,8 @@
 import {
   BedroomType,
+  FreeholdVsLeaseType,
   LocationSalesTransaction,
+  OffplanvsReadyType,
   ResidentialVsCommercialType,
   TransactionAverageValues,
   TransactionMonthlyAverage,
@@ -106,7 +108,7 @@ export const fetchResidentialVsCommercialType =
       const res = await axios.get(
         process.env.NEXT_PUBLIC_RESIDENTIAL_COMMERCIAL_URL!
       );
-      const data: { year: number; usage: string; property_count: number }[] =
+      const data: { year: number; month: string; usage: string; property_count: number }[] =
         res.data;
 
       // Transforming data
@@ -134,3 +136,71 @@ export const fetchResidentialVsCommercialType =
       return null;
     }
   };
+
+
+  export const fetchOffplanVsReady = async (): Promise<OffplanvsReadyType | null> => {
+    try {
+      const res = await axios.get(process.env.NEXT_PUBLIC_OFFPLAN_READY_URL!);
+      const data: { year: string; month: string; status: number; property_count: number }[] = res.data;
+
+      // Transforming data
+      const transformedData: OffplanvsReadyType = {};
+
+      data.forEach(item => {
+        const { year, month, status, property_count } = item;
+        if (!transformedData[year]) {
+          transformedData[year] = {};
+        }
+        if (!transformedData[year][month]) {
+          transformedData[year][month] = {};
+        }
+        if (!transformedData[year][month][status]) {
+          transformedData[year][month][status] = 0
+        transformedData[year][month][status] += property_count;
+        }
+      });
+
+      return transformedData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+
+  export const fetchFreeholdVsLease = async (): Promise<FreeholdVsLeaseType | null> => {
+    try {
+      const res = await axios.get(process.env.NEXT_PUBLIC_FREEHOLD_LEASE_URL!);
+      const data: { year: string; month: string; tenure: number; property_count: number }[] = res.data;
+
+      console.log("data: ",data);
+
+      // Transforming data
+      const transformedData: FreeholdVsLeaseType = {};
+
+      data.forEach(item => {
+        const { year, month, tenure, property_count } = item;
+        if (!transformedData[year]) {
+          transformedData[year] = {};
+        }
+        if (!transformedData[year][month]) {
+          transformedData[year][month] = {};
+        }
+        if (!transformedData[year][month][tenure]) {
+          transformedData[year][month][tenure] = 0
+        }
+        transformedData[year][month][tenure] += property_count;
+      });
+
+      console.log("transformedData: ",transformedData);
+
+      return transformedData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+
+
+

@@ -4,6 +4,7 @@ import {
   fetchAverageValues,
   fetchBedrooms,
   fetchLocationSales,
+  fetchOffplanVsReady,
   fetchResidentialVsCommercialType,
   fetchSales,
 } from "@/repository/resources/fuctions.api";
@@ -70,3 +71,25 @@ export const getResidentialVsCommercialType = () => {
     staleTime: 1000 * 60 * 5,
   });
 };
+
+export const getOffplanVsReady = () => {
+  return queryOptions({
+    queryKey: ["offplan-vs-ready"],
+    queryFn: () => {
+      return fetchOffplanVsReady();
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+
+export const getFreeholdVsLease = () => {
+  return queryOptions({
+    queryKey: ["freehold-vs-lease"],
+    queryFn: () => {
+      return fetchOffplanVsReady();
+    },
+    staleTime: 1000 * 60 * 5, 
+
+  })
+}

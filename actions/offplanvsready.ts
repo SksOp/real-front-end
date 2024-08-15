@@ -14,9 +14,9 @@ export class OfVsRe {
                 const monthData = yearData[month];
                 for (const tenure in monthData) {
                     const count = monthData[tenure] ?? 0;
-                    if (tenure === 'Ofplan') {
+                    if (tenure) {
                         result.Ofplan += count;
-                    } else if (tenure === 'Ready') {
+                    } else if (!tenure) {
                         result.Ready += count;
                     }
                 }
@@ -39,9 +39,9 @@ export class OfVsRe {
                 const monthData = yearData[month];
                 for (const tenure in monthData) {
                     const count = monthData[tenure] ?? 0;
-                    if (tenure === 'Ofplan') {
+                    if (tenure) {
                         acc[quarter].Ofplan += count;
-                    } else if (tenure === 'Ready') {
+                    } else if (!tenure) {
                         acc[quarter].Ready += count;
                     }
                 }
@@ -71,9 +71,9 @@ export class OfVsRe {
                 const monthData = yearData[month];
                 for (const tenure in monthData) {
                     const count = monthData[tenure] ?? 0;
-                    if (tenure === 'OffplanvsReady') {
+                    if (tenure) {
                         acc[monthKey].Ofplan += count;
-                    } else if (tenure === 'Ready') {
+                    } else if (!tenure) {
                         acc[monthKey].Ready += count;
                     }
                 }

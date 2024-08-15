@@ -44,41 +44,10 @@ import axios from "axios";
 //     }
 //   }
 
-  export const fetchFreeholdVsLease = async (): Promise<FreeholdVsLeaseType | null> => {
-    const URL = process.env.FREEHOLD_LEASE_URL!;
-    try {
-      const res = await axios.get(URL);
-      const data: { year: string; month: string; tenure: number; property_count: number }[] = res.data;
-
-      // Transforming data
-      const transformedData: FreeholdVsLeaseType = {};
-
-      data.forEach(item => {
-        const { year, month, tenure, property_count } = item;
-        if (!transformedData[year]) {
-          transformedData[year] = {};
-        }
-        if (!transformedData[year][month]) {
-          transformedData[year][month] = {};
-        }
-        if (!transformedData[year][month][tenure]) {
-          transformedData[year][month][tenure] = 0
-        }
-        transformedData[year][month][tenure] += property_count;
-      });
-
-      console.log("transformedData: ",transformedData);
-
-      return transformedData;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
+  
 
 
-
-  // export interface OffplanvsReadyType {
+ // export interface OffplanvsReadyType {
   //   [year: string]: {
   //     [month : string]: { 
   //       [status: number]: number;

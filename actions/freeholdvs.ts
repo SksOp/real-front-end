@@ -14,9 +14,9 @@ export class FrVsRe {
                 const monthData = yearData[month];
                 for (const tenure in monthData) {
                     const count = monthData[tenure] ?? 0;
-                    if (tenure === 'Freehold') {
+                    if (tenure) {
                         result.Freehold += count;
-                    } else if (tenure === 'Lease') {
+                    } else if (!tenure) {
                         result.Lease += count;
                     }
                 }
@@ -39,9 +39,9 @@ export class FrVsRe {
                 const monthData = yearData[month];
                 for (const tenure in monthData) {
                     const count = monthData[tenure] ?? 0;
-                    if (tenure === 'Freehold') {
+                    if (tenure) {
                         acc[quarter].Freehold += count;
-                    } else if (tenure === 'Lease') {
+                    } else if (!tenure) {
                         acc[quarter].Lease += count;
                     }
                 }
@@ -71,9 +71,9 @@ export class FrVsRe {
                 const monthData = yearData[month];
                 for (const tenure in monthData) {
                     const count = monthData[tenure] ?? 0;
-                    if (tenure === 'Freehold') {
+                    if (!tenure) {
                         acc[monthKey].Freehold += count;
-                    } else if (tenure === 'Lease') {
+                    } else if (!tenure) {
                         acc[monthKey].Lease += count;
                     }
                 }
