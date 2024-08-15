@@ -39,24 +39,24 @@ type ChartDataType = {
   }[];
 };
 
-function transformData(data: TransactionVsSalesType): ChartDataType {
-  const accumulatedData: ChartDataType = {};
+// function transformData(data: fetchSalesIndexBenchmarkType): ChartDataType {
+//   const accumulatedData: ChartDataType = {};
 
-  for (const year in data) {
-    if (!accumulatedData[year]) {
-      accumulatedData[year] = [];
-    }
-    for (const month in data[year]) {
-      accumulatedData[year].push({
-        month,
-        sales: data[year][month].sales,
-        Transactions: data[year][month].Transactions,
-      });
-    }
-  }
+//   for (const year in data) {
+//     if (!accumulatedData[year]) {
+//       accumulatedData[year] = [];
+//     }
+//     for (const month in data[year]) {
+//       accumulatedData[year].push({
+//         month,
+//         sales: data[year][month].sales,
+//         Transactions: data[year][month].Transactions,
+//       });
+//     }
+//   }
 
-  return accumulatedData;
-}
+//   return accumulatedData;
+// }
 
 export function SalesIndexBenchmarking({ data }: { data: fetchSalesIndexBenchmarkType }) {
   const [selectedYear, setSelectedYear] = useState<string>("2024");
@@ -67,19 +67,24 @@ export function SalesIndexBenchmarking({ data }: { data: fetchSalesIndexBenchmar
 
   // console.log("data:", data)
 
-  const chartData = transformData(data);
-  const years = Object.keys(chartData);
+  // const chartData = transformData(data);
+  // const years = Object.keys(chartData);
 
   // Extract sales data for the selected year and convert to millions
-  const salesData = chartData[selectedYear]?.map((item) => (item.sales / 1000000)) || [];
+  // const salesData = chartData[selectedYear]?.map((item) => (item.sales / 1000000)) || [];
 
   // console.log(salessalesData)
 
 
 
   // Calculate 25th and 75th percentiles
-  const percentile25 = calculatePercentile(salesData, 0.25);
-  const percentile75 = calculatePercentile(salesData, 0.75);
+  // const percentile25 = calculatePercentile(salesData, 0.25);
+  // const percentile75 = calculatePercentile(salesData, 0.75);
+
+  const years = [2020, 2021, 2022, 2023, 2024]; //fake data for now
+
+  const percentile25 = 500000
+  const percentile75 = 1000000
 
   return (
     <Card>
