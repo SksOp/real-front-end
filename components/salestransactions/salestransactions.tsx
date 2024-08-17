@@ -31,6 +31,7 @@ export function GrowthChart({ data }: { data: SalesTransactionsType | null }) {
   // Add a check to handle the case where data is undefined or null
   if (!data) {
     return <p>No data available</p>;
+    return <p>No data available</p>;
   }
 
   //sort in reverse order that means the largest comes first

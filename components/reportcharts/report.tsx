@@ -1,12 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { ReportCard } from "../ui/reportCard";
-import {
-  fetchAverageValues,
-  fetchBedrooms,
-  fetchLocationSales,
-  fetchResidentialVsCommercialType,
-} from "@/actions/functions";
 import { getTransactionData } from "@/transcation/charts";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
 import { GrowthChart } from "../salestransactions/salestransactions";
@@ -18,96 +12,126 @@ import {
   TransactionAverageValues,
 } from "@/transcation/types";
 import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
-import { TransactionVsSales } from "../ transactions-Sales-comparision/ transactions-Sales-comparision";
+import {
+  getAverageValues,
+  getBedrooms,
+  getLocationSales,
+  getResidentialVsCommercialType,
+} from "@/repository/tanstack/queries/functions.queries";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { LocationSales } from "../location-sales/location-sales";
 import { LocationTransaction } from "../location-transaction/location-transaction";
 import { Bedrooms } from "../bedrooms/bedrooms";
-import {ResidentialVsCommercial} from "../ResidentialVsCommercial/ResidentialVsCommercial";
+import { ResidentialVsCommercial } from "../ResidentialVsCommercial/ResidentialVsCommercial";
 import { FreeholdvsLease } from "../FreeholdvsLease/FreeholdvsLease";
 import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
 import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
 import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
 
 export const Report = () => {
-  const [averageValue, setAverageValue] = React.useState("");
-  const [totalValue, setTotalValue] = React.useState("");
-  const [yoyGrowth, setYoYGrowth] = React.useState("");
-  const [totalTransactions, setTotalTransactions] = React.useState("");
+  const {
+    data: avgValue,
+    isLoading: isLoading1,
+    isError: isError1,
+  } = useSuspenseQuery(getAverageValues());
+  const {
+    data: locationSales,
+    isLoading: isLoading2,
+    isError: isError2,
+  } = useSuspenseQuery(getLocationSales());
+  const {
+    data: bedrooms,
+    isLoading: isLoading3,
+    isError: isError3,
+  } = useSuspenseQuery(getBedrooms());
+  const {
+    data: residentialVsCommercialData,
+    isLoading: isLoading4,
+    isError: isError4,
+  } = useSuspenseQuery(getResidentialVsCommercialType());
 
-  const [growthAverageValue, setGrowthAverageValue] = React.useState("");
-  const [growthTotalValue, setGrowthTotalValue] = React.useState("");
-  const [growthYoyValue, setGrowthYoyValue] = React.useState("");
-  const [growthTotalTransactions, setGrowthTotalTransactions] =
-    React.useState("");
-  const [salesTransactions, setSalesTransactions] =
-<<<<<<< Updated upstream
-   
-    React.useState<SalesTransactionsType | null>(null);;
-=======
-    React.useState<SalesTransactionsType | null>(null);
->>>>>>> Stashed changes
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
+    return <div>Loading...</div>;
+  }
+  if (isError1 || isError2 || isError3 || isError4) {
+    return <div>Error</div>;
+  }
 
-  const [data, setData] = React.useState<TransactionAverageValues|null>(null);
-  const [locationSales, setLocationSales] =
-    React.useState<LocationSalesTransaction | null>(null);
-  const [locationTransction, setLocationTransction] =
-    React.useState<LocationSalesTransaction | null>(null);
+  const transactionData = getTransactionData(avgValue!);
 
-  const [bedrooms, setBedrooms] = React.useState<BedroomType | null>(null);
+  // const [datat, setData] = React.useState<TransactionAverageValues | null>(
+  //   null
+  // );
+  // const [locationSales, setLocationSales] =
+  //   React.useState<LocationSalesTransaction | null>(null);
+  // const [locationTransction, setLocationTransction] =
+  //   React.useState<LocationSalesTransaction | null>(null);
 
-  const [residentialVsCommercialData, setResidentialVsCommercialData] = React.useState<ResidentialVsCommercialType | null>(null);
-  useEffect(() => {
-    fetchAverageValues().then((data) => {
-      const {
-        averageValue,
-        totalValue,
-        yoyGrowth,
-        totalTransactions,
-        growthAverageValue,
-        growthTotalValue,
-        growthYoyValue,
-        growthTotalTransactions,
-        SalesTransactions,
-      } = getTransactionData(data!);
-      if (data) {
-        setAverageValue(averageValue);
-        setTotalValue(totalValue);
-        setYoYGrowth(yoyGrowth);
-        setTotalTransactions(totalTransactions);
+  // const [bedrooms, setBedrooms] = React.useState<BedroomType | null>(null);
 
-        setGrowthAverageValue(growthAverageValue);
-        setGrowthTotalValue(growthTotalValue);
-        setGrowthYoyValue(growthYoyValue);
-        setGrowthTotalTransactions(growthTotalTransactions);
-<<<<<<< Updated upstream
-        setSalesTransactions(SalesTransactions);;
-=======
-        setSalesTransactions(SalesTransactions);
->>>>>>> Stashed changes
-        setData(data);
-      }
-    });
+  // const [residentialVsCommercialData, setResidentialVsCommercialData] =
+  //   React.useState<ResidentialVsCommercialType | null>(null);
+  // useEffect(() => {
+  //   fetchLocationSales().then((data) => {
+  //     setLocationSales(data);
+  //     setLocationTransction(data);
+  //   });
 
-    fetchLocationSales().then((data) => {
-      setLocationSales(data);
-      setLocationTransction(data);
-    });
+  //   fetchBedrooms().then((data) => {
+  //     if (data) {
+  //       setBedrooms(data);
+  //     }
+  //   });
 
-    fetchBedrooms().then((data) => {
-      if (data) {
-        setBedrooms(data);
-      }
-      
-    });
-<<<<<<< Updated upstream
-  });
-=======
+  //   fetchResidentialVsCommercialType().then((data) => {
+  //     setResidentialVsCommercialData(data);
+  //   });
+  // }, []);
 
-    fetchResidentialVsCommercialType().then((data) => {
-      setResidentialVsCommercialData(data);
-    });
-  },[]);
->>>>>>> Stashed changes
+  // const [averageValue, setAverageValue] = React.useState("");
+  // const [totalValue, setTotalValue] = React.useState("");
+  // const [yoyGrowth, setYoYGrowth] = React.useState("");
+  // const [totalTransactions, setTotalTransactions] = React.useState("");
+
+  // const [growthAverageValue, setGrowthAverageValue] = React.useState("");
+  // const [growthTotalValue, setGrowthTotalValue] = React.useState("");
+  // const [growthYoyValue, setGrowthYoyValue] = React.useState("");
+  // const [growthTotalTransactions, setGrowthTotalTransactions] =
+  //   React.useState("");
+  // const [salesTransactions, setSalesTransactions] =
+  //   React.useState<SalesTransactionsType | null>();
+  // useEffect(() => {
+  //   console.log("fetching data");
+  //   fetchAverageValues().then((data) => {
+  //     const {
+  //       averageValue,
+  //       totalValue,
+  //       yoyGrowth,
+  //       totalTransactions,
+  //       growthAverageValue,
+  //       growthTotalValue,
+  //       growthYoyValue,
+  //       growthTotalTransactions,
+  //       SalesTransactions,
+  //     } = getTransactionData(data!);
+  //     if (data) {
+  //       setAverageValue(averageValue);
+  //       setTotalValue(totalValue);
+  //       setYoYGrowth(yoyGrowth);
+  //       setTotalTransactions(totalTransactions);
+
+  //       setGrowthAverageValue(growthAverageValue);
+  //       setGrowthTotalValue(growthTotalValue);
+  //       setGrowthYoyValue(growthYoyValue);
+  //       setGrowthTotalTransactions(growthTotalTransactions);
+  //       setSalesTransactions(SalesTransactions);
+  //     }
+  //   });
+  // }, []);
+  //         setGrowthAverageValue(growthAverageValue);
+  //         setGrowthTotalValue(growthTotalValue);
+  //         setGrowthYoyValue(growthYoyValue);
+  //         setGrowthTotalTransactions(growthTotalTransactions);
 
   return (
     <>
@@ -216,17 +240,17 @@ export const Report = () => {
           }
         />
       </div>
-      <SalesMarketTrend data={salesTransactions!} />
-      <GrowthChart data={salesTransactions!} />
+      <SalesMarketTrend data={transactionData.SalesTransactions!} />
+      <GrowthChart data={transactionData.SalesTransactions!} />
       {/* <TransactionVsSales data={data!} /> */}
-      <SalesIndexBenchmarking data={data!} />
-      <LocationTransaction data={locationTransction!} />
+      <SalesIndexBenchmarking data={avgValue!} />
+      <LocationTransaction data={locationSales!} />
       <LocationSales data={locationSales!} />
       <Bedrooms data={bedrooms!} />
       <ResidentialVsCommercial data={residentialVsCommercialData!} />
-      <FreeholdvsLease/>
-      <OffplanvsReady/>
-      <FlatvsVillavsLand/>
+      <FreeholdvsLease />
+      <OffplanvsReady />
+      <FlatvsVillavsLand />
     </>
   );
 };

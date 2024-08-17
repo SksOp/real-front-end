@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -8,13 +8,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { ChartContainer } from "@/components/ui/chart"
-import { ResidentialVsCommercialType } from "@/transcation/types"
-import { useState } from "react"
+} from "@/components/ui/card";
+import { ChartContainer } from "@/components/ui/chart";
+import { ResidentialVsCommercialType } from "@/transcation/types";
+import { useState } from "react";
 
-export function ResidentialVsCommercial({data}:{data:ResidentialVsCommercialType}) {
-
+export function ResidentialVsCommercial({
+  data,
+}: {
+  data: ResidentialVsCommercialType;
+}) {
   const [selectedYear, setSelectedYear] = useState<number>(2024);
   if (!data) {
     return <p>No data available</p>;
@@ -46,7 +49,7 @@ export function ResidentialVsCommercial({data}:{data:ResidentialVsCommercialType
       <CardContent className="grid gap-4">
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            {data[selectedYear]["Residential"]}
+            {data[selectedYear]?.Residential}
             <span className="text-sm font-normal text-muted-foreground">
               Residential
             </span>
@@ -72,16 +75,11 @@ export function ResidentialVsCommercial({data}:{data:ResidentialVsCommercialType
               data={[
                 {
                   date: selectedYear,
-                  residential: data[selectedYear]["Residential"],
+                  residential: data[selectedYear]?.Residential,
                 },
               ]}
             >
-              <Bar
-                dataKey="residential"
-                fill="#60a5fa"
-                radius={4}
-                barSize={32}
-              >
+              <Bar dataKey="residential" fill="#60a5fa" radius={4} barSize={32}>
                 <LabelList
                   position="insideLeft"
                   dataKey="date"
@@ -97,7 +95,7 @@ export function ResidentialVsCommercial({data}:{data:ResidentialVsCommercialType
         </div>
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            {data[selectedYear]["Commercial"]}
+            {data[selectedYear]?.Commercial}
             <span className="text-sm font-normal text-muted-foreground">
               Commercial
             </span>
@@ -123,7 +121,7 @@ export function ResidentialVsCommercial({data}:{data:ResidentialVsCommercialType
               data={[
                 {
                   date: selectedYear,
-                  commercial: data[selectedYear]["Commercial"],
+                  commercial: data[selectedYear]?.Commercial,
                 },
               ]}
             >
@@ -148,5 +146,5 @@ export function ResidentialVsCommercial({data}:{data:ResidentialVsCommercialType
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
