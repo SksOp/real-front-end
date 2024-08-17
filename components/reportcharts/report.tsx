@@ -18,6 +18,8 @@ import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
 import {
   getAverageValues,
   getBedrooms,
+  getFreeholdVsLease,
+  getIQR,
   getLocationSales,
   getOffplanVsReady,
   getResidentialVsCommercialType,
@@ -29,6 +31,8 @@ import { Bedrooms } from "../bedrooms/bedrooms";
 import { ResidentialVsCommercial } from "../ResidentialVsCommercial/ResidentialVsCommercial";
 import { FreeholdvsLease } from "../FreeholdvsLease/FreeholdvsLease";
 import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
+import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
+import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
 
 export const Report = () => {
 
@@ -61,15 +65,21 @@ export const Report = () => {
     data: freeholdbslease,
     isLoading: isLoading6,
     isError: isError6,
-  } = useSuspenseQuery(getOffplanVsReady());
+  } = useSuspenseQuery(getFreeholdVsLease());
+  const{
+    data: IQR,
+    isLoading: isLoading7,
+    isError: isError7,
+  } = useSuspenseQuery(getIQR());
 
-  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 ||isLoading5 || isLoading6) {
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 ||isLoading5 || isLoading6 || isLoading7) {
     return <div>Loading...</div>;
   }
-  if (isError1 || isError2 || isError3 || isError4 || isError5 || isError6) {
+  if (isError1 || isError2 || isError3 || isError4 || isError5 || isError6 || isError7) {
     return <div>Error</div>;
   }
-
+ 
+  console.log(IQR)
  
 
   const transactionData = getTransactionData(avgValue!);
@@ -183,14 +193,14 @@ export const Report = () => {
       </div>
       <SalesMarketTrend data={transactionData.SalesTransactions!} />
       <GrowthChart data={transactionData.SalesTransactions!} />
-      {/* <SalesIndexBenchmarking data={salesIndexBenchmark!} /> */}
+      <SalesIndexBenchmarking data={IQR!} />
       <LocationTransaction data={locationSales!} />
       <LocationSales data={locationSales!} />
       <Bedrooms data={bedrooms!} />
       <ResidentialVsCommercial data={residentialVsCommercialData!} />
       <FreeholdvsLease data={freeholdbslease!} />
       <OffplanvsReady data={offplanvsready!}/>
-      {/* <FlatvsVillavsLand /> */}
+      <FlatvsVillavsLand />
     </>
   );
 };

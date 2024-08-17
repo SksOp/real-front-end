@@ -3,6 +3,8 @@ import {
   fetchAverageTransactions,
   fetchAverageValues,
   fetchBedrooms,
+  fetchFreeholdVsLease,
+  fetchIQR,
   fetchLocationSales,
   fetchOffplanVsReady,
   fetchResidentialVsCommercialType,
@@ -87,9 +89,19 @@ export const getFreeholdVsLease = () => {
   return queryOptions({
     queryKey: ["freehold-vs-lease"],
     queryFn: () => {
-      return fetchOffplanVsReady();
+      return fetchFreeholdVsLease();
     },
     staleTime: 1000 * 60 * 5, 
 
   })
 }
+
+export const getIQR = () => {
+  return queryOptions({
+    queryKey: ["iqr"],
+    queryFn: () => {
+      return fetchIQR();
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};

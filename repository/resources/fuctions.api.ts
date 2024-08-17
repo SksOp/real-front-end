@@ -1,6 +1,7 @@
 import {
   BedroomType,
   FreeholdVsLeaseType,
+  IQRType,
   LocationSalesTransaction,
   OffplanvsReadyType,
   ResidentialVsCommercialType,
@@ -155,9 +156,9 @@ export const fetchResidentialVsCommercialType =
           transformedData[year][month] = {};
         }
         if (!transformedData[year][month][status]) {
-          transformedData[year][month][status] = 0
+          transformedData[year][month][status] = 0;
+        }   
         transformedData[year][month][status] += property_count;
-        }
       });
 
       return transformedData;
@@ -200,6 +201,18 @@ export const fetchResidentialVsCommercialType =
       return null;
     }
   };
+
+  export const fetchIQR = async (): Promise<IQRType[] | null> => {
+    try {
+      const res = await axios.get(process.env.NEXT_PUBLIC_IQR_URL!);
+      const data: { Percentile_25: number; Percentile_75: number }[] = res.data;
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 
 
 

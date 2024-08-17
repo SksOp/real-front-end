@@ -3,6 +3,7 @@ import {  OffplanvsReadyType } from "@/transcation/types";
 
 export class OfVsRe {
     getYearlyData({ data }: { data: OffplanvsReadyType }): OfReChartDataTypeYearly {
+        if(!data) return { Ofplan: 0, Ready: 0 };
         const result = {
             Ofplan: 0,
             Ready: 0
@@ -12,11 +13,11 @@ export class OfVsRe {
             const yearData = data[year];
             for (const month in yearData) {
                 const monthData = yearData[month];
-                for (const tenure in monthData) {
-                    const count = monthData[tenure] ?? 0;
-                    if (tenure) {
+                for (const status in monthData) {
+                    const count = monthData[status] ?? 0;
+                    if (status === "1") {
                         result.Ofplan += count;
-                    } else if (!tenure) {
+                    } else if (status === "0") {
                         result.Ready += count;
                     }
                 }
@@ -26,6 +27,7 @@ export class OfVsRe {
     }
 
     getQuarterlyData({ data }: { data: OffplanvsReadyType }): OfReChartDataTypeQuaterly {
+        if(!data) return { Ofplan: 0, Ready: 0 };
         const result = {
             Ofplan: 0,
             Ready: 0
@@ -35,13 +37,13 @@ export class OfVsRe {
             for (const month in yearData) {
                 const monthInt = parseInt(month);
                 const quarter = `${year}-Q${Math.ceil(monthInt / 3)}`;
-                acc[quarter] = acc[quarter] || { OffplanvsReady: 0, Ready: 0 };
+                acc[quarter] = acc[quarter] || { Ofplan: 0, Ready: 0 };
                 const monthData = yearData[month];
-                for (const tenure in monthData) {
-                    const count = monthData[tenure] ?? 0;
-                    if (tenure) {
+                for (const status in monthData) {
+                    const count = monthData[status] ?? 0;
+                    if (status === "1") {
                         acc[quarter].Ofplan += count;
-                    } else if (!tenure) {
+                    } else if (status === "0") {
                         acc[quarter].Ready += count;
                     }
                 }
@@ -59,6 +61,7 @@ export class OfVsRe {
     }
 
     getMonthlyData({ data }: { data: OffplanvsReadyType }): OfReChartDataTypeMonthly {
+        if(!data) return { Ofplan: 0, Ready: 0 };
         const result = {
             Ofplan: 0,
             Ready: 0
@@ -69,11 +72,11 @@ export class OfVsRe {
                 const monthKey = `${year}-${month}`;
                 acc[monthKey] = { Ofplan: 0, Ready: 0 };
                 const monthData = yearData[month];
-                for (const tenure in monthData) {
-                    const count = monthData[tenure] ?? 0;
-                    if (tenure) {
+                for (const status in monthData) {
+                    const count = monthData[status] ?? 0;
+                    if (status === "1") {
                         acc[monthKey].Ofplan += count;
-                    } else if (!tenure) {
+                    } else if (status === "0") {
                         acc[monthKey].Ready += count;
                     }
                 }

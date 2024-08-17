@@ -85,7 +85,7 @@ export interface FreeholdVsLeaseType {
 export interface OffplanvsReadyType {
   [year: string]: {
     [month : string]: { 
-      [status: number]: number;
+      [status: string]: number;
     }
   };
 }
@@ -94,4 +94,9 @@ export interface fetchSalesIndexBenchmarkType {
   years: string;
   quarters : string;
   months :string
+}
+
+export interface IQRType{
+  Percentile_25: number;
+   Percentile_75: number
 }

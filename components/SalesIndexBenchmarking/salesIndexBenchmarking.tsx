@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { fetchSalesIndexBenchmarkType, TransactionVsSalesType } from "@/transcation/types";
+import { fetchSalesIndexBenchmarkType, IQRType, TransactionVsSalesType } from "@/transcation/types";
 
 import {
   Card,
@@ -58,50 +58,25 @@ type ChartDataType = {
 //   return accumulatedData;
 // }
 
-export function SalesIndexBenchmarking({ data }: { data: fetchSalesIndexBenchmarkType }) {
+export function SalesIndexBenchmarking({ data }: { data: IQRType[] }) {
   const [selectedYear, setSelectedYear] = useState<string>("2024");
 
   if (!data) {
     return <p>No data available</p>;
   }
 
-  // console.log("data:", data)
+  const percentile25 = data[0].Percentile_25
+  const percentile75 = data[0].Percentile_75
 
-  // const chartData = transformData(data);
-  // const years = Object.keys(chartData);
-
-  // Extract sales data for the selected year and convert to millions
-  // const salesData = chartData[selectedYear]?.map((item) => (item.sales / 1000000)) || [];
-
-  // console.log(salessalesData)
-
-
-
-  // Calculate 25th and 75th percentiles
-  // const percentile25 = calculatePercentile(salesData, 0.25);
-  // const percentile75 = calculatePercentile(salesData, 0.75);
-
-  const years = [2020, 2021, 2022, 2023, 2024]; //fake data for now
-
-  const percentile25 = 500000
-  const percentile75 = 1000000
+  console.log("percentile25: ",percentile25, "percentile75", percentile75)
+ 
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           {"Sales Index Benchmarking"}
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="ml-2 p-0.5 rounded text-sm"
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
+         
         </CardTitle>
         <CardDescription className="flex justify-between items-center">
           {"Aggregated Monthly Data"}
@@ -116,10 +91,10 @@ export function SalesIndexBenchmarking({ data }: { data: fetchSalesIndexBenchmar
           </div>
           <div className="flex justify-between text-gray-600 mt-2 text-sm">
             <div className="w-full flex justify-center">
-              <span>${percentile25.toFixed(2)}M</span>
+              <span>${percentile25}</span>
             </div>
             <div className="w-full flex justify-center">
-              <span>${percentile75.toFixed(2)}M</span>
+              <span>${percentile75}</span>
             </div>
           </div>
         </div>
