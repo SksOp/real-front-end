@@ -46,7 +46,7 @@ function PriceCard({
           </span>
         </div>
         <div className="flex items-center justify-start gap-1">
-          <h3 className="text-lg font-medium text-muted whitespace-nowrap tracking-tight">
+          <h3 className="text-lg font-medium text-muted-foreground whitespace-nowrap tracking-tight">
             {ratePerSqFt} per sqft.
           </h3>
 
@@ -56,7 +56,7 @@ function PriceCard({
           </span>
         </div>
         <SelectSeparator className="bg-muted-foreground my-2" />
-        <CardDescription className="text-base text-muted">
+        <CardDescription className="text-base text-muted-foreground">
           No. of transactions
         </CardDescription>
         <div className="flex items-center justify-start gap-1">
