@@ -1,0 +1,5 @@
+.chart-scrollable-container {
+    min-width: 100%; /* Adjust this value based on your design requirements */
+    overflow-x: auto; /* Enables horizontal scrolling */
+  }
+  
