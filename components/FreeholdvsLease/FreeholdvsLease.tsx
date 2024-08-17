@@ -10,12 +10,74 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartContainer } from "@/components/ui/chart"
+import { FreeholdVsLeaseType } from "@/transcation/types"
+import React from "react"
+import { FrVsRe } from "@/actions/freeholdvs"
 
-export function FreeholdvsLease() {
+export interface FrvReChartDataTypeYearly {
+  Freehold: number;
+  Lease: number;
+}
+
+export interface FrvReChartDataTypeQuaterly {
+  Freehold: number;
+  Lease: number;
+}
+export interface FrvReChartDataTypeMonthly {
+  Freehold: number;
+  Lease: number;
+}
+
+export function FreeholdvsLease({data}:{data: FreeholdVsLeaseType}) {
+
+  const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
+  const frvsre = new FrVsRe;
+  const [chartData, setChartData] = React.useState<
+    | FrvReChartDataTypeYearly
+    | FrvReChartDataTypeQuaterly
+    | FrvReChartDataTypeMonthly
+  >(frvsre.getYearlyData({ data }));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
+
+  console.log("data", data);
+  console.log("chart data", chartData);
+
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = frvsre.getYearlyData({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = frvsre.getQuarterlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = frvsre.getMonthlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }
+  }
+
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Progress</CardTitle>
+        <CardTitle>
+          Freehold vs Lease
+          <select
+            value={selectedOption}
+            onChange={handelOption}
+            className="ml-2 p-0.5 rounded text-sm"
+          >
+            {Option.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+          </CardTitle>
         <CardDescription>
           {"You're average more steps a day this year than last year."}
         </CardDescription>
@@ -23,15 +85,15 @@ export function FreeholdvsLease() {
       <CardContent className="grid gap-4">
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            12,453
+          {chartData?.Freehold}
             <span className="text-sm font-normal text-muted-foreground">
-              steps/day
+              Freehold
             </span>
           </div>
           <ChartContainer
             config={{
               steps: {
-                label: "Steps",
+                label: "Freehold",
                 color: "hsl(var(--chart-1))",
               },
             }}
@@ -48,13 +110,13 @@ export function FreeholdvsLease() {
               }}
               data={[
                 {
-                  date: "2024",
-                  steps: 12435,
+                  date: selectedOption,
+                  steps: chartData?.Freehold,
                 },
               ]}
             >
               <Bar
-                dataKey="steps"
+                dataKey="freehold"
                 fill="var(--color-steps)"
                 radius={4}
                 barSize={32}
@@ -68,21 +130,21 @@ export function FreeholdvsLease() {
                 />
               </Bar>
               <YAxis dataKey="date" type="category" tickCount={1} hide />
-              <XAxis dataKey="steps" type="number" hide />
+              <XAxis dataKey="freehold" type="number" hide />
             </BarChart>
           </ChartContainer>
         </div>
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            10,103
+          {chartData?.Lease}
             <span className="text-sm font-normal text-muted-foreground">
-              steps/day
+              Ready
             </span>
           </div>
           <ChartContainer
             config={{
               steps: {
-                label: "Steps",
+                label: "Ready",
                 color: "hsl(var(--muted))",
               },
             }}
@@ -99,13 +161,13 @@ export function FreeholdvsLease() {
               }}
               data={[
                 {
-                  date: "2023",
-                  steps: 10103,
+                  date: selectedOption,
+                  steps: chartData?.Lease,
                 },
               ]}
             >
               <Bar
-                dataKey="steps"
+                dataKey="commercial"
                 fill="var(--color-steps)"
                 radius={4}
                 barSize={32}
@@ -119,7 +181,7 @@ export function FreeholdvsLease() {
                 />
               </Bar>
               <YAxis dataKey="date" type="category" tickCount={1} hide />
-              <XAxis dataKey="steps" type="number" hide />
+              <XAxis dataKey="lease" type="number" hide />
             </BarChart>
           </ChartContainer>
         </div>

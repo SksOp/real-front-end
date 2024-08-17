@@ -22,18 +22,18 @@ export interface TransactionAverageValues {
 }
 
 export interface SalesTransactionsType {
-  [year : string]: {
-    [month : string]:{Transactions : string | number}
-  }
+  [year: string]: {
+    [month: string]: { Transactions: string | number };
+  };
 }
 
-export interface TransactionVsSalesType{
-  [year: string]:{
+export interface TransactionVsSalesType {
+  [year: string]: {
     [month: string]: {
       sales: number;
       Transactions: number;
-    }
-  }
+    };
+  };
 }
 
 export interface salesMonthlyAverage {
@@ -44,16 +44,54 @@ export interface MonthlyAveragePropertyArea {
 }
 
 export interface LocationSalesTransaction {
-  [year: string]: { [location: string]: {sales: number, Transactions: number}};
-}
-
-export type BedroomType = {
-  bedrooms: string; property_count: number
-}[]
-
-export interface ResidentialVsCommercialType {
-  [year: number]: {
-    [usage: string]: number;
+  [year: string]: {
+    [month: string]: {
+      [location: string]: {
+        sales: number;
+        Transactions: number;
+      };
+    };
   };
 }
 
+export interface BedroomType {
+  [year: string]: {
+    [month: string]: {
+      [bedrooms: string]: {
+        property_count: number;
+      };
+    };
+  };
+}
+
+export interface ResidentialVsCommercialType {
+  [year: string]: {
+    [month : string]: { 
+      [usage: string]:{
+        property_count: number;
+      };
+    }
+  };
+}
+
+export interface FreeholdVsLeaseType {
+  [year: string]: {
+    [month : string]: { 
+      [tenure: string]: number;
+    }
+  };
+}
+
+export interface OffplanvsReadyType {
+  [year: string]: {
+    [month : string]: { 
+      [status: number]: number;
+    }
+  };
+}
+
+export interface fetchSalesIndexBenchmarkType {
+  years: string;
+  quarters : string;
+  months :string
+}

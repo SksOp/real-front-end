@@ -1,12 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ReportCard } from "../ui/reportCard";
-import { getTransactionData } from "@/transcation/charts";
+import { getTransactionData } from "@/transcation/dataConverter";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
 import { GrowthChart } from "../salestransactions/salestransactions";
 import {
   BedroomType,
+  fetchSalesIndexBenchmarkType,
+  FreeholdVsLeaseType,
   LocationSalesTransaction,
+  OffplanvsReadyType,
   ResidentialVsCommercialType,
   SalesTransactionsType,
   TransactionAverageValues,
@@ -27,8 +30,36 @@ import { FreeholdvsLease } from "../FreeholdvsLease/FreeholdvsLease";
 import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
 import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
 import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
+import {
+  fetchFreeholdVsLease,
+  fetchOffplanVsLease,
+  fetchSalesIndexBenchmark,
+} from "@/actions/functions";
 
 export const Report = () => {
+  const [freeholdvsLease, setFreeholdvsLease] = useState<FreeholdVsLeaseType>(
+    {}
+  );
+  const [offplanvsready, setOffplanvsready] = useState<OffplanvsReadyType>({});
+
+  const [salesIndexBenchmark, setSalesIndexBenchmark] =
+    useState<fetchSalesIndexBenchmarkType>({});
+
+  useEffect(() => {
+    fetchFreeholdVsLease().then((res) => {
+      console.log("freeholdvsLease", res);
+      if (res) setFreeholdvsLease(res);
+    });
+
+    fetchOffplanVsLease().then((res) => {
+      if (res) setOffplanvsready(res!);
+    });
+
+    fetchSalesIndexBenchmark().then((res) => {
+      if (res) setSalesIndexBenchmark(res);
+    });
+  });
+
   const {
     data: avgValue,
     isLoading: isLoading1,
@@ -58,80 +89,6 @@ export const Report = () => {
   }
 
   const transactionData = getTransactionData(avgValue!);
-
-  // const [datat, setData] = React.useState<TransactionAverageValues | null>(
-  //   null
-  // );
-  // const [locationSales, setLocationSales] =
-  //   React.useState<LocationSalesTransaction | null>(null);
-  // const [locationTransction, setLocationTransction] =
-  //   React.useState<LocationSalesTransaction | null>(null);
-
-  // const [bedrooms, setBedrooms] = React.useState<BedroomType | null>(null);
-
-  // const [residentialVsCommercialData, setResidentialVsCommercialData] =
-  //   React.useState<ResidentialVsCommercialType | null>(null);
-  // useEffect(() => {
-  //   fetchLocationSales().then((data) => {
-  //     setLocationSales(data);
-  //     setLocationTransction(data);
-  //   });
-
-  //   fetchBedrooms().then((data) => {
-  //     if (data) {
-  //       setBedrooms(data);
-  //     }
-  //   });
-
-  //   fetchResidentialVsCommercialType().then((data) => {
-  //     setResidentialVsCommercialData(data);
-  //   });
-  // }, []);
-
-  // const [averageValue, setAverageValue] = React.useState("");
-  // const [totalValue, setTotalValue] = React.useState("");
-  // const [yoyGrowth, setYoYGrowth] = React.useState("");
-  // const [totalTransactions, setTotalTransactions] = React.useState("");
-
-  // const [growthAverageValue, setGrowthAverageValue] = React.useState("");
-  // const [growthTotalValue, setGrowthTotalValue] = React.useState("");
-  // const [growthYoyValue, setGrowthYoyValue] = React.useState("");
-  // const [growthTotalTransactions, setGrowthTotalTransactions] =
-  //   React.useState("");
-  // const [salesTransactions, setSalesTransactions] =
-  //   React.useState<SalesTransactionsType | null>();
-  // useEffect(() => {
-  //   console.log("fetching data");
-  //   fetchAverageValues().then((data) => {
-  //     const {
-  //       averageValue,
-  //       totalValue,
-  //       yoyGrowth,
-  //       totalTransactions,
-  //       growthAverageValue,
-  //       growthTotalValue,
-  //       growthYoyValue,
-  //       growthTotalTransactions,
-  //       SalesTransactions,
-  //     } = getTransactionData(data!);
-  //     if (data) {
-  //       setAverageValue(averageValue);
-  //       setTotalValue(totalValue);
-  //       setYoYGrowth(yoyGrowth);
-  //       setTotalTransactions(totalTransactions);
-
-  //       setGrowthAverageValue(growthAverageValue);
-  //       setGrowthTotalValue(growthTotalValue);
-  //       setGrowthYoyValue(growthYoyValue);
-  //       setGrowthTotalTransactions(growthTotalTransactions);
-  //       setSalesTransactions(SalesTransactions);
-  //     }
-  //   });
-  // }, []);
-  //         setGrowthAverageValue(growthAverageValue);
-  //         setGrowthTotalValue(growthTotalValue);
-  //         setGrowthYoyValue(growthYoyValue);
-  //         setGrowthTotalTransactions(growthTotalTransactions);
 
   return (
     <>
@@ -242,15 +199,18 @@ export const Report = () => {
       </div>
       <SalesMarketTrend data={transactionData.SalesTransactions!} />
       <GrowthChart data={transactionData.SalesTransactions!} />
-      {/* <TransactionVsSales data={data!} /> */}
-      <SalesIndexBenchmarking data={avgValue!} />
+      {/* <SalesIndexBenchmarking data={salesIndexBenchmark!} /> */}
       <LocationTransaction data={locationSales!} />
       <LocationSales data={locationSales!} />
       <Bedrooms data={bedrooms!} />
       <ResidentialVsCommercial data={residentialVsCommercialData!} />
-      <FreeholdvsLease />
-      <OffplanvsReady />
-      <FlatvsVillavsLand />
+      <FreeholdvsLease data={freeholdvsLease!} />
+      <OffplanvsReady data={offplanvsready} />
+      {/* <FlatvsVillavsLand /> */}
     </>
   );
 };
+
+{
+  /* <TransactionVsSales data={data!} /> */
+}

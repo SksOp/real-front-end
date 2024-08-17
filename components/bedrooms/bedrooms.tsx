@@ -19,6 +19,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { BedroomType } from "@/transcation/types";
+import { Bedroom } from "@/actions/bedroom";
 
 // Example chart configuration, update the colors as needed
 const chartConfig: ChartConfig = {
@@ -44,20 +45,78 @@ type BedRoomProps = {
   fill?: string;
 };
 
+export interface BedroomChartDataTypeYearly {
+  bedrooms: string;
+  property_count: number;
+}
+
+export interface BedroomChartDataTypeQuaterly {
+  bedrooms: string;
+  property_count: number;
+}
+export interface BedroomChartDataTypeMonthly {
+  bedrooms: string;
+  property_count: number;
+}
+
 export function Bedrooms({ data }: { data: BedroomType }) {
+  const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
+  const bedroom = new Bedroom;
+  const [chartData, setChartData] = React.useState<BedroomChartDataTypeYearly[] | BedroomChartDataTypeQuaterly[] | BedroomChartDataTypeMonthly[]>(bedroom.getYearlyBedroomData({data}));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
+  if (!data) {
+    return <>No data available</>;
+  }
+  const years = Object.keys(data);
+
   if (!data) return null;
 
-  const chartData : BedRoomProps[] = data.map((d) => ({ ...d, fill: chartConfig[d.bedrooms]?.color})) 
+  const chartDataUpdated : BedRoomProps[] = chartData.map((d) => ({ ...d, fill: chartConfig[d.bedrooms]?.color})) 
   let totalProperties = 0;
-  data.forEach((val) => {
+  chartData.forEach((val) => {
     totalProperties += val.property_count;
   });
+
+  // console.log("chart data", chartDataUpdated);
+  // console.log("total properties", totalProperties);
+
+
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = bedroom.getYearlyBedroomData({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = bedroom.getQuarterlyBedroomData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = bedroom.getMonthlyBedroomData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }
+  }
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Bedrooms</CardTitle>
-        <CardDescription>2023-2024x`</CardDescription>
+        <CardTitle>
+          Bedrooms
+          <select
+            value={selectedOption}
+            onChange={handelOption}
+            className="ml-2 p-0.5 rounded text-sm"
+          >
+            {Option.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </CardTitle>
+        <CardDescription>2023-2024`</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -70,7 +129,7 @@ export function Bedrooms({ data }: { data: BedroomType }) {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={chartData}
+              data={chartDataUpdated}
               dataKey="property_count"
               nameKey="bedrooms"
               innerRadius={60}

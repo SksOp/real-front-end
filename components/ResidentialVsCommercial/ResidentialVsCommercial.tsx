@@ -11,19 +11,60 @@ import {
 } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";
 import { ResidentialVsCommercialType } from "@/transcation/types";
-import { useState } from "react";
+import React, { useState } from "react";
+import { ResvsCo } from "@/actions/residentialvscommercial";
+
+export interface RandCChartDataTypeYearly {
+  Residential: number;
+  Commercial: number;
+}
+
+export interface RandCChartDataTypeQuaterly {
+  Residential: number;
+  Commercial: number;
+}
+export interface RandCChartDataTypeMonthly {
+  Residential: number;
+  Commercial: number;
+}
 
 export function ResidentialVsCommercial({
   data,
 }: {
   data: ResidentialVsCommercialType;
 }) {
-  const [selectedYear, setSelectedYear] = useState<number>(2024);
+  const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
+  const revsco = new ResvsCo;
+  const [chartData, setChartData] = React.useState<
+    | RandCChartDataTypeYearly
+    | RandCChartDataTypeQuaterly
+    | RandCChartDataTypeMonthly
+  >(revsco.getYearlyData({ data }));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
+
   if (!data) {
     return <p>No data available</p>;
   }
 
   const years = Object.keys(data);
+
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = revsco.getYearlyData({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = revsco.getQuarterlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = revsco.getMonthlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }
+  }
 
   return (
     <Card className="border-none">
@@ -31,13 +72,13 @@ export function ResidentialVsCommercial({
         <CardTitle className="flex justify-between items-center">
           {"Residential Vs Commercial"}
           <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            value={selectedOption}
+            onChange={handelOption}
             className="ml-2 p-0.5 rounded text-sm"
           >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
+            {Option.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
               </option>
             ))}
           </select>
@@ -49,7 +90,7 @@ export function ResidentialVsCommercial({
       <CardContent className="grid gap-4">
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            {data[selectedYear]?.Residential}
+            {chartData?.Residential}
             <span className="text-sm font-normal text-muted-foreground">
               Residential
             </span>
@@ -74,8 +115,8 @@ export function ResidentialVsCommercial({
               }}
               data={[
                 {
-                  date: selectedYear,
-                  residential: data[selectedYear]?.Residential,
+                  date: selectedOption,
+                  residential: chartData?.Residential,
                 },
               ]}
             >
@@ -95,7 +136,7 @@ export function ResidentialVsCommercial({
         </div>
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            {data[selectedYear]?.Commercial}
+            {chartData?.Commercial}
             <span className="text-sm font-normal text-muted-foreground">
               Commercial
             </span>
@@ -120,8 +161,8 @@ export function ResidentialVsCommercial({
               }}
               data={[
                 {
-                  date: selectedYear,
-                  commercial: data[selectedYear]?.Commercial,
+                  date: selectedOption,
+                  commercial: chartData?.Commercial,
                 },
               ]}
             >
@@ -148,3 +189,8 @@ export function ResidentialVsCommercial({
     </Card>
   );
 }
+
+
+
+
+

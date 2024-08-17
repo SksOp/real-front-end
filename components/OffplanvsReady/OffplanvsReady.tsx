@@ -10,12 +10,75 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartContainer } from "@/components/ui/chart"
+import { FreeholdVsLeaseType, OffplanvsReadyType } from "@/transcation/types"
+import React from "react"
+import { FrVsRe } from "@/actions/freeholdvs"
+import { OfVsRe } from "@/actions/offplanvsready"
 
-export function OffplanvsReady() {
+export interface OfReChartDataTypeYearly {
+  Ofplan: number;
+  Ready: number;
+}
+
+export interface OfReChartDataTypeQuaterly {
+  Ofplan: number;
+  Ready: number;
+}
+export interface OfReChartDataTypeMonthly {
+  Ofplan: number;
+  Ready: number;
+}
+
+export function OffplanvsReady({data}:{data: OffplanvsReadyType}) {
+
+  const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
+  const frvsre = new OfVsRe;
+  const [chartData, setChartData] = React.useState<
+    | OfReChartDataTypeYearly
+    | OfReChartDataTypeQuaterly
+    | OfReChartDataTypeMonthly
+  >(frvsre.getYearlyData({ data }));
+  const Option = ["Yearly", "Qaterly", "Monthly"];
+
+  console.log("data", data);
+  console.log("chart data", chartData);
+
+  const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    // const Transaction = new Transactions;
+    if (selectedValue === "Yearly") {
+    const datat = frvsre.getYearlyData({data});
+    setChartData(datat);
+    setSelectedOption(selectedValue); 
+    }else if(selectedValue === "Qaterly"){
+      const datat = frvsre.getQuarterlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }else if(selectedValue === "Monthly"){
+      const datat = frvsre.getMonthlyData({data});
+      setChartData(datat);
+      setSelectedOption(selectedValue);
+    }
+  }
+
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Offplan vs Ready</CardTitle>
+        <CardTitle>
+          OffPlan vs Ready
+          <select
+            value={selectedOption}
+            onChange={handelOption}
+            className="ml-2 p-0.5 rounded text-sm"
+          >
+            {Option.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+          </CardTitle>
         <CardDescription>
           {"You're average more steps a day this year than last year."}
         </CardDescription>
@@ -23,16 +86,16 @@ export function OffplanvsReady() {
       <CardContent className="grid gap-4">
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            12,453
+          {chartData?.Ofplan}
             <span className="text-sm font-normal text-muted-foreground">
-              steps/day
+              Freehold
             </span>
           </div>
           <ChartContainer
             config={{
               steps: {
-                label: "Steps",
-                color: "#A9A1F4",
+                label: "Ofplan",
+                color: "hsl(var(--chart-1))",
               },
             }}
             className="aspect-auto h-[32px] w-full"
@@ -48,14 +111,14 @@ export function OffplanvsReady() {
               }}
               data={[
                 {
-                  date: "2024",
-                  steps: 12435,
+                  date: selectedOption,
+                  steps: chartData?.Ofplan,
                 },
               ]}
             >
               <Bar
-                dataKey="steps"
-                fill="#A9A1F4"
+                dataKey="Ofplan"
+                fill="var(--color-steps)"
                 radius={4}
                 barSize={32}
               >
@@ -68,21 +131,21 @@ export function OffplanvsReady() {
                 />
               </Bar>
               <YAxis dataKey="date" type="category" tickCount={1} hide />
-              <XAxis dataKey="steps" type="number" hide />
+              <XAxis dataKey="Ofplan" type="number" hide />
             </BarChart>
           </ChartContainer>
         </div>
         <div className="grid auto-rows-min gap-2">
           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-            10,103
+          {chartData?.Ready}
             <span className="text-sm font-normal text-muted-foreground">
-              steps/day
+              Ready
             </span>
           </div>
           <ChartContainer
             config={{
               steps: {
-                label: "Steps",
+                label: "Ready",
                 color: "hsl(var(--muted))",
               },
             }}
@@ -99,13 +162,13 @@ export function OffplanvsReady() {
               }}
               data={[
                 {
-                  date: "2023",
-                  steps: 10103,
+                  date: selectedOption,
+                  steps: chartData?.Ready,
                 },
               ]}
             >
               <Bar
-                dataKey="steps"
+                dataKey="Ready"
                 fill="var(--color-steps)"
                 radius={4}
                 barSize={32}
@@ -119,7 +182,7 @@ export function OffplanvsReady() {
                 />
               </Bar>
               <YAxis dataKey="date" type="category" tickCount={1} hide />
-              <XAxis dataKey="steps" type="number" hide />
+              <XAxis dataKey="Ready" type="number" hide />
             </BarChart>
           </ChartContainer>
         </div>

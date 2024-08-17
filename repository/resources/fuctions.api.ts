@@ -72,7 +72,33 @@ export const fetchLocationSales =
 export const fetchBedrooms = async (): Promise<BedroomType | null> => {
   try {
     const res = await axios.get(process.env.NEXT_PUBLIC_DISTINCT_BEDROOM_URL!);
-    return res.data;
+    const data: {
+      year: number;
+      month: string;
+      bedrooms: string;
+      property_count: number;
+    }[] = res.data;
+
+    // Transforming data
+    const transformedData: BedroomType = {};
+
+    data.forEach((item) => {
+      const { year, month, bedrooms, property_count } = item;
+      if (!transformedData[year]) {
+        transformedData[year] = {};
+      }
+      if (!transformedData[year][month]) {
+        transformedData[year][month] = {};
+      }
+      if (!transformedData[year][month][bedrooms]) {
+        transformedData[year][month][bedrooms] = {
+          property_count: 0,
+        };
+      }
+      transformedData[year][month][bedrooms].property_count += property_count;
+    });
+
+    return transformedData;
   } catch (error) {
     console.error(error);
     return null;
@@ -85,21 +111,30 @@ export const fetchResidentialVsCommercialType =
       const res = await axios.get(
         process.env.NEXT_PUBLIC_RESIDENTIAL_COMMERCIAL_URL!
       );
-      const data: { year: number; usage: string; property_count: number }[] =
-        res.data;
+      const data: {
+        year: number;
+        month: string;
+        usage: string;
+        property_count: number;
+      }[] = res.data;
 
       // Transforming data
       const transformedData: ResidentialVsCommercialType = {};
 
       data.forEach((item) => {
-        const { year, usage, property_count } = item;
+        const { year, month, usage, property_count } = item;
         if (!transformedData[year]) {
           transformedData[year] = {};
         }
-        if (!transformedData[year][usage]) {
-          transformedData[year][usage] = 0;
+        if (!transformedData[year][month]) {
+          transformedData[year][month] = {};
         }
-        transformedData[year][usage] += property_count;
+        if (!transformedData[year][month][usage]) {
+          transformedData[year][month][usage] = {
+            property_count: 0,
+          };
+        }
+        transformedData[year][month][usage].property_count += property_count;
       });
 
       return transformedData;
