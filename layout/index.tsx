@@ -3,17 +3,20 @@ import React, { useState } from "react";
 import Navbar from "./nav/navBar";
 import NavBottom from "./nav/navBottom";
 
-function Layout({ children }: { children: React.ReactNode }) {
-  const [selected, setSelected] = useState<string>("home");
-
-  const handleIconClick = (iconName: string) => {
-    setSelected(iconName);
-  };
+function Layout({
+  children,
+  page,
+}: {
+  children: React.ReactNode;
+  page: string;
+}) {
   return (
     <>
       <Navbar />
-      {children}
-      <NavBottom selected={selected} handleIconClick={handleIconClick} />
+      <div className="min-h-screen max-w-screen overflow-y-auto">
+        {children}
+      </div>
+      <NavBottom selected={page} />
     </>
   );
 }

@@ -7,22 +7,22 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --foreground: 0 0% 7%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card-foreground: 208 27% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 249 76% 95%;
-    --primary-foreground: 245 68% 60%;
-    --secondary: 208 27% 10%;
+    --primary: 245 68% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 7%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 36%;
-    --muted-foreground: 0 0% 73%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 36%;
     --accent: 220 14.3% 95.9%;
     --accent-foreground: 220.9 39.3% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
+    --border: 0 0% 88%;
     --input: 220 13% 91%;
     --ring: 245 68% 60%;
     --radius: 0.5rem;
@@ -71,28 +71,28 @@
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Black.ttf");
+  src: url("../public/fonts/Satoshi-Black.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Bold.ttf");
+  src: url("../public/fonts/Satoshi-Bold.ttf");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Italic.ttf");
+  src: url("../public/fonts/Satoshi-Italic.ttf");
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/public/fonts/Satoshi-Light.ttf");
+  src: url("../public/fonts/Satoshi-Light.ttf");
   font-weight: lighter;
   font-style: normal;
 }
