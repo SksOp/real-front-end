@@ -38,7 +38,7 @@ function PropertiesCard({
             <LocationIcon className="w-4 h-4" />
             <p className="text-muted font-light">{location}</p>
           </div>
-          <div className="flex flex-wrap gap-2 text-muted text-bold mt-2">
+          <div className="flex flex-wrap gap-2 text-muted-foreground text-bold mt-2">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
               <p>{bedrooms} Bedrooms</p>
@@ -58,9 +58,7 @@ function PropertiesCard({
           <h3 className="text-lg font-extrabold">{formatPrice(price)}</h3>
           <div className="flex justify-end items-center gap-2 cursor-pointer">
             <LightBulbIcon className="w-5 h-5" />
-            <p className="text-primary-foreground text-sm font-semibold">
-              See Insights
-            </p>
+            <p className="text-primary text-sm font-semibold">See Insights</p>
           </div>
         </div>
       </div>

@@ -22,28 +22,26 @@ function PropertyHeader() {
             <h3 className="text-xl  font-bold">Urban Nexus Plaza</h3>
             <div className="flex justify-start gap-2 items-center">
               <LocationIcon />
-              <p className="text-muted">Wonderlust, Wonderland</p>
+              <p className="text-muted-foreground">Wonderlust, Wonderland</p>
             </div>
           </div>
           <div className="flex justify-center items-center gap-1">
             <RedirectIcon />
-            <h3 className="text-primary-foreground text-sm font-semibold">
-              See Insights
-            </h3>
+            <h3 className="text-primary text-sm font-semibold">See Insights</h3>
           </div>
         </div>
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
             <BedIcon />
-            <p className="text-muted">3 Bedrooms</p>
+            <p className="text-muted-foreground">3 Bedrooms</p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <BathIcon />
-            <p className="text-muted">2 Bathroom</p>
+            <p className="text-muted-foreground">2 Bathroom</p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <AreaSizeIcon />
-            <p className="text-muted">2456 sqft</p>
+            <p className="text-muted-foreground">2456 sqft</p>
           </div>
         </div>
       </CardFooter>

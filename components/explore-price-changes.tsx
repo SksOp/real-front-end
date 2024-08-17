@@ -107,13 +107,13 @@ function ExplorePriceChanges() {
         <TabsList className="w-full gap-3 items-center justify-start bg-background mt-2">
           <TabsTrigger
             value="by-property"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary data-[state=active]:text-muted"
+            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
           >
             By Property
           </TabsTrigger>
           <TabsTrigger
             value="by-location"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary data-[state=active]:text-muted"
+            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
           >
             By Location
           </TabsTrigger>

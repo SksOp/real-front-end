@@ -18,23 +18,31 @@ function PropertyAminities() {
         <div className="grid grid-cols-2 gap-4">
           <div className="flex justify-start gap-2 items-center">
             <ACIcon />
-            <p className="text-muted font-semibold">Air conditioner</p>
+            <p className="text-muted-foreground text-lg font-semibold">
+              Air conditioner
+            </p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <BathIcon />
-            <p className="text-muted font-semibold">Gym</p>
+            <p className="text-muted-foreground text-lg font-semibold">Gym</p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <PlayAreaIcon />
-            <p className="text-muted font-semibold">Play area</p>
+            <p className="text-muted-foreground text-lg font-semibold">
+              Play area
+            </p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <SwimmingPoolIcon />
-            <p className="text-muted font-semibold">Swimming pool</p>
+            <p className="text-muted-foreground text-lg font-semibold">
+              Swimming pool
+            </p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <BalconyIcon />
-            <p className="text-muted font-semibold">Balcony</p>
+            <p className="text-muted-foreground text-lg font-semibold">
+              Balcony
+            </p>
           </div>
         </div>
       </CardContent>

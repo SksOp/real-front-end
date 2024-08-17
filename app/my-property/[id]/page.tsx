@@ -28,7 +28,7 @@ function page() {
         </Button>
         <Button
           variant={"secondary"}
-          className="text-primary font-bold w-1/2 rounded-full border-2"
+          className="text-background font-bold w-1/2 rounded-full border-2"
         >
           PDF Brochure
         </Button>

@@ -39,8 +39,6 @@ function ExploreTab() {
         <ExploreDemand />
         <ExploreTotalSales />
         <ExploreAdsTab />
-        <ExploreActiveListing />
-        <ExploreListingIndex />
       </TabsContent>
     </Tabs>
   );

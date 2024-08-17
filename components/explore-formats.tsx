@@ -19,7 +19,7 @@ function ExploreFormats({ title, description, children }: ExploreFormatsProps) {
       <CardHeader className="p-0">
         <CardTitle className="text-base">{title}</CardTitle>
         {description && (
-          <CardDescription className="text-muted">
+          <CardDescription className="text-muted-foreground text-base">
             {description}
           </CardDescription>
         )}
