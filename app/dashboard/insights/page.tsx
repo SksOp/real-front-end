@@ -32,7 +32,7 @@ function InsightPage() {
         </TabsContent>
         <TabsContent value="insights" className="">
           <Filters />
-          <Report />
+          {/* <Report /> */}
         </TabsContent>
         <TabsContent value="my-listings">
           <ScrollArea className="overflow-y-scroll">

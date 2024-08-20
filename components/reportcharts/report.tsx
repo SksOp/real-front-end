@@ -15,12 +15,12 @@ import {
   TransactionAverageValues,
 } from "@/transcation/types";
 import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
-import {
-  getAverageValues,
-  getBedrooms,
-  getLocationSales,
-  getResidentialVsCommercialType,
-} from "@/repository/tanstack/queries/functions.queries";
+// import {
+//   getAverageValues,
+//   getBedrooms,
+//   getLocationSales,
+//   getResidentialVsCommercialType,
+// } from "@/repository/tanstack/queries/functions.queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { LocationSales } from "../location-sales/location-sales";
 import { LocationTransaction } from "../location-transaction/location-transaction";

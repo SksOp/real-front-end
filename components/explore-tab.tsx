@@ -7,6 +7,7 @@ import ExploreAdsTab from "./explore-ads-tab";
 import { ScrollArea } from "./ui/scroll-area";
 import ExploreListingIndex from "./explore-listing-index";
 import ExploreTotalSales from "./explore-total-sales";
+import ExploreAreaWise from "./explore-area-wise";
 
 function ExploreTab() {
   return (
@@ -38,6 +39,7 @@ function ExploreTab() {
         <ExplorePriceChanges />
         <ExploreDemand />
         <ExploreTotalSales />
+        <ExploreAreaWise />
         <ExploreAdsTab />
       </TabsContent>
     </Tabs>

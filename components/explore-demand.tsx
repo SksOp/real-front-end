@@ -1,20 +1,16 @@
 "use client";
 import React from "react";
 import ExploreFormats from "./explore-formats";
-import { Bar, BarChart } from "recharts";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "./ui/chart";
+import HorizontalBarChart from "./chart/horixontalBarChart/horizontalBarChart";
+import { ChartConfig, ChartContainer } from "./ui/chart";
+import { CardWrapper } from "./chart/card";
 
-const chartConfig = {
-  desktop: {
-    label: "Demand",
-    color: "#A9A1F4",
-  },
-} satisfies ChartConfig;
+const chartData = [
+  { name: "Rentals", value: 100 },
+  { name: "Sales", value: 200 },
+  { name: "Lease", value: 150 },
+  { name: "Commercial", value: 190 },
+];
 
 function ExploreDemand() {
   return (
@@ -24,6 +20,12 @@ function ExploreDemand() {
     >
       <div>
         <h3>Rentals</h3>
+        <HorizontalBarChart
+          title="Rentals"
+          data={chartData}
+          xAxisDataKey="value"
+          yAxisDataKey="name"
+        />
       </div>
     </ExploreFormats>
   );

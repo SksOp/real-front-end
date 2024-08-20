@@ -34,14 +34,14 @@ const chartConfigtest = {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 type CardProps = {
   title: ReactNode;
-  description: ReactNode;
-  chartConfig: any; // Adjust this type according to the actual ChartConfig type
-  footer: ReactNode;
-  footerDescription: string;
+  description?: ReactNode;
+  chartConfig: ChartConfig;
+  footer?: ReactNode;
+  footerDescription?: string;
   children: ReactElement; // Add this to include children in the props
 };
 
@@ -57,17 +57,19 @@ export function CardWrapper({
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfigtest}>
-          {children}
-        </ChartContainer>
+        <ChartContainer config={chartConfig}>{children}</ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">{footer}</div>
-        <div className="leading-none text-muted-foreground">{footerDescription}</div>
-      </CardFooter>
+      {footer && footerDescription && (
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none">{footer}</div>
+          <div className="leading-none text-muted-foreground">
+            {footerDescription}
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 }
