@@ -60,7 +60,7 @@ export function CardWrapper({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfigtest}>
+        <ChartContainer config={chartConfig}>
           {children}
         </ChartContainer>
       </CardContent>

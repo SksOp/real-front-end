@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart, Bar, CartesianGrid, XAxis, Tooltip } from "recharts";
+import { AreaChart, Area, CartesianGrid, XAxis, Tooltip } from "recharts";
 import {
   Card,
   CardContent,
@@ -14,17 +14,17 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-interface BarChartComponentProps {
+interface AreaChartComponentProps {
   title: React.ReactNode;
   description: React.ReactNode;
-  chartConfig: any; // Adjust this type according to the actual ChartConfig type
+  chartConfig: any;
   footer: React.ReactNode;
   footerDescription: string;
-  data: any[]; // You can make this more specific if you know the shape of your data
+  data: any[];
   xAxisDataKey: string;
   yAxisDataKey: string;
-  barColor?: string;
-  barRadius?: number;
+  areaColor?: string;
+  areaOpacity?: number;
   gridStroke?: string;
   tickColor?: string;
   tickFontSize?: string;
@@ -33,12 +33,12 @@ interface BarChartComponentProps {
   tickLine?: boolean;
   tickMargin?: number;
   axisLine?: boolean;
-  customBarProps?: Record<string, any>;
+  customAreaProps?: Record<string, any>;
   customXAxisProps?: Record<string, any>;
   customGridProps?: Record<string, any>;
 }
 
-const Barchart: React.FC<BarChartComponentProps> = ({
+const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   data,
   title,
   description,
@@ -47,8 +47,8 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   footerDescription,
   xAxisDataKey,
   yAxisDataKey,
-  barColor = "#A9A1F4",
-  barRadius = 8,
+  areaColor = "#A9A1F4",
+  areaOpacity = 0.4,
   gridStroke = "#FFFFFF",
   tickColor = "black",
   tickFontSize = "12px",
@@ -57,12 +57,12 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   tickLine = false,
   tickMargin = 10,
   axisLine = false,
-  customBarProps = {},
+  customAreaProps = {},
   customXAxisProps = {},
   customGridProps = {},
 }) => {
   // Calculate chart width based on the number of data points
-  const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
+  const chartWidth = Math.max(data.length * 30, 400); // 30 pixels per data point, minimum 400px width
 
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any): string => {
@@ -80,7 +80,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
         <div style={{ overflowX: "auto" }}>
           <div style={{ width: chartWidth }}>
             <ChartContainer config={chartConfig}>
-              <BarChart data={data} width={chartWidth}>
+              <AreaChart data={data} width={chartWidth}>
                 <CartesianGrid
                   vertical={false}
                   stroke={gridStroke}
@@ -95,13 +95,14 @@ const Barchart: React.FC<BarChartComponentProps> = ({
                   {...customXAxisProps}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar
+                <Area
                   dataKey={yAxisDataKey}
-                  fill={barColor}
-                  radius={barRadius}
-                  {...customBarProps}
+                  fill={areaColor}
+                  fillOpacity={areaOpacity}
+                  stroke={areaColor}
+                  {...customAreaProps}
                 />
-              </BarChart>
+              </AreaChart>
             </ChartContainer>
           </div>
         </div>
@@ -116,4 +117,4 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   );
 };
 
-export default Barchart;
+export default AreaChartComponent;
