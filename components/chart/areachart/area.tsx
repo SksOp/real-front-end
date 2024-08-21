@@ -80,7 +80,18 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
         <div style={{ overflowX: "auto" }}>
           <div style={{ width: chartWidth }}>
             <ChartContainer config={chartConfig}>
-              <AreaChart data={data} width={chartWidth}>
+              <AreaChart
+                data={data}
+                width={chartWidth}
+                height={400}
+                className="overflow-y-auto"
+                margin={{
+                  top: 0,
+                  right: 10,
+                  bottom: 0,
+                  left: 10,
+                }}
+              >
                 <CartesianGrid
                   vertical={false}
                   stroke={gridStroke}

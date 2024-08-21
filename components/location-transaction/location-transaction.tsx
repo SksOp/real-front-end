@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import AreaChartComponent from "../chart/barchart/area"; // Adjust the import path as needed
+import AreaChartComponent from "../chart/areachart/area"; // Adjust the import path as needed
 import { LocationSalesTransaction } from "@/transcation/types";
 import { Transactions } from "@/actions/sales";
 import { TrendingUp } from "lucide-react";
