@@ -27,7 +27,7 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
   footerText,
 }) => {
   return (
-    <Card>
+    <Card className="border-0">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           {title}
@@ -53,12 +53,12 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           {trendDescription} <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">{footerText}</div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 };
