@@ -4,20 +4,8 @@ import { LocationSalesTransaction } from "@/transcation/types";
 import { useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { ReactNode } from "react";
-import Barchart from "../chart/barchart/barchart";
+import Barchart from "../../chart/barchart/barchart";
 import { Sales } from "@/actions/sales";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { ChartContainer } from "../ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { Tooltip } from "../ui/tooltip";
-
 export interface SalesChartDataTypeYearly {
   location: string;
   sales: number;

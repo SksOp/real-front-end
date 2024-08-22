@@ -1,6 +1,6 @@
-// "use client"
+// "use client";
 
-// import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts"
+// import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 
 // import {
 //   Card,
@@ -8,64 +8,69 @@
 //   CardDescription,
 //   CardHeader,
 //   CardTitle,
-// } from "@/components/ui/card"
-// import { ChartContainer } from "@/components/ui/chart"
-// import { FreeholdVsLeaseType, OffplanvsReadyType } from "@/transcation/types"
-// import React from "react"
-// import { FrVsRe } from "@/actions/freeholdvs"
-// import { OfVsRe } from "@/actions/offplanvsready"
+// } from "@/components/ui/card";
+// import { ChartContainer } from "@/components/ui/chart";
+// import { ResidentialVsCommercialType } from "@/transcation/types";
+// import React, { useState } from "react";
+// import { ResvsCo } from "@/actions/residentialvscommercial";
 
-// export interface OfReChartDataTypeYearly {
-//   Ofplan: number;
-//   Ready: number;
+// export interface RandCChartDataTypeYearly {
+//   Residential: number;
+//   Commercial: number;
 // }
 
-// export interface OfReChartDataTypeQuaterly {
-//   Ofplan: number;
-//   Ready: number;
+// export interface RandCChartDataTypeQuaterly {
+//   Residential: number;
+//   Commercial: number;
 // }
-// export interface OfReChartDataTypeMonthly {
-//   Ofplan: number;
-//   Ready: number;
+// export interface RandCChartDataTypeMonthly {
+//   Residential: number;
+//   Commercial: number;
 // }
 
-// export function OffplanvsReady({data}:{data: OffplanvsReadyType}) {
-
+// export function ResidentialVsCommercial({
+//   data,
+// }: {
+//   data: ResidentialVsCommercialType;
+// }) {
 //   const [selectedOption, setSelectedOption] = React.useState<string>("Yearly");
-//   const frvsre = new OfVsRe;
+//   const revsco = new ResvsCo;
 //   const [chartData, setChartData] = React.useState<
-//     | OfReChartDataTypeYearly
-//     | OfReChartDataTypeQuaterly
-//     | OfReChartDataTypeMonthly
-//   >(frvsre.getYearlyData({ data }));
+//     | RandCChartDataTypeYearly
+//     | RandCChartDataTypeQuaterly
+//     | RandCChartDataTypeMonthly
+//   >(revsco.getYearlyData({ data }));
 //   const Option = ["Yearly", "Qaterly", "Monthly"];
 
-//   console.log("data", data);
-//   console.log("chart data", chartData);
+//   if (!data) {
+//     return <p>No data available</p>;
+//   }
+
+//   const years = Object.keys(data);
 
 //   const handelOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
 //     const selectedValue = e.target.value;
 //     // const Transaction = new Transactions;
 //     if (selectedValue === "Yearly") {
-//     const datat = frvsre.getYearlyData({data});
+//     const datat = revsco.getYearlyData({data});
 //     setChartData(datat);
 //     setSelectedOption(selectedValue);
 //     }else if(selectedValue === "Qaterly"){
-//       const datat = frvsre.getQuarterlyData({data});
+//       const datat = revsco.getQuarterlyData({data});
 //       setChartData(datat);
 //       setSelectedOption(selectedValue);
 //     }else if(selectedValue === "Monthly"){
-//       const datat = frvsre.getMonthlyData({data});
+//       const datat = revsco.getMonthlyData({data});
 //       setChartData(datat);
 //       setSelectedOption(selectedValue);
 //     }
 //   }
 
 //   return (
-//     <Card>
+//     <Card className="border-none">
 //       <CardHeader>
-//         <CardTitle>
-//           OffPlan vs Ready
+//         <CardTitle className="flex justify-between items-center">
+//           {"Residential Vs Commercial"}
 //           <select
 //             value={selectedOption}
 //             onChange={handelOption}
@@ -77,23 +82,23 @@
 //               </option>
 //             ))}
 //           </select>
-//           </CardTitle>
+//         </CardTitle>
 //         <CardDescription>
-//           {"You're average more steps a day this year than last year."}
+//           {"You're averaging more steps a day this year than last year."}
 //         </CardDescription>
 //       </CardHeader>
 //       <CardContent className="grid gap-4">
 //         <div className="grid auto-rows-min gap-2">
 //           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-//           {chartData?.Ofplan}
+//             {chartData?.Residential}
 //             <span className="text-sm font-normal text-muted-foreground">
-//               Freehold
+//               Residential
 //             </span>
 //           </div>
 //           <ChartContainer
 //             config={{
-//               steps: {
-//                 label: "Ofplan",
+//               residential: {
+//                 label: "Residential",
 //                 color: "hsl(var(--chart-1))",
 //               },
 //             }}
@@ -111,16 +116,11 @@
 //               data={[
 //                 {
 //                   date: selectedOption,
-//                   steps: chartData?.Ofplan,
+//                   residential: chartData?.Residential,
 //                 },
 //               ]}
 //             >
-//               <Bar
-//                 dataKey="Ofplan"
-//                 fill="var(--color-steps)"
-//                 radius={4}
-//                 barSize={32}
-//               >
+//               <Bar dataKey="residential" fill="#60a5fa" radius={4} barSize={32}>
 //                 <LabelList
 //                   position="insideLeft"
 //                   dataKey="date"
@@ -130,21 +130,21 @@
 //                 />
 //               </Bar>
 //               <YAxis dataKey="date" type="category" tickCount={1} hide />
-//               <XAxis dataKey="Ofplan" type="number" hide />
+//               <XAxis dataKey="residential" type="number" hide />
 //             </BarChart>
 //           </ChartContainer>
 //         </div>
 //         <div className="grid auto-rows-min gap-2">
 //           <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
-//           {chartData?.Ready}
+//             {chartData?.Commercial}
 //             <span className="text-sm font-normal text-muted-foreground">
-//               Ready
+//               Commercial
 //             </span>
 //           </div>
 //           <ChartContainer
 //             config={{
-//               steps: {
-//                 label: "Ready",
+//               commercial: {
+//                 label: "Commercial",
 //                 color: "hsl(var(--muted))",
 //               },
 //             }}
@@ -162,13 +162,13 @@
 //               data={[
 //                 {
 //                   date: selectedOption,
-//                   steps: chartData?.Ready,
+//                   commercial: chartData?.Commercial,
 //                 },
 //               ]}
 //             >
 //               <Bar
-//                 dataKey="Ready"
-//                 fill="var(--color-steps)"
+//                 dataKey="commercial"
+//                 fill="var(--color-commercial)"
 //                 radius={4}
 //                 barSize={32}
 //               >
@@ -181,21 +181,21 @@
 //                 />
 //               </Bar>
 //               <YAxis dataKey="date" type="category" tickCount={1} hide />
-//               <XAxis dataKey="Ready" type="number" hide />
+//               <XAxis dataKey="commercial" type="number" hide />
 //             </BarChart>
 //           </ChartContainer>
 //         </div>
 //       </CardContent>
 //     </Card>
-//   )
+//   );
 // }
 
 "use client";
 
 import React, { useState } from "react";
-import VerticalBarChartComponent from "../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
-import { OffplanvsReadyType } from "@/transcation/types";
-import { OfVsRe } from "@/actions/offplanvsready";
+import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
+import { ResidentialVsCommercialType } from "@/transcation/types";
+import { ResvsCo } from "@/actions/residentialvscommercial";
 import {
   Card,
   CardContent,
@@ -204,40 +204,48 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export interface OfReChartDataTypeYearly {
-  Ofplan: number;
-  Ready: number;
+export interface RandCChartDataTypeYearly {
+  Residential: number;
+  Commercial: number;
 }
 
-export interface OfReChartDataTypeQuaterly {
-  Ofplan: number;
-  Ready: number;
+export interface RandCChartDataTypeQuaterly {
+  Residential: number;
+  Commercial: number;
 }
-export interface OfReChartDataTypeMonthly {
-  Ofplan: number;
-  Ready: number;
+export interface RandCChartDataTypeMonthly {
+  Residential: number;
+  Commercial: number;
 }
 
-export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
+export function ResidentialVsCommercial({
+  data,
+}: {
+  data: ResidentialVsCommercialType;
+}) {
   const [selectedOption, setSelectedOption] = useState<string>("Yearly");
-  const frvsre = new OfVsRe();
+  const revsco = new ResvsCo();
   const [chartData, setChartData] = useState<
-    | OfReChartDataTypeYearly
-    | OfReChartDataTypeQuaterly
-    | OfReChartDataTypeMonthly
-  >(frvsre.getYearlyData({ data }));
+    | RandCChartDataTypeYearly
+    | RandCChartDataTypeQuaterly
+    | RandCChartDataTypeMonthly
+  >(revsco.getYearlyData({ data }));
   const Option = ["Yearly", "Qaterly", "Monthly"];
+
+  if (!data) {
+    return <p>No data available</p>;
+  }
 
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
-      const datat = frvsre.getYearlyData({ data });
+      const datat = revsco.getYearlyData({ data });
       setChartData(datat);
     } else if (selectedValue === "Qaterly") {
-      const datat = frvsre.getQuarterlyData({ data });
+      const datat = revsco.getQuarterlyData({ data });
       setChartData(datat);
     } else if (selectedValue === "Monthly") {
-      const datat = frvsre.getMonthlyData({ data });
+      const datat = revsco.getMonthlyData({ data });
       setChartData(datat);
     }
     setSelectedOption(selectedValue);
@@ -247,7 +255,7 @@ export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
     <Card className="border-none">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
-          {"OffPlan vs Ready"}
+          {"Residential Vs Commercial"}
           <select
             value={selectedOption}
             onChange={handleOption}
@@ -266,20 +274,19 @@ export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
       </CardHeader>
       <CardContent className="grid gap-4">
         <VerticalBarChartComponent
-          title="Offplan"
-          description="You're averaging more steps a day this year than last year."
-          dataKey="Ofplan"
-          value={chartData?.Ofplan || 0}
+          title="Residential"
+          description="Residential data"
+          dataKey="Residential"
+          value={chartData?.Residential || 0}
           color="hsl(var(--chart-1))"
           selectedOption={selectedOption}
         />
-
         <VerticalBarChartComponent
-          title="Ready"
-          description="You're averaging more steps a day this year than last year."
-          dataKey="Ready"
-          value={chartData?.Ready || 0}
-          color="hsl(var(--muted))"
+          title="Commercial"
+          description="Commercial data"
+          dataKey="Commercial"
+          value={chartData?.Commercial || 0}
+          color="var(--color-commercial)"
           selectedOption={selectedOption}
         />
       </CardContent>

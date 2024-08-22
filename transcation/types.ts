@@ -66,37 +66,44 @@ export interface BedroomType {
 
 export interface ResidentialVsCommercialType {
   [year: string]: {
-    [month : string]: { 
-      [usage: string]:{
+    [month: string]: {
+      [usage: string]: {
         property_count: number;
       };
-    }
+    };
   };
 }
 
 export interface FreeholdVsLeaseType {
   [year: string]: {
-    [month : string]: { 
+    [month: string]: {
       [tenure: string]: number;
-    }
+    };
   };
 }
 
 export interface OffplanvsReadyType {
   [year: string]: {
-    [month : string]: { 
+    [month: string]: {
       [status: string]: number;
-    }
+    };
   };
 }
 
 export interface fetchSalesIndexBenchmarkType {
   years: string;
-  quarters : string;
-  months :string
+  quarters: string;
+  months: string;
 }
 
-export interface IQRType{
+export interface IQRType {
   Percentile_25: number;
-   Percentile_75: number
+  Percentile_75: number;
+}
+
+export interface RecieveDataType {
+  year: number;
+  month: number;
+  transaction: number;
+  sales: number;
 }

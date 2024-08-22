@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import VerticalBarChartComponent from "../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
+import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
 import { FreeholdVsLeaseType } from "@/transcation/types";
 import { FrVsRe } from "@/actions/freeholdvs";
 import {
