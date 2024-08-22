@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { TrendingUp } from "lucide-react";
-import Barchart from "../chart/barchart/barchart"; // Adjust the import path according to your project structure
+import Barchart from "@/components/chart/barchart/barchart"; // Adjust the import path according to your project structure
 import { SalesTransactionsType } from "@/transcation/types";
 import { SalesTransactions } from "@/actions/salestransaction";
 

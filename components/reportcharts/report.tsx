@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ReportCard } from "../ui/reportCard";
 import { getTransactionData } from "@/transcation/dataConverter";
 import { UpIcon, DownIcon } from "@/public/svg/Indicator";
-import { GrowthChart } from "../salestransactions/salestransactions";
+import { GrowthChart } from "../insights/salestransactions/salestransactions";
 import {
   BedroomType,
   fetchSalesIndexBenchmarkType,
@@ -14,10 +14,11 @@ import {
   SalesTransactionsType,
   TransactionAverageValues,
 } from "@/transcation/types";
-import { SalesMarketTrend } from "../sales-market-trend/sales-market-trend";
+import { SalesMarketTrend } from "../insights/sales-market-trend/sales-market-trend";
 import {
   getAverageValues,
   getBedrooms,
+  getFlatVillaLand,
   getFreeholdVsLease,
   getIQR,
   getLocationSales,
@@ -25,17 +26,16 @@ import {
   getResidentialVsCommercialType,
 } from "@/repository/tanstack/queries/functions.queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { LocationSales } from "../location-sales/location-sales";
-import { LocationTransaction } from "../location-transaction/location-transaction";
-import { Bedrooms } from "../bedrooms/bedrooms";
-import { ResidentialVsCommercial } from "../ResidentialVsCommercial/ResidentialVsCommercial";
-import { FreeholdvsLease } from "../FreeholdvsLease/FreeholdvsLease";
-import { OffplanvsReady } from "../OffplanvsReady/OffplanvsReady";
-import FlatvsVillavsLand from "../FlatvsVillavsLand/FlatvsVillavsLand";
-import { SalesIndexBenchmarking } from "../SalesIndexBenchmarking/salesIndexBenchmarking";
+import { LocationSales } from "../insights/location-sales/location-sales";
+import { LocationTransaction } from "../insights/location-transaction/location-transaction";
+import { Bedrooms } from "../insights/bedrooms/bedrooms";
+import { ResidentialVsCommercial } from "../insights/ResidentialVsCommercial/ResidentialVsCommercial";
+import { FreeholdvsLease } from "../insights/FreeholdvsLease/FreeholdvsLease";
+import { OffplanvsReady } from "../insights/OffplanvsReady/OffplanvsReady";
+import FlatvsVillavsLand from "../insights/FlatvsVillavsLand/FlatvsVillavsLand";
+import { SalesIndexBenchmarking } from "../insights/SalesIndexBenchmarking/salesIndexBenchmarking";
 
 export const Report = () => {
-
   const {
     data: avgValue,
     isLoading: isLoading1,
@@ -66,21 +66,44 @@ export const Report = () => {
     isLoading: isLoading6,
     isError: isError6,
   } = useSuspenseQuery(getFreeholdVsLease());
-  const{
+  const {
     data: IQR,
     isLoading: isLoading7,
     isError: isError7,
   } = useSuspenseQuery(getIQR());
 
-  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 ||isLoading5 || isLoading6 || isLoading7) {
+  const {
+    data: dataFlatvsVillavsLand,
+    isLoading: isLoading8,
+    isError: isError8,
+  } = useSuspenseQuery(getFlatVillaLand());
+
+  if (
+    isLoading1 ||
+    isLoading2 ||
+    isLoading3 ||
+    isLoading4 ||
+    isLoading5 ||
+    isLoading6 ||
+    isLoading7 ||
+    isLoading8
+  ) {
     return <div>Loading...</div>;
   }
-  if (isError1 || isError2 || isError3 || isError4 || isError5 || isError6 || isError7) {
+  if (
+    isError1 ||
+    isError2 ||
+    isError3 ||
+    isError4 ||
+    isError5 ||
+    isError6 ||
+    isError7 ||
+    isError8
+  ) {
     return <div>Error</div>;
   }
- 
-  console.log(IQR)
- 
+
+  console.log(IQR);
 
   const transactionData = getTransactionData(avgValue!);
 
@@ -199,11 +222,8 @@ export const Report = () => {
       <Bedrooms data={bedrooms!} />
       <ResidentialVsCommercial data={residentialVsCommercialData!} />
       <FreeholdvsLease data={freeholdbslease!} />
-      <OffplanvsReady data={offplanvsready!}/>
-      <FlatvsVillavsLand />
+      <OffplanvsReady data={offplanvsready!} />
+      <FlatvsVillavsLand data={dataFlatvsVillavsLand!} />
     </>
   );
 };
-
-
-{/* <TransactionVsSales data={data!} /> */}

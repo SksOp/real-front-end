@@ -184,7 +184,7 @@
 
 import React, { useState } from "react";
 import { TrendingUp } from "lucide-react";
-import PieChartComponent from "../chart/piechart/piechart"; // Adjust the import path according to your project structure
+import PieChartComponent from "../../chart/piechart/piechart"; // Adjust the import path according to your project structure
 import { BedroomType } from "@/transcation/types";
 import { Bedroom } from "@/actions/bedroom";
 

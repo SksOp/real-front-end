@@ -1,12 +1,21 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { ChartContainer } from "@/components/ui/chart"
-import { Separator } from "@/components/ui/separator"
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { ChartContainer } from "@/components/ui/chart";
+import { Separator } from "@/components/ui/separator";
+import { RecieveDataType } from "@/transcation/types";
 
-export default function FlatvsVillavsLand() {
+export default function FlatvsVillavsLand({
+  data,
+}: {
+  data: {
+    rowsFlat: RecieveDataType[];
+    rowsVilla: RecieveDataType[];
+    rowsLand: RecieveDataType[];
+  };
+}) {
   return (
     <Card>
       <CardContent className="flex gap-4 p-4 pb-2">
@@ -107,5 +116,5 @@ export default function FlatvsVillavsLand() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

@@ -4,6 +4,7 @@ import {
   IQRType,
   LocationSalesTransaction,
   OffplanvsReadyType,
+  RecieveDataType,
   ResidentialVsCommercialType,
   TransactionAverageValues,
   TransactionMonthlyAverage,
@@ -75,12 +76,17 @@ export const fetchLocationSales =
 export const fetchBedrooms = async (): Promise<BedroomType | null> => {
   try {
     const res = await axios.get(process.env.NEXT_PUBLIC_DISTINCT_BEDROOM_URL!);
-    const data: { year: number; month: string; bedrooms: string; property_count: number }[] = res.data;
+    const data: {
+      year: number;
+      month: string;
+      bedrooms: string;
+      property_count: number;
+    }[] = res.data;
 
     // Transforming data
     const transformedData: BedroomType = {};
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const { year, month, bedrooms, property_count } = item;
       if (!transformedData[year]) {
         transformedData[year] = {};
@@ -90,7 +96,7 @@ export const fetchBedrooms = async (): Promise<BedroomType | null> => {
       }
       if (!transformedData[year][month][bedrooms]) {
         transformedData[year][month][bedrooms] = {
-          property_count: 0
+          property_count: 0,
         };
       }
       transformedData[year][month][bedrooms].property_count += property_count;
@@ -109,13 +115,17 @@ export const fetchResidentialVsCommercialType =
       const res = await axios.get(
         process.env.NEXT_PUBLIC_RESIDENTIAL_COMMERCIAL_URL!
       );
-      const data: { year: number; month: string; usage: string; property_count: number }[] =
-        res.data;
+      const data: {
+        year: number;
+        month: string;
+        usage: string;
+        property_count: number;
+      }[] = res.data;
 
       // Transforming data
       const transformedData: ResidentialVsCommercialType = {};
 
-      data.forEach(item => {
+      data.forEach((item) => {
         const { year, month, usage, property_count } = item;
         if (!transformedData[year]) {
           transformedData[year] = {};
@@ -125,7 +135,7 @@ export const fetchResidentialVsCommercialType =
         }
         if (!transformedData[year][month][usage]) {
           transformedData[year][month][usage] = {
-            property_count: 0
+            property_count: 0,
           };
         }
         transformedData[year][month][usage].property_count += property_count;
@@ -138,16 +148,21 @@ export const fetchResidentialVsCommercialType =
     }
   };
 
-
-  export const fetchOffplanVsReady = async (): Promise<OffplanvsReadyType | null> => {
+export const fetchOffplanVsReady =
+  async (): Promise<OffplanvsReadyType | null> => {
     try {
       const res = await axios.get(process.env.NEXT_PUBLIC_OFFPLAN_READY_URL!);
-      const data: { year: string; month: string; status: number; property_count: number }[] = res.data;
+      const data: {
+        year: string;
+        month: string;
+        status: number;
+        property_count: number;
+      }[] = res.data;
 
       // Transforming data
       const transformedData: OffplanvsReadyType = {};
 
-      data.forEach(item => {
+      data.forEach((item) => {
         const { year, month, status, property_count } = item;
         if (!transformedData[year]) {
           transformedData[year] = {};
@@ -157,7 +172,7 @@ export const fetchResidentialVsCommercialType =
         }
         if (!transformedData[year][month][status]) {
           transformedData[year][month][status] = 0;
-        }   
+        }
         transformedData[year][month][status] += property_count;
       });
 
@@ -166,20 +181,25 @@ export const fetchResidentialVsCommercialType =
       console.error(error);
       return null;
     }
-  }
+  };
 
-
-  export const fetchFreeholdVsLease = async (): Promise<FreeholdVsLeaseType | null> => {
+export const fetchFreeholdVsLease =
+  async (): Promise<FreeholdVsLeaseType | null> => {
     try {
       const res = await axios.get(process.env.NEXT_PUBLIC_FREEHOLD_LEASE_URL!);
-      const data: { year: string; month: string; tenure: number; property_count: number }[] = res.data;
+      const data: {
+        year: string;
+        month: string;
+        tenure: number;
+        property_count: number;
+      }[] = res.data;
 
-      console.log("data: ",data);
+      console.log("data: ", data);
 
       // Transforming data
       const transformedData: FreeholdVsLeaseType = {};
 
-      data.forEach(item => {
+      data.forEach((item) => {
         const { year, month, tenure, property_count } = item;
         if (!transformedData[year]) {
           transformedData[year] = {};
@@ -188,12 +208,12 @@ export const fetchResidentialVsCommercialType =
           transformedData[year][month] = {};
         }
         if (!transformedData[year][month][tenure]) {
-          transformedData[year][month][tenure] = 0
+          transformedData[year][month][tenure] = 0;
         }
         transformedData[year][month][tenure] += property_count;
       });
 
-      console.log("transformedData: ",transformedData);
+      console.log("transformedData: ", transformedData);
 
       return transformedData;
     } catch (error) {
@@ -202,18 +222,34 @@ export const fetchResidentialVsCommercialType =
     }
   };
 
-  export const fetchIQR = async (): Promise<IQRType[] | null> => {
-    try {
-      const res = await axios.get(process.env.NEXT_PUBLIC_IQR_URL!);
-      const data: { Percentile_25: number; Percentile_75: number }[] = res.data;
+export const fetchIQR = async (): Promise<IQRType[] | null> => {
+  try {
+    const res = await axios.get(process.env.NEXT_PUBLIC_IQR_URL!);
+    const data: { Percentile_25: number; Percentile_75: number }[] = res.data;
 
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
+};
 
-
-
-
+export const fetchFlatVillaLand = async (): Promise<{
+  rowsFlat: RecieveDataType[];
+  rowsVilla: RecieveDataType[];
+  rowsLand: RecieveDataType[];
+} | null> => {
+  const URL = process.env.NEXT_PUBLIC_FVL_URL!;
+  try {
+    const res = await axios.get(URL);
+    const data: {
+      rowsFlat: RecieveDataType[];
+      rowsVilla: RecieveDataType[];
+      rowsLand: RecieveDataType[];
+    } = res.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};

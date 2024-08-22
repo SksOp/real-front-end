@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import SalesIndexCardComponent from "../chart/salesIndexcard/salesIndexcard"; // Adjust the import path according to your project structure
+import SalesIndexCardComponent from "../../chart/salesIndexcard/salesIndexcard"; // Adjust the import path according to your project structure
 import { IQRType } from "@/transcation/types";
 
 export function SalesIndexBenchmarking({ data }: { data: IQRType[] }) {

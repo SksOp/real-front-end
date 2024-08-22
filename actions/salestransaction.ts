@@ -2,7 +2,7 @@ import {
   SalesChartDataTypeMonthly,
   SalesChartDataTypeQuaterly,
   SalesChartDataTypeYearly,
-} from "@/components/sales-market-trend/sales-market-trend";
+} from "@/components/insights/sales-market-trend/sales-market-trend";
 import { SalesTransactionsType } from "@/transcation/types";
 
 export class SalesTransactions {

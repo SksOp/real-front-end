@@ -3,6 +3,7 @@ import {
   fetchAverageTransactions,
   fetchAverageValues,
   fetchBedrooms,
+  fetchFlatVillaLand,
   fetchFreeholdVsLease,
   fetchIQR,
   fetchLocationSales,
@@ -84,23 +85,31 @@ export const getOffplanVsReady = () => {
   });
 };
 
-
 export const getFreeholdVsLease = () => {
   return queryOptions({
     queryKey: ["freehold-vs-lease"],
     queryFn: () => {
       return fetchFreeholdVsLease();
     },
-    staleTime: 1000 * 60 * 5, 
-
-  })
-}
+    staleTime: 1000 * 60 * 5,
+  });
+};
 
 export const getIQR = () => {
   return queryOptions({
     queryKey: ["iqr"],
     queryFn: () => {
       return fetchIQR();
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const getFlatVillaLand = () => {
+  return queryOptions({
+    queryKey: ["flat-villa-land"],
+    queryFn: () => {
+      return fetchFlatVillaLand();
     },
     staleTime: 1000 * 60 * 5,
   });
