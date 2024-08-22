@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/underline-tabs";
 import ExploreActiveListing from "./explore-area-listing";
 import ExploreListingIndex from "./explore-listing-index";
+import ExploreAreaWise from "./explore-area-wise";
 
 function ExploreAdsTab() {
   return (
@@ -27,6 +28,7 @@ function ExploreAdsTab() {
       </TabsList>
       <TabsContent value="your-ads">
         <ExploreActiveListing />
+        <ExploreAreaWise />
         <ExploreListingIndex />
       </TabsContent>
     </Tabs>

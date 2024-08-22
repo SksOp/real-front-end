@@ -15,6 +15,7 @@ import Layout from "@/layout";
 import ExploreTab from "@/components/explore-tab";
 import TransactionCard from "@/components/transaction-card";
 import TransactionTabs from "@/components/transaction-tabs";
+import Link from "next/link";
 
 function InsightPage() {
   return (
@@ -39,14 +40,15 @@ function InsightPage() {
         <TabsContent value="my-listings">
           <ScrollArea className="overflow-y-scroll">
             {PropertiesList.map((property, index) => (
-              <PropertiesCard key={index} {...property} />
+              <Link href={`/my-property/${index + 1}`} key={index}>
+                <PropertiesCard key={index} {...property} />
+              </Link>
             ))}
           </ScrollArea>
           <div className="h-20" />
         </TabsContent>
         <TabsContent value="transactions">
           <TransactionTabs />
-          <TransactionCard />
         </TabsContent>
       </Tabs>
     </Layout>
