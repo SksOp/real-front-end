@@ -29,7 +29,7 @@ function PriceCard({
   return (
     <Card className="bg-[#F2F2F2] gap-3 flex flex-col mt-2 px-4 py-6 w-fit rounded-lg">
       <CardHeader className="p-0 m-0">
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardTitle className="text-xl truncate">{title}</CardTitle>
         <CardDescription className="text-base text-muted ">
           Average price
         </CardDescription>

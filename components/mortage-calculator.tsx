@@ -67,7 +67,7 @@ function MortageCalculator() {
         {isCalculatorOpen ? (
           <Button
             variant={"secondary"}
-            className="text-primary-foreground hover:bg-secondary py-8 font-bold rounded-full border-2 w-full"
+            className="text-primary-foreground hover:bg-secondary py-8 font-bold rounded-lg border-2 w-full"
             onClick={() => setIsCalculatorOpen(false)}
           >
             Calculate
@@ -75,7 +75,7 @@ function MortageCalculator() {
         ) : (
           <Button
             variant={"ghost"}
-            className=" text-secondary font-bold py-8 rounded-full border-2 w-full"
+            className=" text-secondary font-bold py-8 rounded-lg border-2 w-full"
             onClick={() => setIsCalculatorOpen(true)}
           >
             Change Parameter
