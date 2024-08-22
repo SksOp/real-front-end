@@ -13,6 +13,8 @@ import { Report } from "@/components/reportcharts/report";
 import { PropertiesList } from "@/constants/properties";
 import Layout from "@/layout";
 import ExploreTab from "@/components/explore-tab";
+import TransactionCard from "@/components/transaction-card";
+import TransactionTabs from "@/components/transaction-tabs";
 
 function InsightPage() {
   return (
@@ -41,6 +43,10 @@ function InsightPage() {
             ))}
           </ScrollArea>
           <div className="h-20" />
+        </TabsContent>
+        <TabsContent value="transactions">
+          <TransactionTabs />
+          <TransactionCard />
         </TabsContent>
       </Tabs>
     </Layout>
