@@ -1,6 +1,8 @@
 import React from "react";
 import ExploreFormats from "./explore-formats";
 import InsightCard from "./insightCard";
+import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import SalesIndexCardComponent from "./chart/salesIndexcard/salesIndexcard";
 
 function ExploreListingIndex() {
   return (
@@ -8,6 +10,14 @@ function ExploreListingIndex() {
       title={"Listing index"}
       description="See how you compare against other brokers in Dubai."
     >
+      <SalesIndexCardComponent
+        title=""
+        description=""
+        percentile25={247685}
+        percentile75={566778}
+        trendDescription=""
+        footerText=""
+      />
       <InsightCard>
         <span>
           50 listings is the top average in your area, most people tend to have

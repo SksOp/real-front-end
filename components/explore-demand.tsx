@@ -1,20 +1,9 @@
 "use client";
 import React from "react";
 import ExploreFormats from "./explore-formats";
-import { Bar, BarChart } from "recharts";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "./ui/chart";
-
-const chartConfig = {
-  desktop: {
-    label: "Demand",
-    color: "#A9A1F4",
-  },
-} satisfies ChartConfig;
+import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import { ChevronDownCircle } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 function ExploreDemand() {
   return (
@@ -22,9 +11,20 @@ function ExploreDemand() {
       title={"Demand"}
       description="Here are all the properties you have listed, switch to slaes or rental views for indepth insights of your listings and online presence."
     >
-      <div>
-        <h3>Rentals</h3>
-      </div>
+      <Card className="p-0 border-0">
+        <CardHeader className="p-0">
+          <CardTitle className="text-base font-medium">Rentals</CardTitle>
+        </CardHeader>
+        <CardContent className="flex justify-between items-center w-full gap-4 p-0">
+          <VerticalBarChartComponent
+            dataKey={""}
+            value={100}
+            color={"#D1F6DB"}
+            selectedOption={""}
+          />
+          <ChevronDownCircle size={24} />
+        </CardContent>
+      </Card>
     </ExploreFormats>
   );
 }

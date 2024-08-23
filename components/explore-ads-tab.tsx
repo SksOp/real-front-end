@@ -1,5 +1,8 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/underline-tabs";
+import ExploreActiveListing from "./explore-area-listing";
+import ExploreListingIndex from "./explore-listing-index";
+import ExploreAreaWise from "./explore-area-wise";
 
 function ExploreAdsTab() {
   return (
@@ -7,7 +10,7 @@ function ExploreAdsTab() {
       defaultValue="your-ads"
       className="w-full items-center justify-center"
     >
-      <TabsList className="w-full items-center justify-center gap-4 px-4 py-3">
+      <TabsList className="w-full items-center text-muted-foreground justify-center gap-4 px-4 py-3">
         <TabsTrigger
           value="your-ads"
           className="flex flex-col items-center justify-center gap-3 "
@@ -23,7 +26,11 @@ function ExploreAdsTab() {
           <h3 className="text-2xl font-extrabold">250</h3>
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="your-ads"></TabsContent>
+      <TabsContent value="your-ads">
+        <ExploreActiveListing />
+        <ExploreAreaWise />
+        <ExploreListingIndex />
+      </TabsContent>
     </Tabs>
   );
 }

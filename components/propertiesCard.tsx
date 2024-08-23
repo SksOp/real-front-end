@@ -1,19 +1,19 @@
-import React from 'react';
-import { Card } from './ui/card';
+import React from "react";
+import { Card } from "./ui/card";
 import {
   AreaSizeIcon,
   BathIcon,
   BedIcon,
   LightBulbIcon,
   LocationIcon,
-} from '@/public/svg/icons';
-import { PropertiescardProps } from '@/types/propertyCard';
-import Image from 'next/image';
+} from "@/public/svg/icons";
+import { PropertiescardProps } from "@/types/propertyCard";
+import Image from "next/image";
 
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'AED',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "AED",
     minimumFractionDigits: 0,
   }).format(price);
 }
@@ -30,7 +30,13 @@ function PropertiesCard({
   return (
     <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
       <div className="flex-grow ">
-        <Image src={imageUrl} alt={name} className="object-cover rounded-lg " />
+        <Image
+          src={imageUrl}
+          alt={name}
+          className="object-cover rounded-lg "
+          width={110}
+          height={100}
+        />
       </div>
       <div className="flex w-2/3 flex-col justify-between">
         <div>
@@ -39,7 +45,7 @@ function PropertiesCard({
             <LocationIcon className="w-4 h-4" />
             <p className="text-muted font-light">{location}</p>
           </div>
-          <div className="flex flex-wrap gap-2 text-muted text-bold mt-2">
+          <div className="flex flex-wrap gap-2 text-muted-foreground text-bold mt-2">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
               <p>{bedrooms} Bedrooms</p>
@@ -59,9 +65,7 @@ function PropertiesCard({
           <h3 className="text-lg font-extrabold">{formatPrice(price)}</h3>
           <div className="flex justify-end items-center gap-2 cursor-pointer">
             <LightBulbIcon className="w-5 h-5" />
-            <p className="text-primary-foreground text-sm font-semibold">
-              See Insights
-            </p>
+            <p className="text-primary text-sm font-semibold">See Insights</p>
           </div>
         </div>
       </div>

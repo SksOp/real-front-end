@@ -55,7 +55,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   }));
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col border-0">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

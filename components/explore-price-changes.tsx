@@ -29,7 +29,7 @@ function PriceCard({
   return (
     <Card className="bg-[#F2F2F2] gap-3 flex flex-col mt-2 px-4 py-6 w-fit rounded-lg">
       <CardHeader className="p-0 m-0">
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardTitle className="text-xl truncate">{title}</CardTitle>
         <CardDescription className="text-base text-muted ">
           Average price
         </CardDescription>
@@ -46,7 +46,7 @@ function PriceCard({
           </span>
         </div>
         <div className="flex items-center justify-start gap-1">
-          <h3 className="text-lg font-medium text-muted whitespace-nowrap tracking-tight">
+          <h3 className="text-lg font-medium text-muted-foreground whitespace-nowrap tracking-tight">
             {ratePerSqFt} per sqft.
           </h3>
 
@@ -56,7 +56,7 @@ function PriceCard({
           </span>
         </div>
         <SelectSeparator className="bg-muted-foreground my-2" />
-        <CardDescription className="text-base text-muted">
+        <CardDescription className="text-base text-muted-foreground">
           No. of transactions
         </CardDescription>
         <div className="flex items-center justify-start gap-1">
@@ -107,13 +107,13 @@ function ExplorePriceChanges() {
         <TabsList className="w-full gap-3 items-center justify-start bg-background mt-2">
           <TabsTrigger
             value="by-property"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary data-[state=active]:text-muted"
+            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
           >
             By Property
           </TabsTrigger>
           <TabsTrigger
             value="by-location"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary data-[state=active]:text-muted"
+            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
           >
             By Location
           </TabsTrigger>
