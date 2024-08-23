@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import Image from "next/image";
 
 function PropertyImageGallary() {
   return (
@@ -11,10 +12,12 @@ function PropertyImageGallary() {
         {Array(8)
           .fill("/property.png")
           .map((src, index) => (
-            <img
+            <Image
               src={src}
               className="object-cover rounded-xl w-16 h-16"
               alt={`Property ${index + 1}`}
+              width={100}
+              height={100}
             />
           ))}
       </CardContent>

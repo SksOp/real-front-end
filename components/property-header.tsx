@@ -8,12 +8,19 @@ import {
   RedirectIcon,
 } from "@/public/svg/icons";
 import { AreaIcon } from "@/public/svg/drawerIcons";
+import Image from "next/image";
 
 function PropertyHeader() {
   return (
-    <Card className="border-0">
+    <Card className="border-0 mt-8">
       <CardHeader>
-        <img src="/property.png" className=" object-cover w-full" />
+        <Image
+          src="/property.png"
+          className=" object-cover w-full rounded-t-xl "
+          height={200}
+          width={400}
+          alt={""}
+        />
       </CardHeader>
       <CardFooter className="flex flex-col gap-3 border-0    ">
         <div className="flex justify-between items-center w-full">

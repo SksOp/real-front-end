@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import Image from "next/image";
 
 function PropertyKeyInformation() {
   return (
@@ -27,10 +28,12 @@ function PropertyKeyInformation() {
         <div className="w-full flex flex-col gap-2">
           <h3 className="text-secondary font-semibold">DLD permit number</h3>
           <p className="text-primary font-normal">7153299987</p>
-          <img
+          <Image
             src="/takeshiQR.png"
             alt="QR code"
             className="object-cover w-1/2"
+            width={100}
+            height={100}
           />
         </div>
       </CardContent>

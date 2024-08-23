@@ -30,7 +30,13 @@ function PropertiesCard({
   return (
     <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
       <div className="flex-grow ">
-        <img src={imageUrl} alt={name} className="object-cover rounded-lg " />
+        <Image
+          src={imageUrl}
+          alt={name}
+          className="object-cover rounded-lg "
+          width={110}
+          height={100}
+        />
       </div>
       <div className="flex w-2/3 flex-col justify-between">
         <div>
