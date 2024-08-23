@@ -72,8 +72,8 @@ export function FreeholdvsLease({ data }: { data: FreeholdVsLeaseType }) {
       </CardHeader>
       <CardContent className="grid gap-4">
         <VerticalBarChartComponent
-          title="Freehold"
-          description="You're averaging more steps a day this year than last year."
+          // title="Freehold"
+          // description="You're averaging more steps a day this year than last year."
           dataKey="Freehold"
           value={chartData?.Freehold || 0}
           color="hsl(var(--chart-1))"
@@ -81,8 +81,8 @@ export function FreeholdvsLease({ data }: { data: FreeholdVsLeaseType }) {
         />
 
         <VerticalBarChartComponent
-          title="Lease"
-          description="You're averaging more steps a day this year than last year."
+          // title="Lease"
+          // description="You're averaging more steps a day this year than last year."
           dataKey="Lease"
           value={chartData?.Lease || 0}
           color="hsl(var(--muted))"

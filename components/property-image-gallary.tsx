@@ -13,6 +13,7 @@ function PropertyImageGallary() {
           .fill("/property.png")
           .map((src, index) => (
             <Image
+              key={index}
               src={src}
               className="object-cover rounded-xl w-16 h-16"
               alt={`Property ${index + 1}`}
