@@ -1,5 +1,12 @@
 import React from "react";
-import { BarChart, Bar, CartesianGrid, XAxis, Tooltip } from "recharts";
+import {
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import {
   Card,
   CardContent,
@@ -63,6 +70,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
 }) => {
   // Calculate chart width based on the number of data points
   const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
+  const chartHeight = 300;
 
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any): string => {
@@ -78,30 +86,32 @@ const Barchart: React.FC<BarChartComponentProps> = ({
       </CardHeader>
       <CardContent>
         <div style={{ overflowX: "auto" }}>
-          <div style={{ width: chartWidth }}>
+          <div style={{ width: chartWidth, height: chartHeight }}>
             <ChartContainer config={chartConfig}>
-              <BarChart data={data} width={chartWidth}>
-                <CartesianGrid
-                  vertical={false}
-                  stroke={gridStroke}
-                  {...customGridProps}
-                />
-                <XAxis
-                  dataKey={xAxisDataKey}
-                  tickLine={tickLine}
-                  tickMargin={tickMargin}
-                  axisLine={axisLine}
-                  tickFormatter={customTickFormatter}
-                  {...customXAxisProps}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar
-                  dataKey={yAxisDataKey}
-                  fill={barColor}
-                  radius={barRadius}
-                  {...customBarProps}
-                />
-              </BarChart>
+              <ResponsiveContainer className="max-h-25">
+                <BarChart data={data} height={chartHeight}>
+                  <CartesianGrid
+                    vertical={false}
+                    stroke={gridStroke}
+                    {...customGridProps}
+                  />
+                  <XAxis
+                    dataKey={xAxisDataKey}
+                    tickLine={tickLine}
+                    tickMargin={tickMargin}
+                    axisLine={axisLine}
+                    tickFormatter={customTickFormatter}
+                    {...customXAxisProps}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar
+                    dataKey={yAxisDataKey}
+                    fill={barColor}
+                    radius={barRadius}
+                    {...customBarProps}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </div>
         </div>

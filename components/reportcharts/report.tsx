@@ -108,7 +108,7 @@ export const Report = () => {
   const transactionData = getTransactionData(avgValue!);
 
   return (
-    <>
+    <div className="h-fit">
       <div className="grid grid-cols-2 gap-3 px-3">
         <ReportCard
           title="Average Sales Value"
@@ -224,6 +224,6 @@ export const Report = () => {
       <FreeholdvsLease data={freeholdbslease!} />
       <OffplanvsReady data={offplanvsready!} />
       <FlatvsVillavsLand data={dataFlatvsVillavsLand!} />
-    </>
+    </div>
   );
 };

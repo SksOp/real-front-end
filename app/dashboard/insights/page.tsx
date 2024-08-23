@@ -30,7 +30,7 @@ function InsightPage() {
         <TabsContent value="explore" className="mb-20">
           <ExploreTab />
         </TabsContent>
-        <TabsContent value="insights" className="">
+        <TabsContent value="insights" className="mb-20">
           <Filters />
           <Report />
         </TabsContent>

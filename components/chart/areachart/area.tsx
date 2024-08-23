@@ -1,5 +1,12 @@
 import React from "react";
-import { AreaChart, Area, CartesianGrid, XAxis, Tooltip } from "recharts";
+import {
+  AreaChart,
+  Area,
+  CartesianGrid,
+  XAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import {
   Card,
   CardContent,
@@ -78,42 +85,41 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
       </CardHeader>
       <CardContent>
         <div style={{ overflowX: "auto" }}>
-          <div style={{ width: chartWidth }}>
+          <div style={{ width: chartWidth, height: 300 }}>
             <ChartContainer config={chartConfig}>
-              <AreaChart
-                data={data}
-                width={chartWidth}
-                height={400}
-                className="overflow-y-auto"
-                margin={{
-                  top: 0,
-                  right: 10,
-                  bottom: 0,
-                  left: 10,
-                }}
-              >
-                <CartesianGrid
-                  vertical={false}
-                  stroke={gridStroke}
-                  {...customGridProps}
-                />
-                <XAxis
-                  dataKey={xAxisDataKey}
-                  tickLine={tickLine}
-                  tickMargin={tickMargin}
-                  axisLine={axisLine}
-                  tickFormatter={customTickFormatter}
-                  {...customXAxisProps}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Area
-                  dataKey={yAxisDataKey}
-                  fill={areaColor}
-                  fillOpacity={areaOpacity}
-                  stroke={areaColor}
-                  {...customAreaProps}
-                />
-              </AreaChart>
+              <ResponsiveContainer width={chartWidth} height={300}>
+                <AreaChart
+                  data={data}
+                  margin={{
+                    top: 0,
+                    right: 10,
+                    bottom: 0,
+                    left: 10,
+                  }}
+                >
+                  <CartesianGrid
+                    vertical={false}
+                    stroke={gridStroke}
+                    {...customGridProps}
+                  />
+                  <XAxis
+                    dataKey={xAxisDataKey}
+                    tickLine={tickLine}
+                    tickMargin={tickMargin}
+                    axisLine={axisLine}
+                    tickFormatter={customTickFormatter}
+                    {...customXAxisProps}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area
+                    dataKey={yAxisDataKey}
+                    fill={areaColor}
+                    fillOpacity={areaOpacity}
+                    stroke={areaColor}
+                    {...customAreaProps}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </div>
         </div>
