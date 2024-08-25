@@ -100,7 +100,6 @@ export function LocationTransaction({
       yAxisDataKey="transactions"
       areaColor="#A9A1F4"
       areaOpacity={0.4}
-      tickLine={true}
       tickFormatter={(value: any) => value.slice(0, 3)}
     />
   );

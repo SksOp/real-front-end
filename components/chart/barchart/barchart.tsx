@@ -55,7 +55,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   xAxisDataKey,
   yAxisDataKey,
   barColor = "#A9A1F4",
-  barRadius = 8,
+  barRadius = 4,
   gridStroke = "#FFFFFF",
   tickColor = "black",
   tickFontSize = "12px",
@@ -70,7 +70,9 @@ const Barchart: React.FC<BarChartComponentProps> = ({
 }) => {
   // Calculate chart width based on the number of data points
   const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
-  const chartHeight = 300;
+  const chartHeight = 250;
+
+  const aspect = chartWidth / chartHeight;
 
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any): string => {
@@ -86,10 +88,16 @@ const Barchart: React.FC<BarChartComponentProps> = ({
       </CardHeader>
       <CardContent>
         <div style={{ overflowX: "auto" }}>
-          <div style={{ width: chartWidth, height: chartHeight }}>
+          <div
+            style={{
+              width: chartWidth,
+              height: chartHeight,
+              overflowY: "hidden",
+            }}
+          >
             <ChartContainer config={chartConfig}>
-              <ResponsiveContainer className="max-h-25">
-                <BarChart data={data} height={chartHeight}>
+              <ResponsiveContainer aspect={aspect} height={chartHeight}>
+                <BarChart data={data}>
                   <CartesianGrid
                     vertical={false}
                     stroke={gridStroke}
@@ -108,6 +116,8 @@ const Barchart: React.FC<BarChartComponentProps> = ({
                     dataKey={yAxisDataKey}
                     fill={barColor}
                     radius={barRadius}
+                    barSize={30}
+                    spacing={20}
                     {...customBarProps}
                   />
                 </BarChart>

@@ -92,12 +92,11 @@ export function SalesMarketTrend({ data }: { data: SalesTransactionsType }) {
       data={chartData}
       xAxisDataKey="duration"
       yAxisDataKey="property_count"
-      barColor="var(--color-desktop)"
+      barColor="#A9A1F4"
       barRadius={8}
+      tickLine={true}
       gridStroke="#ccc"
-      tickLine={false}
-      tickMargin={6}
-      axisLine={false}
+      tickFontSize="8px"
       tickFormatter={(value) => value.slice(0, 4)}
     />
   );

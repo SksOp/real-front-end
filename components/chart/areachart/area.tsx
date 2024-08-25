@@ -6,6 +6,7 @@ import {
   XAxis,
   Tooltip,
   ResponsiveContainer,
+  YAxis,
 } from "recharts";
 import {
   Card,
@@ -68,10 +69,13 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   customXAxisProps = {},
   customGridProps = {},
 }) => {
-  // Calculate chart width based on the number of data points
-  const chartWidth = Math.max(data.length * 30, 400); // 30 pixels per data point, minimum 400px width
+  // Adjust the width calculation to account for a constant area component
+  const chartWidth = Math.max(data.length * 30, 500); // 80 pixels per data point, minimum 500px width
+  const chartHeight = 250;
 
-  // Custom tick rendering with customizable styles
+  const aspect = chartWidth / chartHeight;
+
+  // Custom tick formatting with customizable styles
   const customTickFormatter = (value: any): string => {
     const result = tickFormatter(value);
     return result !== undefined ? result.toString() : "";
@@ -85,9 +89,15 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
       </CardHeader>
       <CardContent>
         <div style={{ overflowX: "auto" }}>
-          <div style={{ width: chartWidth, height: 300 }}>
+          <div
+            style={{
+              width: chartWidth,
+              height: chartHeight,
+              overflowY: "hidden",
+            }}
+          >
             <ChartContainer config={chartConfig}>
-              <ResponsiveContainer width={chartWidth} height={300}>
+              <ResponsiveContainer aspect={aspect} height={chartHeight}>
                 <AreaChart
                   data={data}
                   margin={{
@@ -108,9 +118,11 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
                     tickMargin={tickMargin}
                     axisLine={axisLine}
                     tickFormatter={customTickFormatter}
+                    tickCount={data.length}
                     {...customXAxisProps}
                   />
                   <ChartTooltip content={<ChartTooltipContent />} />
+
                   <Area
                     dataKey={yAxisDataKey}
                     fill={areaColor}
