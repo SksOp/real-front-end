@@ -1,5 +1,6 @@
 "use client";
 import MortageCalculator from "@/components/mortage-calculator";
+import PDFViewer from "@/components/pdfViewer";
 import PropertyAminities from "@/components/property-aminities";
 import PropertyDescription from "@/components/property-description";
 import PropertyHeader from "@/components/property-header";
@@ -24,6 +25,7 @@ import {
 import React from "react";
 
 function page() {
+  const pdfUrl = "/test.pdf";
   return (
     <div>
       <Navbar />
@@ -49,13 +51,14 @@ function page() {
               Share Brochure
             </DrawerTitle>
             <div className="w-full items-center justify-center flex">
-              <Button
+              {/* <Button
                 variant={"ghost"}
                 className="border-secondary border text-secondary w-fit flex justify-center gap-2 items-center rounded-full"
               >
-                <PDFDownloadingIcon />
-                Download
-              </Button>
+                <PDFDownloadingIcon /> */}
+              <PDFViewer fileUrl={pdfUrl} />
+              Download
+              {/* </Button> */}
             </div>
             <ShareComponent />
           </DrawerContent>
