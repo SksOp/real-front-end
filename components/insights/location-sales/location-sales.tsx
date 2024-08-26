@@ -100,13 +100,12 @@ export function LocationSales({ data }: { data: LocationSalesTransaction }) {
       footer={footer}
       footerDescription={footerDescription}
       data={chartData}
-      gridStroke="#ccc"
       xAxisDataKey="location"
       yAxisDataKey="sales"
-      tickLine={true}
       barColor="#A9A1F4"
       barRadius={8}
-      tickColor="black"
+      tickLine={true}
+      gridStroke="#ccc"
       tickFontSize="12px"
       tickFormatter={(value) => value.slice(0, 3)}
     />
