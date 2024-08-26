@@ -9,6 +9,9 @@ import {
 } from "@/public/svg/icons";
 import { PropertiescardProps } from "@/types/propertyCard";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import InsightDrawerView from "./insightDrawerView";
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -62,11 +65,25 @@ function PropertiesCard({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-extrabold">{formatPrice(price)}</h3>
-          <div className="flex justify-end items-center gap-2 cursor-pointer">
-            <LightBulbIcon className="w-5 h-5" />
-            <p className="text-primary text-sm font-semibold">See Insights</p>
-          </div>
+          <h3 className="text-base font-extrabold">{formatPrice(price)}</h3>
+          <Drawer>
+            <div onClick={(e) => e.stopPropagation()}>
+              <DrawerTrigger asChild>
+                <Button
+                  variant={"ghost"}
+                  className="flex justify-end items-center gap-2 p-0 cursor-pointer"
+                >
+                  <LightBulbIcon className="w-5 h-5" />
+                  <span className="text-primary text-sm font-semibold">
+                    See Insights
+                  </span>
+                </Button>
+              </DrawerTrigger>
+            </div>
+            <DrawerContent>
+              <InsightDrawerView />
+            </DrawerContent>
+          </Drawer>
         </div>
       </div>
     </Card>

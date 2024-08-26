@@ -7,13 +7,13 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Download, Ellipsis, Info, Share2 } from "lucide-react";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import Image from "next/image";
+} from "@/components/ui/dropdown-menu";
 
 interface ChartWrapperProps {
   title: string;
@@ -37,13 +37,13 @@ function ChartWrapper({ title, description, children }: ChartWrapperProps) {
     </div>
   );
   return (
-    <Card className="border-0">
+    <Card className="border-0 w-full">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>{title}</CardTitle>
           <span className="flex items-center justify-center">
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger asChild>
                 <Ellipsis className="h-6 w-6" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
