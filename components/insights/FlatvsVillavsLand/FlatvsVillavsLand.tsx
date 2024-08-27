@@ -7,47 +7,61 @@ import { ChartContainer } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
 import { RecieveDataType } from "@/transcation/types";
 import { RealEstateData } from "@/actions/flatvsvillavsland";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getFlatVillaLand } from "@/repository/tanstack/queries/functions.queries";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function FlatvsVillavsLand({
-  data,
-}: {
-  data: {
-    rowsFlat: RecieveDataType[];
-    rowsVilla: RecieveDataType[];
-    rowsLand: RecieveDataType[];
-  };
-}) {
+export default function FlatvsVillavsLand() {
+  const {
+    data: dataFlatvsVillavsLand,
+    isLoading: isLoading,
+    isError: isError,
+  } = useQuery(getFlatVillaLand());
+
   const fvl = new RealEstateData();
   const [selectedOption, setSelectedOption] = useState<string>("Yearly");
   const [flat, setFlat] = useState<{ sales: number; transaction: number }>(
-    fvl.getYearlyData(data.rowsFlat)
+    fvl.getQuarterlyData(dataFlatvsVillavsLand?.rowsFlat || [])
   );
   const [villa, setVilla] = useState<{ sales: number; transaction: number }>(
-    fvl.getYearlyData(data.rowsVilla)
+    fvl.getQuarterlyData(dataFlatvsVillavsLand?.rowsVilla || [])
   );
   const [land, setLand] = useState<{ sales: number; transaction: number }>(
-    fvl.getYearlyData(data.rowsLand)
+    fvl.getYearlyData(dataFlatvsVillavsLand?.rowsLand || [])
   );
   const Option = ["Yearly", "Qaterly", "Monthly"];
 
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
-      setFlat(fvl.getYearlyData(data.rowsFlat));
-      setVilla(fvl.getYearlyData(data.rowsVilla));
-      setLand(fvl.getYearlyData(data.rowsLand));
+      setFlat(fvl.getYearlyData(dataFlatvsVillavsLand?.rowsFlat || []));
+      setVilla(fvl.getYearlyData(dataFlatvsVillavsLand?.rowsVilla || []));
+      setLand(fvl.getYearlyData(dataFlatvsVillavsLand?.rowsLand || []));
     } else if (selectedValue === "Qaterly") {
-      setFlat(fvl.getQuarterlyData(data.rowsFlat));
-      setVilla(fvl.getQuarterlyData(data.rowsVilla));
-      setLand(fvl.getQuarterlyData(data.rowsLand));
+      setFlat(fvl.getQuarterlyData(dataFlatvsVillavsLand?.rowsFlat || []));
+      setVilla(fvl.getQuarterlyData(dataFlatvsVillavsLand?.rowsVilla || []));
+      setLand(fvl.getQuarterlyData(dataFlatvsVillavsLand?.rowsLand || []));
     } else if (selectedValue === "Monthly") {
-      setFlat(fvl.getMonthlyData(data.rowsFlat));
-      setVilla(fvl.getMonthlyData(data.rowsVilla));
-      setLand(fvl.getMonthlyData(data.rowsLand));
+      setFlat(fvl.getMonthlyData(dataFlatvsVillavsLand?.rowsFlat || []));
+      setVilla(fvl.getMonthlyData(dataFlatvsVillavsLand?.rowsVilla || []));
+      setLand(fvl.getMonthlyData(dataFlatvsVillavsLand?.rowsLand || []));
     }
     setSelectedOption(selectedValue);
   };
+
+  useEffect(() => {
+    if (dataFlatvsVillavsLand) {
+      const fvl = new RealEstateData();
+      setFlat(fvl.getYearlyData(dataFlatvsVillavsLand?.rowsFlat || []));
+      setVilla(fvl.getYearlyData(dataFlatvsVillavsLand?.rowsVilla || []));
+      setLand(fvl.getYearlyData(dataFlatvsVillavsLand?.rowsLand || []));
+    }
+  }, [dataFlatvsVillavsLand]);
+
+  if (isLoading || !dataFlatvsVillavsLand) {
+    return <Skeleton />;
+  }
 
   function formatInMillions(value: number) {
     if (value >= 1000000) {

@@ -192,7 +192,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
 import { ResidentialVsCommercialType } from "@/transcation/types";
 import { ResvsCo } from "@/actions/residentialvscommercial";
@@ -203,6 +203,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getResidentialVsCommercialType } from "@/repository/tanstack/queries/functions.queries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface RandCChartDataTypeYearly {
   Residential: number;
@@ -218,34 +221,52 @@ export interface RandCChartDataTypeMonthly {
   Commercial: number;
 }
 
-export function ResidentialVsCommercial({
-  data,
-}: {
-  data: ResidentialVsCommercialType;
-}) {
+export function ResidentialVsCommercial() {
+  const {
+    data: residentialVsCommercialData,
+    isLoading: isLoading,
+    isError: isError,
+  } = useQuery(getResidentialVsCommercialType());
+
   const [selectedOption, setSelectedOption] = useState<string>("Yearly");
   const revsco = new ResvsCo();
   const [chartData, setChartData] = useState<
     | RandCChartDataTypeYearly
     | RandCChartDataTypeQuaterly
     | RandCChartDataTypeMonthly
-  >(revsco.getYearlyData({ data }));
+  >(revsco.getYearlyData({ data: residentialVsCommercialData! }));
   const Option = ["Yearly", "Qaterly", "Monthly"];
 
-  if (!data) {
-    return <p>No data available</p>;
+  useEffect(() => {
+    if (residentialVsCommercialData) {
+      const revsco = new ResvsCo();
+      const datat = revsco.getYearlyData({
+        data: residentialVsCommercialData!,
+      });
+      setChartData(datat);
+    }
+  }, [residentialVsCommercialData]);
+
+  if (isLoading || !residentialVsCommercialData) {
+    return <Skeleton />;
   }
 
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
-      const datat = revsco.getYearlyData({ data });
+      const datat = revsco.getYearlyData({
+        data: residentialVsCommercialData!,
+      });
       setChartData(datat);
     } else if (selectedValue === "Qaterly") {
-      const datat = revsco.getQuarterlyData({ data });
+      const datat = revsco.getQuarterlyData({
+        data: residentialVsCommercialData!,
+      });
       setChartData(datat);
     } else if (selectedValue === "Monthly") {
-      const datat = revsco.getMonthlyData({ data });
+      const datat = revsco.getMonthlyData({
+        data: residentialVsCommercialData!,
+      });
       setChartData(datat);
     }
     setSelectedOption(selectedValue);

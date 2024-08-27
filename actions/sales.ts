@@ -16,6 +16,9 @@ export class Sales {
   }: {
     data: LocationSalesTransaction;
   }): SalesChartDataTypeYearly[] {
+    if (!data) {
+      return [];
+    }
     const locationSales: { [location: string]: number } = {};
     const years = Object.keys(data).slice(-12); // Last 12 years of data
     for (const year of years) {
@@ -114,6 +117,9 @@ export class Transactions {
   }: {
     data: LocationSalesTransaction;
   }): TransactionsChartDataTypeYearly[] {
+    if (!data) {
+      return [];
+    }
     const locationTransactions: { [location: string]: number } = {};
     const years = Object.keys(data).slice(-12); // Last 12 years of data
     for (const year of years) {

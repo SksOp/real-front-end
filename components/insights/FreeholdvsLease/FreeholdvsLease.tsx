@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
 import { FreeholdVsLeaseType } from "@/transcation/types";
 import { FrVsRe } from "@/actions/freeholdvs";
@@ -11,6 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  getFreeholdVsLease,
+  getOffplanVsReady,
+} from "@/repository/tanstack/queries/functions.queries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface FrvReChartDataTypeYearly {
   Freehold: number;
@@ -27,27 +33,44 @@ export interface FrvReChartDataTypeMonthly {
   Lease: number;
 }
 
-export function FreeholdvsLease({ data }: { data: FreeholdVsLeaseType }) {
+export function FreeholdvsLease() {
+  const {
+    data: freeholdbslease,
+    isLoading: isLoading,
+    isError: isError,
+  } = useQuery(getFreeholdVsLease());
+
   const [selectedOption, setSelectedOption] = useState<string>("Yearly");
   const frvsre = new FrVsRe();
   const [chartData, setChartData] = useState<
     | FrvReChartDataTypeYearly
     | FrvReChartDataTypeQuaterly
     | FrvReChartDataTypeMonthly
-  >(frvsre.getYearlyData({ data }));
+  >(frvsre.getYearlyData({ data: freeholdbslease! }));
   const options = ["Yearly", "Qaterly", "Monthly"];
 
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
-      setChartData(frvsre.getYearlyData({ data }));
+      setChartData(frvsre.getYearlyData({ data: freeholdbslease! }));
     } else if (selectedValue === "Qaterly") {
-      setChartData(frvsre.getQuarterlyData({ data }));
+      setChartData(frvsre.getQuarterlyData({ data: freeholdbslease! }));
     } else if (selectedValue === "Monthly") {
-      setChartData(frvsre.getMonthlyData({ data }));
+      setChartData(frvsre.getMonthlyData({ data: freeholdbslease! }));
     }
     setSelectedOption(selectedValue);
   };
+
+  useEffect(() => {
+    if (freeholdbslease) {
+      const frvsre = new FrVsRe();
+      setChartData(frvsre.getYearlyData({ data: freeholdbslease! }));
+    }
+  }, [freeholdbslease]);
+
+  if (isLoading || !freeholdbslease) {
+    return <Skeleton />;
+  }
 
   return (
     <Card className="border-none">

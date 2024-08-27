@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AreaChartComponent from "../../chart/areachart/area"; // Adjust the import path as needed
 import { LocationSalesTransaction } from "@/transcation/types";
 import { Transactions } from "@/actions/sales";
 import { TrendingUp } from "lucide-react";
 import { ChartConfig } from "../../ui/chart";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getLocationSales } from "@/repository/tanstack/queries/functions.queries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
   Transaction: {
@@ -28,34 +31,48 @@ export interface TransactionsChartDataTypeMonthly {
   transactions: number;
 }
 
-export function LocationTransaction({
-  data,
-}: {
-  data: LocationSalesTransaction;
-}) {
+export function LocationTransaction() {
+  const {
+    data: locationSales,
+    isLoading: isLoading,
+    isError: isError,
+  } = useQuery(getLocationSales());
+
   const [selectedOption, setSelectedOption] = useState<string>("Yearly");
   const Transaction = new Transactions();
   const [chartData, setChartData] = useState<
     | TransactionsChartDataTypeYearly[]
     | TransactionsChartDataTypeQuaterly[]
     | TransactionsChartDataTypeMonthly[]
-  >(Transaction.getYearlyTransactions({ data }));
+  >(Transaction.getYearlyTransactions({ data: locationSales! }));
 
-  const Option = ["Yearly", "Qaterly", "Monthly"];
-  if (!data) {
-    return <>No data available</>;
+  useEffect(() => {
+    if (locationSales) {
+      const Transaction = new Transactions();
+      const datat = Transaction.getYearlyTransactions({ data: locationSales! });
+      setChartData(datat);
+    }
+  }, [locationSales]);
+
+  if (isLoading || !locationSales) {
+    return <Skeleton />;
   }
+  const Option = ["Yearly", "Qaterly", "Monthly"];
 
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
-      const datat = Transaction.getYearlyTransactions({ data });
+      const datat = Transaction.getYearlyTransactions({ data: locationSales! });
       setChartData(datat);
     } else if (selectedValue === "Qaterly") {
-      const datat = Transaction.getQuarterlyTransactions({ data });
+      const datat = Transaction.getQuarterlyTransactions({
+        data: locationSales!,
+      });
       setChartData(datat);
     } else if (selectedValue === "Monthly") {
-      const datat = Transaction.getMonthlyTransactions({ data });
+      const datat = Transaction.getMonthlyTransactions({
+        data: locationSales!,
+      });
       setChartData(datat);
     }
     setSelectedOption(selectedValue);

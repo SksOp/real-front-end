@@ -192,7 +192,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
 import { OffplanvsReadyType } from "@/transcation/types";
 import { OfVsRe } from "@/actions/offplanvsready";
@@ -203,6 +203,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getOffplanVsReady } from "@/repository/tanstack/queries/functions.queries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface OfReChartDataTypeYearly {
   Ofplan: number;
@@ -218,30 +221,48 @@ export interface OfReChartDataTypeMonthly {
   Ready: number;
 }
 
-export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
+export function OffplanvsReady() {
+  const {
+    data: offplanvsready,
+    isLoading: isLoading,
+    isError: isError,
+  } = useQuery(getOffplanVsReady());
+
   const [selectedOption, setSelectedOption] = useState<string>("Yearly");
   const frvsre = new OfVsRe();
   const [chartData, setChartData] = useState<
     | OfReChartDataTypeYearly
     | OfReChartDataTypeQuaterly
     | OfReChartDataTypeMonthly
-  >(frvsre.getYearlyData({ data }));
+  >(frvsre.getYearlyData({ data: offplanvsready! }));
   const Option = ["Yearly", "Qaterly", "Monthly"];
 
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
-      const datat = frvsre.getYearlyData({ data });
+      const datat = frvsre.getYearlyData({ data: offplanvsready! });
       setChartData(datat);
     } else if (selectedValue === "Qaterly") {
-      const datat = frvsre.getQuarterlyData({ data });
+      const datat = frvsre.getQuarterlyData({ data: offplanvsready! });
       setChartData(datat);
     } else if (selectedValue === "Monthly") {
-      const datat = frvsre.getMonthlyData({ data });
+      const datat = frvsre.getMonthlyData({ data: offplanvsready! });
       setChartData(datat);
     }
     setSelectedOption(selectedValue);
   };
+
+  useEffect(() => {
+    if (offplanvsready) {
+      const frvsre = new OfVsRe();
+      const datat = frvsre.getYearlyData({ data: offplanvsready! });
+      setChartData(datat);
+    }
+  }, [offplanvsready]);
+
+  if (isLoading || !offplanvsready) {
+    return <Skeleton />;
+  }
 
   return (
     <Card className="border-none">

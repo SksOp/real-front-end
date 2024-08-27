@@ -25,7 +25,7 @@ import {
   getOffplanVsReady,
   getResidentialVsCommercialType,
 } from "@/repository/tanstack/queries/functions.queries";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { LocationSales } from "../insights/location-sales/location-sales";
 import { LocationTransaction } from "../insights/location-transaction/location-transaction";
 import { Bedrooms } from "../insights/bedrooms/bedrooms";
@@ -40,70 +40,7 @@ export const Report = () => {
     data: avgValue,
     isLoading: isLoading1,
     isError: isError1,
-  } = useSuspenseQuery(getAverageValues());
-  const {
-    data: locationSales,
-    isLoading: isLoading2,
-    isError: isError2,
-  } = useSuspenseQuery(getLocationSales());
-  const {
-    data: bedrooms,
-    isLoading: isLoading3,
-    isError: isError3,
-  } = useSuspenseQuery(getBedrooms());
-  const {
-    data: residentialVsCommercialData,
-    isLoading: isLoading4,
-    isError: isError4,
-  } = useSuspenseQuery(getResidentialVsCommercialType());
-  const {
-    data: offplanvsready,
-    isLoading: isLoading5,
-    isError: isError5,
-  } = useSuspenseQuery(getOffplanVsReady());
-  const {
-    data: freeholdbslease,
-    isLoading: isLoading6,
-    isError: isError6,
-  } = useSuspenseQuery(getFreeholdVsLease());
-  const {
-    data: IQR,
-    isLoading: isLoading7,
-    isError: isError7,
-  } = useSuspenseQuery(getIQR());
-
-  const {
-    data: dataFlatvsVillavsLand,
-    isLoading: isLoading8,
-    isError: isError8,
-  } = useSuspenseQuery(getFlatVillaLand());
-
-  if (
-    isLoading1 ||
-    isLoading2 ||
-    isLoading3 ||
-    isLoading4 ||
-    isLoading5 ||
-    isLoading6 ||
-    isLoading7 ||
-    isLoading8
-  ) {
-    return <div>Loading...</div>;
-  }
-  if (
-    isError1 ||
-    isError2 ||
-    isError3 ||
-    isError4 ||
-    isError5 ||
-    isError6 ||
-    isError7 ||
-    isError8
-  ) {
-    return <div>Error</div>;
-  }
-
-  console.log(IQR);
+  } = useQuery(getAverageValues());
 
   const transactionData = getTransactionData(avgValue!);
 
@@ -216,14 +153,14 @@ export const Report = () => {
       </div>
       <SalesMarketTrend data={transactionData.SalesTransactions!} />
       <GrowthChart data={transactionData.SalesTransactions!} />
-      <SalesIndexBenchmarking data={IQR!} />
-      <LocationTransaction data={locationSales!} />
-      <LocationSales data={locationSales!} />
-      <Bedrooms data={bedrooms!} />
-      <ResidentialVsCommercial data={residentialVsCommercialData!} />
-      <FreeholdvsLease data={freeholdbslease!} />
-      <OffplanvsReady data={offplanvsready!} />
-      <FlatvsVillavsLand data={dataFlatvsVillavsLand!} />
+      <SalesIndexBenchmarking />
+      <LocationTransaction />
+      <LocationSales />
+      <Bedrooms />
+      <ResidentialVsCommercial />
+      <FreeholdvsLease />
+      <OffplanvsReady />
+      <FlatvsVillavsLand />
     </div>
   );
 };

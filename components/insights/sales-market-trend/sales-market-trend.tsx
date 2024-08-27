@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import Barchart from "@/components/chart/barchart/barchart"; // Adjust the import path according to your project structure
 import { SalesTransactionsType } from "@/transcation/types";
 import { SalesTransactions } from "@/actions/salestransaction";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
   desktop: {
@@ -38,10 +39,6 @@ export function SalesMarketTrend({ data }: { data: SalesTransactionsType }) {
   >(salestransaction.getYearlySalesData({ data }));
   const Option = ["Yearly", "Qaterly", "Monthly"];
 
-  if (!data) {
-    return <>No data available</>;
-  }
-
   const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Yearly") {
@@ -56,6 +53,18 @@ export function SalesMarketTrend({ data }: { data: SalesTransactionsType }) {
     }
     setSelectedOption(selectedValue);
   };
+
+  useEffect(() => {
+    if (data) {
+      const salestransaction = new SalesTransactions();
+      const datat = salestransaction.getYearlySalesData({ data });
+      setChartData(datat);
+    }
+  }, [data]);
+
+  if (!data) {
+    return <Skeleton />;
+  }
 
   const title = (
     <div className="flex justify-between items-center">
@@ -96,7 +105,7 @@ export function SalesMarketTrend({ data }: { data: SalesTransactionsType }) {
       barRadius={8}
       tickLine={true}
       gridStroke="#ccc"
-      tickFontSize="8px"
+      tickFontSize="12px"
       tickFormatter={(value) => value.slice(0, 4)}
     />
   );
