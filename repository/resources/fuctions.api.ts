@@ -9,6 +9,7 @@ import {
   TransactionAverageValues,
   TransactionMonthlyAverage,
 } from "@/transcation/types";
+import { LastFiveTransactionprops } from "@/types/transactionCard";
 import axios from "axios";
 
 export const fetchAverageTransactions =
@@ -247,6 +248,21 @@ export const fetchFlatVillaLand = async (): Promise<{
       rowsVilla: RecieveDataType[];
       rowsLand: RecieveDataType[];
     } = res.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const fetchLastTransactions = async (): Promise<
+  LastFiveTransactionprops[] | null
+> => {
+  try {
+    const res = await axios.get(
+      process.env.NEXT_PUBLIC_LASTFIVETRANSACTION_URL!
+    );
+    const data: LastFiveTransactionprops[] = res.data;
     return data;
   } catch (error) {
     console.error(error);

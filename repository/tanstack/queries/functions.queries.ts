@@ -6,6 +6,7 @@ import {
   fetchFlatVillaLand,
   fetchFreeholdVsLease,
   fetchIQR,
+  fetchLastTransactions,
   fetchLocationSales,
   fetchOffplanVsReady,
   fetchResidentialVsCommercialType,
@@ -110,6 +111,16 @@ export const getFlatVillaLand = () => {
     queryKey: ["flat-villa-land"],
     queryFn: () => {
       return fetchFlatVillaLand();
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const getLastTransactions = () => {
+  return queryOptions({
+    queryKey: ["last-transactions"],
+    queryFn: () => {
+      return fetchLastTransactions();
     },
     staleTime: 1000 * 60 * 5,
   });

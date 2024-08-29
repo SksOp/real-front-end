@@ -2,14 +2,24 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { FilterIcon, VerticalThreeDots } from "@/public/svg/icons";
 import { Separator } from "./ui/separator";
-import { transactionData } from "@/constants/transactionCards";
+// import { transactionData } from "@/constants/transactionCards";
 import TransactionCard from "./transaction-card";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { DownIcon, UpIcon } from "@/public/svg/Indicator";
 import { ReportCard } from "./ui/reportCard";
 import TransactionFilter from "./transaction-filter";
+import { getLastTransactions } from "@/repository/tanstack/queries/functions.queries";
+import { useQuery } from "@tanstack/react-query";
 
 function TransactionTabs() {
+  const {
+    data: Transaction,
+    isLoading: isLoading,
+    isError: isError,
+  } = useQuery(getLastTransactions());
+
+  console.log(Transaction);
+
   return (
     <Tabs defaultValue="all">
       <TabsList className="w-full gap-3 items-center justify-between bg-background ">
@@ -115,7 +125,7 @@ function TransactionTabs() {
             }
           />
         </div>
-        {transactionData.map((transaction, index) => (
+        {Transaction?.map((transaction, index) => (
           <TransactionCard key={index} {...transaction} />
         ))}
       </TabsContent>
