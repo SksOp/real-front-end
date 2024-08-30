@@ -22,7 +22,7 @@ function InsightPage() {
     <Layout page="insights">
       <Tabs
         defaultValue="explore"
-        className="w-full items-center mt-12  justify-center"
+        className="w-full items-center justify-center"
       >
         <TabsList className="w-full items-center justify-between px-4 py-3">
           <TabsTrigger value="explore">Explore</TabsTrigger>

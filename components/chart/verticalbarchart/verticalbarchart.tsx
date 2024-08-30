@@ -1,7 +1,6 @@
 import React from "react";
 import { BarChart, Bar, LabelList, XAxis, YAxis } from "recharts";
 import { ChartContainer } from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
 
 interface VerticalBarChartComponentProps {
   dataKey: string;

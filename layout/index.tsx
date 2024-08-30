@@ -12,7 +12,7 @@ function Layout({
 }) {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="min-h-screen max-w-screen overflow-y-auto">
         {children}
       </div>

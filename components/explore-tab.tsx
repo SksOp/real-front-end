@@ -8,6 +8,7 @@ import { ScrollArea } from "./ui/scroll-area";
 import ExploreListingIndex from "./explore-listing-index";
 import ExploreTotalSales from "./explore-total-sales";
 import ExploreAreaWise from "./explore-area-wise";
+import TransactionHistory from "./transaction-history";
 
 function ExploreTab() {
   return (
@@ -37,6 +38,7 @@ function ExploreTab() {
         className="flex flex-col gap-8 justify-center items-start "
       >
         <ExplorePriceChanges />
+        <TransactionHistory />
         <ExploreDemand />
         <ExploreTotalSales />
         <ExploreAdsTab />

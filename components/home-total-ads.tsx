@@ -1,16 +1,20 @@
 import React from "react";
-import ExploreFormats from "./explore-formats";
-import InsightCard from "./insightCard";
-import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ChevronDownCircle } from "lucide-react";
+import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
 
-function ExploreTotalSales() {
+function HomeTotalAds() {
   return (
-    <ExploreFormats
-      title="Total Sales for Today (135000)"
-      description="Aliquam porta nisl dolor, molestie pellentesque"
-    >
-      <div className="flex flex-col gap-2">
+    <Card className="border-2 rounded-xl w-full p-0">
+      <CardHeader className="w-full ">
+        <CardTitle className="text-lg font-semibold text-secondary">
+          Total Online Ads - Today (135000)
+        </CardTitle>
+        <h3 className="text-base text-muted-foreground truncate">
+          Get a holistic view listings and property ads in the region.
+        </h3>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2">
         <div className="flex justify-between items-center w-full gap-4 p-0">
           <VerticalBarChartComponent
             dataKey={"Property Finder (50%)"}
@@ -47,17 +51,9 @@ function ExploreTotalSales() {
           />
           <ChevronDownCircle size={24} />
         </div>
-      </div>
-      {/* <InsightCard>
-        <span>
-          Total <span className="font-bold text-secondary">13500</span> Sales
-          happened today. Lorem ipsum{" "}                    
-          <span className="font-bold text-secondary">4%</span> sit amet
-          consectetur. Gravida augue aliquam interdum morbi.
-        </span>
-      </InsightCard> */}
-    </ExploreFormats>
+      </CardContent>
+    </Card>
   );
 }
 
-export default ExploreTotalSales;
+export default HomeTotalAds;
