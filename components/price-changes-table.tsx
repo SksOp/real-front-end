@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 import { Badge } from "./ui/badge";
+import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 
 // Define types for the props used in the components
 interface PropertyInfoProps {
@@ -47,12 +48,16 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             <h3 className="text-sm text-muted-foreground font-semibold w-16 break-words">
               {"Average price"}
             </h3>
-            <h2 className="text-base text-secondary font-semibold">
-              {avgPrice}
-            </h2>
+            <div className="flex gap-1 justify-start items-center">
+              <h2 className="text-base text-secondary font-semibold">
+                {avgPrice}
+              </h2>
+              <span className="text-red-600 font-semibold">21%</span>
+              <CircularDownIcon />
+            </div>
           </div>
-          <div className="w-1/3 flex flex-col items-start justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold w-16 break-words">
+          <div className="w-1/3 flex flex-col items-start ml-4 justify-center">
+            <h3 className="text-sm text-muted-foreground font-se  mibold w-16 break-words">
               {"Price Per sq. ft"}
             </h3>
             <h2 className="text-base text-secondary font-semibold">
@@ -63,9 +68,13 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             <h3 className="text-sm text-muted-foreground font-semibold w-20 break-words">
               {"No. of transactions"}
             </h3>
-            <h2 className="text-base text-secondary font-semibold">
-              {transactions}
-            </h2>
+            <div className="flex gap-1 justify-start items-center">
+              <h2 className="text-base text-secondary font-semibold">
+                {transactions}
+              </h2>
+              <span className="text-green-600 font-semibold">21%</span>
+              <CircularUpIcon />
+            </div>
           </div>
           {/* <PropertyInfo label="Average price" value={avgPrice} />
           <PropertyInfo label="Price Per sq. ft" value={pricePerSqFt} />

@@ -26,8 +26,10 @@ interface BarChartComponentProps {
   chartConfig: any; // Adjust this type according to the actual ChartConfig type
   data: any[]; // You can make this more specific if you know the shape of your data
   xAxisDataKey: string;
-  yAxisDataKey: string;
-  barColor?: string;
+  yAxisDataKey1: string;
+  yAxisDataKey2: string;
+  barColor1?: string;
+  barColor2?: string;
   barRadius?: number;
   gridStroke?: string;
   tickColor?: string;
@@ -42,12 +44,14 @@ interface BarChartComponentProps {
   customGridProps?: Record<string, any>;
 }
 
-const Barchart: React.FC<BarChartComponentProps> = ({
+const DualBarchart: React.FC<BarChartComponentProps> = ({
   data,
   chartConfig,
   xAxisDataKey,
-  yAxisDataKey,
-  barColor = "#DDDAF9",
+  yAxisDataKey1,
+  yAxisDataKey2,
+  barColor1 = "#DDDAF9",
+  barColor2 = "#F2F2F2",
   barRadius = 4,
   gridStroke = "#F2F2F2",
   tickColor = "black",
@@ -76,7 +80,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <BarChart data={data} margin={{ left: -50 }}>
+        <BarChart data={data}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -91,16 +95,24 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             {...customXAxisProps}
           />
           <YAxis
-            dataKey={yAxisDataKey}
+            dataKey={yAxisDataKey1}
             tickLine={tickLine}
-            tickMargin={0}
-            // tickMargin={tickMargin}
+            tickMargin={tickMargin}
             axisLine={axisLine}
           />
           <ChartTooltip content={<ChartTooltipContent />} />
           <Bar
-            dataKey={yAxisDataKey}
-            fill={barColor}
+            dataKey={yAxisDataKey1}
+            fill={barColor1}
+            radius={barRadius}
+            stroke={"#121212"}
+            barSize={30}
+            spacing={20}
+            {...customBarProps}
+          />
+          <Bar
+            dataKey={yAxisDataKey2}
+            fill={barColor2}
             radius={barRadius}
             stroke={"#121212"}
             barSize={30}
@@ -113,4 +125,4 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   );
 };
 
-export default Barchart;
+export default DualBarchart;

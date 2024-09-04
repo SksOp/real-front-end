@@ -6,17 +6,31 @@ interface TimelineViewProps {
   price: number;
   sqft: number;
   growth: number;
+  lastLine?: boolean;
 }
 
-function TimelineView({ date, price, sqft, growth }: TimelineViewProps) {
+function TimelineView({
+  date,
+  price,
+  sqft,
+  growth,
+  lastLine = true,
+}: TimelineViewProps) {
   return (
     <div className="flex gap-2 justify-start items-center">
       <div className="text-xs text-muted-foreground font-medium min-w-14">
         {date}
       </div>
-      <div className="flex flex-col  items-center justify-center">
+      <div
+        className={cn(
+          "flex flex-col items-center justify-center translate-y-8",
+          !lastLine && "translate-y-3"
+        )}
+      >
         <div className="rounded-full bg-secondary w-2 h-2 " />
-        <div className="flex mx-auto  h-full bg-secondary min-h-14 mt-1 w-[2px]" />
+        {lastLine && (
+          <div className="flex mx-auto  h-full bg-secondary min-h-14 mt-1 w-[2px] " />
+        )}
       </div>
       <div className="flex  flex-col ml-1 gap-[0.4rem] ">
         <div className="flex gap-2 items-end justify-center">

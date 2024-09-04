@@ -45,7 +45,13 @@ const VerticalBarChartComponent: React.FC<VerticalBarChartComponentProps> = ({
               },
             ]}
           >
-            <Bar dataKey={dataKey} fill={color} radius={4} barSize={32}>
+            <Bar
+              dataKey={dataKey}
+              fill={color}
+              radius={4}
+              barSize={32}
+              stroke={"#121212"}
+            >
               <LabelList
                 position="insideLeft"
                 dataKey="date"

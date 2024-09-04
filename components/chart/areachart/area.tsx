@@ -23,11 +23,7 @@ import {
 } from "@/components/ui/chart";
 
 interface AreaChartComponentProps {
-  title: React.ReactNode;
-  description: React.ReactNode;
   chartConfig: any;
-  footer: React.ReactNode;
-  footerDescription: string;
   data: any[];
   xAxisDataKey: string;
   yAxisDataKey: string;
@@ -48,14 +44,10 @@ interface AreaChartComponentProps {
 
 const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   data,
-  title,
-  description,
   chartConfig,
-  footer,
-  footerDescription,
   xAxisDataKey,
   yAxisDataKey,
-  areaColor = "#A9A1F4",
+  areaColor = "#B6B1F0",
   areaOpacity = 0.4,
   gridStroke = "#FFFFFF",
   tickColor = "black",
@@ -82,67 +74,56 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div style={{ overflowX: "auto" }}>
-          <div
-            style={{
-              width: chartWidth,
-              height: chartHeight,
-              overflowY: "hidden",
-            }}
-          >
-            <ChartContainer config={chartConfig}>
-              <ResponsiveContainer aspect={aspect} height={chartHeight}>
-                <AreaChart
-                  data={data}
-                  margin={{
-                    top: 0,
-                    right: 10,
-                    bottom: 0,
-                    left: 10,
-                  }}
-                >
-                  <CartesianGrid
-                    vertical={false}
-                    stroke={gridStroke}
-                    {...customGridProps}
-                  />
-                  <XAxis
-                    dataKey={xAxisDataKey}
-                    tickLine={tickLine}
-                    tickMargin={tickMargin}
-                    axisLine={axisLine}
-                    tickFormatter={customTickFormatter}
-                    tickCount={data.length}
-                    {...customXAxisProps}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+    <ChartContainer config={chartConfig}>
+      <ResponsiveContainer aspect={aspect} height={chartHeight}>
+        <AreaChart
+          data={data}
+          margin={{
+            top: 0,
+            right: 10,
+            bottom: 0,
+            left: 10,
+          }}
+        >
+          {/* Define a gradient in the defs section */}
+          <defs>
+            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop
+                offset="5%"
+                stopColor={areaColor}
+                stopOpacity={areaOpacity}
+              />
+              <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
+            </linearGradient>
+          </defs>
 
-                  <Area
-                    dataKey={yAxisDataKey}
-                    fill={areaColor}
-                    fillOpacity={areaOpacity}
-                    stroke={areaColor}
-                    {...customAreaProps}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">{footer}</div>
-        <div className="leading-none text-muted-foreground">
-          {footerDescription}
-        </div>
-      </CardFooter>
-    </Card>
+          <CartesianGrid
+            vertical={false}
+            stroke={gridStroke}
+            {...customGridProps}
+          />
+          <XAxis
+            dataKey={xAxisDataKey}
+            tickLine={tickLine}
+            tickMargin={tickMargin}
+            axisLine={axisLine}
+            tickFormatter={customTickFormatter}
+            tickCount={data.length}
+            {...customXAxisProps}
+          />
+          <ChartTooltip content={<ChartTooltipContent />} />
+
+          {/* Use the gradient as the fill for the Area */}
+          <Area
+            type={"natural"}
+            dataKey={yAxisDataKey}
+            fill="url(#areaGradient)"
+            stroke={areaColor}
+            {...customAreaProps}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   );
 };
 

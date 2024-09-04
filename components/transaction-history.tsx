@@ -26,9 +26,17 @@ function TransactionHistory() {
         </TabsList>
         <TabsContent
           value="sales"
-          className="w-full flex gap-2 overflow-x-scroll"
+          className="w-full flex flex-col gap-1 min-h-20"
         >
           <TimelineView date="2019" price={1000} sqft={1000} growth={23} />
+          <TimelineView date="2019" price={1000} sqft={1000} growth={23} />
+          <TimelineView
+            date="2019"
+            price={1000}
+            sqft={1000}
+            growth={23}
+            lastLine={false}
+          />
         </TabsContent>
       </Tabs>
     </ChartWrapper>
