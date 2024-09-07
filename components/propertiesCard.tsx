@@ -31,7 +31,7 @@ function PropertiesCard({
   price,
 }: PropertiescardProps) {
   return (
-    <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
+    <Card className="w-full p-4 border-2 rounded-lg flex justify-start gap-0 bg-card">
       <div className="flex-grow ">
         <Image
           src={imageUrl}
