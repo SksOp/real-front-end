@@ -11,6 +11,9 @@ export class SalesTransactions {
   }: {
     data: SalesTransactionsType;
   }): SalesChartDataTypeYearly[] {
+    if (!data) {
+      return [];
+    }
     const salesCount: { [year: string]: number } = {};
     const years = Object.keys(data!).slice(-12); // Last 12 years of data
 

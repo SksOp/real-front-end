@@ -11,6 +11,10 @@ export class Bedroom {
   }: {
     data: BedroomType;
   }): BedroomChartDataTypeYearly[] {
+    if (!data) {
+      return [];
+    }
+
     const bedroomCount: { [bedrooms: string]: number } = {};
     const years = Object.keys(data).slice(-12); // Last 12 years of data
     for (const year of years) {

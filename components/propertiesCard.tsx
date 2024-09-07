@@ -12,29 +12,41 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import InsightDrawerView from "./insightDrawerView";
+import { ListingDataType } from "@/types/listing";
 
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "AED",
-    minimumFractionDigits: 0,
-  }).format(price);
+function formatPrice(price: string): string {
+  // Remove commas from the price string
+  const priceWithoutCommas = price.replace(/,/g, "");
+
+  // Convert the string to a number
+  const numericPrice = Number(priceWithoutCommas);
+
+  // Format the number based on its size
+  if (numericPrice >= 1_000_000_000) {
+    return (numericPrice / 1_000_000_000).toFixed(1) + "B AED";
+  } else if (numericPrice >= 1_000_000) {
+    return (numericPrice / 1_000_000).toFixed(1) + "M AED";
+  } else if (numericPrice >= 1_000) {
+    return (numericPrice / 1_000).toFixed(1) + "K AED";
+  } else {
+    return numericPrice.toFixed(0) + " AED";
+  }
 }
 
 function PropertiesCard({
-  imageUrl,
-  name,
+  imageURL,
+  title: name,
   location,
-  bedrooms,
-  bathrooms,
-  area,
+  // bedrooms,
+  // bathrooms,
+  // area,
   price,
-}: PropertiescardProps) {
+}: ListingDataType) {
   return (
     <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
       <div className="flex-grow ">
         <Image
-          src={imageUrl}
+          src={imageURL}
           alt={name}
           className="object-cover rounded-lg "
           width={110}
@@ -51,16 +63,16 @@ function PropertiesCard({
           <div className="flex flex-wrap gap-2 text-muted-foreground text-bold mt-2">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
-              <p>{bedrooms} Bedrooms</p>
+              <p>{0} Bedrooms</p>
             </div>
             <div className="flex gap-1 justify-start items-center">
               <BathIcon className="w-4 h-4" />
-              <p>{bathrooms} Bathrooms</p>
+              <p>{0} Bathrooms</p>
             </div>
 
             <div className="flex gap-1 justify-start items-center">
               <AreaSizeIcon className="w-[0.9rem] h-[0.9rem]" />
-              <p>{area} sqft</p>
+              <p>{0} sqft</p>
             </div>
           </div>
         </div>

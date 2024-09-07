@@ -69,7 +69,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   customGridProps = {},
 }) => {
   // Calculate chart width based on the number of data points
-  const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
+  const chartWidth = Math.max(data.length * 35, 450); // 80 pixels per data point, minimum 500px width
   const chartHeight = 250;
 
   const aspect = chartWidth / chartHeight;
@@ -97,7 +97,16 @@ const Barchart: React.FC<BarChartComponentProps> = ({
           >
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer aspect={aspect} height={chartHeight}>
-                <BarChart data={data}>
+                <BarChart
+                  data={data}
+                  barGap="1"
+                  margin={{
+                    top: 0,
+                    right: 10,
+                    bottom: 0,
+                    left: 10,
+                  }}
+                >
                   <CartesianGrid
                     vertical={false}
                     stroke={gridStroke}
@@ -107,6 +116,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
                     dataKey={xAxisDataKey}
                     tickLine={tickLine}
                     tickMargin={tickMargin}
+                    minTickGap={0}
                     axisLine={axisLine}
                     tickFormatter={customTickFormatter}
                     {...customXAxisProps}
@@ -117,7 +127,6 @@ const Barchart: React.FC<BarChartComponentProps> = ({
                     fill={barColor}
                     radius={barRadius}
                     barSize={30}
-                    spacing={20}
                     {...customBarProps}
                   />
                 </BarChart>

@@ -117,8 +117,8 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
                     tickLine={tickLine}
                     tickMargin={tickMargin}
                     axisLine={axisLine}
+                    minTickGap={0}
                     tickFormatter={customTickFormatter}
-                    tickCount={data.length}
                     {...customXAxisProps}
                   />
                   <ChartTooltip content={<ChartTooltipContent />} />
@@ -126,8 +126,8 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
                   <Area
                     dataKey={yAxisDataKey}
                     fill={areaColor}
-                    fillOpacity={areaOpacity}
                     stroke={areaColor}
+                    fillOpacity={0.4}
                     {...customAreaProps}
                   />
                 </AreaChart>

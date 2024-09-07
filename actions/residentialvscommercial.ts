@@ -11,6 +11,12 @@ export class ResvsCo {
   }: {
     data: ResidentialVsCommercialType;
   }): RandCChartDataTypeYearly {
+    if (!data) {
+      return {
+        Residential: 0,
+        Commercial: 0,
+      };
+    }
     const result = {
       Residential: 0,
       Commercial: 0,

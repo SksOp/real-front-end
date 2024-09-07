@@ -16,6 +16,8 @@ import ExploreTab from "@/components/explore-tab";
 import TransactionCard from "@/components/transaction-card";
 import TransactionTabs from "@/components/transaction-tabs";
 import Link from "next/link";
+import { FilterProvider } from "@/context/filter/filter-provider";
+import ListingTab from "@/components/listing";
 
 function InsightPage() {
   return (
@@ -34,8 +36,9 @@ function InsightPage() {
           <ExploreTab />
         </TabsContent>
         <TabsContent value="insights" className="mb-20">
-          <Filters />
-          <Report />
+          <FilterProvider>
+            <Report />
+          </FilterProvider>
         </TabsContent>
         <TabsContent value="my-listings">
           <ScrollArea className="overflow-y-scroll">

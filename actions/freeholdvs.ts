@@ -11,6 +11,7 @@ export class FrVsRe {
   }: {
     data: FreeholdVsLeaseType;
   }): FrvReChartDataTypeYearly {
+    if (!data) return { Freehold: 0, Lease: 0 };
     const result = {
       Freehold: 0,
       Lease: 0,
