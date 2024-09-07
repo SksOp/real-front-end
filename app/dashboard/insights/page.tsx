@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/underline-tabs";
 import Filters from "@/components/filters";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import PropertiesCard from "@/components/propertiesCard";
 import { Report } from "@/components/reportcharts/report";
 import { PropertiesList } from "@/constants/properties";
 import Layout from "@/layout";
@@ -18,6 +17,7 @@ import TransactionTabs from "@/components/transaction-tabs";
 import Link from "next/link";
 import { FilterProvider } from "@/context/filter/filter-provider";
 import ListingTab from "@/components/listing";
+import PropertiesCard from "@/components/propertiesCard";
 
 function InsightPage() {
   return (
@@ -44,7 +44,14 @@ function InsightPage() {
           <ScrollArea className="overflow-y-scroll">
             {PropertiesList.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
-                <PropertiesCard {...property} key={index} />
+                <PropertiesCard
+                  title={property.name}
+                  key={index}
+                  imageURL={property.imageUrl}
+                  price={property.price}
+                  location={property.location}
+                  permitNumber={0}
+                />
               </Link>
             ))}
           </ScrollArea>
