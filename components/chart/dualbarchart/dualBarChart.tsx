@@ -7,6 +7,8 @@ import {
   Tooltip,
   ResponsiveContainer,
   YAxis,
+  ReferenceLine,
+  Label,
 } from "recharts";
 import {
   Card,
@@ -42,6 +44,8 @@ interface BarChartComponentProps {
   customBarProps?: Record<string, any>;
   customXAxisProps?: Record<string, any>;
   customGridProps?: Record<string, any>;
+  referance?: string;
+  referanceValue?: number;
 }
 
 const DualBarchart: React.FC<BarChartComponentProps> = ({
@@ -64,6 +68,8 @@ const DualBarchart: React.FC<BarChartComponentProps> = ({
   customBarProps = {},
   customXAxisProps = {},
   customGridProps = {},
+  referance,
+  referanceValue,
 }) => {
   // Calculate chart width based on the number of data points
   const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
@@ -80,7 +86,7 @@ const DualBarchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <BarChart data={data}>
+        <BarChart data={data} margin={{ left: -50 }}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -101,6 +107,7 @@ const DualBarchart: React.FC<BarChartComponentProps> = ({
             axisLine={axisLine}
           />
           <ChartTooltip content={<ChartTooltipContent />} />
+
           <Bar
             dataKey={yAxisDataKey1}
             fill={barColor1}
@@ -119,6 +126,30 @@ const DualBarchart: React.FC<BarChartComponentProps> = ({
             spacing={20}
             {...customBarProps}
           />
+
+          {referance && (
+            <ReferenceLine
+              y={referanceValue}
+              stroke="#353535"
+              strokeDasharray="3 3"
+              strokeWidth={1}
+            >
+              <Label
+                position="insideBottomLeft"
+                value={referance}
+                offset={10}
+                fill="hsl(var(--foreground))"
+              />
+              <Label
+                position="insideTopLeft"
+                value={referanceValue}
+                className="text-lg"
+                fill="hsl(var(--foreground))"
+                offset={10}
+                startOffset={100}
+              />
+            </ReferenceLine>
+          )}
         </BarChart>
       </ResponsiveContainer>
     </ChartContainer>

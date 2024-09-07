@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ExploreFormats from "./explore-formats";
-import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import VerticalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import { ChevronDownCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import ChartWrapper from "./chart/chartWrapper";

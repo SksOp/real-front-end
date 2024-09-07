@@ -1,7 +1,7 @@
 import React from "react";
 import ExploreFormats from "./explore-formats";
 import InsightCard from "./insightCard";
-import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import VerticalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import { ChevronDownCircle } from "lucide-react";
 
 function ExploreTotalSales() {

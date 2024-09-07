@@ -193,7 +193,7 @@
 "use client";
 
 import React, { useState } from "react";
-import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
+import VerticalBarChartComponent from "../../chart/horizontalbarchart/horizontalbarchart"; // Adjust the import path according to your project structure
 import { OffplanvsReadyType } from "@/transcation/types";
 import { OfVsRe } from "@/actions/offplanvsready";
 import {

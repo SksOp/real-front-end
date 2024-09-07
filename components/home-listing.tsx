@@ -1,11 +1,16 @@
 import React from "react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
 
 function HomeListing() {
+  const router = useRouter();
   const images = ["/prop1.png", "/prop2.png", "/prop3.png", "/prop4.png"];
   return (
-    <Card className="border-2 rounded-xl w-full p-0 bg-[#FCFBEE]">
+    <Card
+      className="border-2 rounded-xl w-full p-0 bg-[#FCFBEE]"
+      onClick={() => router.push("/insights")}
+    >
       <CardHeader className="w-full ">
         <CardTitle className="text-lg font-semibold text-secondary">
           Your listings (24)

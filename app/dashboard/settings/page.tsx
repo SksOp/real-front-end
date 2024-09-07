@@ -3,8 +3,12 @@ import AreaChartComponent from "@/components/chart/areachart/area";
 import Barchart from "@/components/chart/barchart/barchart";
 import ChartWrapper from "@/components/chart/chartWrapper";
 import DualBarchart from "@/components/chart/dualbarchart/dualBarChart";
+import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
+import LineChartComponent from "@/components/chart/lineChart/lineChart";
 import PieChartComponent from "@/components/chart/piechart/piechart";
+import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
 import { ChartConfig } from "@/components/ui/chart";
+import { Separator } from "@/components/ui/separator";
 import Layout from "@/layout";
 import React from "react";
 
@@ -35,12 +39,11 @@ const chartConfig2 = {
 
 function SettingsPage() {
   const sampleData = [
-    { month: "January", value: 186 },
-    { month: "February", value: 305 },
-    { month: "March", value: 237 },
-    { month: "April", value: 73 },
-    { month: "May", value: 209 },
-    { month: "June", value: 214 },
+    { month: "January", value: 186, fill: "#FCF8D1" },
+    { month: "February", value: 305, fill: "#CBE5FB" },
+    { month: "March", value: 237, fill: "#FFDBDB" },
+    { month: "April", value: 73, fill: "#EFEEFC" },
+    { month: "May", value: 209, fill: "#DDF8E4" },
   ];
 
   const sampleData2 = [
@@ -60,7 +63,7 @@ function SettingsPage() {
             chartConfig={chartConfig}
             data={sampleData}
             xAxisDataKey={"month"}
-            yAxisDataKey={"value"}
+            yAxisDataKeys={["value"]}
           />
         </ChartWrapper>
 
@@ -109,13 +112,116 @@ function SettingsPage() {
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
         >
-          <DualBarchart
+          <Barchart
             chartConfig={chartConfig}
             data={sampleData2}
             xAxisDataKey={"month"}
-            yAxisDataKey1={"desktop"}
-            yAxisDataKey2={"mobile"}
+            yAxisDataKeys={["desktop", "mobile"]}
+            referance="Average"
+            referanceValue={150}
           />
+        </ChartWrapper>
+
+        <ChartWrapper
+          title="Number of Transactions"
+          description="Number of transactions over time in Dubai."
+          isFilter={false}
+        >
+          <SalesIndexCardComponent percentile25={50} percentile75={150} />
+        </ChartWrapper>
+
+        <ChartWrapper
+          title="Number of Transactions"
+          description="Number of transactions over time in Dubai."
+          isFilter={false}
+        >
+          <LineChartComponent
+            chartConfig={chartConfig}
+            data={[
+              { month: "January", value1: 186, value2: 80 },
+              { month: "February", value1: 305, value2: 200 },
+              { month: "March", value1: 237, value2: 120 },
+              { month: "April", value1: 73, value2: 190 },
+              { month: "May", value1: 209, value2: 130 },
+              { month: "June", value1: 214, value2: 140 },
+            ]}
+            xAxisDataKey="month"
+            yAxisDataKey="value1"
+            lines={[
+              { dataKey: "value1", color: "#B6B1F0" },
+              { dataKey: "value2", color: "#121212" },
+            ]}
+          />
+        </ChartWrapper>
+
+        <ChartWrapper
+          title="Number of Transactions"
+          description="Number of transactions over time in Dubai."
+          isFilter={false}
+        >
+          <LineChartComponent
+            chartConfig={chartConfig}
+            data={[
+              { month: "January", value1: 186 },
+              { month: "February", value1: 305 },
+              { month: "March", value1: 237 },
+              { month: "April", value1: 73 },
+              { month: "May", value1: 209 },
+              { month: "June", value1: 214 },
+            ]}
+            xAxisDataKey="month"
+            yAxisDataKey="value1"
+            lines={[{ dataKey: "value1", color: "#B6B1F0" }]}
+          />
+        </ChartWrapper>
+
+        <ChartWrapper
+          title="Number of Transactions"
+          description="Number of transactions over time in Dubai."
+          isFilter={false}
+        >
+          <Barchart
+            chartConfig={chartConfig}
+            data={sampleData}
+            xAxisDataKey={"month"}
+            yAxisDataKeys={["value"]}
+            showXAxis={false}
+          />
+        </ChartWrapper>
+
+        <ChartWrapper
+          title="Number of Transactions"
+          description="Number of transactions over time in Dubai."
+          isFilter={false}
+        >
+          <HorizontalBarChartComponent
+            chartConfig={chartConfig}
+            data={sampleData}
+            xAxisDataKey={"month"}
+            yAxisDataKey={"value"}
+          />
+          <div className="flex items-center justify-start space-x-4 gap-2 mt-4">
+            <div className="flex flex-col items-center justify-between">
+              <p className="text-base text-muted-foreground whitespace-nowrap">
+                Total Sales
+              </p>
+              <h3 className="text-2xl text-secondary font-semibold">2650</h3>
+            </div>
+            <Separator orientation="vertical" />
+            <div className="flex flex-col items-center justify-between">
+              <p className="text-base text-muted-foreground whitespace-nowrap">
+                Market value
+              </p>
+              <h3 className="text-2xl text-secondary font-semibold">2650</h3>
+            </div>
+            <Separator orientation="vertical" />
+            <div className="flex flex-col items-center justify-between">
+              <p className="text-base text-muted-foreground whitespace-nowrap">
+                Offplan vs Ready
+              </p>
+              <h3 className="text-2xl text-secondary font-semibold">10:2</h3>
+            </div>
+          </div>
         </ChartWrapper>
       </div>
     </Layout>

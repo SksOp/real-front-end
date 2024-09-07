@@ -7,15 +7,10 @@ import {
   Tooltip,
   ResponsiveContainer,
   YAxis,
+  ReferenceLine,
+  Label,
+  LabelList,
 } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -26,8 +21,8 @@ interface BarChartComponentProps {
   chartConfig: any; // Adjust this type according to the actual ChartConfig type
   data: any[]; // You can make this more specific if you know the shape of your data
   xAxisDataKey: string;
-  yAxisDataKey: string;
-  barColor?: string;
+  yAxisDataKeys: string[]; // Array of keys for multiple bars
+  barColors?: string[]; // Array of colors for each bar
   barRadius?: number;
   gridStroke?: string;
   tickColor?: string;
@@ -40,14 +35,17 @@ interface BarChartComponentProps {
   customBarProps?: Record<string, any>;
   customXAxisProps?: Record<string, any>;
   customGridProps?: Record<string, any>;
+  referance?: string;
+  referanceValue?: number;
+  showXAxis?: boolean;
 }
 
 const Barchart: React.FC<BarChartComponentProps> = ({
   data,
   chartConfig,
   xAxisDataKey,
-  yAxisDataKey,
-  barColor = "#DDDAF9",
+  yAxisDataKeys,
+  barColors = ["#DDDAF9", "#F2F2F2"], // Default to one color if not provided
   barRadius = 4,
   gridStroke = "#F2F2F2",
   tickColor = "black",
@@ -60,6 +58,9 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   customBarProps = {},
   customXAxisProps = {},
   customGridProps = {},
+  referance,
+  referanceValue,
+  showXAxis = true,
 }) => {
   // Calculate chart width based on the number of data points
   const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
@@ -76,37 +77,72 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <BarChart data={data} margin={{ left: -50 }}>
+        <BarChart data={data} margin={{ left: -50 }} barGap={10}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
             {...customGridProps}
           />
-          <XAxis
-            dataKey={xAxisDataKey}
-            tickLine={tickLine}
-            tickMargin={tickMargin}
-            axisLine={axisLine}
-            tickFormatter={customTickFormatter}
-            {...customXAxisProps}
-          />
-          <YAxis
-            dataKey={yAxisDataKey}
-            tickLine={tickLine}
-            tickMargin={0}
-            // tickMargin={tickMargin}
-            axisLine={axisLine}
-          />
+          {showXAxis ? (
+            <XAxis
+              dataKey={xAxisDataKey}
+              tickLine={tickLine}
+              tickMargin={tickMargin}
+              axisLine={axisLine}
+              tickFormatter={customTickFormatter}
+              {...customXAxisProps}
+            />
+          ) : null}
+          <YAxis tickLine={tickLine} tickMargin={0} axisLine={axisLine} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar
-            dataKey={yAxisDataKey}
-            fill={barColor}
-            radius={barRadius}
-            stroke={"#121212"}
-            barSize={30}
-            spacing={20}
-            {...customBarProps}
-          />
+
+          {yAxisDataKeys.map((key, index) => (
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={barColors[index % barColors.length]} // Cycle through colors
+              radius={barRadius}
+              stroke={"#121212"}
+              barSize={30}
+              spacing={20}
+              {...customBarProps}
+            >
+              {!showXAxis && (
+                <LabelList
+                  dataKey={xAxisDataKey}
+                  position="insideBottom"
+                  angle={-90}
+                  offset={26}
+                  fontSize={12}
+                  fill="#5C5C5C"
+                />
+              )}
+            </Bar>
+          ))}
+
+          {referance && (
+            <ReferenceLine
+              y={referanceValue}
+              stroke="hsl(var(--muted-foreground))"
+              strokeDasharray="3 3"
+              strokeWidth={1}
+            >
+              <Label
+                position="insideBottomLeft"
+                value={referance}
+                offset={10}
+                fill="#353535"
+              />
+              <Label
+                position="insideTopLeft"
+                value={referanceValue}
+                className="text-lg"
+                fill="#353535"
+                offset={10}
+                startOffset={100}
+              />
+            </ReferenceLine>
+          )}
         </BarChart>
       </ResponsiveContainer>
     </ChartContainer>

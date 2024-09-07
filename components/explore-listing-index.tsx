@@ -1,7 +1,7 @@
 import React from "react";
 import ExploreFormats from "./explore-formats";
 import InsightCard from "./insightCard";
-import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import VerticalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import SalesIndexCardComponent from "./chart/salesIndexcard/salesIndexcard";
 
 function ExploreListingIndex() {

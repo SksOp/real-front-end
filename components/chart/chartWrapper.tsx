@@ -49,7 +49,7 @@ function ChartWrapper({
   );
 
   return (
-    <Card className="border-0 w-full">
+    <Card className="border-0 w-full bg-background">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle className="text-xl font-bold text-secondary">
