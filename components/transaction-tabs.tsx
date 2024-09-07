@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { FilterIcon, VerticalThreeDots } from "@/public/svg/icons";
 import { Separator } from "./ui/separator";
@@ -8,8 +8,14 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { DownIcon, UpIcon } from "@/public/svg/Indicator";
 import { ReportCard } from "./ui/reportCard";
 import TransactionFilter from "./transaction-filter";
-import { getLastTransactions } from "@/repository/tanstack/queries/functions.queries";
+import {
+  getAverageValues,
+  getLastTransactions,
+} from "@/repository/tanstack/queries/functions.queries";
 import { useQuery } from "@tanstack/react-query";
+import { getTransactionData } from "@/transcation/dataConverter";
+import { FilterContext } from "@/context/filter/filter-provider";
+import ReportSection from "./insights/reportsection/reportsection";
 
 function TransactionTabs() {
   const {
@@ -18,7 +24,15 @@ function TransactionTabs() {
     isError: isError,
   } = useQuery(getLastTransactions());
 
-  console.log(Transaction);
+  const {
+    data: avgValue,
+    isLoading: isLoading1,
+    isError: isError1,
+  } = useQuery(getAverageValues());
+
+  const props = useContext(FilterContext);
+
+  const transactionData = getTransactionData(avgValue!);
 
   return (
     <Tabs defaultValue="all">
@@ -58,73 +72,7 @@ function TransactionTabs() {
         value="all"
         className="w-full flex flex-col gap-2 overflow-x-scroll"
       >
-        <div className="grid grid-cols-2 gap-3 px-3">
-          <ReportCard
-            title="Total Sales Value"
-            value={"$3.5 M"}
-            color="green"
-            description={
-              <>
-                <div className="flex items-center justify-center">
-                  <UpIcon className={{ width: "20", hight: "20" }} />
-                  <p className={`text-xs font-semibold text-[#0AAE11]`}>
-                    26500
-                  </p>
-                  <p className="text-xs font-semibold text-[#BBBBBB] px-1">{` vs last year`}</p>
-                </div>
-              </>
-            }
-          />
-          <ReportCard
-            title="Total Sales Value"
-            value={"$3.5 M"}
-            color="green"
-            description={
-              <>
-                <div className="flex items-center justify-center">
-                  <UpIcon className={{ width: "20", hight: "20" }} />
-                  <p className={`text-xs font-semibold text-[#0AAE11]`}>
-                    26500
-                  </p>
-                  <p className="text-xs font-semibold text-[#BBBBBB] px-1">{` vs last year`}</p>
-                </div>
-              </>
-            }
-          />
-
-          <ReportCard
-            title="Total Sales Value"
-            value={"$3.5 M"}
-            color="green"
-            description={
-              <>
-                <div className="flex items-center justify-center">
-                  <UpIcon className={{ width: "20", hight: "20" }} />
-                  <p className={`text-xs font-semibold text-[#0AAE11]`}>
-                    26500
-                  </p>
-                  <p className="text-xs font-semibold text-[#BBBBBB] px-1">{` vs last year`}</p>
-                </div>
-              </>
-            }
-          />
-          <ReportCard
-            title="Total Sales Value"
-            value={"$3.5 M"}
-            color="green"
-            description={
-              <>
-                <div className="flex items-center justify-center">
-                  <UpIcon className={{ width: "20", hight: "20" }} />
-                  <p className={`text-xs font-semibold text-[#0AAE11]`}>
-                    26500
-                  </p>
-                  <p className="text-xs font-semibold text-[#BBBBBB] px-1">{` vs last year`}</p>
-                </div>
-              </>
-            }
-          />
-        </div>
+        <ReportSection transactionData={transactionData} />
         {Transaction?.map((transaction, index) => (
           <TransactionCard key={index} {...transaction} />
         ))}

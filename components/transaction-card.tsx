@@ -21,14 +21,38 @@ function formatNumber(value: number): number {
   }
 }
 
+function formatValueWithUnits(value: number): string {
+  const formattedValue = formatNumber(value);
+  if (value >= 1_000_000_000) {
+    return `${formattedValue.toFixed(2)}B`;
+  } else if (value >= 1_000_000) {
+    return `${formattedValue.toFixed(2)}M`;
+  } else if (value >= 1_000) {
+    return `${formattedValue.toFixed(2)}K`;
+  } else {
+    return `${formattedValue}`;
+  }
+}
+
+function convertToPerSqFt(perSqMeterValue: number): number {
+  const sqMeterToSqFt = 10.7639; // Conversion factor from square meters to square feet
+  return perSqMeterValue / sqMeterToSqFt;
+}
+
 const TransactionCard: React.FC<LastFiveTransactionprops> = ({ ...props }) => {
   const formattedValue = formatNumber(Number(props.TRANS_VALUE));
-  const formattedPerSqFt = (
-    Number(props.TRANS_VALUE) / Number(props.ACTUAL_AREA)
-  ).toFixed(1);
+  const formattedPerSqMeter =
+    Number(props.TRANS_VALUE) / Number(props.ACTUAL_AREA);
+  const formattedPerSqFt = convertToPerSqFt(formattedPerSqMeter);
+  const formattedPerSqFtWithUnits = formatValueWithUnits(formattedPerSqFt);
 
   const date = props.INSTANCE_DATE.value;
-  console.log(props.INSTANCE_DATE);
+
+  const badges = [
+    props.IS_OFFPLAN ? "OffPlan" : "Ready",
+    props.USAGE_EN,
+    props.PROP_TYPE_EN,
+  ];
 
   return (
     <Card className="border-0">
@@ -51,7 +75,7 @@ const TransactionCard: React.FC<LastFiveTransactionprops> = ({ ...props }) => {
             ? "M"
             : "K"}
           <span className="text-muted-foreground text-lg font-bold mx-1">
-            ({formattedPerSqFt} per sq. m)
+            ({formattedPerSqFtWithUnits} per sq. ft)
           </span>
         </h1>
         <div className="flex justify-start gap-2 items-center">
@@ -61,7 +85,7 @@ const TransactionCard: React.FC<LastFiveTransactionprops> = ({ ...props }) => {
       </CardHeader>
       <CardFooter className="flex flex-col gap-2">
         <div className="flex justify-start gap-4 items-center w-full">
-          {/* {badges.map((badge, index) => (
+          {badges.map((badge, index) => (
             <Badge
               key={index}
               className="bg-muted text-muted-foreground font-medium text-sm"
@@ -69,7 +93,7 @@ const TransactionCard: React.FC<LastFiveTransactionprops> = ({ ...props }) => {
             >
               {badge}
             </Badge>
-          ))} */}
+          ))}
         </div>
         <div className="flex justify-start gap-4 items-center w-full">
           <div className="flex justify-center items-center gap-1">

@@ -9,6 +9,7 @@ import {
   TransactionAverageValues,
   TransactionMonthlyAverage,
 } from "@/transcation/types";
+import { ListingDataType } from "@/types/listing";
 import { LastFiveTransactionprops } from "@/types/transactionCard";
 import axios from "axios";
 
@@ -263,6 +264,23 @@ export const fetchLastTransactions = async (): Promise<
       process.env.NEXT_PUBLIC_LASTFIVETRANSACTION_URL!
     );
     const data: LastFiveTransactionprops[] = res.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const fetchListings = async (): Promise<ListingDataType[] | null> => {
+  try {
+    const res = await axios.post("http://localhost:5050/api", {
+      propertyfinderURL:
+        "https://www.propertyfinder.ae/en/agent/charlie-simmonds-236369",
+      bayutURL: "https://www.bayut.com/brokers/charlie-simmonds-2089799.html",
+    });
+    const data: ListingDataType[] = res.data;
+
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error);

@@ -1,8 +1,6 @@
 import { TransactionAverageValues, SalesTransactionsType } from "./types";
 
-
-
-interface TransactionData {
+export interface TransactionData {
   averageValue: string;
   growthAverageValue: string;
   totalValue: string;
@@ -11,43 +9,63 @@ interface TransactionData {
   growthYoyValue: string;
   totalTransactions: string;
   growthTotalTransactions: string;
-  SalesTransactions :SalesTransactionsType | null
+  SalesTransactions: SalesTransactionsType | null;
 }
 
 const formatValue = (value: number): string => {
-  if (value >= 1_000_000) {
-    return `${Math.round(value / 1_000_000)} M`;
+  if (value >= 1_000_000_000) {
+    return `${(value / 1_000_000_000).toFixed(2)} B`;
+  } else if (value >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(2)} M`;
   } else if (value >= 1_000) {
-    return `${Math.round(value / 1_000)} K`;
+    return `${(value / 1_000).toFixed(2)} K`;
   } else {
     return value.toString();
   }
 };
 
-const getPreviousMonth = (monthIndex: number, yearIndex: number): { month: string; year: string } => {
+const getPreviousMonth = (
+  monthIndex: number,
+  yearIndex: number
+): { month: string; year: string } => {
   const date = new Date(yearIndex, monthIndex, 1);
   date.setMonth(date.getMonth() - 1);
   return {
-    month: date.toLocaleString('default', { month: 'long' }),
-    year: date.getFullYear().toString()
+    month: date.toLocaleString("default", { month: "long" }),
+    year: date.getFullYear().toString(),
   };
 };
 
-const convertToSalesTransactions = (data: TransactionAverageValues): SalesTransactionsType => {
+const convertToSalesTransactions = (
+  data: TransactionAverageValues
+): SalesTransactionsType => {
   const salesTransactions: SalesTransactionsType = {};
 
   const monthOrder = [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   for (const year in data) {
     if (!salesTransactions[year]) {
       salesTransactions[year] = {};
     }
-    const sortedMonths = Object.keys(data[year]).sort((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
+    const sortedMonths = Object.keys(data[year]).sort(
+      (a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b)
+    );
     for (const month of sortedMonths) {
       salesTransactions[year][month] = {
-        Transactions: data[year][month].Transactions
+        Transactions: data[year][month].Transactions,
       };
     }
   }
@@ -55,7 +73,9 @@ const convertToSalesTransactions = (data: TransactionAverageValues): SalesTransa
   return salesTransactions;
 };
 
-export const getTransactionData = (data: TransactionAverageValues): TransactionData => {
+export const getTransactionData = (
+  data: TransactionAverageValues
+): TransactionData => {
   if (!data) {
     return {
       averageValue: "0",
@@ -66,12 +86,13 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
       growthAverageValue: "0",
       growthYoyValue: "0",
       growthTotalTransactions: "0",
-      SalesTransactions: null
+      SalesTransactions: null,
     };
   }
 
   console.log("data", data);
-  const salesTransactions: SalesTransactionsType = convertToSalesTransactions(data);
+  const salesTransactions: SalesTransactionsType =
+    convertToSalesTransactions(data);
 
   const years = Object.keys(data).sort();
   if (years.length < 2) {
@@ -84,7 +105,7 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
       growthAverageValue: "0",
       growthYoyValue: "0",
       growthTotalTransactions: "0",
-      SalesTransactions: null
+      SalesTransactions: null,
     };
   }
 
@@ -96,27 +117,50 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
   let totalSalesSecondPreviousYear = 0;
   let totalTransactionsSecondPreviousYear = 0;
 
-  Object.entries(data[previousYear]).forEach(([month, { sales, Transactions }]) => {
-    totalSalesPreviousYear += sales;
-    totalTransactionsPreviousYear += Transactions;
-  });
+  Object.entries(data[previousYear]).forEach(
+    ([month, { sales, Transactions }]) => {
+      totalSalesPreviousYear += sales;
+      totalTransactionsPreviousYear += Transactions;
+    }
+  );
 
   if (data[secondPreviousYear]) {
-    Object.entries(data[secondPreviousYear]).forEach(([month, { sales, Transactions }]) => {
-      totalSalesSecondPreviousYear += sales;
-      totalTransactionsSecondPreviousYear += Transactions;
-    });
+    Object.entries(data[secondPreviousYear]).forEach(
+      ([month, { sales, Transactions }]) => {
+        totalSalesSecondPreviousYear += sales;
+        totalTransactionsSecondPreviousYear += Transactions;
+      }
+    );
   }
 
-  const yoyGrowth = totalSalesSecondPreviousYear ? ((totalSalesPreviousYear - totalSalesSecondPreviousYear) / totalSalesSecondPreviousYear) * 100 : 0;
-  const growthAverageValue = totalSalesSecondPreviousYear && totalTransactionsSecondPreviousYear
-    ? ((totalSalesPreviousYear / totalTransactionsPreviousYear - totalSalesSecondPreviousYear / totalTransactionsSecondPreviousYear) / (totalSalesSecondPreviousYear / totalTransactionsSecondPreviousYear)) * 100
+  const yoyGrowth = totalSalesSecondPreviousYear
+    ? ((totalSalesPreviousYear - totalSalesSecondPreviousYear) /
+        totalSalesSecondPreviousYear) *
+      100
     : 0;
-  const growthTotalValue = totalSalesSecondPreviousYear ? ((totalSalesPreviousYear - totalSalesSecondPreviousYear) / totalSalesSecondPreviousYear) * 100 : 0;
-  const growthTotalTransactions = totalTransactionsSecondPreviousYear ? ((totalTransactionsPreviousYear - totalTransactionsSecondPreviousYear) / totalTransactionsSecondPreviousYear) * 100 : 0;
+  const growthAverageValue =
+    totalSalesSecondPreviousYear && totalTransactionsSecondPreviousYear
+      ? ((totalSalesPreviousYear / totalTransactionsPreviousYear -
+          totalSalesSecondPreviousYear / totalTransactionsSecondPreviousYear) /
+          (totalSalesSecondPreviousYear /
+            totalTransactionsSecondPreviousYear)) *
+        100
+      : 0;
+  const growthTotalValue = totalSalesSecondPreviousYear
+    ? ((totalSalesPreviousYear - totalSalesSecondPreviousYear) /
+        totalSalesSecondPreviousYear) *
+      100
+    : 0;
+  const growthTotalTransactions = totalTransactionsSecondPreviousYear
+    ? ((totalTransactionsPreviousYear - totalTransactionsSecondPreviousYear) /
+        totalTransactionsSecondPreviousYear) *
+      100
+    : 0;
 
   return {
-    averageValue: formatValue(totalSalesPreviousYear / (totalTransactionsPreviousYear || 1)),
+    averageValue: formatValue(
+      totalSalesPreviousYear / (totalTransactionsPreviousYear || 1)
+    ),
     growthAverageValue: `${growthAverageValue.toFixed(2)}%`,
     totalValue: formatValue(totalSalesPreviousYear),
     growthTotalValue: `${growthTotalValue.toFixed(2)}%`,
@@ -124,6 +168,6 @@ export const getTransactionData = (data: TransactionAverageValues): TransactionD
     growthYoyValue: `${yoyGrowth.toFixed(2)}%`,
     totalTransactions: formatValue(totalTransactionsPreviousYear),
     growthTotalTransactions: `${growthTotalTransactions.toFixed(2)}%`,
-    SalesTransactions : salesTransactions
+    SalesTransactions: salesTransactions,
   };
 };
