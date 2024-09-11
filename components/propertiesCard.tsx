@@ -12,6 +12,8 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import InsightDrawerView from "./insightDrawerView";
+import { Badge } from "./ui/badge";
+import { Separator } from "./ui/separator";
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -31,31 +33,54 @@ function PropertiesCard({
   price,
 }: PropertiescardProps) {
   return (
-    <Card className="w-full p-4 border-2 rounded-lg flex justify-start gap-0 bg-card">
+    <Card className="flex justify-start relative gap-4 border-2 rounded-xl bg-background w-full p-4">
       <div className="flex-grow ">
-        <Image
+        <img
           src={imageUrl}
           alt={name}
-          className="object-cover rounded-lg "
-          width={110}
-          height={100}
+          className="object-cover rounded-xl h-full"
         />
       </div>
-      <div className="flex w-2/3 flex-col justify-between">
-        <div>
-          <h3 className="text-lg font-extrabold">{name}</h3>
-          <div className="flex justify-start text-sm items-center gap-2">
-            <LocationIcon className="w-4 h-4" />
-            <p className="text-muted font-light">{location}</p>
+      <div className="flex w-2/3 flex-col gap-2 justify-between">
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center ">
+            <h3 className="text-lg font-extrabold">{name}</h3>
+            <div className="bg-[#8177E5] px-3 h-6 absolute right-0 text-white rounded-l-full">
+              Sale
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2 text-muted-foreground text-bold mt-2">
+          <div className="flex justify-start text-sm items-center gap-4">
+            <LocationIcon className="w-4 h-4" />
+            <p className="text-muted-foreground font-light">{location}</p>
+          </div>
+          <div className="flex gap-2">
+            <Badge
+              variant={"outline"}
+              className="bg-card text-sm font-light whitespace-nowrap"
+            >
+              Villa
+            </Badge>
+            <Badge
+              variant={"outline"}
+              className="bg-card text-sm font-light whitespace-nowrap"
+            >
+              Residential
+            </Badge>
+            <Badge
+              variant={"outline"}
+              className="bg-card text-sm font-light whitespace-nowrap"
+            >
+              Off plan
+            </Badge>
+          </div>
+          <div className="flex flex-wrap justify-start items-center gap-6 text-muted-foreground text-bold mt-2">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
-              <p>{bedrooms} Bedrooms</p>
+              <p>{bedrooms} </p>
             </div>
             <div className="flex gap-1 justify-start items-center">
               <BathIcon className="w-4 h-4" />
-              <p>{bathrooms} Bathrooms</p>
+              <p>{bathrooms} </p>
             </div>
 
             <div className="flex gap-1 justify-start items-center">
@@ -64,6 +89,7 @@ function PropertiesCard({
             </div>
           </div>
         </div>
+        <Separator />
         <div className="flex justify-between items-center">
           <h3 className="text-base font-extrabold">{formatPrice(price)}</h3>
           <Drawer>

@@ -110,11 +110,11 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               {!showXAxis && (
                 <LabelList
                   dataKey={xAxisDataKey}
-                  position="insideBottom"
+                  position="insideBottomLeft"
                   angle={-90}
-                  offset={26}
-                  fontSize={12}
-                  fill="#5C5C5C"
+                  offset={18}
+                  fontSize={14}
+                  className="fill-[--color-label]"
                 />
               )}
             </Bar>
@@ -130,6 +130,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               <Label
                 position="insideBottomLeft"
                 value={referance}
+                className="text-lg "
                 offset={10}
                 fill="#353535"
               />

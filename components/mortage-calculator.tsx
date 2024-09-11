@@ -19,10 +19,10 @@ import { Button } from "./ui/button";
 function MortageCalculator() {
   const [isCalculatorOpen, setIsCalculatorOpen] = React.useState(false);
   return (
-    <Card className="border-0 mb-20">
+    <Card className="border-2 rounded-xl  mb-20">
       <CardHeader>
-        <CardTitle>Mortage Calculator</CardTitle>
-        <CardDescription className="text-muted-foreground">
+        <CardTitle className="font-medium">Mortage Calculator</CardTitle>
+        <CardDescription className="text-muted-foreground font-medium">
           Lorem ipsum dolor sit amet consectetur. Gravida augue aliquam
           interdum.
         </CardDescription>
@@ -31,40 +31,62 @@ function MortageCalculator() {
         <div className="flex flex-col gap-4 justify-center items-center w-full">
           <div className="flex justify-start gap-8 items-center w-full">
             <DownPaymentIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
-              <h3 className="text-muted-foreground">Down Payment</h3>
-              <p className="text-lg text-secondary font-bold">12123300</p>
-              {isCalculatorOpen && <Slider className="" />}
+            <div className="flex flex-col gap-2 items-start justify-center w-full">
+              <h3 className="text-muted-foreground ">Down Payment</h3>
+              <p className="text-lg text-secondary bg-white w-full font-bold p-2">
+                12123300
+              </p>
+              <Slider className="" />
             </div>
           </div>
-          <div className="flex justify-start gap-8 items-center w-full">
+          {/* <div className="flex justify-start gap-8 items-center w-full">
             <MonthlyPaymentIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
+            <div className="flex flex-col gap-2 items-start justify-center w-full">
               <h3 className="text-muted-foreground">Monthly Payment</h3>
-              <p className="text-lg text-secondary font-bold">250000</p>
+              <p className="text-lg text-secondary bg-white w-full font-bold p-2">
+                250000
+              </p>
               {isCalculatorOpen && <Slider className="" />}
             </div>
-          </div>
+          </div> */}
           <div className="flex justify-start gap-8 items-center w-full">
             <InterstRateIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
+            <div className="flex flex-col gap-2 items-start justify-center w-full">
               <h3 className="text-muted-foreground">Interest Rate</h3>
-              <p className="text-lg text-secondary font-bold">4%</p>
-              {isCalculatorOpen && <Slider className="" />}
+              <p className="text-lg text-secondary bg-white w-full font-bold p-2">
+                4%
+              </p>
+              <Slider className="" />
             </div>
           </div>
           <div className="flex justify-start gap-8 items-center w-full">
             <DurationIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
+            <div className="flex flex-col gap-2 items-start justify-center w-full">
               <h3 className="text-muted-foreground">Duration (Years)</h3>
-              <p className="text-lg text-secondary font-bold">25</p>
-              {isCalculatorOpen && <Slider className="" />}
+              <p className="text-lg text-secondary bg-white w-full font-bold p-2">
+                25 Years
+              </p>
+              <Slider className="" />
             </div>
           </div>
         </div>
       </CardContent>
-      <CardFooter className="w-full">
-        {isCalculatorOpen ? (
+      <CardFooter className="w-full flex flex-col gap-1 justify-center items-start">
+        <h3 className="text-secondary text-3xl font-bold">
+          250000{" "}
+          <span className="text-muted-foreground text-base font-medium">
+            / Month
+          </span>
+        </h3>
+        <p className="text-muted-foreground text-base font-medium">
+          is the monthly payment as per the given input
+          <span className="text-primary font-semibold">
+            {" "}
+            View detailed illustration
+          </span>
+        </p>
+
+        {/* {isCalculatorOpen ? (
           <Button
             variant={"secondary"}
             className="text-primary-foreground hover:bg-secondary py-8 font-bold rounded-lg border-2 w-full"
@@ -80,7 +102,7 @@ function MortageCalculator() {
           >
             Change Parameter
           </Button>
-        )}
+        )} */}
       </CardFooter>
     </Card>
   );

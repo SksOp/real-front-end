@@ -7,6 +7,10 @@ import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/h
 import LineChartComponent from "@/components/chart/lineChart/lineChart";
 import PieChartComponent from "@/components/chart/piechart/piechart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
+import Feedback from "@/components/feedback";
+import MatrixRow from "@/components/matrix-row";
+import SimilarTransaction from "@/components/similar-transaction";
+import TransactionTable from "@/components/transactionTable";
 import { ChartConfig } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
 import Layout from "@/layout";
@@ -54,7 +58,7 @@ function SettingsPage() {
 
   return (
     <Layout page="settings">
-      <div className="flex flex-col gap-2 mb-20">
+      <div className="flex flex-col m-4 gap-2 mb-20">
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
@@ -79,7 +83,7 @@ function SettingsPage() {
               dataKey="value"
               nameKey="name"
             />
-            <div className="grid grid-cols-2  gap-2 w-fullpl-4">
+            {/* <div className="grid grid-cols-2  gap-2 w-full pl-4">
               {data.map((item) => (
                 <div key={item.name} className="flex items-center gap-2">
                   <span
@@ -91,7 +95,7 @@ function SettingsPage() {
                   </span>
                 </div>
               ))}
-            </div>
+            </div> */}
           </ChartWrapper>
         </div>
 
@@ -127,7 +131,11 @@ function SettingsPage() {
           description="Number of transactions over time in Dubai."
           isFilter={false}
         >
-          <SalesIndexCardComponent percentile25={50} percentile75={150} />
+          <SalesIndexCardComponent
+            percentile25={50}
+            percentile75={150}
+            knob={25}
+          />
         </ChartWrapper>
 
         <ChartWrapper
@@ -200,29 +208,12 @@ function SettingsPage() {
             xAxisDataKey={"month"}
             yAxisDataKey={"value"}
           />
-          <div className="flex items-center justify-start space-x-4 gap-2 mt-4">
-            <div className="flex flex-col items-center justify-between">
-              <p className="text-base text-muted-foreground whitespace-nowrap">
-                Total Sales
-              </p>
-              <h3 className="text-2xl text-secondary font-semibold">2650</h3>
-            </div>
-            <Separator orientation="vertical" />
-            <div className="flex flex-col items-center justify-between">
-              <p className="text-base text-muted-foreground whitespace-nowrap">
-                Market value
-              </p>
-              <h3 className="text-2xl text-secondary font-semibold">2650</h3>
-            </div>
-            <Separator orientation="vertical" />
-            <div className="flex flex-col items-center justify-between">
-              <p className="text-base text-muted-foreground whitespace-nowrap">
-                Offplan vs Ready
-              </p>
-              <h3 className="text-2xl text-secondary font-semibold">10:2</h3>
-            </div>
-          </div>
+          <MatrixRow />
         </ChartWrapper>
+
+        <SimilarTransaction />
+
+        <Feedback />
       </div>
     </Layout>
   );

@@ -81,7 +81,7 @@ const LineChartComponent: React.FC<LineChartComponentProps> = ({
             stroke={line.color || "var(--color-default)"}
             strokeWidth={line.strokeWidth || 2}
             type="natural"
-            dot={false}
+            dot={true}
             activeDot={{
               fill: line.color || "var(--color-default)",
               r: 4,

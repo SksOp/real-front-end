@@ -37,13 +37,13 @@ function InsightPage() {
         </TabsList>
         <TabsContent value="insights"></TabsContent>
         <TabsContent value="my-listings">
-          <ScrollArea className="overflow-y-scroll">
+          <div className="overflow-y-scroll flex flex-col gap-4 px-4">
             {PropertiesList.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
                 <PropertiesCard {...property} key={index} />
               </Link>
             ))}
-          </ScrollArea>
+          </div>
           <div className="h-20" />
         </TabsContent>
       </Tabs>

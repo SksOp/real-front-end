@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function HomeListing() {
   const router = useRouter();

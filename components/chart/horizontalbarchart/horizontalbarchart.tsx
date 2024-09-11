@@ -36,6 +36,8 @@ const HorizontalBarChartComponent: React.FC<
         margin={{
           right: 30,
         }}
+        barCategoryGap={40}
+        barGap={10}
       >
         <YAxis
           dataKey={xAxisDataKey}

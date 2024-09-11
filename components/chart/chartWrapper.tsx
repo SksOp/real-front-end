@@ -49,10 +49,10 @@ function ChartWrapper({
   );
 
   return (
-    <Card className="border-0 w-full bg-background">
+    <Card className="border-2 rounded-xl w-full bg-background">
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-bold text-secondary">
+        <div className="flex justify-between items-center ">
+          <CardTitle className="text-base font-bold text-secondary">
             {title}
           </CardTitle>
           <span className="flex items-center justify-center">
@@ -63,21 +63,21 @@ function ChartWrapper({
               <DropdownMenuContent align="end">
                 <DropdownMenuItem>
                   <Download size={22} className="mr-2" />
-                  <span className="text-base">Download</span>
+                  <span className="text-sm">Download</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Share2 size={22} className="mr-2 " />
-                  <span>Share</span>
+                  <span className="text-sm">Share</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Info size={22} className="mr-2 " />
-                  <span>Info</span>
+                  <span className="text-sm">Info</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </span>
         </div>
-        <CardDescription className="text-base text-muted-foreground">
+        <CardDescription className="text-sm text-muted-foreground">
           {description}
         </CardDescription>
         {isFilter && (
@@ -87,8 +87,8 @@ function ChartWrapper({
                 key={filter}
                 onClick={() => setSelectedFilter(filter)}
                 className={cn(
-                  "h-10 px-4 py-2 rounded-full border border-input bg-background  hover:text-accent-foreground",
-                  selectedFilter === filter && "bg-primary/20"
+                  "h-10 px-4 py-2 rounded-full border border-input bg-background  ",
+                  selectedFilter === filter && "bg-secondary text-white"
                 )}
               >
                 {filter}
@@ -97,7 +97,7 @@ function ChartWrapper({
           </div>
         )}
       </CardHeader>
-      <CardContent className="w-full">{children ?? defaultView}</CardContent>
+      <CardContent className="w-full ">{children ?? defaultView}</CardContent>
     </Card>
   );
 }
