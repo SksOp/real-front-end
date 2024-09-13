@@ -10,24 +10,26 @@ interface MatrixCardProp {
 
 function MatrixCard({ title, value, growth }: MatrixCardProp) {
   return (
-    <Card className="px-0 py-4 rounded-3xl flex flex-col gap-2">
-      <CardHeader className="px-4 py-0">
-        <CardTitle className="text-base font-semibold text-muted-foreground">
+    <Card className=" rounded-3xl flex w-full flex-col ">
+      <CardHeader className="px-4 py-4 w-full">
+        <CardTitle className="text-sm font-semibold text-muted-foreground truncate">
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex items-center justify-start gap-4 px-4 py-0 whitespace-nowrap">
-        <h3 className="text-base text-secondary">{value}</h3>
+      <CardContent className="flex items-center w-full justify-start gap-4 px-4 py-4 pt-0  truncate">
+        <h3 className="text-xl font-bold text-secondary">{value}</h3>
         {growth > 0 ? (
-          <div className="flex items-center justify-start gap-2">
+          <div className="flex items-center justify-start gap-1">
             <CircularUpIcon />
-            <p className="text-green-600 text-secondary text-sm">{growth} %</p>
+            <p className="text-green-600 text-secondary text-base">
+              {growth} %
+            </p>
           </div>
         ) : (
-          <>
+          <div className="flex items-center justify-start gap-1">
             <CircularDownIcon />
-            <p className="text-red-600 text-secondary text-sm">{-growth} %</p>
-          </>
+            <p className="text-red-600 text-secondary text-base">{-growth} %</p>
+          </div>
         )}
       </CardContent>
     </Card>

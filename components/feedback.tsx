@@ -22,7 +22,33 @@ function Feedback() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <div className="flex justify-stretch"></div>
+        <div className="flex justify-around mb-2">
+          <img
+            src="/imgs/feedback/star1.png"
+            alt="happy"
+            className="w-12 h-12"
+          />
+          <img
+            src="/imgs/feedback/star2.png"
+            alt="happy"
+            className="w-12 h-12"
+          />
+          <img
+            src="/imgs/feedback/star3.png"
+            alt="happy"
+            className="w-12 h-12"
+          />
+          <img
+            src="/imgs/feedback/star4.png"
+            alt="happy"
+            className="w-12 h-12"
+          />
+          <img
+            src="/imgs/feedback/star5.png"
+            alt="happy"
+            className="w-12 h-12"
+          />
+        </div>
 
         <Input
           placeholder="Enter your Feedback"

@@ -9,6 +9,7 @@ import PieChartComponent from "@/components/chart/piechart/piechart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
 import Feedback from "@/components/feedback";
 import MatrixRow from "@/components/matrix-row";
+import PriceChangesTable from "@/components/price-changes-table";
 import SimilarTransaction from "@/components/similar-transaction";
 import TransactionTable from "@/components/transactionTable";
 import { ChartConfig } from "@/components/ui/chart";
@@ -213,6 +214,7 @@ function SettingsPage() {
 
         <SimilarTransaction />
 
+        <PriceChangesTable selectedRow={2} />
         <Feedback />
       </div>
     </Layout>

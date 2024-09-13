@@ -16,17 +16,19 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { LabelPosition } from "recharts/types/component/Label";
 
 interface HorizontalBarChartComponentProps {
   chartConfig: any;
   data: any[];
   xAxisDataKey: string;
   yAxisDataKey: string;
+  position?: LabelPosition;
 }
 
 const HorizontalBarChartComponent: React.FC<
   HorizontalBarChartComponentProps
-> = ({ chartConfig, data, xAxisDataKey, yAxisDataKey }) => {
+> = ({ chartConfig, data, xAxisDataKey, yAxisDataKey, position }) => {
   return (
     <ChartContainer config={chartConfig}>
       <BarChart
@@ -63,7 +65,7 @@ const HorizontalBarChartComponent: React.FC<
         >
           <LabelList
             dataKey={xAxisDataKey}
-            position="insideLeft"
+            position={position ?? "insideLeft"}
             offset={8}
             className="fill-[--color-label]"
             fontSize={14}

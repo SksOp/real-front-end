@@ -37,27 +37,37 @@ function SimilarTransaction() {
             <DisableBulbIcon />
           </div>
         </div>
-        <Table className="rounded-t-3xl">
-          <TableHeader className="rounded-t-3xl">
-            <TableRow className="bg-card ">
-              <TableHead className="text-secondary">Date</TableHead>
-              <TableHead className="text-secondary">Sell Price</TableHead>
-              <TableHead className="text-secondary">Area (ft)</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {transactions.map((transaction, idx) => (
-              <TableRow
-                key={idx}
-                className={idx % 2 === 1 ? "bg-card" : "bg-background"}
-              >
-                <TableCell>{transaction.date}</TableCell>
-                <TableCell>{transaction.sellPrice}</TableCell>
-                <TableCell>{transaction.area}</TableCell>
+        <div className="border rounded-lg w-full overflow-hidden">
+          <Table className="">
+            <TableHeader className="">
+              <TableRow className="bg-card rounded-t-xl">
+                <TableHead className="text-secondary rounded-tl-xl ">
+                  Date
+                </TableHead>
+                <TableHead className="text-secondary">Sell Price</TableHead>
+                <TableHead className="text-secondary rounded-tr-xl">
+                  Area (ft)
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {transactions.map((transaction, idx) => (
+                <TableRow
+                  key={idx}
+                  className={idx % 2 === 1 ? "bg-card" : "bg-background"}
+                >
+                  <TableCell className="rounded-bl-xl">
+                    {transaction.date}
+                  </TableCell>
+                  <TableCell>{transaction.sellPrice}</TableCell>
+                  <TableCell className="rounded-br-xl">
+                    {transaction.area}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   );

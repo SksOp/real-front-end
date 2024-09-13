@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardDescription, CardHeader } from "./ui/card";
 import { cn } from "@/lib/utils";
+import { Drawer, DrawerTrigger } from "./ui/drawer";
 
 interface DataCardsProps {
   children?: React.ReactNode;
