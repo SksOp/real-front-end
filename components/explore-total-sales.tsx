@@ -10,7 +10,8 @@ function ExploreTotalSales() {
       title="Total Sales for Today (135000)"
       description="Aliquam porta nisl dolor, molestie pellentesque"
     >
-      <div className="flex flex-col gap-2">
+      testing...
+      {/* <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center w-full gap-4 p-0">
           <VerticalBarChartComponent
             dataKey={"Property Finder (50%)"}
@@ -47,7 +48,7 @@ function ExploreTotalSales() {
           />
           <ChevronDownCircle size={24} />
         </div>
-      </div>
+      </div> */}
       {/* <InsightCard>
         <span>
           Total <span className="font-bold text-secondary">13500</span> Sales

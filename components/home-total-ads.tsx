@@ -71,15 +71,15 @@ function HomeTotalAds() {
   ];
   return (
     <Card className="border-2 rounded-xl bg-background w-full p-0">
-      <CardHeader className="w-full ">
+      <CardHeader className="w-full p-4">
         <CardTitle className="text-lg font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
-        <h3 className="text-base text-muted-foreground font-light truncate">
+        <h3 className="text-base text-accent font-normal truncate">
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>
-      <CardContent className="flex flex-col gap-2">
+      <CardContent className="flex flex-col gap-2 px-4 py-0 pb-4">
         {/* <div className="flex justify-between items-center w-full gap-4 p-0"><ChevronDownCircle size={24} /></div> */}
         {/* <VerticalBarChartComponent
           data={data}

@@ -5,7 +5,7 @@ import { Drawer, DrawerTrigger } from "./ui/drawer";
 
 interface DataCardsProps {
   children?: React.ReactNode;
-  description: string;
+  description?: string;
   bgColor?: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }

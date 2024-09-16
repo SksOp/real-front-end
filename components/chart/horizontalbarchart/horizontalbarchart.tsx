@@ -6,6 +6,7 @@ import {
   BarChart,
   CartesianGrid,
   LabelList,
+  ResponsiveContainer,
   XAxis,
   YAxis,
 } from "recharts";
@@ -17,6 +18,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { LabelPosition } from "recharts/types/component/Label";
+import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 
 interface HorizontalBarChartComponentProps {
   chartConfig: any;
@@ -24,61 +27,74 @@ interface HorizontalBarChartComponentProps {
   xAxisDataKey: string;
   yAxisDataKey: string;
   position?: LabelPosition;
+  className?: ClassValue;
 }
 
 const HorizontalBarChartComponent: React.FC<
   HorizontalBarChartComponentProps
-> = ({ chartConfig, data, xAxisDataKey, yAxisDataKey, position }) => {
+> = ({
+  chartConfig,
+  data,
+  xAxisDataKey,
+  yAxisDataKey,
+  position,
+  className,
+}) => {
   return (
-    <ChartContainer config={chartConfig}>
-      <BarChart
-        accessibilityLayer
-        data={data}
-        layout="vertical"
-        margin={{
-          right: 30,
-        }}
-        barCategoryGap={40}
-        barGap={10}
-      >
-        <YAxis
-          dataKey={xAxisDataKey}
-          type="category"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
-          hide
-        />
-        <XAxis dataKey={yAxisDataKey} type="number" hide />
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent indicator="line" />}
-        />
-        <Bar
-          dataKey={yAxisDataKey}
+    <ChartContainer
+      config={chartConfig}
+      className={cn("min-h-full w-full", className)}
+    >
+      <ResponsiveContainer className="h-full">
+        <BarChart
+          accessibilityLayer
+          data={data}
           layout="vertical"
-          stroke={"#121212"}
-          radius={4}
-          barSize={30}
-          spacing={20}
+          margin={{
+            right: 30,
+            left: 10,
+          }}
+          barCategoryGap={30}
         >
-          <LabelList
+          <YAxis
             dataKey={xAxisDataKey}
-            position={position ?? "insideLeft"}
-            offset={8}
-            className="fill-[--color-label]"
-            fontSize={14}
+            type="category"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) => value.slice(0, 3)}
+            hide
           />
-          <LabelList
+          <XAxis dataKey={yAxisDataKey} type="number" hide />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent indicator="line" />}
+          />
+          <Bar
             dataKey={yAxisDataKey}
-            position="right"
-            offset={8}
-            className="fill-foreground"
-            fontSize={12}
-          />
-        </Bar>
-      </BarChart>
+            layout="vertical"
+            stroke={"#121212"}
+            radius={4}
+            barSize={30}
+            spacing={40}
+          >
+            <LabelList
+              dataKey={xAxisDataKey}
+              position={position ?? "insideLeft"}
+              offset={8}
+              className="fill-[--color-label]"
+              fontSize={14}
+            />
+            <LabelList
+              dataKey={yAxisDataKey}
+              position="right"
+              offset={8}
+              className="fill-foreground"
+              fontSize={12}
+            />
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </ChartContainer>
   );
 };

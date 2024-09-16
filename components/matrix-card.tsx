@@ -4,7 +4,7 @@ import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 
 interface MatrixCardProp {
   title: string;
-  value: number;
+  value: string;
   growth: number;
 }
 
@@ -20,15 +20,13 @@ function MatrixCard({ title, value, growth }: MatrixCardProp) {
         <h3 className="text-xl font-bold text-secondary">{value}</h3>
         {growth > 0 ? (
           <div className="flex items-center justify-start gap-1">
-            <CircularUpIcon />
-            <p className="text-green-600 text-secondary text-base">
-              {growth} %
-            </p>
+            <CircularUpIcon className="h-5 w-5" />
+            <p className="text-green-600 font-medium text-sm">{growth} %</p>
           </div>
         ) : (
           <div className="flex items-center justify-start gap-1">
-            <CircularDownIcon />
-            <p className="text-red-600 text-secondary text-base">{-growth} %</p>
+            <CircularDownIcon className="h-5 w-5" />
+            <p className="text-red-600 font-medium text-sm">{-growth} %</p>
           </div>
         )}
       </CardContent>

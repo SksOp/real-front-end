@@ -49,7 +49,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   yAxisDataKey,
   areaColor = "#B6B1F0",
   areaOpacity = 0.4,
-  gridStroke = "#FFFFFF",
+  gridStroke = "#F2F2F2",
   tickColor = "black",
   tickFontSize = "12px",
   tickFormatter = (value) => value.slice(0, 3),
@@ -76,15 +76,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <AreaChart
-          data={data}
-          margin={{
-            top: 0,
-            right: 10,
-            bottom: 0,
-            left: 10,
-          }}
-        >
+        <AreaChart data={data} margin={{ left: -20 }}>
           {/* Define a gradient in the defs section */}
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -107,9 +99,17 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             tickLine={tickLine}
             tickMargin={tickMargin}
             axisLine={axisLine}
+            stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
             tickCount={data.length}
             {...customXAxisProps}
+          />
+          <YAxis
+            dataKey={yAxisDataKey}
+            tickLine={tickLine}
+            tickMargin={tickMargin}
+            stroke={"#C2C2C2"}
+            axisLine={axisLine}
           />
           <ChartTooltip content={<ChartTooltipContent />} />
 
@@ -119,6 +119,12 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             dataKey={yAxisDataKey}
             fill="url(#areaGradient)"
             stroke={areaColor}
+            strokeWidth={2}
+            dot={true}
+            activeDot={{
+              fill: areaColor || "var(--color-default)",
+              r: 4,
+            }}
             {...customAreaProps}
           />
         </AreaChart>

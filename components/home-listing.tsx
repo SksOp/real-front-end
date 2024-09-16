@@ -11,7 +11,7 @@ function HomeListing() {
       className="border-2 rounded-xl w-full p-0 bg-[#FCFBEE]"
       onClick={() => router.push("/insights")}
     >
-      <CardHeader className="w-full ">
+      <CardHeader className="w-full flex flex-col gap-2">
         <CardTitle className="text-lg font-semibold text-secondary">
           Your listings (24)
         </CardTitle>
@@ -31,7 +31,7 @@ function HomeListing() {
             +56
           </div>
         </div>
-        <h3 className="text-base text-muted-foreground ">
+        <h3 className="text-base text-muted-foreground font-normal">
           Get detailed insights about the properties that you have listed
           online. AI driven insights!
         </h3>

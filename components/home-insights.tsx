@@ -8,25 +8,30 @@ function HomeInsights() {
   return (
     <div className="w-full flex justify-center items-stretch gap-2 ">
       <DataCards
-        description="Residential & Commercial dashboards for all usecases including sales,
-        rentals, mortgages etc."
         bgColor="bg-[#EEFBFC]"
-        onClick={() => router.push("/dashboard/insights")}
+        onClick={() =>
+          router.push("/dashboard/insights?tab=insights&&subtab=dashboards")
+        }
       >
         <DashboardIcon />
-        <h3 className="text-secondary font-bold text-base ">
-          Dashboards (15+)
-        </h3>
+        <h3 className="text-secondary font-bold text-lg ">Dashboards</h3>
+        <p className="text-base text-muted-foreground font-normal">
+          <span className="font-semibold">15+</span> dashboards for sales,
+          rentals, commercial etc.
+        </p>
       </DataCards>
       <DataCards
-        description="Advanced calculators includes sales and rental values estimators, ROI Projections etc."
         bgColor="bg-[#EEFCEF]"
-        onClick={() => router.push("/dashboard/insights")}
+        onClick={() =>
+          router.push("/dashboard/insights?tab=insights&&subtab=calculators")
+        }
       >
         <CalculatorIcon />
-        <h3 className="text-secondary font-bold text-base ">
-          Calculators (10+)
-        </h3>
+        <h3 className="text-secondary font-bold text-lg ">Calculators</h3>
+        <p className="text-base font-normal text-muted-foreground">
+          <span className="font-semibold">10+</span> calculators to Estimate
+          sales, rentals, ROI etc.
+        </p>
       </DataCards>
     </div>
   );

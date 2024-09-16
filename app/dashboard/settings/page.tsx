@@ -76,7 +76,6 @@ function SettingsPage() {
           <ChartWrapper
             title="Number of Transactions"
             description="Number of transactions over time in Dubai."
-            isFilter={false}
           >
             <PieChartComponent
               chartConfig={chartConfig2}
@@ -103,7 +102,6 @@ function SettingsPage() {
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
-          isFilter={false}
         >
           <AreaChartComponent
             chartConfig={chartConfig}
@@ -130,7 +128,6 @@ function SettingsPage() {
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
-          isFilter={false}
         >
           <SalesIndexCardComponent
             percentile25={50}
@@ -142,7 +139,6 @@ function SettingsPage() {
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
-          isFilter={false}
         >
           <LineChartComponent
             chartConfig={chartConfig}
@@ -166,7 +162,6 @@ function SettingsPage() {
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
-          isFilter={false}
         >
           <LineChartComponent
             chartConfig={chartConfig}
@@ -187,7 +182,6 @@ function SettingsPage() {
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
-          isFilter={false}
         >
           <Barchart
             chartConfig={chartConfig}
@@ -201,7 +195,6 @@ function SettingsPage() {
         <ChartWrapper
           title="Number of Transactions"
           description="Number of transactions over time in Dubai."
-          isFilter={false}
         >
           <HorizontalBarChartComponent
             chartConfig={chartConfig}

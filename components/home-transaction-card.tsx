@@ -6,21 +6,21 @@ import MatrixCard from "./matrix-card";
 
 function HomeTransactionCard() {
   const data = [
-    { title: "Average Rental Value", value: 120, growth: 20 },
-    { title: "Average Rental Value", value: 120, growth: -20 },
-    { title: "Average Rental Value", value: 120, growth: -15 },
-    { title: "Average Rental Value", value: 120, growth: 20 },
+    { title: "Average Rental Value", value: "120 K", growth: -21 },
+    { title: "Sales per SQFT", value: "$3.5 M", growth: 21 },
+    { title: "Total Value", value: "165 K", growth: 21 },
+    { title: "No of Transactions", value: "20", growth: -21 },
   ];
 
   return (
     <Card className="border-2 rounded-xl bg-background w-full p-0">
-      <CardHeader className="flex flex-row justify-between items-center text-center p-3 w-full ">
+      <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
         <h3 className="text-lg font-semibold text-secondary">Transactions</h3>
-        <h3 className="text-base font-semibold text-primary">
+        <h3 className="text-sm font-semibold text-primary">
           Go to transactions
         </h3>
       </CardHeader>
-      <CardContent className="px-3 py-0 pb-4 w-full">
+      <CardContent className="px-4 py-0 pb-4 w-full">
         <Tabs defaultValue="sales">
           <TabsList className="w-full gap-3 items-center justify-start bg-background ">
             <TabsTrigger
@@ -56,10 +56,12 @@ function HomeTransactionCard() {
           </TabsContent>
         </Tabs>
         <CardFooter className="flex truncate gap-2 justify-start items-center p-0 mt-3">
-          <Info size={15} />
-          <h3 className="text-sm text-muted-foreground">
+          <Info size={14} />
+          <h3 className="text-sm font-medium text-accent">
             Compared with previous month.{" "}
-            <span className="text-primary">learn more.</span>
+            <span className="text-primary font-medium text-sm">
+              learn more.
+            </span>
           </h3>
         </CardFooter>
       </CardContent>

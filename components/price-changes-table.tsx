@@ -16,7 +16,7 @@ interface PriceTableRowProps {
   pricePerSqFt: string;
   transactions: string;
   isMuted: boolean;
-  isSelected: boolean;
+  isSelected?: boolean;
 }
 
 // PriceTableRow Component to represent a single row in the table
@@ -31,8 +31,8 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
   return (
     <TableRow
       className={cn(
-        "rounded-tl-lg cursor-pointer w-full",
-        isMuted ? "bg-muted" : "bg-background"
+        "rounded-tl-xl cursor-pointer w-full",
+        isMuted ? "bg-card" : "bg-background"
       )}
     >
       <TableCell
@@ -41,12 +41,15 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
           isSelected && "rounded-xl border border-primary"
         )}
       >
-        <Badge variant="outline" className="bg-[#CBE5FB] text-muted-foreground">
+        <Badge
+          variant="outline"
+          className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1"
+        >
           {name}
         </Badge>
         <div className="flex items-center justify-between w-full ml-2">
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-medium w-16 break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold w-16 break-words">
               {"Average price"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
@@ -58,7 +61,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </div>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 ml-4 justify-center">
-            <h3 className="text-sm text-muted-foreground font-medium w-16 break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold w-16 break-words">
               {"Price Per sq. ft"}
             </h3>
             <h2 className="text-base text-secondary font-medium">
@@ -66,7 +69,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </h2>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-medium w-20 break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold w-24 break-words">
               {"No. of transactions"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
@@ -85,7 +88,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
 
 // PriceChangesTable Component to render the table with rows
 interface PriceChangesTableProps {
-  selectedRow: number; // Index of the selected row
+  selectedRow?: number; // Index of the selected row
 }
 
 const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
@@ -119,7 +122,7 @@ const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
   ];
 
   return (
-    <div className="border rounded-lg w-full overflow-hidden">
+    <div className="border rounded-xl w-full overflow-hidden">
       <Table>
         <TableBody>
           {data.map((row, index) => (

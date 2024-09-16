@@ -1,5 +1,5 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -9,14 +9,15 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer';
-import { ScrollArea, ScrollBar } from './ui/scroll-area';
-import { Area } from '@/constants/area';
-import { Button } from './ui/button';
-import { cn } from '@/lib/utils';
-import AreaDrawerView from './area-drawer-view';
-import DashboardDrawerView from './dashboard-drawer-view';
-import FilterIcons from './filter-icons';
+} from "@/components/ui/drawer";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { Area } from "@/constants/area";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import AreaDrawerView from "./area-drawer-view";
+import DashboardDrawerView from "./dashboard-drawer-view";
+import FilterIcons from "./filter-icons";
+import { XIcon } from "lucide-react";
 
 function Filters() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -55,32 +56,32 @@ function Filters() {
     {
       value: selectedRoom,
       onChange: (val: any) => handleChange(setSelectedRoom, val),
-      placeholder: 'Bed Rooms',
-      label: 'Bedrooms',
-      options: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      placeholder: "Bed Rooms",
+      label: "Bedrooms",
+      options: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
     },
     {
       value: selectedDeveloper,
       onChange: (val: any) => handleChange(setSelectedDeveloper, val),
-      placeholder: 'Developer',
-      label: 'Developer',
-      options: ['A', 'B', 'C'],
+      placeholder: "Developer",
+      label: "Developer",
+      options: ["A", "B", "C"],
     },
     {
       value: selectedArea,
       onChange: (val: any) => handleChange(setSelectedArea, val),
-      placeholder: 'Area',
-      label: 'Area',
+      placeholder: "Area",
+      label: "Area",
       options: Area,
     },
     {
       value: isFreehold,
       onChange: (val: any) => handleChange(setIsFreehold, val),
-      placeholder: 'Freehold',
-      label: 'Freehold',
+      placeholder: "Freehold",
+      label: "Freehold",
       options: [
-        'Yes',
-        'No',
+        "Yes",
+        "No",
         // { value: "Yes", label: "Yes" },
         // { value: "No", label: "No" },
       ],
@@ -129,17 +130,19 @@ function Filters() {
   };
 
   return (
-    <div className="relative ">
+    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50  top-0 ">
       <ScrollArea className="w-full rounded-md overflow-auto">
-        <div className="flex space-x-2 p-2">
+        <div className="flex items-center space-x-2 p-2">
+          <XIcon className="border border-accent rounded-full p-1" />
+          <div className="w-[1px] h-8 bg-muted" />
           {selectOptions.map((select, index) => (
             <Drawer key={index}>
               <DrawerTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    'min-w-[120px] rounded-full',
-                    select.value ? 'bg-primary ' : 'bg-background'
+                    "min-w-[120px] rounded-full",
+                    select.value ? "bg-primary/10 " : "bg-background"
                   )}
                 >
                   {select.label}
@@ -152,12 +155,12 @@ function Filters() {
                     {select.label}
                   </DrawerTitle>
                 </DrawerHeader>
-                {select.label === 'Area' ? (
+                {select.label === "Area" ? (
                   <AreaDrawerView
                     mostPopular={Area.MostPopularAreas}
                     otherAreas={Area.OtherAreas}
                   />
-                ) : select.label === 'Dashboard' ? (
+                ) : select.label === "Dashboard" ? (
                   <DashboardDrawerView />
                 ) : (
                   <>
@@ -176,7 +179,7 @@ function Filters() {
                               className="form-radio h-4 w-4 text-muted transition duration-150 ease-in-out"
                             />
                             <label
-                              htmlFor={option || ''}
+                              htmlFor={option || ""}
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
                               {option}
