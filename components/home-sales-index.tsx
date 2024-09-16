@@ -44,7 +44,7 @@ function HomeSalesIndex() {
       </CardHeader>
       <CardContent className="px-3 py-0 pb-4 w-full">
         <Tabs defaultValue="residential">
-          <TabsList className="w-full gap-3 items-center justify-start bg-background mb-4">
+          <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
             <TabsTrigger
               value="residential"
               className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"

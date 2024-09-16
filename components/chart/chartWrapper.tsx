@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface ChartWrapperProps {
   title: string;
@@ -90,20 +91,34 @@ function ChartWrapper({
           {description}
         </CardDescription>
         {filters.length > 0 && (
-          <div className="flex space-x-2 py-2 w-full overflow-scroll">
-            {filters.map((filter) => (
-              <div
-                key={filter}
-                onClick={() => setSelectedFilter(filter)}
-                className={cn(
-                  "h-10 px-4 py-2 rounded-full border border-input bg-background  whitespace-nowrap ",
-                  selectedFilter === filter && "bg-secondary text-white"
-                )}
-              >
-                {filter}
-              </div>
-            ))}
-          </div>
+          <Tabs defaultValue={filters[0]}>
+            <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-4">
+              {filters.map((filter) => (
+                <TabsTrigger
+                  value={filter}
+                  key={filter}
+                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                >
+                  {filter}
+                </TabsTrigger>
+              ))}
+
+              {/* <div className="flex space-x-2 py-2 w-full overflow-scroll">
+                {filters.map((filter) => (
+                  <div
+                    key={filter}
+                    onClick={() => setSelectedFilter(filter)}
+                    className={cn(
+                      "h-10 px-4 py-2 rounded-full border border-input bg-background  whitespace-nowrap ",
+                      selectedFilter === filter && "bg-secondary text-white"
+                    )}
+                  >
+                    {filter}
+                  </div>
+                ))}
+              </div> */}
+            </TabsList>
+          </Tabs>
         )}
       </CardHeader>
       <CardContent className="w-full px-4">
