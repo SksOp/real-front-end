@@ -273,7 +273,7 @@ export function ResidentialVsCommercial({
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <VerticalBarChartComponent
+        {/* <VerticalBarChartComponent
           // title="Residential"
           // description="Residential data"
           dataKey="Residential"
@@ -288,7 +288,7 @@ export function ResidentialVsCommercial({
           value={chartData?.Commercial || 0}
           color="var(--color-commercial)"
           selectedOption={selectedOption}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

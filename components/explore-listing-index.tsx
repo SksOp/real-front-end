@@ -10,14 +10,7 @@ function ExploreListingIndex() {
       title={"Listing index"}
       description="See how you compare against other brokers in Dubai."
     >
-      <SalesIndexCardComponent
-        title=""
-        description=""
-        percentile25={247685}
-        percentile75={566778}
-        trendDescription=""
-        footerText=""
-      />
+      <SalesIndexCardComponent percentile25={247685} percentile75={566778} />
       <InsightCard>
         <span>
           50 listings is the top average in your area, most people tend to have

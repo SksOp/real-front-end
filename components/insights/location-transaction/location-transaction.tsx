@@ -89,11 +89,11 @@ export function LocationTransaction({
 
   return (
     <AreaChartComponent
-      title={title}
-      description={description}
+      // title={title}
+      // description={description}
       chartConfig={chartConfig}
-      footer={footer}
-      footerDescription={footerDescription}
+      // footer={footer}
+      // footerDescription={footerDescription}
       data={chartData}
       gridStroke="#ccc"
       xAxisDataKey="location"

@@ -275,11 +275,11 @@ export function Bedrooms({ data }: { data: BedroomType }) {
 
   return (
     <PieChartComponent
-      title={title}
-      description={description}
+      // title={title}
+      // description={description}
       chartConfig={chartConfig}
-      footer={footer}
-      footerDescription={footerDescription}
+      // footer={footer}
+      // footerDescription={footerDescription}
       data={chartData}
       dataKey="property_count"
       nameKey="bedrooms"

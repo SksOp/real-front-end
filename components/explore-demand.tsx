@@ -15,12 +15,12 @@ function ExploreDemand() {
       }
     >
       <div className="flex justify-between items-center w-full gap-4 p-0">
-        <VerticalBarChartComponent
+        {/* <VerticalBarChartComponent
           dataKey={""}
           value={100}
           color={"#D1F6DB"}
           selectedOption={""}
-        />
+        /> */}
         <ChevronDownCircle size={24} />
       </div>
     </ChartWrapper>

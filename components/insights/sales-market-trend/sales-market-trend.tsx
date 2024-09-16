@@ -84,15 +84,15 @@ export function SalesMarketTrend({ data }: { data: SalesTransactionsType }) {
 
   return (
     <Barchart
-      title={title}
-      description={description}
+      // title={title}
+      // description={description}
       chartConfig={chartConfig}
-      footer={footer}
-      footerDescription={footerDescription}
+      // footer={footer}
+      // footerDescription={footerDescription}
       data={chartData}
       xAxisDataKey="duration"
-      yAxisDataKey="property_count"
-      barColor="#A9A1F4"
+      yAxisDataKeys={["property_count"]}
+      barColors={["#A9A1F4"]}
       barRadius={8}
       tickLine={true}
       gridStroke="#ccc"

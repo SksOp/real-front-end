@@ -22,11 +22,7 @@ function ExploreAreaWise() {
     <ExploreFormats title="Area wise">
       <div className="w-full justify-between items-center">
         <PieChartComponent
-          title=""
-          description=""
           chartConfig={chartConfig}
-          footer=""
-          footerDescription=""
           data={data}
           dataKey="value"
           nameKey="name"

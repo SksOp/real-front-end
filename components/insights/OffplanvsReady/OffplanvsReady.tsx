@@ -265,7 +265,7 @@ export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <VerticalBarChartComponent
+        {/* <VerticalBarChartComponent
           // title="Offplan"
           // description="You're averaging more steps a day this year than last year."
           dataKey="Ofplan"
@@ -281,7 +281,7 @@ export function OffplanvsReady({ data }: { data: OffplanvsReadyType }) {
           value={chartData?.Ready || 0}
           color="hsl(var(--muted))"
           selectedOption={selectedOption}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

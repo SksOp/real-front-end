@@ -94,15 +94,15 @@ export function LocationSales({ data }: { data: LocationSalesTransaction }) {
 
   return (
     <Barchart
-      title={title}
-      description={description}
+      // title={title}
+      // description={description}
       chartConfig={chartConfig}
-      footer={footer}
-      footerDescription={footerDescription}
+      // footer={footer}
+      // footerDescription={footerDescription}
       data={chartData}
       xAxisDataKey="location"
-      yAxisDataKey="sales"
-      barColor="#A9A1F4"
+      yAxisDataKeys={["sales"]}
+      barColors={["#A9A1F4"]}
       barRadius={8}
       tickLine={true}
       gridStroke="#ccc"
