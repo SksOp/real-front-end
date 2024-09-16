@@ -10,6 +10,7 @@ interface Props {
 export function HomeIcon({ isActive = false, className }: Props) {
   return isActive ? (
     <svg
+      className={cn("", className)}
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -23,6 +24,7 @@ export function HomeIcon({ isActive = false, className }: Props) {
     </svg>
   ) : (
     <svg
+      className={cn("", className)}
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -172,6 +174,34 @@ export function SettingIcon({ isActive = false, className }: Props) {
           <rect width="24" height="24" fill="white" />
         </clipPath>
       </defs>
+    </svg>
+  );
+}
+
+export function CompassIcon({ className }: Props) {
+  return (
+    <svg
+      className={cn("", className)}
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M16 29.3307C23.3638 29.3307 29.3333 23.3612 29.3333 15.9974C29.3333 8.6336 23.3638 2.66406 16 2.66406C8.63619 2.66406 2.66666 8.6336 2.66666 15.9974C2.66666 23.3612 8.63619 29.3307 16 29.3307Z"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M21.6533 10.3438L18.8267 18.8237L10.3467 21.6504L13.1733 13.1704L21.6533 10.3438Z"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   );
 }

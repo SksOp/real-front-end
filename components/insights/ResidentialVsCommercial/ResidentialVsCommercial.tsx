@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
+import VerticalBarChartComponent from "../../chart/horizontalbarchart/horizontalbarchart"; // Adjust the import path according to your project structure
 import { ResidentialVsCommercialType } from "@/transcation/types";
 import { ResvsCo } from "@/actions/residentialvscommercial";
 import {
@@ -102,7 +102,7 @@ export function ResidentialVsCommercial() {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <VerticalBarChartComponent
+        {/* <VerticalBarChartComponent
           // title="Residential"
           // description="Residential data"
           dataKey="Residential"
@@ -117,7 +117,7 @@ export function ResidentialVsCommercial() {
           value={chartData?.Commercial || 0}
           color="var(--color-commercial)"
           selectedOption={selectedOption}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

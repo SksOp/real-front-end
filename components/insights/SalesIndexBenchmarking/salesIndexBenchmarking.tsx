@@ -25,12 +25,12 @@ export function SalesIndexBenchmarking() {
 
   return (
     <SalesIndexCardComponent
-      title="Sales Index Benchmarking"
-      description="Aggregated Monthly Data"
+      // title="Sales Index Benchmarking"
+      // description="Aggregated Monthly Data"
       percentile25={percentile25}
       percentile75={percentile75}
-      trendDescription="Trending up by 5.2% this month"
-      footerText="Showing total visitors for the last 6 months"
+      // trendDescription="Trending up by 5.2% this month"
+      // footerText="Showing total visitors for the last 6 months"
     />
   );
 }

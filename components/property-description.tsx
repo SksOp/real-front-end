@@ -16,11 +16,9 @@ function PropertyDescription() {
   const endText = splittedText.slice(wordLimit).join(" ");
 
   return (
-    <Card className="border-0">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          Property Description
-        </CardTitle>
+    <Card className="border-0 bg-background">
+      <CardHeader className="px-0">
+        <CardTitle className="font-medium">Property Description</CardTitle>
         <CardDescription className="text-secondary">
           {beginText}
           {itCanOverflow && (

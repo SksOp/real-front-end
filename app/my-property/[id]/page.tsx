@@ -27,15 +27,18 @@ import React from "react";
 function page() {
   const pdfUrl = "/test.pdf";
   return (
-    <div>
+    <>
       <Navbar />
-      <PropertyHeader />
-      <PropertyImageGallary />
-      <PropertyDescription />
-      <PropertyAminities />
-      <PropertyKeyInformation />
-      <MortageCalculator />
-      <div className="fixed bottom-0 bg-background flex items-center justify-center gap-4 px-4 py-6 w-full">
+      <div className="flex flex-col mx-6 gap-2 mt-8 mb-12">
+        <PropertyHeader />
+        <PropertyImageGallary />
+        <PropertyDescription />
+        <PropertyAminities />
+        <PropertyKeyInformation />
+
+        <MortageCalculator />
+      </div>
+      <div className="fixed bottom-0 bg-background flex items-center justify-center gap-4 px-4 py-6 w-full shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
         <Drawer>
           <DrawerTrigger asChild>
             <Button
@@ -47,34 +50,6 @@ function page() {
             </Button>
           </DrawerTrigger>
           <DrawerContent>
-            <DrawerTitle className="text-center text-xl p-4">
-              Share Brochure
-            </DrawerTitle>
-            <div className="w-full items-center justify-center flex">
-              {/* <Button
-                variant={"ghost"}
-                className="border-secondary border text-secondary w-fit flex justify-center gap-2 items-center rounded-full"
-              >
-                <PDFDownloadingIcon /> */}
-              <PDFViewer fileUrl={pdfUrl} />
-              Download
-              {/* </Button> */}
-            </div>
-            <ShareComponent />
-          </DrawerContent>
-        </Drawer>
-
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button
-              variant={"secondary"}
-              className="text-background flex justify-center items-center gap-4  font-bold w-1/2 h-14 rounded-lg border-2"
-            >
-              <PDFIcon />
-              PDF Brochure
-            </Button>
-          </DrawerTrigger>
-          <DrawerContent className="flex flex-col gap-2">
             <DrawerTitle className="text-center text-xl p-4">
               Magic link
             </DrawerTitle>
@@ -96,8 +71,36 @@ function page() {
             <ShareComponent />
           </DrawerContent>
         </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button
+              variant={"secondary"}
+              className="text-background flex justify-center items-center gap-4 focus:bg-none font-bold w-1/2 h-14 rounded-lg border-2"
+            >
+              <PDFIcon />
+              PDF Brochure
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="flex flex-col gap-2">
+            <DrawerTitle className="text-center text-xl p-4">
+              Share Brochure
+            </DrawerTitle>
+            <div className="w-full items-center justify-center flex">
+              <Button
+                variant={"ghost"}
+                className="border-secondary border text-secondary w-fit focus:bg-none flex justify-center gap-2 items-center rounded-full"
+              >
+                <PDFDownloadingIcon />
+                {/* <PDFViewer fileUrl={pdfUrl} /> */}
+                Download
+              </Button>
+            </div>
+            <ShareComponent />
+          </DrawerContent>
+        </Drawer>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import ExploreFormats from "./explore-formats";
 import InsightCard from "./insightCard";
-import VerticalBarChartComponent from "./chart/verticalbarchart/verticalbarchart";
+import VerticalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import { ChevronDownCircle } from "lucide-react";
 
 function ExploreTotalSales() {
@@ -10,7 +10,8 @@ function ExploreTotalSales() {
       title="Total Sales for Today (135000)"
       description="Aliquam porta nisl dolor, molestie pellentesque"
     >
-      <div className="flex flex-col gap-2">
+      testing...
+      {/* <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center w-full gap-4 p-0">
           <VerticalBarChartComponent
             dataKey={"Property Finder (50%)"}
@@ -47,15 +48,15 @@ function ExploreTotalSales() {
           />
           <ChevronDownCircle size={24} />
         </div>
-      </div>
-      <InsightCard>
+      </div> */}
+      {/* <InsightCard>
         <span>
           Total <span className="font-bold text-secondary">13500</span> Sales
-          happened today. Lorem ipsum{" "}
+          happened today. Lorem ipsum{" "}                    
           <span className="font-bold text-secondary">4%</span> sit amet
           consectetur. Gravida augue aliquam interdum morbi.
         </span>
-      </InsightCard>
+      </InsightCard> */}
     </ExploreFormats>
   );
 }

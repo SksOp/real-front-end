@@ -193,7 +193,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
+import VerticalBarChartComponent from "../../chart/horizontalbarchart/horizontalbarchart"; // Adjust the import path according to your project structure
 import { OffplanvsReadyType } from "@/transcation/types";
 import { OfVsRe } from "@/actions/offplanvsready";
 import {
@@ -286,7 +286,7 @@ export function OffplanvsReady() {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <VerticalBarChartComponent
+        {/* <VerticalBarChartComponent
           // title="Offplan"
           // description="You're averaging more steps a day this year than last year."
           dataKey="Ofplan"
@@ -302,7 +302,7 @@ export function OffplanvsReady() {
           value={chartData?.Ready || 0}
           color="hsl(var(--muted))"
           selectedOption={selectedOption}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

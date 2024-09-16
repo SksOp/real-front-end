@@ -10,39 +10,37 @@ import { BathIcon } from "@/public/svg/icons";
 
 function PropertyAminities() {
   return (
-    <Card className="border-0">
-      <CardHeader>
-        <CardTitle>Aminities</CardTitle>
+    <Card className="border-0 bg-background">
+      <CardHeader className="px-0">
+        <CardTitle className="font-medium">Aminities</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-1">
         <div className="grid grid-cols-2 gap-4">
           <div className="flex justify-start gap-2 items-center">
             <ACIcon />
-            <p className="text-muted-foreground text-lg font-semibold">
+            <p className="text-secondary/50 text-base font-semibold">
               Air conditioner
             </p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <BathIcon />
-            <p className="text-muted-foreground text-lg font-semibold">Gym</p>
+            <p className="text-secondary/50 text-base font-semibold">Gym</p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <PlayAreaIcon />
-            <p className="text-muted-foreground text-lg font-semibold">
+            <p className="text-secondary/50 text-base font-semibold">
               Play area
             </p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <SwimmingPoolIcon />
-            <p className="text-muted-foreground text-lg font-semibold">
+            <p className="text-secondary/50 text-base font-semibold">
               Swimming pool
             </p>
           </div>
           <div className="flex justify-start gap-2 items-center">
             <BalconyIcon />
-            <p className="text-muted-foreground text-lg font-semibold">
-              Balcony
-            </p>
+            <p className="text-secondary/50 text-base font-semibold">Balcony</p>
           </div>
         </div>
       </CardContent>
