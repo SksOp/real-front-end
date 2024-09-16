@@ -91,9 +91,7 @@ function PropertiesCard({
         </div>
         <Separator />
         <div className="flex justify-between items-center">
-          <h3 className="text-base font-extrabold">
-            {formatPrice(String(price))}
-          </h3>
+          <h3 className="text-base font-extrabold">{formatPrice(price)}</h3>
           {/* <Drawer> */}
           <div>
             {/* <DrawerTrigger asChild> */}

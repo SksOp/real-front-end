@@ -113,11 +113,18 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
           />
           <ChartTooltip content={<ChartTooltipContent />} />
 
+          {/* Use the gradient as the fill for the Area */}
           <Area
+            type={"natural"}
             dataKey={yAxisDataKey}
-            fill={areaColor}
-            fillOpacity={areaOpacity}
+            fill="url(#areaGradient)"
             stroke={areaColor}
+            strokeWidth={2}
+            dot={true}
+            activeDot={{
+              fill: areaColor || "var(--color-default)",
+              r: 4,
+            }}
             {...customAreaProps}
           />
         </AreaChart>
