@@ -130,7 +130,7 @@ function Filters() {
   };
 
   return (
-    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50  top-0 ">
+    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50 py-1 top-0 ">
       <ScrollArea className="w-full rounded-md overflow-auto">
         <div className="flex items-center space-x-2 p-2">
           <XIcon className="border border-accent rounded-full p-1" />

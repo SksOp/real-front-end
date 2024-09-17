@@ -1,6 +1,7 @@
 "use client";
 import Barchart from "@/components/chart/barchart/barchart";
 import ChartWrapper from "@/components/chart/chartWrapper";
+import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
 import LineChartComponent from "@/components/chart/lineChart/lineChart";
 import PieChartComponent from "@/components/chart/piechart/piechart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
@@ -11,7 +12,9 @@ import HomeTransactionCard from "@/components/home-transaction-card";
 import InsightCard from "@/components/insightCard";
 import MatrixCard from "@/components/matrix-card";
 import PriceChangesTable from "@/components/price-changes-table";
+import SecondaryChartWrapper from "@/components/secondaryChartWrapper";
 import SimilarTransaction from "@/components/similar-transaction";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartConfig } from "@/components/ui/chart";
 import Layout from "@/layout";
 import React from "react";
@@ -78,17 +81,38 @@ function MyPage() {
             />
           ))}
         </div>
+        <SecondaryChartWrapper title="Transaction Type">
+          <HorizontalBarChartComponent
+            chartConfig={chartConfig}
+            data={[
+              { name: "Cash", value: 90, fill: "#DDF8E4" },
+              { name: "Mortgage", value: 30, fill: "#EFEEFC" },
+              { name: "Gifts", value: 20, fill: "#FFDBDB" },
+            ]}
+            xAxisDataKey={"name"}
+            yAxisDataKey={"value"}
+            className="max-h-[140px]"
+          />
+        </SecondaryChartWrapper>
         <ChartWrapper
           title="Transactions Value Trend"
           description="Compare transactional total value and value per sqft over time."
           filters={["Total Value", "Value per SQFT"]}
         >
-          <Barchart
-            chartConfig={chartConfig}
-            data={sampleData1}
-            xAxisDataKey={"year"}
-            yAxisDataKeys={["value"]}
-          />
+          <div className="flex flex-col gap-2">
+            <Barchart
+              chartConfig={chartConfig}
+              data={sampleData1}
+              xAxisDataKey={"year"}
+              yAxisDataKeys={["value"]}
+            />
+            <InsightCard className="bg-purple-50">
+              Lorem ipsum <span className="font-bold">4%</span> sit amet
+              consectetur. Gravida augue aliquam interdum morbi eu elit. Neque
+              <br />
+              Average price: <span className="font-bold">750000.</span>
+            </InsightCard>
+          </div>
         </ChartWrapper>
         <ChartWrapper
           title="Sales Transactions Trend"
@@ -141,7 +165,18 @@ function MyPage() {
           </div>
         </ChartWrapper>
         <SimilarTransaction />
-        <PriceChangesTable selectedRow={2} />
+        <Card>
+          <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
+            <h3 className="text-lg font-semibold text-secondary">
+              Price Comparison
+            </h3>
+            <h3 className="text-base font-semibold text-primary">Vi ew all</h3>
+          </CardHeader>
+          <CardContent className="px-4 py-0 pb-4 w-full">
+            <PriceChangesTable selectedRow={2} />
+          </CardContent>
+        </Card>
+
         <ChartWrapper
           title="Sales segmentation"
           description="Compare sales segmentation across residential and commercial."

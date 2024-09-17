@@ -9,6 +9,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import { AutosizeTextarea } from "./ui/auto-scale-textarea";
 
 function Feedback() {
   return (
@@ -51,9 +52,10 @@ function Feedback() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Textarea
+          <AutosizeTextarea
             placeholder="Enter your Feedback"
             className="w-full bg-card h-14 rounded-xl border"
+            maxHeight={200}
           />
           <Button
             variant={"ghost"}
