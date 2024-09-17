@@ -6,6 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import {
+  Tabs as UnderlineTabs,
+  TabsContent as UnderlineTabsContent,
+  TabsList as UnderlineTabsList,
+  TabsTrigger as UnderlineTabsTrigger,
+} from "./ui/underline-tabs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { ChartConfig } from "./ui/chart";
 import AreaChartComponent from "./chart/areachart/area";
@@ -34,47 +40,104 @@ const sampleData = [
 function HomeSalesIndex() {
   return (
     <Card className="border-2 rounded-xl bg-background w-full p-0">
-      <CardHeader className="w-full p-4">
-        <CardTitle className="text-lg font-semibold text-secondary">
-          Dubai Sales Price Index
-        </CardTitle>
-        <h3 className="text-base text-muted-foreground font-light truncate">
-          explore various Dubai price index here.
-        </h3>
-      </CardHeader>
-      <CardContent className="px-3 py-0 pb-4 w-full">
-        <Tabs defaultValue="residential">
-          <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
-            <TabsTrigger
-              value="residential"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
-            >
-              Residential
-            </TabsTrigger>
-            <TabsTrigger
-              value="commercial"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
-            >
-              Commercial
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="residential" className="">
-            <AreaChartComponent
-              chartConfig={chartConfig}
-              data={sampleData}
-              xAxisDataKey={"month"}
-              yAxisDataKey={"value"}
-              tickFormatter={(value) => value.toString()}
-            />
-          </TabsContent>
-        </Tabs>
-        <CardFooter className=" p-0 mt-3">
-          <InsightCard linkText="Explore full market index here.">
-            Dubai has seen commendable growth in sales value and sales volume
-            over time, remarkable growth in 2024.
-          </InsightCard>
-        </CardFooter>
-      </CardContent>
+      <UnderlineTabs defaultValue="sales">
+        <UnderlineTabsList className="w-full border-b-2 border-border items-center justify-start rounded-t-xl gap-3 px-4 pt-1">
+          <UnderlineTabsTrigger
+            value="sales"
+            className="flex justify-center items-center gap-2 "
+          >
+            Sales
+          </UnderlineTabsTrigger>
+          <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
+        </UnderlineTabsList>
+
+        <UnderlineTabsContent value="sales">
+          <CardHeader className="w-full p-4">
+            <CardTitle className="text-lg font-semibold text-secondary">
+              Dubai Sales Price Index
+            </CardTitle>
+            <h3 className="text-base text-muted-foreground font-light truncate">
+              explore various Dubai price index here.
+            </h3>
+          </CardHeader>
+          <CardContent className="px-3 py-0 pb-4 w-full">
+            <Tabs defaultValue="residential">
+              <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
+                <TabsTrigger
+                  value="residential"
+                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                >
+                  Residential
+                </TabsTrigger>
+                <TabsTrigger
+                  value="commercial"
+                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                >
+                  Commercial
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="residential" className="">
+                <AreaChartComponent
+                  chartConfig={chartConfig}
+                  data={sampleData}
+                  xAxisDataKey={"month"}
+                  yAxisDataKey={"value"}
+                  tickFormatter={(value) => value.toString()}
+                />
+              </TabsContent>
+            </Tabs>
+            <CardFooter className=" p-0 mt-3">
+              <InsightCard linkText="Explore full market index here.">
+                Dubai has seen commendable growth in sales value and sales
+                volume over time, remarkable growth in 2024.
+              </InsightCard>
+            </CardFooter>
+          </CardContent>
+        </UnderlineTabsContent>
+        <UnderlineTabsContent value="rental">
+          <CardHeader className="w-full p-4">
+            <CardTitle className="text-lg font-semibold text-secondary">
+              Dubai Rental Price Index
+            </CardTitle>
+            <h3 className="text-base text-muted-foreground font-light truncate">
+              explore various Dubai price index here.
+            </h3>
+          </CardHeader>
+          <CardContent className="px-3 py-0 pb-4 w-full">
+            <Tabs defaultValue="residential">
+              <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
+                <TabsTrigger
+                  value="residential"
+                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                >
+                  Residential
+                </TabsTrigger>
+                <TabsTrigger
+                  value="commercial"
+                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                >
+                  Commercial
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="residential" className="">
+                <AreaChartComponent
+                  chartConfig={chartConfig}
+                  data={sampleData}
+                  xAxisDataKey={"month"}
+                  yAxisDataKey={"value"}
+                  tickFormatter={(value) => value.toString()}
+                />
+              </TabsContent>
+            </Tabs>
+            <CardFooter className=" p-0 mt-3">
+              <InsightCard linkText="Explore full market index here.">
+                Dubai has seen commendable growth in sales value and sales
+                volume over time, remarkable growth in 2024.
+              </InsightCard>
+            </CardFooter>
+          </CardContent>
+        </UnderlineTabsContent>
+      </UnderlineTabs>
     </Card>
   );
 }
