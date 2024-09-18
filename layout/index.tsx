@@ -13,7 +13,7 @@ function Layout({
   return (
     <>
       {/* <Navbar /> */}
-      <div className="min-h-screen max-w-screen overflow-y-auto">
+      <div className="min-h-screen bg-gradient-to-b from-background to-[#FAFAFA] max-w-screen overflow-y-auto">
         {children}
       </div>
       <NavBottom selected={page} />
