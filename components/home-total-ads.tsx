@@ -72,10 +72,10 @@ function HomeTotalAds() {
   return (
     <Card className="border-2 rounded-xl bg-background w-full p-0">
       <CardHeader className="w-full p-4">
-        <CardTitle className="text-lg font-semibold text-secondary">
+        <CardTitle className="text-base font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
-        <h3 className="text-base text-accent font-normal truncate">
+        <h3 className="text-sm text-accent font-normal truncate">
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>

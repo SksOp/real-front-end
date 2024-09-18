@@ -21,7 +21,7 @@ function DataCards({
       className={cn("border-2 rounded-xl w-full p-0 ", bgColor)}
       onClick={onClick}
     >
-      <CardHeader className="w-full p-3">
+      <CardHeader className="w-full py-3 px-2">
         {children}
         <CardDescription>{description}</CardDescription>
       </CardHeader>

@@ -16,13 +16,13 @@ function HomeTransactionCard() {
     <Card className="border-2 rounded-xl bg-background w-full p-0">
       <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
         <h3 className="text-lg font-semibold text-secondary">Transactions</h3>
-        <h3 className="text-sm font-semibold text-primary">
+        <h3 className="text-sm font-semibold text-primary ">
           Go to transactions
         </h3>
       </CardHeader>
       <CardContent className="px-4 py-0 pb-4 w-full">
         <Tabs defaultValue="sales">
-          <TabsList className="w-full gap-3 items-center justify-start bg-background ">
+          <TabsList className="w-full gap-3 items-center justify-start bg-background overflow-x-scroll">
             <TabsTrigger
               value="sales"
               className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
@@ -43,7 +43,7 @@ function HomeTransactionCard() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="sales" className="w-full flex gap-2 ">
-            <div className="grid grid-cols-2 gap-3 w-full">
+            <div className="grid grid-cols-2 gap-2 w-full">
               {data.map((item, index) => (
                 <MatrixCard
                   key={index}
@@ -55,11 +55,11 @@ function HomeTransactionCard() {
             </div>
           </TabsContent>
         </Tabs>
-        <CardFooter className="flex truncate gap-2 justify-start items-center p-0 mt-3">
-          <Info size={14} />
-          <h3 className="text-sm font-medium text-accent">
+        <CardFooter className="flex gap-1 justify-start items-center p-0 mt-3">
+          <Info size={16} className="stroke-accent" />
+          <h3 className="text-[0.74rem] font-medium truncate text-accent">
             Compared with previous month.{" "}
-            <span className="text-primary font-medium text-sm">
+            <span className="text-primary font-medium text-[0.74rem]">
               learn more.
             </span>
           </h3>

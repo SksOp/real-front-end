@@ -53,10 +53,10 @@ function HomeSalesIndex() {
 
         <UnderlineTabsContent value="sales">
           <CardHeader className="w-full p-4">
-            <CardTitle className="text-lg font-semibold text-secondary">
+            <CardTitle className="text-base font-semibold text-secondary">
               Dubai Sales Price Index
             </CardTitle>
-            <h3 className="text-base text-muted-foreground font-light truncate">
+            <h3 className="text-sm text-muted-foreground font-light truncate">
               explore various Dubai price index here.
             </h3>
           </CardHeader>
@@ -65,13 +65,13 @@ function HomeSalesIndex() {
               <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>
@@ -96,10 +96,10 @@ function HomeSalesIndex() {
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
           <CardHeader className="w-full p-4">
-            <CardTitle className="text-lg font-semibold text-secondary">
+            <CardTitle className="text-base font-semibold text-secondary">
               Dubai Rental Price Index
             </CardTitle>
-            <h3 className="text-base text-muted-foreground font-light truncate">
+            <h3 className="text-sm text-muted-foreground font-light truncate">
               explore various Dubai price index here.
             </h3>
           </CardHeader>
@@ -108,13 +108,13 @@ function HomeSalesIndex() {
               <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>

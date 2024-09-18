@@ -70,7 +70,7 @@ function MyPage() {
   return (
     <>
       <Filters />
-      <div className="mx-3 my-4 mt-16 flex flex-col gap-2">
+      <div className="mx-3 my-4 mt-20 flex flex-col gap-2">
         <div className="grid grid-cols-2 gap-3 w-full">
           {matrixData.map((item, index) => (
             <MatrixCard
@@ -170,7 +170,7 @@ function MyPage() {
             <h3 className="text-lg font-semibold text-secondary">
               Price Comparison
             </h3>
-            <h3 className="text-base font-semibold text-primary">Vi ew all</h3>
+            <h3 className="text-base font-semibold text-primary">View all</h3>
           </CardHeader>
           <CardContent className="px-4 py-0 pb-4 w-full">
             <PriceChangesTable selectedRow={2} />

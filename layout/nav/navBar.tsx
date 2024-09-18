@@ -4,7 +4,7 @@ import React from "react";
 
 function Navbar() {
   return (
-    <nav className="w-full bg-background fixed flex justify-between items-center z-50 px-4 py-3  top-0 ">
+    <nav className="w-full bg-background fixed flex justify-between items-center z-50 px-4 py-4  top-0 ">
       <div className="flex justify-start items-center gap-4">
         {/* <HamburgerIcon /> */}
         <h1 className="text-2xl font-bold">Keypilot.</h1>

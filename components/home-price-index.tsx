@@ -33,10 +33,10 @@ function HomePriceIndex() {
 
         <UnderlineTabsContent value="sales">
           <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
-            <h3 className="text-lg font-semibold text-secondary">
+            <h3 className="text-base font-semibold text-secondary">
               Price changes (Sales)
             </h3>
-            <h3 className="text-base font-semibold text-primary">
+            <h3 className="text-sm font-semibold text-primary">
               Go to transactions
             </h3>
           </CardHeader>
@@ -87,7 +87,7 @@ function HomePriceIndex() {
                   By Area
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="property" className="w-full flex gap-2 ">
+              <TabsContent value="property" className="">
                 <PriceChangesTable />
               </TabsContent>
             </Tabs>

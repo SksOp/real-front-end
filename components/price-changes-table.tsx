@@ -37,7 +37,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
     >
       <TableCell
         className={cn(
-          "flex flex-col justify-center items-start gap-2",
+          "flex flex-col justify-center items-start gap-2 w-full px-3",
           isSelected && "rounded-xl border border-primary"
         )}
       >
@@ -47,9 +47,9 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
         >
           {name}
         </Badge>
-        <div className="flex items-center justify-between w-full ml-2">
+        <div className="flex items-center justify-between w-full">
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold w-16 break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold  break-words">
               {"Average price"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
@@ -61,7 +61,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </div>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 ml-4 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold w-16 break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold  break-words">
               {"Price Per sq. ft"}
             </h3>
             <h2 className="text-base text-secondary font-medium">
@@ -69,7 +69,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </h2>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold w-24 break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold  break-words">
               {"No. of transactions"}
             </h3>
             <div className="flex gap-1 justify-start items-center">

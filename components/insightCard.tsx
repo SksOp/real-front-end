@@ -16,10 +16,10 @@ function InsightCard({
   return (
     <Card className={cn("bg-primary/5 w-full border-0 p-4", className)}>
       <div className="text-muted-foreground text-base flex justify-between items-center w-full">
-        <h3 className="w-[90%] text-base font-normal leading-6">{children}</h3>
+        <h3 className="w-[90%] text-sm font-normal leading-6">{children}</h3>
         <DisableBulbIcon className="" />
       </div>
-      <h3 className="text-primary text-base font-semibold mt-2">{linkText}</h3>
+      <h3 className="text-primary text-sm font-semibold mt-2">{linkText}</h3>
     </Card>
   );
 }
