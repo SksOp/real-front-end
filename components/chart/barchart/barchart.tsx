@@ -77,7 +77,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <BarChart data={data} margin={{ left: -50 }} barGap={10}>
+        <BarChart data={data} margin={{ left: -30 }} barGap={10}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}

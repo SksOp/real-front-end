@@ -15,8 +15,8 @@ function HomeTransactionCard() {
   return (
     <Card className="border-2 rounded-xl bg-background w-full p-0">
       <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
-        <h3 className="text-lg font-semibold text-secondary">Transactions</h3>
-        <h3 className="text-sm font-semibold text-primary ">
+        <h3 className="text-base font-semibold text-secondary">Transactions</h3>
+        <h3 className="text-xs font-semibold text-primary ">
           Go to transactions
         </h3>
       </CardHeader>
@@ -25,13 +25,13 @@ function HomeTransactionCard() {
           <TabsList className="w-full gap-3 items-center justify-start bg-background overflow-x-scroll">
             <TabsTrigger
               value="sales"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
             >
               Sales
             </TabsTrigger>
             <TabsTrigger
               value="rental"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
             >
               Rental
             </TabsTrigger>
@@ -57,11 +57,9 @@ function HomeTransactionCard() {
         </Tabs>
         <CardFooter className="flex gap-1 justify-start items-center p-0 mt-3">
           <Info size={16} className="stroke-accent" />
-          <h3 className="text-[0.74rem] font-medium truncate text-accent">
+          <h3 className="text-[0.8rem] font-medium truncate text-accent">
             Compared with previous month.{" "}
-            <span className="text-primary font-medium text-[0.74rem]">
-              learn more.
-            </span>
+            <span className="text-primary font-medium ">learn more.</span>
           </h3>
         </CardFooter>
       </CardContent>

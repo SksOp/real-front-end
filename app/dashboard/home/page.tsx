@@ -14,7 +14,7 @@ function HomePage() {
   return (
     <Layout page="home">
       <Navbar />
-      <div className="w-full  mt-16 px-4 flex flex-col mb-24 gap-4">
+      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA]  mt-16 px-4 flex flex-col mb-24 gap-4">
         <HomeTransactionCard />
         <HomeInsights />
         <HomeTotalAds />

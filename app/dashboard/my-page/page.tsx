@@ -1,4 +1,5 @@
 "use client";
+import AreaChartComponent from "@/components/chart/areachart/area";
 import Barchart from "@/components/chart/barchart/barchart";
 import ChartWrapper from "@/components/chart/chartWrapper";
 import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
@@ -120,7 +121,7 @@ function MyPage() {
           filters={["Monthly", "Quarterly", "Yearly"]}
         >
           <div className="flex flex-col gap-2">
-            <LineChartComponent
+            <AreaChartComponent
               chartConfig={chartConfig}
               data={[
                 { month: "January", value1: 186 },
@@ -132,7 +133,6 @@ function MyPage() {
               ]}
               xAxisDataKey="month"
               yAxisDataKey="value1"
-              lines={[{ dataKey: "value1", color: "#B6B1F0" }]}
             />
             <InsightCard className="bg-purple-50">
               This type of properties has high demand in this area and demand is

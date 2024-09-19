@@ -18,6 +18,7 @@ import {
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { ClassValue } from "clsx";
 
 interface ChartWrapperProps {
   title: string;
@@ -25,6 +26,7 @@ interface ChartWrapperProps {
   filters?: string[];
   children?: React.ReactNode;
   viewAll?: boolean;
+  className?: ClassValue;
 }
 
 function ChartWrapper({
@@ -33,6 +35,7 @@ function ChartWrapper({
   children,
   filters = [],
   viewAll = false,
+  className,
 }: ChartWrapperProps) {
   const [selectedFilter, setSelectedFilter] = useState(filters[0] ?? "");
 
@@ -52,10 +55,10 @@ function ChartWrapper({
   );
 
   return (
-    <Card className="border-2 rounded-xl w-full bg-background">
+    <Card className={cn("border-2 rounded-xl w-full bg-background", className)}>
       <CardHeader>
         <div className="flex justify-between items-center ">
-          <CardTitle className="text-base font-bold text-secondary">
+          <CardTitle className="text-base font-semibold text-secondary">
             {title}
           </CardTitle>
           <div className="flex justify-end items-center gap-2">
@@ -97,7 +100,7 @@ function ChartWrapper({
                 <TabsTrigger
                   value={filter}
                   key={filter}
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-semibold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   {filter}
                 </TabsTrigger>

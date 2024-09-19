@@ -15,7 +15,7 @@ function Feedback() {
   return (
     <Card className="border-2 rounded-xl w-full bg-background">
       <CardHeader className="">
-        <CardTitle className="text-base font-bold text-secondary">
+        <CardTitle className="text-base font-semibold text-secondary">
           Is this dashboard helpful?
         </CardTitle>
         <CardDescription className="text-sm text-accent">

@@ -14,8 +14,8 @@ function HomeInsights() {
         }
       >
         <DashboardIcon />
-        <h3 className="text-secondary font-bold text-lg ">Dashboards</h3>
-        <p className="text-base text-muted-foreground font-normal">
+        <h3 className="text-secondary font-semibold text-base ">Dashboards</h3>
+        <p className="text-sm text-muted-foreground font-normal">
           <span className="font-semibold">15+</span> dashboards for sales,
           rentals, commercial etc.
         </p>
@@ -27,8 +27,8 @@ function HomeInsights() {
         }
       >
         <CalculatorIcon />
-        <h3 className="text-secondary font-bold text-lg ">Calculators</h3>
-        <p className="text-base font-normal text-muted-foreground">
+        <h3 className="text-secondary font-semibold text-base ">Calculators</h3>
+        <p className="text-sm font-normal text-muted-foreground">
           <span className="font-semibold">10+</span> calculators to Estimate
           sales, rentals, ROI etc.
         </p>

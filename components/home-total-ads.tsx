@@ -32,13 +32,15 @@ function HorizontalBarChart({ data }: HorizontalBarChartProps) {
     <div className="flex flex-col gap-4">
       {data.map((item, idx) => (
         <div className="" key={idx}>
-          <h3 className="font-semibold text-sm">{item.name}</h3>
+          <h3 className="font-semibold text-[0.8rem] mb-1">{item.name}</h3>
           <div className="flex justify-start items-center gap-2">
             <div
               className={cn(
                 `h-7 border border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
               )}
-              style={{ width: `${(item.value / maxValue) * 100}%` }}
+              style={{
+                width: `${(item.value / maxValue) * 100}%`,
+              }}
             />
             {item.imgUrl && (
               <img
@@ -47,7 +49,7 @@ function HorizontalBarChart({ data }: HorizontalBarChartProps) {
                 className="w-6 h-6 object-cover"
               />
             )}
-            <h3 className="text-muted-foreground font-semibold text-sm">
+            <h3 className="text-muted-foreground font-semibold text-[0.8rem]">
               {item.value}
             </h3>
           </div>

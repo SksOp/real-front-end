@@ -41,13 +41,13 @@ function HomeTopAreas() {
           <TabsList className="w-full gap-3 items-center justify-start bg-background ">
             <TabsTrigger
               value="volume"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium  text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
             >
               Volume
             </TabsTrigger>
             <TabsTrigger
               value="price"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium  text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
             >
               price per SQFT
             </TabsTrigger>

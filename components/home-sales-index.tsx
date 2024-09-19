@@ -42,10 +42,7 @@ function HomeSalesIndex() {
     <Card className="border-2 rounded-xl bg-background w-full p-0">
       <UnderlineTabs defaultValue="sales">
         <UnderlineTabsList className="w-full border-b-2 border-border items-center justify-start rounded-t-xl gap-3 px-4 pt-1">
-          <UnderlineTabsTrigger
-            value="sales"
-            className="flex justify-center items-center gap-2 "
-          >
+          <UnderlineTabsTrigger value="sales" className=" ">
             Sales
           </UnderlineTabsTrigger>
           <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
@@ -65,13 +62,13 @@ function HomeSalesIndex() {
               <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>

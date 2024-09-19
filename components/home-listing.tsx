@@ -27,7 +27,7 @@ function HomeListing() {
               )}
             />
           ))}
-          <div className="w-10 h-10 rounded-full bg-white border-2 border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-semibold text-muted-foreground">
+          <div className="w-10 h-10 rounded-full bg-white border-2 border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
             +56
           </div>
         </div>

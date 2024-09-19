@@ -103,14 +103,14 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
           </Pie>
         </PieChart>
       </ChartContainer>
-      <div className="w-full grid grid-cols-2 ">
+      <div className="w-full grid grid-cols-2 gap-x-4">
         {data.map((item) => (
           <div
             key={item.name}
             className="flex items-center  text-base w-full whitespace-nowrap gap-2"
           >
             <span
-              className={` w-5 h-5 rounded-sm border border-secondary ${item.colorClass}`}
+              className={` min-w-5 w-5 h-5 rounded-sm border border-secondary ${item.colorClass}`}
             />
             <span>{item.name}</span>
             <span className="text-secondary text-lg font-semibold">
