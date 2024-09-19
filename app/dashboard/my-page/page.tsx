@@ -71,7 +71,7 @@ function MyPage() {
   return (
     <>
       <Filters />
-      <div className="mx-3 my-4 mt-20 flex flex-col gap-2">
+      <div className="mx-3 my-4 mt-16 flex flex-col gap-2">
         <div className="grid grid-cols-2 gap-3 w-full">
           {matrixData.map((item, index) => (
             <MatrixCard

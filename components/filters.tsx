@@ -132,11 +132,11 @@ function Filters() {
   };
 
   return (
-    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50 py-1 top-0 ">
+    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50 top-0 ">
       <ScrollArea className="w-full rounded-md overflow-auto">
-        <div className="flex items-center space-x-2 p-2">
+        <div className="flex items-center justify-center  space-x-2 py-3 px-2">
           <XIcon
-            className="border border-accent rounded-full p-1"
+            className="border border-accent rounded-full "
             onClick={() => router.push("/dashboard/home")}
           />
           <div className="w-[1px] h-8 bg-muted" />
@@ -146,7 +146,7 @@ function Filters() {
                 <Button
                   variant="outline"
                   className={cn(
-                    "min-w-[120px] rounded-full text-muted-foreground ",
+                    " rounded-full  text-sm text-muted-foreground p-2  h-8",
                     select.value ? "bg-primary/10 " : "bg-background"
                   )}
                 >
