@@ -94,7 +94,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             />
           ) : null}
           <YAxis tickLine={tickLine} tickMargin={0} axisLine={axisLine} />
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <Tooltip cursor={false} content={<ChartTooltipContent />} />
 
           {yAxisDataKeys.map((key, index) => (
             <Bar

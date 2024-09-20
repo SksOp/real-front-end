@@ -37,7 +37,7 @@ function SimilarTransaction() {
             <DisableBulbIcon />
           </div>
         </div>
-        <div className="border rounded-lg w-full overflow-hidden">
+        <div className="border rounded-xl w-full overflow-hidden">
           <Table className="">
             <TableHeader className="">
               <TableRow className="bg-card rounded-t-xl">
