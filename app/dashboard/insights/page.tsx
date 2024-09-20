@@ -53,6 +53,9 @@ function InsightPage({ searchParams }: Props) {
         </TabsContent>
         <TabsContent value="my-listings">
           <div className="overflow-y-scroll flex flex-col gap-4 px-4">
+            <h3 className="text-secondary font-semibold text-base">
+              My listings (18)
+            </h3>
             {PropertiesList.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
                 <PropertiesCard {...property} key={index} />

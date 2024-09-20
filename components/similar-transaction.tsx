@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { cn } from "@/lib/utils";
 
 function SimilarTransaction() {
   const transactions = [
@@ -54,15 +55,14 @@ function SimilarTransaction() {
               {transactions.map((transaction, idx) => (
                 <TableRow
                   key={idx}
-                  className={idx % 2 === 1 ? "bg-card" : "bg-background"}
+                  className={cn(
+                    idx === transactions.length - 1 && "rounded-b-xl",
+                    idx % 2 === 1 ? "bg-card" : "bg-background"
+                  )}
                 >
-                  <TableCell className="rounded-bl-xl">
-                    {transaction.date}
-                  </TableCell>
+                  <TableCell className={""}>{transaction.date}</TableCell>
                   <TableCell>{transaction.sellPrice}</TableCell>
-                  <TableCell className="rounded-br-xl">
-                    {transaction.area}
-                  </TableCell>
+                  <TableCell className="">{transaction.area}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

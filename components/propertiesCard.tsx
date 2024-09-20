@@ -44,7 +44,7 @@ function PropertiesCard({
       <div className="flex w-2/3 flex-col gap-2 justify-between">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center ">
-            <h3 className="text-lg font-extrabold">{name}</h3>
+            <h3 className="text-base font-semibold text-secondary">{name}</h3>
             <div className="bg-[#8177E5] px-3 h-6 absolute right-0 text-white rounded-l-full">
               Sale
             </div>
@@ -91,7 +91,9 @@ function PropertiesCard({
         </div>
         <Separator />
         <div className="flex justify-between items-center">
-          <h3 className="text-base font-extrabold">{formatPrice(price)}</h3>
+          <h3 className="text-base font-semibold text-secondary">
+            {formatPrice(price)}
+          </h3>
           {/* <Drawer> */}
           <div>
             {/* <DrawerTrigger asChild> */}
