@@ -107,7 +107,7 @@ function Calculator() {
                       value={option}
                       id={option}
                       onChange={() => radio.onChange(option)}
-                      className="border-2 border-gray-300 text-muted rounded-full w-5 h-5"
+                      className="border border-gray-300 text-muted rounded-full w-5 h-5"
                     />
                     <Label htmlFor={option}>{option}</Label>
                   </div>

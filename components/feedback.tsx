@@ -13,7 +13,7 @@ import { AutosizeTextarea } from "./ui/auto-scale-textarea";
 
 function Feedback() {
   return (
-    <Card className="border-2 rounded-xl w-full bg-background">
+    <Card className="border rounded-xl w-full bg-background">
       <CardHeader className="">
         <CardTitle className="text-base font-semibold text-secondary">
           Is this dashboard helpful?

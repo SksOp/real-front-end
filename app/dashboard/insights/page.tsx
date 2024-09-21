@@ -52,8 +52,8 @@ function InsightPage({ searchParams }: Props) {
           <InsightsTab selected={subtab} />
         </TabsContent>
         <TabsContent value="my-listings">
-          <div className="overflow-y-scroll flex flex-col gap-4 px-4">
-            <h3 className="text-secondary font-semibold text-base">
+          <div className="overflow-y-scroll flex flex-col gap-4 px-3">
+            <h3 className="text-secondary font-semibold text-base pl-2">
               My listings (18)
             </h3>
             {PropertiesList.map((property, index) => (

@@ -4,21 +4,15 @@ import {
   AreaSizeIcon,
   BathIcon,
   BedIcon,
-  LightBulbIcon,
   LocationIcon,
 } from "@/public/svg/icons";
 import { PropertiescardProps } from "@/types/propertyCard";
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
-import InsightDrawerView from "./insightDrawerView";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
+import { cn } from "@/lib/utils";
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "AED",
     minimumFractionDigits: 0,
   }).format(price);
 }
@@ -33,86 +27,73 @@ function PropertiesCard({
   price,
 }: PropertiescardProps) {
   return (
-    <Card className="flex justify-start relative gap-4 border-2 rounded-xl bg-background w-full p-4">
-      <div className="flex-grow ">
+    <Card className="flex justify-start relative gap-4 border rounded-2xl bg-background w-full p-4">
+      <div className="">
         <img
           src={imageUrl}
           alt={name}
-          className="object-cover rounded-xl h-full"
+          className="object-cover rounded-xl w-24 h-full"
         />
       </div>
-      <div className="flex w-2/3 flex-col gap-2 justify-between">
+      <div className="flex  flex-col gap-2 justify-between">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center ">
             <h3 className="text-base font-semibold text-secondary">{name}</h3>
-            <div className="bg-[#8177E5] px-3 h-6 absolute right-0 text-white rounded-l-full">
+            <div
+              className={cn(
+                "px-3  h-6 text-sm absolute pt-[0.15rem] font-normal right-0 text-white rounded-l-full",
+                "bg-[#8177E5]"
+              )}
+            >
               Sale
             </div>
           </div>
-          <div className="flex justify-start text-sm items-center gap-4">
+          <div className="flex justify-start text-sm items-center gap-1">
             <LocationIcon className="w-4 h-4" />
-            <p className="text-muted-foreground font-light">{location}</p>
+            <p className="text-muted-foreground text-sm font-normal">
+              {location}
+            </p>
           </div>
-          <div className="flex gap-2">
-            <Badge
-              variant={"outline"}
-              className="bg-card text-sm font-light whitespace-nowrap"
-            >
-              Villa
-            </Badge>
-            <Badge
-              variant={"outline"}
-              className="bg-card text-sm font-light whitespace-nowrap"
-            >
-              Residential
-            </Badge>
-            <Badge
-              variant={"outline"}
-              className="bg-card text-sm font-light whitespace-nowrap"
-            >
-              Off plan
-            </Badge>
+          <div className="flex gap-1 w-full overflow-x-scroll">
+            {["Villa", "Residential", "Off plan"].map((tag, index) => (
+              <Badge
+                variant={"outline"}
+                className="bg-card text-xs font-normal py-1 px-2"
+                key={index}
+              >
+                {tag}
+              </Badge>
+            ))}
           </div>
           <div className="flex flex-wrap justify-start items-center gap-6 text-muted-foreground text-bold mt-2">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
-              <p>{bedrooms} </p>
+              <p className="text-muted-foreground font-normal text-sm">
+                {bedrooms}{" "}
+              </p>
             </div>
             <div className="flex gap-1 justify-start items-center">
               <BathIcon className="w-4 h-4" />
-              <p>{bathrooms} </p>
+              <p className="text-muted-foreground font-normal text-sm">
+                {bathrooms}{" "}
+              </p>
             </div>
 
             <div className="flex gap-1 justify-start items-center">
-              <AreaSizeIcon className="w-[0.9rem] h-[0.9rem]" />
-              <p>{0} sqft</p>
+              <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />
+              <p className="text-muted-foreground font-normal text-sm">
+                {0} sqft
+              </p>
             </div>
           </div>
         </div>
         <Separator />
-        <div className="flex justify-between items-center">
-          <h3 className="text-base font-semibold text-secondary">
-            {formatPrice(price)}
-          </h3>
-          {/* <Drawer> */}
-          <div>
-            {/* <DrawerTrigger asChild> */}
-            <Button
-              variant={"ghost"}
-              className="flex justify-end items-center gap-2 p-0 cursor-pointer"
-            >
-              <LightBulbIcon className="w-5 h-5" />
-              <span className="text-primary text-sm font-semibold">
-                See Insights
-              </span>
-            </Button>
-            {/* </DrawerTrigger> */}
-          </div>
-          {/* <DrawerContent>
-              <InsightDrawerView />
-            </DrawerContent>
-          </Drawer> */}
-        </div>
+        <h3 className="text-base   font-semibold text-secondary ">
+          {formatPrice(price)}{" "}
+          <span className="text-sm font-semibold text-muted-foreground">
+            AED
+          </span>
+        </h3>
       </div>
     </Card>
   );

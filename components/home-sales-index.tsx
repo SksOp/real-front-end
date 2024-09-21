@@ -39,7 +39,7 @@ const sampleData = [
 
 function HomeSalesIndex() {
   return (
-    <Card className="border-2 rounded-xl bg-background w-full p-0">
+    <Card className=" rounded-xl bg-background w-full p-0">
       <UnderlineTabs defaultValue="sales">
         <UnderlineTabsList className="w-full border-b-2 border-border items-center justify-start rounded-t-xl gap-3 px-4 pt-1">
           <UnderlineTabsTrigger value="sales" className=" ">

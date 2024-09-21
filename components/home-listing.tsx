@@ -8,7 +8,7 @@ function HomeListing() {
   const images = ["/prop1.png", "/prop2.png", "/prop3.png", "/prop4.png"];
   return (
     <Card
-      className="border-2 rounded-xl w-full p-0 bg-[#FCFBEE]"
+      className="border rounded-xl w-full p-0 bg-[#FCFBEE]"
       onClick={() => router.push("/insights")}
     >
       <CardHeader className="w-full flex flex-col gap-2">
@@ -22,12 +22,12 @@ function HomeListing() {
               src={src}
               alt={`Image ${index}`}
               className={cn(
-                "w-10 h-10 rounded-full object-cover border-2 border-white shadow-lg ",
+                "w-10 h-10 rounded-full object-cover border border-white shadow-lg ",
                 index !== 0 ? "-ml-4" : ""
               )}
             />
           ))}
-          <div className="w-10 h-10 rounded-full bg-white border-2 border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
+          <div className="w-10 h-10 rounded-full bg-white border border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
             +56
           </div>
         </div>

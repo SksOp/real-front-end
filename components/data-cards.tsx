@@ -18,7 +18,7 @@ function DataCards({
 }: DataCardsProps) {
   return (
     <Card
-      className={cn("border-2 rounded-xl w-full p-0 ", bgColor)}
+      className={cn("border rounded-xl w-full p-0 ", bgColor)}
       onClick={onClick}
     >
       <CardHeader className="w-full py-3 px-2">

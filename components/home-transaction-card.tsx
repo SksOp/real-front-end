@@ -13,7 +13,7 @@ function HomeTransactionCard() {
   ];
 
   return (
-    <Card className="border-2 rounded-xl bg-background w-full p-0">
+    <Card className="border rounded-xl bg-background w-full p-0">
       <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
         <h3 className="text-base font-semibold text-secondary">Transactions</h3>
         <h3 className="text-xs font-semibold text-primary ">

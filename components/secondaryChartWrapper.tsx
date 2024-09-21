@@ -9,7 +9,7 @@ function SecondaryChartWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <Card className="border-2 rounded-xl w-full bg-background p-0">
+    <Card className="border rounded-xl w-full bg-background p-0">
       <CardHeader className="py-4 px-3">
         <CardTitle className="text-base font-semibold text-secondary">
           {title}

@@ -30,7 +30,7 @@ const sampleData = [
 
 function HomeTopAreas() {
   return (
-    <Card className="border-2 rounded-xl bg-background w-full p-0">
+    <Card className="border rounded-xl bg-background w-full p-0">
       <CardHeader className="w-full p-4 pb-2">
         <CardTitle className="text-base font-semibold text-secondary">
           Top Areas (Sales)

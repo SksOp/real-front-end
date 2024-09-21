@@ -21,7 +21,7 @@ function SimilarTransaction() {
     { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
   ];
   return (
-    <Card className="border-2 rounded-xl w-full bg-background p-0">
+    <Card className="border rounded-xl w-full bg-background p-0">
       <CardHeader className="flex  flex-row justify-between items-center mx-auto">
         <CardTitle className="text-base font-semibold text-secondary">
           {"Similar Transactions"}

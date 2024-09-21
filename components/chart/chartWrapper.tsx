@@ -55,7 +55,7 @@ function ChartWrapper({
   );
 
   return (
-    <Card className={cn("border-2 rounded-xl w-full bg-background", className)}>
+    <Card className={cn("border rounded-xl w-full bg-background", className)}>
       <CardHeader>
         <div className="flex justify-between items-center ">
           <CardTitle className="text-base font-semibold text-secondary">

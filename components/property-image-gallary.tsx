@@ -35,19 +35,19 @@ function PropertyImageGallery() {
   return (
     <div>
       <Card className="border-0 bg-background p-0">
-        <CardHeader className="px-0">
-          <CardTitle className="font-medium">Gallery</CardTitle>
+        <CardHeader className="p-0">
+          <CardTitle className="text-xl text-secondary font-medium">
+            Gallery
+          </CardTitle>
         </CardHeader>
-        <CardContent className="flex gap-5 overflow-x-scroll justify-start items-center p-0">
+        <CardContent className="flex gap-3 overflow-x-scroll justify-start items-center p-0 py-2">
           {propertyImage.map((src, index) => (
-            <Image
+            <img
               key={index}
               src={src}
-              className="object-cover rounded-xl w-16 h-16 cursor-pointer"
+              className="object-cover rounded-xl w-14 h-14 cursor-pointer"
               alt={`Property ${index + 1}`}
-              width={100}
-              height={100}
-              onClick={() => openModal(src)} // Open modal on click
+              onClick={() => openModal(src)}
             />
           ))}
 

@@ -10,7 +10,7 @@ import React from "react";
 
 function NavBottom({ selected }: { selected: string }) {
   return (
-    <div className="fixed bottom-0  border-2 shadow-lg left-0  py-4  bg-background w-full flex justify-around items-center z-50 ">
+    <div className="fixed bottom-0  border shadow-lg left-0  py-4  bg-background w-full flex justify-around items-center z-50 ">
       <Link
         href="/dashboard/home"
         className="flex flex-col justify-center items-center w-1/3"
