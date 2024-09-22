@@ -35,13 +35,13 @@ function PropertiesCard({
           className="object-cover rounded-xl w-24 h-full"
         />
       </CardHeader>
-      <CardContent className="flex py-3 pl-0 flex-col gap-2 justify-start">
-        <div className="flex flex-col gap-1.5">
+      <CardContent className="flex py-3 pl-0 flex-col gap-2 justify-between pb-4">
+        <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center ">
             <h3 className="text-sm font-semibold text-secondary">{name}</h3>
             <div
               className={cn(
-                "px-3  h-6 text-sm absolute pt-[0.15rem] font-normal right-0 text-white rounded-l-full",
+                "px-2  h-5 text-xs absolute pt-[0.1rem] font-normal right-0 text-white rounded-l-full",
                 "bg-[#8177E5]"
               )}
             >
