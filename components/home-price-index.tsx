@@ -45,13 +45,13 @@ function HomePriceIndex() {
               <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
                 <TabsTrigger
                   value="property"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   By Property Type
                 </TabsTrigger>
                 <TabsTrigger
                   value="rental"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   By Area
                 </TabsTrigger>
@@ -76,13 +76,13 @@ function HomePriceIndex() {
               <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
                 <TabsTrigger
                   value="property"
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   By Property Type
                 </TabsTrigger>
                 <TabsTrigger
                   value="rental"
-                  className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   By Area
                 </TabsTrigger>

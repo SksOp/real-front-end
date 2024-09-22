@@ -24,19 +24,19 @@ function DashboardTabs() {
       <TabsList className="w-full gap-3 items-center justify-start bg-background mt-2 mb-3 p-0">
         <TabsTrigger
           value="all"
-          className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+          className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
         >
           All
         </TabsTrigger>
         <TabsTrigger
           value="residential"
-          className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+          className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
         >
           Residential
         </TabsTrigger>
         <TabsTrigger
           value="commercial"
-          className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+          className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
         >
           Commercial
         </TabsTrigger>

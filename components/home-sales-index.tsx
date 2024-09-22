@@ -62,13 +62,13 @@ function HomeSalesIndex() {
               <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>
@@ -105,13 +105,13 @@ function HomeSalesIndex() {
               <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-sm text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>

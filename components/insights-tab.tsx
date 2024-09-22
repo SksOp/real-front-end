@@ -44,13 +44,13 @@ function InsightsTab({ selected }: { selected?: string }) {
       <TabsList className="w-full gap-3 items-center justify-start bg-background mx-2 ">
         <TabsTrigger
           value="dashboards"
-          className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+          className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
         >
           Dashboards
         </TabsTrigger>
         <TabsTrigger
           value="calculators"
-          className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+          className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
         >
           Calculators
         </TabsTrigger>

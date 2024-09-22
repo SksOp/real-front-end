@@ -25,19 +25,19 @@ function HomeTransactionCard() {
           <TabsList className="w-full gap-3 items-center justify-start bg-background overflow-x-scroll">
             <TabsTrigger
               value="sales"
-              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Sales
             </TabsTrigger>
             <TabsTrigger
               value="rental"
-              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Rental
             </TabsTrigger>
             <TabsTrigger
               value="mortage"
-              className="rounded-full border border-muted text-center font-bold text-muted data-[state=active]:bg-secondary data-[state=active]:text-white"
+              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Mortage
             </TabsTrigger>

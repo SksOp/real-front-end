@@ -49,19 +49,19 @@ function TransactionTabs() {
           <Separator orientation="vertical" className=" h-5" />
           <TabsTrigger
             value="all"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             All
           </TabsTrigger>
           <TabsTrigger
             value="rent"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Rent
           </TabsTrigger>
           <TabsTrigger
             value="gift"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Gift
           </TabsTrigger>

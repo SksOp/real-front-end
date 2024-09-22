@@ -13,13 +13,13 @@ function TransactionHistory() {
         <TabsList className="w-full gap-3 items-center justify-start bg-background ">
           <TabsTrigger
             value="sales"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Sales
           </TabsTrigger>
           <TabsTrigger
             value="rental"
-            className="rounded-full border border-muted-foreground text-center font-bold data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Rental
           </TabsTrigger>
