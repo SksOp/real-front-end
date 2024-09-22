@@ -17,18 +17,18 @@ function PropertyHeader() {
         <div className="relative w-full ">
           <Image
             src="/property.png"
-            className="object-cover w-full h-[250px] rounded-t-xl"
+            className="object-cover w-full  rounded-t-xl"
             height={200}
             width={400}
             alt=""
           />
           <div className="absolute inset-0 p-4 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent ">
-            <h3 className="text-white text-xl font-semibold">
+            <h3 className="text-white text-base font-semibold">
               Urban Nexus Plaza
             </h3>
             <div className="flex items-center gap-2">
               <LocationIcon fill="white" />
-              <p className="text-white text-sm">Wonderlust, Wonderland</p>
+              <p className="text-white text-xs">Wonderlust, Wonderland</p>
             </div>
           </div>
         </div>
@@ -37,22 +37,22 @@ function PropertyHeader() {
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
             <BedIcon className="w-4 h-4" />
-            <p className="text-accent text-sm font-medium">3 Bedrooms</p>
+            <p className="text-accent text-xs font-medium">3 Bedrooms</p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <BathIcon className="w-4 h-4" />
-            <p className="text-accent text-sm font-medium">2 Bathrooms</p>
+            <p className="text-accent text-xs font-medium">2 Bathrooms</p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <AreaSizeIcon className="w-3 h-3" />
-            <p className="text-accent text-sm font-medium">2456 sqft</p>
+            <p className="text-accent text-xs font-medium">2456 sqft</p>
           </div>
         </div>
         <div className="flex justify-start items-center gap-2">
-          <h1 className="text-2xl font-bold">$300,000</h1>
+          <h1 className="text-xl font-bold">$300,000</h1>
           <div className="flex justify-start items-center">
             <UpIcon />
-            <span className="text-green-600 font-medium text-sm">21 %</span>
+            <span className="text-green-600 font-medium text-xs ">21 %</span>
           </div>
         </div>
       </CardFooter>

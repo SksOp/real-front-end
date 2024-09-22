@@ -43,19 +43,19 @@ function page() {
           <DrawerTrigger asChild>
             <Button
               variant={"ghost"}
-              className="w-1/2 flex justify-center items-center gap-4 text-secondary font-semibold h-14 rounded-lg border"
+              className="w-1/2 flex text-sm justify-center items-center gap-4 text-secondary font-semibold h-14 rounded-lg border"
             >
               <MagicLinkIcon />
               Magic Link
             </Button>
           </DrawerTrigger>
           <DrawerContent>
-            <DrawerTitle className="text-center text-xl p-4">
+            <DrawerTitle className="text-center text-sm p-4">
               Magic link
             </DrawerTitle>
             <div className="p-4 flex justify-center items-center gap-2">
               <LinkIcon className="w-8 h-8" />
-              <h3 className="truncate text-lg">
+              <h3 className="truncate text-sm">
                 https://keypilot/Property_10435903?page=1&position=9&term=copy&origin=search&related_id=10435903
               </h3>
             </div>
@@ -76,14 +76,14 @@ function page() {
           <DrawerTrigger asChild>
             <Button
               variant={"secondary"}
-              className="text-background flex justify-center items-center gap-4 focus:bg-none font-semibold w-1/2 h-14 rounded-lg border"
+              className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/2 h-14 rounded-lg border"
             >
               <PDFIcon />
               PDF Brochure
             </Button>
           </DrawerTrigger>
           <DrawerContent className="flex flex-col gap-2">
-            <DrawerTitle className="text-center text-xl p-4">
+            <DrawerTitle className="text-center text-sm p-4">
               Share Brochure
             </DrawerTitle>
             <div className="w-full items-center justify-center flex">

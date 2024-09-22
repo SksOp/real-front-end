@@ -36,7 +36,7 @@ function PropertyImageGallery() {
     <div>
       <Card className="border-0 bg-background p-0">
         <CardHeader className="p-0">
-          <CardTitle className="text-xl text-secondary font-medium">
+          <CardTitle className="text-base text-secondary font-medium">
             Gallery
           </CardTitle>
         </CardHeader>

@@ -24,10 +24,10 @@ function PropertyDescription() {
   return (
     <Card className="border-0 bg-background">
       <CardHeader className="p-0">
-        <CardTitle className="text-xl text-secondary font-medium">
+        <CardTitle className="text-base text-secondary font-medium">
           Property Description
         </CardTitle>
-        <CardDescription className="text-muted-foreground font-normal text-base">
+        <CardDescription className="text-muted-foreground font-normal text-sm">
           {beginText}
           {itCanOverflow && (
             <>
@@ -36,7 +36,7 @@ function PropertyDescription() {
                 {endText}
               </span>
               <span
-                className="text-primary font-bold ml-2 cursor-pointer"
+                className="text-primary font-bold ml-1 cursor-pointer"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? "Read less" : "Read more"}
@@ -47,34 +47,24 @@ function PropertyDescription() {
       </CardHeader>
       <CardContent className="p-0 py-4 grid grid-cols-2 gap-4 justify-items-start">
         <div>
-          <h3 className="text-base text-secondary/80 font-semibold">Builder</h3>
-          <p className="text-muted-foreground text-base font-normal">
-            Apartment
-          </p>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
         </div>
         <div>
-          <h3 className="text-base text-secondary/80 font-semibold">Builder</h3>
-          <p className="text-muted-foreground text-base font-normal">
-            Apartment
-          </p>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
         </div>
         <div>
-          <h3 className="text-base text-secondary/80 font-semibold">Builder</h3>
-          <p className="text-muted-foreground text-base font-normal">
-            Apartment
-          </p>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
         </div>
         <div>
-          <h3 className="text-base text-secondary/80 font-semibold">Builder</h3>
-          <p className="text-muted-foreground text-base font-normal">
-            Apartment
-          </p>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
         </div>
         <div>
-          <h3 className="text-base text-secondary/80 font-semibold">Builder</h3>
-          <p className="text-muted-foreground text-base font-normal">
-            Apartment
-          </p>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
         </div>
       </CardContent>
     </Card>

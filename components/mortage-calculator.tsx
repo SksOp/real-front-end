@@ -72,8 +72,8 @@ function MortageCalculator() {
     <div className="flex gap-4 items-center w-full">
       {React.createElement(icon, { className: "h-8 w-8" })}
       <div className="flex flex-col gap-2 w-full">
-        <h3 className="text-muted-foreground text-base font-normal">{label}</h3>
-        <p className="text-base text-secondary font-semibold p-2">
+        <h3 className="text-muted-foreground text-sm font-normal">{label}</h3>
+        <p className="text-sm text-secondary bg-white font-semibold p-2">
           {values[valueKey]} {unit}
         </p>
         <Slider
@@ -92,12 +92,12 @@ function MortageCalculator() {
   );
 
   return (
-    <Card className="border rounded-xl bg-purple-50">
+    <Card className="border rounded-xl bg-primary/5">
       <CardHeader>
-        <CardTitle className="text-xl text-secondary font-medium">
+        <CardTitle className="text-base text-secondary font-medium">
           Mortage Calculator
         </CardTitle>
-        <CardDescription className="text-muted-foreground text-base font-normal">
+        <CardDescription className="text-muted-foreground text-sm font-normal">
           Lorem ipsum dolor sit amet consectetur.
         </CardDescription>
       </CardHeader>
@@ -107,15 +107,15 @@ function MortageCalculator() {
         {renderSlider("Duration (Years)", DurationIcon, "Years", "duration")}
       </CardContent>
       <CardFooter className="w-full flex flex-col gap-1 items-start">
-        <h3 className="text-secondary text-[2rem] font-semibold">
+        <h3 className="text-secondary text-3xl font-semibold">
           {calculateMonthlyPayment()}{" "}
-          <span className="text-muted-foreground text-base font-normal">
+          <span className="text-muted-foreground text-sm font-normal">
             / Month
           </span>
         </h3>
-        <p className="text-muted-foreground text-base font-normal">
+        <p className="text-muted-foreground text-sm font-normal">
           is the monthly payment as per the given input
-          <span className="text-primary font-semibold">
+          <span className="text-purple-500 font-semibold">
             {" "}
             View detailed illustration
           </span>
