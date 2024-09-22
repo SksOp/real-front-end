@@ -1,12 +1,15 @@
 "use client";
-import MortageCalculator from "@/components/mortage-calculator";
-import PDFViewer from "@/components/pdfViewer";
-import PropertyAminities from "@/components/property-aminities";
-import PropertyDescription from "@/components/property-description";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import Navbar from "@/layout/nav/navBar";
 import PropertyHeader from "@/components/property-header";
 import PropertyImageGallary from "@/components/property-image-gallary";
+import PropertyDescription from "@/components/property-description";
+import PropertyAminities from "@/components/property-aminities";
 import PropertyKeyInformation from "@/components/property-keyInformation";
-import ShareComponent from "@/components/shareComponent";
+import MortageCalculator from "@/components/mortage-calculator";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -14,23 +17,81 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import Navbar from "@/layout/nav/navBar";
-import {
-  CopyIcon,
-  LinkIcon,
-  MagicLinkIcon,
-  PDFDownloadingIcon,
-  PDFIcon,
-} from "@/public/svg/icons";
-import React from "react";
+import ShareComponent from "@/components/shareComponent";
+import { CopyIcon, LinkIcon, MagicLinkIcon, PDFIcon } from "@/public/svg/icons";
+import { properties1 } from "@/constants/properties";
 
-function page() {
+// Load PDFViewer dynamically, only on client side
+const PDFViewer = dynamic(() => import("@/components/pdfViewer"), {
+  ssr: false,
+});
+
+interface Property {
+  price: string;
+  title: string;
+  location: string;
+  bedrooms: string;
+  bathrooms: string;
+  area: string;
+  imageURLs: string[];
+  amenities: {};
+  permitNumber: string;
+  articleURL?: string;
+  referenceNumber?: string;
+}
+
+function Page({ params }: { params: { id: string } }) {
+  const [isClient, setIsClient] = useState(false); // Add state to check if component is client-side
+  const [property, setProperty] = useState<Property | null>(null);
+  // const router = useRouter();
   const pdfUrl = "/test.pdf";
+  const { id } = params;
+  console.log(id);
+  useEffect(() => {
+    // Set state to indicate the component is now on the client
+    setIsClient(true);
+
+    // Ensure router is ready
+    // if (router.isReady) {
+    // const id = router.query.id as string;
+
+    if (id && properties1) {
+      try {
+        const propertyId = Number(id);
+        if (!isNaN(propertyId)) {
+          const propertyData = properties1[propertyId - 1];
+          if (propertyData) {
+            setProperty(propertyData);
+          } else {
+            console.error(`No property found for id: ${propertyId}`);
+          }
+        } else {
+          console.error("Invalid property id:", id);
+        }
+      } catch (error) {
+        console.error("Failed to load property data:", error);
+      }
+    }
+    // }
+  }, [id]);
+
+  if (!isClient || !property) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <Navbar />
-      <PropertyHeader />
-      <PropertyImageGallary />
+      <PropertyHeader
+        price={property.price}
+        title={property.title}
+        location={property.location}
+        bedrooms={property.bedrooms}
+        bathrooms={property.bathrooms}
+        area={property.area}
+        imageURL={property.imageURLs[0]}
+      />
+      <PropertyImageGallary imageURLs={property.imageURLs} />
       <PropertyDescription />
       <PropertyAminities />
       <PropertyKeyInformation />
@@ -51,14 +112,8 @@ function page() {
               Share Brochure
             </DrawerTitle>
             <div className="w-full items-center justify-center flex">
-              {/* <Button
-                variant={"ghost"}
-                className="border-secondary border text-secondary w-fit flex justify-center gap-2 items-center rounded-full"
-              >
-                <PDFDownloadingIcon /> */}
               <PDFViewer fileUrl={pdfUrl} />
               Download
-              {/* </Button> */}
             </div>
             <ShareComponent />
           </DrawerContent>
@@ -68,7 +123,7 @@ function page() {
           <DrawerTrigger asChild>
             <Button
               variant={"secondary"}
-              className="text-background flex justify-center items-center gap-4  font-bold w-1/2 h-14 rounded-lg border-2"
+              className="text-background flex justify-center items-center gap-4 font-bold w-1/2 h-14 rounded-lg border-2"
             >
               <PDFIcon />
               PDF Brochure
@@ -101,4 +156,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

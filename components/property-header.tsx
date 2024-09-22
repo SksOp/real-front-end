@@ -10,12 +10,12 @@ import {
 import { AreaIcon } from "@/public/svg/drawerIcons";
 import Image from "next/image";
 
-function PropertyHeader() {
+function PropertyHeader(props: any) {
   return (
     <Card className="border-0 mt-8">
       <CardHeader>
         <Image
-          src="/property.png"
+          src={props.imageURL}
           className=" object-cover w-full rounded-t-xl "
           height={200}
           width={400}
@@ -25,11 +25,11 @@ function PropertyHeader() {
       <CardFooter className="flex flex-col gap-3 border-0    ">
         <div className="flex justify-between items-center w-full">
           <div>
-            <h1 className="text-3xl font-bold">$300,000</h1>
-            <h3 className="text-xl  font-bold">Urban Nexus Plaza</h3>
+            <h1 className="text-3xl font-bold">{props.price}</h1>
+            <h3 className="text-xl  font-bold">{props.title}</h3>
             <div className="flex justify-start gap-2 items-center">
               <LocationIcon />
-              <p className="text-muted-foreground">Wonderlust, Wonderland</p>
+              <p className="text-muted-foreground">{props.location}</p>
             </div>
           </div>
           <div className="flex justify-center items-center gap-1">
@@ -40,15 +40,15 @@ function PropertyHeader() {
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
             <BedIcon />
-            <p className="text-muted-foreground">3 Bedrooms</p>
+            <p className="text-muted-foreground">{props.bedrooms} Bedroom</p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <BathIcon />
-            <p className="text-muted-foreground">2 Bathroom</p>
+            <p className="text-muted-foreground">{props.bathrooms} Bathroom</p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <AreaSizeIcon />
-            <p className="text-muted-foreground">2456 sqft</p>
+            <p className="text-muted-foreground">{props.area}</p>
           </div>
         </div>
       </CardFooter>

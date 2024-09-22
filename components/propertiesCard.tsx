@@ -37,11 +37,12 @@ function PropertiesCard({
   imageURL,
   title: name,
   location,
-  // bedrooms,
-  // bathrooms,
-  // area,
+  bedrooms,
+  bathrooms,
+  area,
   price,
 }: ListingDataType) {
+  // console.log(location);
   return (
     <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
       <div className="flex-grow ">
@@ -58,28 +59,26 @@ function PropertiesCard({
           <h3 className="text-lg font-extrabold">{name}</h3>
           <div className="flex justify-start text-sm items-center gap-2">
             <LocationIcon className="w-4 h-4" />
-            <p className="text-muted font-light">{location}</p>
+            <p>{location}</p>
           </div>
           <div className="flex flex-wrap gap-2 text-muted-foreground text-bold mt-2">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
-              <p>{0} Bedrooms</p>
+              <p>{bedrooms}</p>
             </div>
             <div className="flex gap-1 justify-start items-center">
               <BathIcon className="w-4 h-4" />
-              <p>{0} Bathrooms</p>
+              <p>{bathrooms}</p>
             </div>
 
             <div className="flex gap-1 justify-start items-center">
               <AreaSizeIcon className="w-[0.9rem] h-[0.9rem]" />
-              <p>{0} sqft</p>
+              <p>{area}</p>
             </div>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <h3 className="text-base font-extrabold">
-            {formatPrice(String(price))}
-          </h3>
+          <h3 className="text-base font-extrabold">{price}</h3>
           {/* <Drawer> */}
           <div>
             {/* <DrawerTrigger asChild> */}
