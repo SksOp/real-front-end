@@ -26,6 +26,7 @@ interface Props {
 import { FilterProvider } from "@/context/filter/filter-provider";
 import ListingTab from "@/components/listing";
 import PropertiesCard from "@/components/propertiesCard";
+import { Separator } from "@/components/ui/separator";
 
 function InsightPage({ searchParams }: Props) {
   const [isActive, setIsActive] = useState(searchParams.tabs ?? "insights");
@@ -38,7 +39,7 @@ function InsightPage({ searchParams }: Props) {
         onValueChange={(value) => setIsActive(value)}
         className="w-full items-center justify-center"
       >
-        <TabsList className="w-full items-center justify-between px-4 py-3">
+        <TabsList className="w-full items-center justify-between border-b border-muted px-4 pt-3 mb-2">
           <TabsTrigger
             value="insights"
             className="flex justify-center items-center gap-2"
@@ -52,7 +53,7 @@ function InsightPage({ searchParams }: Props) {
           <InsightsTab selected={subtab} />
         </TabsContent>
         <TabsContent value="my-listings">
-          <div className="overflow-y-scroll flex flex-col gap-4 px-3">
+          <div className="overflow-y-scroll flex flex-col gap-3 px-3 ">
             <h3 className="text-secondary font-semibold text-base pl-2">
               My listings (18)
             </h3>
@@ -62,7 +63,6 @@ function InsightPage({ searchParams }: Props) {
               </Link>
             ))}
           </div>
-          <div className="h-20" />
         </TabsContent>
       </Tabs>
     </Layout>
