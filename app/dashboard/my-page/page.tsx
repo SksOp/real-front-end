@@ -124,12 +124,12 @@ function MyPage() {
             <AreaChartComponent
               chartConfig={chartConfig}
               data={[
-                { month: "January", value1: 186 },
-                { month: "March", value1: 305 },
-                { month: "May", value1: 237 },
-                { month: "Jul", value1: 73 },
-                { month: "Sep", value1: 209 },
-                { month: "Dec", value1: 214 },
+                { month: "January", value1: 10 },
+                { month: "March", value1: 20 },
+                { month: "May", value1: 30 },
+                { month: "Jul", value1: 20 },
+                { month: "Sep", value1: 10 },
+                { month: "Dec", value1: 30 },
               ]}
               xAxisDataKey="month"
               yAxisDataKey="value1"
