@@ -93,7 +93,7 @@ function Page({ params }: { params: { id: string } }) {
       />
       <PropertyImageGallary imageURLs={property.imageURLs} />
       <PropertyDescription />
-      <PropertyAminities />
+      <PropertyAminities aminities={property.amenities} />
       <PropertyKeyInformation />
       <MortageCalculator />
       <div className="fixed bottom-0 bg-background flex items-center justify-center gap-4 px-4 py-6 w-full">
