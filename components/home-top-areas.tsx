@@ -1,8 +1,21 @@
+"use client";
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import {
+  Tabs as UnderlineTabs,
+  TabsContent as UnderlineTabsContent,
+  TabsList as UnderlineTabsList,
+  TabsTrigger as UnderlineTabsTrigger,
+} from "./ui/underline-tabs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import { ChartConfig } from "./ui/chart";
+import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 
 const chartConfig = {
   desktop: {
@@ -30,45 +43,98 @@ const sampleData = [
 
 function HomeTopAreas() {
   return (
-    <Card className="border rounded-xl bg-background w-full p-0">
-      <CardHeader className="w-full p-4 pb-2">
-        <CardTitle className="text-base font-semibold text-secondary">
-          Top Areas (Sales)
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="px-3 py-0 pb-4 w-full">
-        <Tabs defaultValue="volume">
-          <TabsList className="w-full gap-3 items-center justify-start bg-background ">
-            <TabsTrigger
-              value="volume"
-              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-            >
-              Volume
-            </TabsTrigger>
-            <TabsTrigger
-              value="price"
-              className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-            >
-              price per SQFT
-            </TabsTrigger>
-          </TabsList>
-          <h3 className="truncate text-accent font-normal text-base mb-4 mt-2 ml-2">
-            Compare top areas by their performances using various metrics.
-            Number of transactions or price per square feet or expected return,
-            we have it all covered.
-          </h3>
-          <TabsContent value="volume" className="">
-            <HorizontalBarChartComponent
-              chartConfig={chartConfig}
-              data={sampleData}
-              xAxisDataKey={"month"}
-              yAxisDataKey={"value"}
-              className="min-h-[450px]"
-            />
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+    <UnderlineTabs defaultValue="sales">
+      <UnderlineTabsList className="w-full border border-border items-center justify-start rounded-t-xl gap-3 px-3">
+        <UnderlineTabsTrigger
+          value="sales"
+          className="flex justify-center items-center gap-2 "
+        >
+          Sales
+        </UnderlineTabsTrigger>
+        <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
+      </UnderlineTabsList>
+      <Card className="rounded-xl bg-background rounded-t-none w-full px-3 py-4 flex flex-col gap-4">
+        <UnderlineTabsContent value="sales">
+          {" "}
+          <CardHeader className="w-full p-0">
+            <CardTitle className="text-base font-semibold text-secondary">
+              Top Areas (Sales)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0 w-full mt-2">
+            <Tabs defaultValue="volume">
+              <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
+                <TabsTrigger
+                  value="volume"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                >
+                  Volume
+                </TabsTrigger>
+                <TabsTrigger
+                  value="price"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                >
+                  price per SQFT
+                </TabsTrigger>
+              </TabsList>
+              <CardDescription className="truncate text-accent font-normal text-sm mb-4 mt-2">
+                Compare top areas by their performances using various metrics.
+                Number of transactions or price per square feet or expected
+                return, we have it all covered.
+              </CardDescription>
+              <TabsContent value="volume" className="p-0">
+                <HorizontalBarChartComponent
+                  chartConfig={chartConfig}
+                  data={sampleData}
+                  xAxisDataKey={"month"}
+                  yAxisDataKey={"value"}
+                  className="min-h-[450px]"
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </UnderlineTabsContent>
+        <UnderlineTabsContent value="rental">
+          <CardHeader className="w-full p-0">
+            <CardTitle className="text-base font-semibold text-secondary">
+              Top Areas (Rental)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0 w-full mt-2">
+            <Tabs defaultValue="volume">
+              <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
+                <TabsTrigger
+                  value="volume"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                >
+                  Volume
+                </TabsTrigger>
+                <TabsTrigger
+                  value="rent"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                >
+                  Unit Rent
+                </TabsTrigger>
+              </TabsList>
+              <CardDescription className="truncate text-accent font-normal text-sm mb-4 mt-2">
+                Compare top areas by their performances using various metrics.
+                Number of transactions or price per square feet or expected
+                return, we have it all covered.
+              </CardDescription>
+              <TabsContent value="volume" className="p-0">
+                <HorizontalBarChartComponent
+                  chartConfig={chartConfig}
+                  data={sampleData}
+                  xAxisDataKey={"month"}
+                  yAxisDataKey={"value"}
+                  className="min-h-[450px]"
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </UnderlineTabsContent>
+      </Card>
+    </UnderlineTabs>
   );
 }
 

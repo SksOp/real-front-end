@@ -5,13 +5,20 @@ import { useRouter } from "next/navigation";
 
 function HomeListing() {
   const router = useRouter();
-  const images = ["/prop1.png", "/prop2.png", "/prop3.png", "/prop4.png"];
+  const images = [
+    "/prop1.png",
+    "/prop2.png",
+    "/prop3.png",
+    "/prop4.png",
+    "/prop1.png",
+    "/prop2.png",
+  ];
   return (
     <Card
-      className="border rounded-xl w-full p-0 bg-[#FCFBEE]"
+      className="border rounded-xl w-full p-3 bg-[#FCFBEE] flex flex-col gap-1"
       onClick={() => router.push("/insights")}
     >
-      <CardHeader className="w-full flex flex-col gap-2">
+      <CardHeader className="w-full flex flex-col gap-1 p-0">
         <CardTitle className="text-base font-semibold text-secondary">
           Your listings (24)
         </CardTitle>
@@ -22,12 +29,12 @@ function HomeListing() {
               src={src}
               alt={`Image ${index}`}
               className={cn(
-                "w-10 h-10 rounded-full object-cover border border-white shadow-lg ",
+                "w-9 h-9 rounded-full object-cover border border-white  ",
                 index !== 0 ? "-ml-4" : ""
               )}
             />
           ))}
-          <div className="w-10 h-10 rounded-full bg-white border border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
+          <div className="w-9 h-9 rounded-full bg-white border border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
             +56
           </div>
         </div>

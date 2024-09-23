@@ -2,6 +2,7 @@ import React from "react";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -39,36 +40,35 @@ const sampleData = [
 
 function HomeSalesIndex() {
   return (
-    <Card className=" rounded-xl bg-background w-full p-0">
-      <UnderlineTabs defaultValue="sales">
-        <UnderlineTabsList className="w-full border-b-2 border-border items-center justify-start rounded-t-xl gap-3 px-4 pt-1">
-          <UnderlineTabsTrigger value="sales" className=" ">
-            Sales
-          </UnderlineTabsTrigger>
-          <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
-        </UnderlineTabsList>
-
+    <UnderlineTabs defaultValue="sales">
+      <UnderlineTabsList className="w-full border border-border items-center justify-start rounded-t-xl gap-3 px-3">
+        <UnderlineTabsTrigger value="sales" className=" ">
+          Sales
+        </UnderlineTabsTrigger>
+        <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
+      </UnderlineTabsList>
+      <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 py-5 flex flex-col gap-3">
         <UnderlineTabsContent value="sales">
-          <CardHeader className="w-full p-4">
-            <CardTitle className="text-base font-semibold text-secondary">
+          <CardHeader className="w-full p-0">
+            <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Sales Price Index
             </CardTitle>
-            <h3 className="text-sm text-muted-foreground font-light truncate">
+            <CardDescription className="text-sm text-muted-foreground font-medium truncate">
               explore various Dubai price index here.
-            </h3>
+            </CardDescription>
           </CardHeader>
-          <CardContent className="px-3 py-0 pb-4 w-full">
+          <CardContent className="p-0 w-full mt-2">
             <Tabs defaultValue="residential">
-              <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
+              <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>
@@ -92,26 +92,26 @@ function HomeSalesIndex() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardHeader className="w-full p-4">
-            <CardTitle className="text-base font-semibold text-secondary">
+          <CardHeader className="w-full p-0">
+            <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Rental Price Index
             </CardTitle>
-            <h3 className="text-sm text-muted-foreground font-light truncate">
+            <CardDescription className="text-sm text-muted-foreground font-medium truncate">
               explore various Dubai price index here.
-            </h3>
+            </CardDescription>
           </CardHeader>
-          <CardContent className="px-3 py-0 pb-4 w-full">
+          <CardContent className="p-0 w-full mt-2">
             <Tabs defaultValue="residential">
-              <TabsList className="w-full gap-3 overflow-scroll items-center justify-start bg-background mb-4">
+              <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                 <TabsTrigger
                   value="residential"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Residential
                 </TabsTrigger>
                 <TabsTrigger
                   value="commercial"
-                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                 >
                   Commercial
                 </TabsTrigger>
@@ -134,8 +134,8 @@ function HomeSalesIndex() {
             </CardFooter>
           </CardContent>
         </UnderlineTabsContent>
-      </UnderlineTabs>
-    </Card>
+      </Card>
+    </UnderlineTabs>
   );
 }
 

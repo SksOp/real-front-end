@@ -14,14 +14,14 @@ function HomePage() {
   return (
     <Layout page="home">
       <Navbar />
-      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA]  mt-16 px-4 flex flex-col gap-4">
+      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA]  mt-20 px-3 flex flex-col gap-3">
         <HomeTransactionCard />
         <HomeInsights />
         <HomeTotalAds />
+        <HomeListing />
         <HomeSalesIndex />
         <HomePriceIndex />
         <HomeTopAreas />
-        <HomeListing />
       </div>
     </Layout>
   );

@@ -29,14 +29,16 @@ interface HorizontalBarChartProps {
 function HorizontalBarChart({ data }: HorizontalBarChartProps) {
   const maxValue = Math.max(...data.map((item) => item.value));
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {data.map((item, idx) => (
-        <div className="" key={idx}>
-          <h3 className="font-semibold text-[0.8rem] mb-1">{item.name}</h3>
-          <div className="flex justify-start items-center gap-2">
+        <div className="flex flex-col gap-0.5" key={idx}>
+          <h3 className="font-semibold text-secondary text-xs mb-1">
+            {item.name}
+          </h3>
+          <div className="flex justify-start items-center gap-1">
             <div
               className={cn(
-                `h-7 border border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
+                `h-6 border-[0.5px] border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
               )}
               style={{
                 width: `${(item.value / maxValue) * 100}%`,
@@ -72,8 +74,8 @@ function HomeTotalAds() {
     { name: "Others (50%)", value: 50, fill: "#EFEEFC" },
   ];
   return (
-    <Card className="border rounded-xl bg-background w-full p-0">
-      <CardHeader className="w-full p-4">
+    <Card className=" border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-7">
+      <CardHeader className="w-full p-0 flex flex-col gap-1">
         <CardTitle className="text-base font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
@@ -81,7 +83,7 @@ function HomeTotalAds() {
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>
-      <CardContent className="flex flex-col gap-2 px-4 py-0 pb-4">
+      <CardContent className="flex flex-col gap-2 p-0">
         {/* <div className="flex justify-between items-center w-full gap-4 p-0"><ChevronDownCircle size={24} /></div> */}
         {/* <VerticalBarChartComponent
           data={data}
