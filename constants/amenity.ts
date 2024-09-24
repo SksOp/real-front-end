@@ -58,3 +58,5 @@ export const AmenitiesMap = {
     title: "Centrally Air-Conditioned",
   },
 };
+
+// exort const AminitiesArray = [<ACIcon/>, SwimmingPoolIcon, BalconyIcon, PlayAreaIcon]
