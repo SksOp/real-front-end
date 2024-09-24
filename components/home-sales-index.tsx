@@ -53,7 +53,7 @@ function HomeSalesIndex() {
             <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Sales Price Index
             </CardTitle>
-            <CardDescription className="text-sm text-muted-foreground font-medium truncate">
+            <CardDescription className="text-sm text-accent font-normal truncate">
               explore various Dubai price index here.
             </CardDescription>
           </CardHeader>
@@ -96,7 +96,7 @@ function HomeSalesIndex() {
             <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Rental Price Index
             </CardTitle>
-            <CardDescription className="text-sm text-muted-foreground font-medium truncate">
+            <CardDescription className="text-sm text-accent font-normal truncate">
               explore various Dubai price index here.
             </CardDescription>
           </CardHeader>

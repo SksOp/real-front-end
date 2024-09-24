@@ -110,10 +110,10 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
             className="flex items-center  text-base w-full whitespace-nowrap gap-2"
           >
             <span
-              className={` min-w-5 w-5 h-5 rounded-sm border border-secondary ${item.colorClass}`}
+              className={` min-w-3 w-3 h-3 rounded-sm border border-secondary ${item.colorClass}`}
             />
             <span>{item.name}</span>
-            <span className="text-secondary text-lg font-semibold">
+            <span className="text-secondary text-sm font-semibold">
               {item.value}
             </span>
           </div>

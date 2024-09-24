@@ -46,7 +46,7 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
   }, [knob, percentile25, percentile75]);
 
   return (
-    <div className="w-full flex flex-col items-center gap-6">
+    <div className="w-full flex flex-col items-center gap-2">
       {knob && (
         <div className="flex justify-center items-center rounded-full py-2 px-3 bg-muted-foreground text-white w-fit">
           AED 1.356M is Avg.

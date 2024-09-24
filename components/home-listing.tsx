@@ -38,7 +38,7 @@ function HomeListing() {
             +56
           </div>
         </div>
-        <h3 className="text-sm text-muted-foreground font-normal">
+        <h3 className="text-sm text-muted-foreground font-normal ">
           Get detailed insights about the properties that you have listed
           online. AI driven insights!
         </h3>

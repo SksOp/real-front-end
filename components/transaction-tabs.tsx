@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getTransactionData } from "@/transcation/dataConverter";
 import { FilterContext } from "@/context/filter/filter-provider";
 import ReportSection from "./insights/reportsection/reportsection";
+import MatrixCard from "./matrix-card";
 
 function TransactionTabs() {
   const {
@@ -34,6 +35,13 @@ function TransactionTabs() {
 
   const transactionData = getTransactionData(avgValue!);
 
+  const matrixData = [
+    { title: "Average Rental Value", value: "120 K", growth: -21 },
+    { title: "Sales per SQFT", value: "$3.5 M", growth: 21 },
+    { title: "Total Value", value: "165 K", growth: 21 },
+    { title: "No of Transactions", value: "20", growth: -21 },
+  ];
+
   return (
     <Tabs defaultValue="all">
       <TabsList className="w-full gap-3 items-center justify-between bg-background ">
@@ -49,19 +57,19 @@ function TransactionTabs() {
           <Separator orientation="vertical" className=" h-5" />
           <TabsTrigger
             value="all"
-            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             All
           </TabsTrigger>
           <TabsTrigger
             value="rent"
-            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Rent
           </TabsTrigger>
           <TabsTrigger
             value="gift"
-            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Gift
           </TabsTrigger>
@@ -72,10 +80,19 @@ function TransactionTabs() {
         value="all"
         className="w-full flex flex-col gap-2 overflow-x-scroll"
       >
-        <ReportSection transactionData={transactionData} />
-        {Transaction?.map((transaction, index) => (
+        <div className="grid grid-cols-2 gap-3 w-full">
+          {matrixData.map((item, index) => (
+            <MatrixCard
+              key={index}
+              title={item.title}
+              value={item.value}
+              growth={item.growth}
+            />
+          ))}
+        </div>
+        {/* {Transaction?.map((transaction, index) => (
           <TransactionCard key={index} {...transaction} />
-        ))}
+        ))} */}
       </TabsContent>
     </Tabs>
   );

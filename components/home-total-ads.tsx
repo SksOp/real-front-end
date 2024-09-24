@@ -38,7 +38,7 @@ function HorizontalBarChart({ data }: HorizontalBarChartProps) {
           <div className="flex justify-start items-center gap-1">
             <div
               className={cn(
-                `h-6 border-[0.5px] border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
+                `h-6 border border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
               )}
               style={{
                 width: `${(item.value / maxValue) * 100}%`,
@@ -79,7 +79,7 @@ function HomeTotalAds() {
         <CardTitle className="text-base font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
-        <h3 className="text-sm text-accent font-normal truncate">
+        <h3 className="text-[0.8rem] font-normal truncate text-accent">
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>

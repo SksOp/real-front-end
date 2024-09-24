@@ -59,7 +59,7 @@ function Feedback() {
           />
           <Button
             variant={"ghost"}
-            className="w-full  text-secondary  h-14 rounded-xl border"
+            className="w-full  text-secondary hover:bg-primary/10 h-14 rounded-xl border"
           >
             Send feedback
           </Button>

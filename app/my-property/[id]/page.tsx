@@ -29,7 +29,7 @@ function page() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col mx-4 gap-4 mt-12 mb-32">
+      <div className="flex flex-col mx-4 gap-4 mt-16 mb-32">
         <PropertyHeader />
         <PropertyImageGallary />
         <PropertyDescription />

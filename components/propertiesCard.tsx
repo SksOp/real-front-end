@@ -27,15 +27,15 @@ function PropertiesCard({
   price,
 }: PropertiescardProps) {
   return (
-    <Card className="flex justify-start relative  border rounded-2xl bg-background w-full p-0">
-      <CardHeader className="p-3 ">
+    <Card className="flex justify-start relative gap-3 border rounded-2xl bg-background w-full p-3">
+      <CardHeader className="p-0">
         <img
           src={imageUrl}
           alt={name}
           className="object-cover rounded-xl w-24 h-full"
         />
       </CardHeader>
-      <CardContent className="flex py-3 pl-0 flex-col gap-2 justify-between pb-4">
+      <CardContent className="flex flex-col gap-2 justify-around p-0 ">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center ">
             <h3 className="text-sm font-semibold text-secondary">{name}</h3>
@@ -58,7 +58,7 @@ function PropertiesCard({
             {["Villa", "Residential", "Off plan"].map((tag, index) => (
               <Badge
                 variant={"outline"}
-                className="bg-card text-xs font-normal py-0.5 px-2 border-0"
+                className="bg-card text-xs font-normal text-muted-foreground py-0.5 px-2 border-0"
                 key={index}
               >
                 {tag}

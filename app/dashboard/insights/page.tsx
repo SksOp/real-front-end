@@ -27,6 +27,7 @@ import { FilterProvider } from "@/context/filter/filter-provider";
 import ListingTab from "@/components/listing";
 import PropertiesCard from "@/components/propertiesCard";
 import { Separator } from "@/components/ui/separator";
+import TransactionCard from "@/components/transaction-card";
 
 function InsightPage({ searchParams }: Props) {
   const [isActive, setIsActive] = useState(searchParams.tabs ?? "insights");
@@ -37,9 +38,9 @@ function InsightPage({ searchParams }: Props) {
       <Tabs
         value={isActive}
         onValueChange={(value) => setIsActive(value)}
-        className="w-full items-center justify-center"
+        className="w-full items-center justify-center pt-5"
       >
-        <TabsList className="w-full items-center justify-between border-b border-muted px-4 pt-3 mb-2">
+        <TabsList className="w-full border-0 border-b  border-border items-center justify-around gap-3 ">
           <TabsTrigger
             value="insights"
             className="flex justify-center items-center gap-2"
@@ -62,6 +63,55 @@ function InsightPage({ searchParams }: Props) {
                 <PropertiesCard {...property} key={index} />
               </Link>
             ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="transactions">
+          <div className="overflow-y-scroll flex flex-col gap-3 px-3 ">
+            <TransactionTabs />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
           </div>
         </TabsContent>
       </Tabs>

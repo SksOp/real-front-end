@@ -16,7 +16,7 @@ function HomeTransactionCard() {
     <Card className="border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-3">
       <CardHeader className="flex flex-row justify-between items-center text-center p-0 w-full ">
         <h3 className="text-base font-semibold text-secondary">Transactions</h3>
-        <h3 className="text-xs font-semibold text-primary ">
+        <h3 className="text-xs font-semibold text-primary">
           Go to transactions
         </h3>
       </CardHeader>

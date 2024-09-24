@@ -49,7 +49,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
         </Badge>
         <div className="flex items-center justify-between w-full">
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold  break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold max-w-14 break-words">
               {"Average price"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
@@ -61,7 +61,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </div>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 ml-4 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold  break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold max-w-20  break-words">
               {"Price Per sq. ft"}
             </h3>
             <h2 className="text-base text-secondary font-medium">
@@ -69,7 +69,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </h2>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold  break-words">
+            <h3 className="text-sm text-muted-foreground font-semibold max-w-24  break-words">
               {"No. of transactions"}
             </h3>
             <div className="flex gap-1 justify-start items-center">

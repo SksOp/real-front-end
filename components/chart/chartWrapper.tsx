@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Download, Ellipsis, Info, Share2 } from "lucide-react";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -15,10 +14,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { ClassValue } from "clsx";
+import {
+  DownloadIcon,
+  Ellipsis,
+  InfoIcon,
+  ShareIcon,
+} from "@/public/svg/Indicator";
 
 interface ChartWrapperProps {
   title: string;
@@ -55,8 +59,13 @@ function ChartWrapper({
   );
 
   return (
-    <Card className={cn("border rounded-xl w-full bg-background", className)}>
-      <CardHeader>
+    <Card
+      className={cn(
+        "border rounded-xl w-full bg-background px-4 py-5",
+        className
+      )}
+    >
+      <CardHeader className="p-0">
         <div className="flex justify-between items-center ">
           <CardTitle className="text-base font-semibold text-secondary">
             {title}
@@ -69,28 +78,34 @@ function ChartWrapper({
             )}
             <span className="flex items-center justify-center">
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Ellipsis size={24} />
+                <DropdownMenuTrigger>
+                  <Ellipsis />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem>
-                    <Download size={22} className="mr-2" />
-                    <span className="text-sm">Download</span>
+                    <DownloadIcon className="mr-2" />
+                    <span className="text-sm text-muted-foreground font-medium">
+                      Download
+                    </span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Share2 size={22} className="mr-2 " />
-                    <span className="text-sm">Share</span>
+                    <ShareIcon className="mr-2 " />
+                    <span className="text-sm text-muted-foreground font-medium">
+                      Share
+                    </span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Info size={22} className="mr-2 " />
-                    <span className="text-sm">Info</span>
+                    <InfoIcon className="mr-2 " />
+                    <span className="text-sm text-muted-foreground font-medium">
+                      Info
+                    </span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </span>
           </div>
         </div>
-        <CardDescription className="text-sm text-muted-foreground">
+        <CardDescription className="text-sm text-accent font-normal">
           {description}
         </CardDescription>
         {filters.length > 0 && (
@@ -124,7 +139,7 @@ function ChartWrapper({
           </Tabs>
         )}
       </CardHeader>
-      <CardContent className="w-full px-4">
+      <CardContent className="w-full p-0 mt-2">
         {children ?? defaultView}
       </CardContent>
     </Card>
