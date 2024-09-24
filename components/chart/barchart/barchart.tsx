@@ -6,15 +6,11 @@ import {
   XAxis,
   Tooltip,
   ResponsiveContainer,
+  YAxis,
+  ReferenceLine,
+  Label,
+  LabelList,
 } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -22,15 +18,11 @@ import {
 } from "@/components/ui/chart";
 
 interface BarChartComponentProps {
-  title: React.ReactNode;
-  description: React.ReactNode;
   chartConfig: any; // Adjust this type according to the actual ChartConfig type
-  footer: React.ReactNode;
-  footerDescription: string;
   data: any[]; // You can make this more specific if you know the shape of your data
   xAxisDataKey: string;
-  yAxisDataKey: string;
-  barColor?: string;
+  yAxisDataKeys: string[]; // Array of keys for multiple bars
+  barColors?: string[]; // Array of colors for each bar
   barRadius?: number;
   gridStroke?: string;
   tickColor?: string;
@@ -43,20 +35,19 @@ interface BarChartComponentProps {
   customBarProps?: Record<string, any>;
   customXAxisProps?: Record<string, any>;
   customGridProps?: Record<string, any>;
+  referance?: string;
+  referanceValue?: number;
+  showXAxis?: boolean;
 }
 
 const Barchart: React.FC<BarChartComponentProps> = ({
   data,
-  title,
-  description,
   chartConfig,
-  footer,
-  footerDescription,
   xAxisDataKey,
-  yAxisDataKey,
-  barColor = "#A9A1F4",
+  yAxisDataKeys,
+  barColors = ["#DDDAF9", "#F2F2F2"], // Default to one color if not provided
   barRadius = 4,
-  gridStroke = "#FFFFFF",
+  gridStroke = "#F2F2F2",
   tickColor = "black",
   tickFontSize = "12px",
   tickFormatter = (value) => value.slice(0, 3),
@@ -67,6 +58,9 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   customBarProps = {},
   customXAxisProps = {},
   customGridProps = {},
+  referance,
+  referanceValue,
+  showXAxis = true,
 }) => {
   // Calculate chart width based on the number of data points
   const chartWidth = Math.max(data.length * 35, 450); // 80 pixels per data point, minimum 500px width
@@ -81,67 +75,78 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div style={{ overflowX: "auto" }}>
-          <div
-            style={{
-              width: chartWidth,
-              height: chartHeight,
-              overflowY: "hidden",
-            }}
-          >
-            <ChartContainer config={chartConfig}>
-              <ResponsiveContainer aspect={aspect} height={chartHeight}>
-                <BarChart
-                  data={data}
-                  barGap="1"
-                  margin={{
-                    top: 0,
-                    right: 10,
-                    bottom: 0,
-                    left: 10,
-                  }}
-                >
-                  <CartesianGrid
-                    vertical={false}
-                    stroke={gridStroke}
-                    {...customGridProps}
-                  />
-                  <XAxis
-                    dataKey={xAxisDataKey}
-                    tickLine={tickLine}
-                    tickMargin={tickMargin}
-                    minTickGap={0}
-                    axisLine={axisLine}
-                    tickFormatter={customTickFormatter}
-                    {...customXAxisProps}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar
-                    dataKey={yAxisDataKey}
-                    fill={barColor}
-                    radius={barRadius}
-                    barSize={30}
-                    {...customBarProps}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">{footer}</div>
-        <div className="leading-none text-muted-foreground">
-          {footerDescription}
-        </div>
-      </CardFooter>
-    </Card>
+    <ChartContainer config={chartConfig}>
+      <ResponsiveContainer aspect={aspect} height={chartHeight}>
+        <BarChart data={data} margin={{ left: -30 }} barGap={10}>
+          <CartesianGrid
+            vertical={false}
+            stroke={gridStroke}
+            {...customGridProps}
+          />
+          {showXAxis ? (
+            <XAxis
+              dataKey={xAxisDataKey}
+              tickLine={tickLine}
+              tickMargin={tickMargin}
+              axisLine={axisLine}
+              tickFormatter={customTickFormatter}
+              {...customXAxisProps}
+            />
+          ) : null}
+          <YAxis tickLine={tickLine} tickMargin={0} axisLine={axisLine} />
+          <Tooltip cursor={false} content={<ChartTooltipContent />} />
+
+          {yAxisDataKeys.map((key, index) => (
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={barColors[index % barColors.length]} // Cycle through colors
+              radius={barRadius}
+              stroke={"#121212"}
+              barSize={30}
+              spacing={20}
+              {...customBarProps}
+            >
+              {!showXAxis && (
+                <LabelList
+                  dataKey={xAxisDataKey}
+                  position="insideBottomLeft"
+                  angle={-90}
+                  offset={18}
+                  fontSize={14}
+                  className="fill-[--color-label]"
+                />
+              )}
+            </Bar>
+          ))}
+
+          {referance && (
+            <ReferenceLine
+              y={referanceValue}
+              stroke="hsl(var(--muted-foreground))"
+              strokeDasharray="3 3"
+              strokeWidth={1}
+            >
+              <Label
+                position="insideBottomLeft"
+                value={referance}
+                className="text-lg "
+                offset={10}
+                fill="#353535"
+              />
+              <Label
+                position="insideTopLeft"
+                value={referanceValue}
+                className="text-lg"
+                fill="#353535"
+                offset={10}
+                startOffset={100}
+              />
+            </ReferenceLine>
+          )}
+        </BarChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   );
 };
 

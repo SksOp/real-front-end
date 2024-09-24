@@ -7,8 +7,8 @@ import {
   LocationIcon,
   RedirectIcon,
 } from "@/public/svg/icons";
-import { AreaIcon } from "@/public/svg/drawerIcons";
 import Image from "next/image";
+import { UpIcon } from "@/public/svg/Indicator";
 
 function PropertyHeader(props: any) {
   return (
@@ -32,11 +32,9 @@ function PropertyHeader(props: any) {
               <p className="text-muted-foreground">{props.location}</p>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-1">
-            <RedirectIcon />
-            <h3 className="text-primary text-sm font-semibold">See Insights</h3>
-          </div>
         </div>
+      </CardHeader>
+      <CardFooter className="flex flex-col gap-3 border-0 p-0 justify-center items-start">
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
             <BedIcon />

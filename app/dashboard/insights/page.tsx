@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Tabs,
   TabsContent,
@@ -12,37 +12,53 @@ import { Report } from "@/components/reportcharts/report";
 import { PropertiesList, properties1 } from "@/constants/properties";
 import Layout from "@/layout";
 import ExploreTab from "@/components/explore-tab";
-import TransactionCard from "@/components/transaction-card";
 import TransactionTabs from "@/components/transaction-tabs";
+import { InsightIcon } from "@/public/svg/navIcons";
 import Link from "next/link";
+import InsightsTab from "@/components/insights-tab";
+
+interface Props {
+  searchParams: {
+    tabs?: string;
+    subtab?: string;
+  };
+}
 import { FilterProvider } from "@/context/filter/filter-provider";
 import ListingTab from "@/components/listing";
 import PropertiesCard from "@/components/propertiesCard";
+import { Separator } from "@/components/ui/separator";
+import TransactionCard from "@/components/transaction-card";
 
-function InsightPage() {
+function InsightPage({ searchParams }: Props) {
+  const [isActive, setIsActive] = useState(searchParams.tabs ?? "insights");
+  const [subtab, setSubtab] = useState(searchParams.subtab ?? "dashboards");
+
   return (
     <Layout page="insights">
       <Tabs
-        defaultValue="explore"
-        className="w-full items-center mt-12  justify-center"
+        value={isActive}
+        onValueChange={(value) => setIsActive(value)}
+        className="w-full items-center justify-center pt-5"
       >
-        <TabsList className="w-full items-center justify-between px-4 py-3">
-          <TabsTrigger value="explore">Explore</TabsTrigger>
-          <TabsTrigger value="insights">Insights</TabsTrigger>
+        <TabsList className="w-full border-0 border-b  border-border items-center justify-around gap-3 ">
+          <TabsTrigger
+            value="insights"
+            className="flex justify-center items-center gap-2"
+          >
+            Insights
+          </TabsTrigger>
           <TabsTrigger value="my-listings">My listings</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
         </TabsList>
-        <TabsContent value="explore" className="mb-20">
-          <ExploreTab />
-        </TabsContent>
-        <TabsContent value="insights" className="mb-20">
-          <FilterProvider>
-            <Report />
-          </FilterProvider>
+        <TabsContent value="insights">
+          <InsightsTab selected={subtab} />
         </TabsContent>
         <TabsContent value="my-listings">
-          <ScrollArea className="overflow-y-scroll">
-            {properties1.map((property, index) => (
+          <div className="overflow-y-scroll flex flex-col gap-3 px-3 ">
+            <h3 className="text-secondary font-semibold text-base pl-2">
+              My listings (18)
+            </h3>
+            {PropertiesList.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
                 <PropertiesCard
                   title={property.title!}
@@ -57,11 +73,56 @@ function InsightPage() {
                 />
               </Link>
             ))}
-          </ScrollArea>
-          <div className="h-20" />
+          </div>
         </TabsContent>
         <TabsContent value="transactions">
-          <TransactionTabs />
+          <div className="overflow-y-scroll flex flex-col gap-3 px-3 ">
+            <TransactionTabs />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+            <TransactionCard
+              date={new Date("2024-07-25")}
+              formattedValue={"3.5"}
+              formattedPerSqFtWithUnits={"1546"}
+              badges={["Sale", "Villa", "Residential", "OffPlan"]}
+              AREA_EN={"Wonderlust, Wonderland"}
+              ROOMS_EN={"3"}
+              ACTUAL_AREA={2456}
+              TRANS_VALUE={35099900}
+              growth={21}
+            />
+          </div>
         </TabsContent>
       </Tabs>
     </Layout>

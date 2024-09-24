@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 function PropertyDescription() {
   const [isExpanded, setIsExpanded] = useState(false);
   const text =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, consectetur neque ab porro quasi culpa nulla rerum quis minus voluptatibus sed hic ad quo sint, libero commodi officia aliquam! Maxime.";
 
-  const wordLimit = 10;
+  const wordLimit = 20;
   const splittedText = text.split(" ");
   const itCanOverflow = splittedText.length > wordLimit;
 
@@ -16,12 +22,12 @@ function PropertyDescription() {
   const endText = splittedText.slice(wordLimit).join(" ");
 
   return (
-    <Card className="border-0">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
+    <Card className="border-0 bg-background">
+      <CardHeader className="p-0">
+        <CardTitle className="text-base text-secondary font-medium">
           Property Description
         </CardTitle>
-        <CardDescription className="text-secondary">
+        <CardDescription className="text-muted-foreground font-normal text-sm">
           {beginText}
           {itCanOverflow && (
             <>
@@ -30,7 +36,7 @@ function PropertyDescription() {
                 {endText}
               </span>
               <span
-                className="text-primary font-bold ml-2 cursor-pointer"
+                className="text-primary font-bold ml-1 cursor-pointer"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? "Read less" : "Read more"}
@@ -39,6 +45,28 @@ function PropertyDescription() {
           )}
         </CardDescription>
       </CardHeader>
+      <CardContent className="p-0 py-4 grid grid-cols-2 gap-4 justify-items-start">
+        <div>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
+        </div>
+        <div>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
+        </div>
+        <div>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
+        </div>
+        <div>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
+        </div>
+        <div>
+          <h3 className="text-sm text-secondary/80 font-semibold">Builder</h3>
+          <p className="text-muted-foreground text-sm font-normal">Apartment</p>
+        </div>
+      </CardContent>
     </Card>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import ExploreFormats from "./explore-formats";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import {
   Card,
   CardContent,
@@ -9,9 +9,8 @@ import {
   CardTitle,
 } from "./ui/card";
 import { DownIcon, UpIcon } from "@/public/svg/Indicator";
-import { TabsContent } from "@radix-ui/react-tabs";
-import { LightBulbIcon } from "@/public/svg/icons";
 import { SelectSeparator } from "./ui/select";
+import PriceChangesTable from "./price-changes-table";
 
 interface priceCardProps {
   title: string;
@@ -107,13 +106,13 @@ function ExplorePriceChanges() {
         <TabsList className="w-full gap-3 items-center justify-start bg-background mt-2">
           <TabsTrigger
             value="by-property"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             By Property
           </TabsTrigger>
           <TabsTrigger
             value="by-location"
-            className="rounded-full border border-muted-foreground text-center font-bold  data-[state=active]:bg-primary/10 data-[state=active]:text-muted-foreground"
+            className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             By Location
           </TabsTrigger>
@@ -122,9 +121,11 @@ function ExplorePriceChanges() {
           value="by-property"
           className="w-full flex gap-2 overflow-x-scroll"
         >
-          {cards.map((card, index) => (
+          {/* {cards.map((card, index) => (
             <PriceCard key={index} {...card} />
-          ))}
+          ))} */}
+
+          <PriceChangesTable />
         </TabsContent>
       </Tabs>
     </ExploreFormats>

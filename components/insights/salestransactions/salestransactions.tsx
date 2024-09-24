@@ -79,11 +79,11 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
 
   return (
     <AreaChartComponent
-      title={title}
-      description={description}
+      // title={title}
+      // description={description}
       chartConfig={chartConfig}
-      footer={footer}
-      footerDescription={footerDescription}
+      // footer={footer}
+      // footerDescription={footerDescription}
       data={chartData}
       xAxisDataKey="duration"
       yAxisDataKey="property_count"

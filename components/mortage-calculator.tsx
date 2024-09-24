@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -11,76 +11,115 @@ import {
   DownPaymentIcon,
   DurationIcon,
   InterstRateIcon,
-  MonthlyPaymentIcon,
 } from "@/public/svg/mortageCalculatorIcon";
 import { Slider } from "./ui/slider";
-import { Button } from "./ui/button";
+
+interface SliderProps {
+  min: number;
+  max: number;
+  step: number;
+  defaultValue: number;
+}
+
+const sliderConfig: Record<string, SliderProps> = {
+  down_payment: {
+    min: 10000000,
+    max: 30000000,
+    step: 20000,
+    defaultValue: 12350000,
+  },
+  interest_rate: { min: 2, max: 15, step: 1, defaultValue: 4 },
+  duration: { min: 4, max: 25, step: 1, defaultValue: 10 },
+};
+
+// Defining types for state values
+type ValueKeys = "downPayment" | "interestRate" | "duration";
+
+interface ValuesState {
+  downPayment: number;
+  interestRate: number;
+  duration: number;
+}
 
 function MortageCalculator() {
-  const [isCalculatorOpen, setIsCalculatorOpen] = React.useState(false);
+  const [values, setValues] = useState<ValuesState>({
+    downPayment: sliderConfig.down_payment.defaultValue,
+    interestRate: sliderConfig.interest_rate.defaultValue,
+    duration: sliderConfig.duration.defaultValue,
+  });
+
+  const updateValue = (key: ValueKeys, newValue: number) => {
+    setValues((prevValues) => ({ ...prevValues, [key]: newValue }));
+  };
+
+  const calculateMonthlyPayment = (): number => {
+    const { downPayment, interestRate, duration } = values;
+    const loanAmount = downPayment;
+    const monthlyInterestRate = interestRate / 100 / 12;
+    const numberOfPayments = duration * 12;
+    const monthlyPayment =
+      (loanAmount * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+    return Math.round(monthlyPayment);
+  };
+
+  const renderSlider = (
+    label: string,
+    icon: React.ElementType,
+    unit: string,
+    valueKey: ValueKeys
+  ) => (
+    <div className="flex gap-4 items-center w-full">
+      {React.createElement(icon, { className: "h-8 w-8" })}
+      <div className="flex flex-col gap-2 w-full">
+        <h3 className="text-muted-foreground text-sm font-normal">{label}</h3>
+        <p className="text-sm text-secondary bg-white font-semibold p-2">
+          {values[valueKey]} {unit}
+        </p>
+        <Slider
+          {...sliderConfig[valueKey.replace(/([A-Z])/g, "_$1").toLowerCase()]}
+          defaultValue={[
+            sliderConfig[
+              valueKey
+                .replace(/([A-Z])/g, "_$1")
+                .toLowerCase() as keyof typeof sliderConfig
+            ].defaultValue,
+          ]}
+          onValueChange={(value) => updateValue(valueKey, value[0])}
+        />
+      </div>
+    </div>
+  );
+
   return (
-    <Card className="border-0 mb-20">
+    <Card className="border rounded-xl bg-primary/5">
       <CardHeader>
-        <CardTitle>Mortage Calculator</CardTitle>
-        <CardDescription className="text-muted-foreground">
-          Lorem ipsum dolor sit amet consectetur. Gravida augue aliquam
-          interdum.
+        <CardTitle className="text-base text-secondary font-medium">
+          Mortage Calculator
+        </CardTitle>
+        <CardDescription className="text-muted-foreground text-sm font-normal">
+          Lorem ipsum dolor sit amet consectetur.
         </CardDescription>
       </CardHeader>
-      <CardContent className="w-full">
-        <div className="flex flex-col gap-4 justify-center items-center w-full">
-          <div className="flex justify-start gap-8 items-center w-full">
-            <DownPaymentIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
-              <h3 className="text-muted-foreground">Down Payment</h3>
-              <p className="text-lg text-secondary font-bold">12123300</p>
-              {isCalculatorOpen && <Slider className="" />}
-            </div>
-          </div>
-          <div className="flex justify-start gap-8 items-center w-full">
-            <MonthlyPaymentIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
-              <h3 className="text-muted-foreground">Monthly Payment</h3>
-              <p className="text-lg text-secondary font-bold">250000</p>
-              {isCalculatorOpen && <Slider className="" />}
-            </div>
-          </div>
-          <div className="flex justify-start gap-8 items-center w-full">
-            <InterstRateIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
-              <h3 className="text-muted-foreground">Interest Rate</h3>
-              <p className="text-lg text-secondary font-bold">4%</p>
-              {isCalculatorOpen && <Slider className="" />}
-            </div>
-          </div>
-          <div className="flex justify-start gap-8 items-center w-full">
-            <DurationIcon />
-            <div className="flex flex-col gap-2 items-start justify-center">
-              <h3 className="text-muted-foreground">Duration (Years)</h3>
-              <p className="text-lg text-secondary font-bold">25</p>
-              {isCalculatorOpen && <Slider className="" />}
-            </div>
-          </div>
-        </div>
+      <CardContent className="flex flex-col gap-4 items-center w-full">
+        {renderSlider("Down Payment", DownPaymentIcon, "", "downPayment")}
+        {renderSlider("Interest Rate", InterstRateIcon, "%", "interestRate")}
+        {renderSlider("Duration (Years)", DurationIcon, "Years", "duration")}
       </CardContent>
-      <CardFooter className="w-full">
-        {isCalculatorOpen ? (
-          <Button
-            variant={"secondary"}
-            className="text-primary-foreground hover:bg-secondary py-8 font-bold rounded-lg border-2 w-full"
-            onClick={() => setIsCalculatorOpen(false)}
-          >
-            Calculate
-          </Button>
-        ) : (
-          <Button
-            variant={"ghost"}
-            className=" text-secondary font-bold py-8 rounded-lg border-2 w-full"
-            onClick={() => setIsCalculatorOpen(true)}
-          >
-            Change Parameter
-          </Button>
-        )}
+      <CardFooter className="w-full flex flex-col gap-1 items-start">
+        <h3 className="text-secondary text-3xl font-semibold">
+          {calculateMonthlyPayment()}{" "}
+          <span className="text-muted-foreground text-sm font-normal">
+            / Month
+          </span>
+        </h3>
+        <p className="text-muted-foreground text-sm font-normal">
+          is the monthly payment as per the given input
+          <span className="text-purple-500 font-semibold">
+            {" "}
+            View detailed illustration
+          </span>
+        </p>
       </CardFooter>
     </Card>
   );

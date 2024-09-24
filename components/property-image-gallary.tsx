@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 
@@ -24,4 +25,4 @@ function PropertyImageGallary({ imageURLs }: { imageURLs: string[] }) {
   );
 }
 
-export default PropertyImageGallary;
+export default PropertyImageGallery;

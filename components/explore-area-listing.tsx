@@ -1,8 +1,8 @@
-import React from 'react';
-import InsightCard from './insightCard';
-import ExploreFormats from './explore-formats';
-import { Card } from './ui/card';
-import Image from 'next/image';
+import React from "react";
+import InsightCard from "./insightCard";
+import ExploreFormats from "./explore-formats";
+import { Card } from "./ui/card";
+import Image from "next/image";
 
 function ExploreActiveListing() {
   return (
@@ -39,7 +39,7 @@ function ExploreActiveListing() {
           <p className="text-2xl mt-5 font-bold">50</p>
         </Card>
       </div>
-      <InsightCard>
+      <InsightCard linkText="See Insights">
         <span>
           Your ads are <span className="font-bold text-secondary">30% </span>
           less than the average number of ads by agents and{" "}

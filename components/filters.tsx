@@ -17,8 +17,11 @@ import { cn } from "@/lib/utils";
 import AreaDrawerView from "./area-drawer-view";
 import DashboardDrawerView from "./dashboard-drawer-view";
 import FilterIcons from "./filter-icons";
+import { ChevronDown, XIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function Filters() {
+  const router = useRouter();
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDeveloper, setSelectedDeveloper] = useState<string | null>(
@@ -129,20 +132,26 @@ function Filters() {
   };
 
   return (
-    <div className="relative ">
+    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50 top-0 ">
       <ScrollArea className="w-full rounded-md overflow-auto">
-        <div className="flex space-x-2 p-2">
+        <div className="flex items-center justify-center  space-x-2 py-3 px-2">
+          <XIcon
+            className="border border-accent rounded-full "
+            onClick={() => router.push("/dashboard/home")}
+          />
+          <div className="w-[1px] h-8 bg-muted" />
           {selectOptions.map((select, index) => (
             <Drawer key={index}>
               <DrawerTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "min-w-[120px] rounded-full",
-                    select.value ? "bg-primary " : "bg-background"
+                    " rounded-full  text-sm text-muted-foreground p-2  h-8",
+                    select.value ? "bg-primary/10 " : "bg-background"
                   )}
                 >
                   {select.label}
+                  <ChevronDown />
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="max-h-[60%] ">

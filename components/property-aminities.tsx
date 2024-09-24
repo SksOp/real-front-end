@@ -17,7 +17,7 @@ function PropertyAmenities(amenitiesProp: any) {
       <CardHeader>
         <CardTitle>Amenities</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-1 py-2">
         <div className="grid grid-cols-2 gap-4">
           {keys.length > 0 ? (
             keys.map((key: string) => {

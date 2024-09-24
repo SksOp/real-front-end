@@ -34,8 +34,9 @@ function ListingTab() {
     <>
       {Listing?.map((property, index) => (
         // <Link href={`/my-property/${index + 1}`} key={index} passHref>
-        <PropertiesCard {...property} key={index} />
+        // <PropertiesCard {...property} key={index} />
         // </Link>
+        <>TODO</>
       ))}
     </>
   );

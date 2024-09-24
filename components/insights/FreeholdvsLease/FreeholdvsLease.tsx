@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import VerticalBarChartComponent from "../../chart/verticalbarchart/verticalbarchart"; // Adjust the import path according to your project structure
+import VerticalBarChartComponent from "../../chart/horizontalbarchart/horizontalbarchart"; // Adjust the import path according to your project structure
 import { FreeholdVsLeaseType } from "@/transcation/types";
 import { FrVsRe } from "@/actions/freeholdvs";
 import {
@@ -94,15 +94,15 @@ export function FreeholdvsLease() {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <VerticalBarChartComponent
+        {/* <VerticalBarChartComponent
           // title="Freehold"
           // description="You're averaging more steps a day this year than last year."
           dataKey="Freehold"
           value={chartData?.Freehold || 0}
           color="hsl(var(--chart-1))"
           selectedOption={selectedOption}
-        />
-
+        /> */}
+        {/* 
         <VerticalBarChartComponent
           // title="Lease"
           // description="You're averaging more steps a day this year than last year."
@@ -110,7 +110,7 @@ export function FreeholdvsLease() {
           value={chartData?.Lease || 0}
           color="hsl(var(--muted))"
           selectedOption={selectedOption}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

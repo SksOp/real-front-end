@@ -1,42 +1,29 @@
 import React from "react";
-import { Card } from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import {
   AreaSizeIcon,
   BathIcon,
   BedIcon,
-  LightBulbIcon,
   LocationIcon,
 } from "@/public/svg/icons";
 import { PropertiescardProps } from "@/types/propertyCard";
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
-import InsightDrawerView from "./insightDrawerView";
-import { ListingDataType } from "@/types/listing";
+import { Badge } from "./ui/badge";
+import { Separator } from "./ui/separator";
+import { cn } from "@/lib/utils";
 
-function formatPrice(price: string): string {
-  // Remove commas from the price string
-  const priceWithoutCommas = price.replace(/,/g, "");
-
-  // Convert the string to a number
-  const numericPrice = Number(priceWithoutCommas);
-
-  // Format the number based on its size
-  if (numericPrice >= 1_000_000_000) {
-    return (numericPrice / 1_000_000_000).toFixed(1) + "B AED";
-  } else if (numericPrice >= 1_000_000) {
-    return (numericPrice / 1_000_000).toFixed(1) + "M AED";
-  } else if (numericPrice >= 1_000) {
-    return (numericPrice / 1_000).toFixed(1) + "K AED";
-  } else {
-    return numericPrice.toFixed(0) + " AED";
-  }
+function formatPrice(price: number): string {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+  }).format(price);
 }
 
 function PropertiesCard({
-  imageURL,
-  title: name,
+  imageUrl,
+  name,
   location,
+  bedrooms,
+  bathrooms,
+  area,
   bedrooms,
   bathrooms,
   area,
@@ -44,24 +31,32 @@ function PropertiesCard({
 }: ListingDataType) {
   // console.log(location);
   return (
-    <Card className="w-full p-4 border-0 flex justify-start gap-0 ">
-      <div className="flex-grow ">
-        <Image
-          src={imageURL}
+    <Card className="flex justify-start relative gap-3 border rounded-2xl bg-background w-full p-3">
+      <CardHeader className="p-0">
+        <img
+          src={imageUrl}
           alt={name}
-          className="object-cover rounded-lg "
-          width={110}
-          height={100}
+          className="object-cover rounded-xl w-24 h-full"
         />
-      </div>
-      <div className="flex w-2/3 flex-col justify-between">
-        <div>
-          <h3 className="text-lg font-extrabold">{name}</h3>
-          <div className="flex justify-start text-sm items-center gap-2">
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2 justify-around p-0 ">
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center ">
+            <h3 className="text-sm font-semibold text-secondary">{name}</h3>
+            <div
+              className={cn(
+                "px-2  h-5 text-xs absolute pt-[0.1rem] font-normal right-0 text-white rounded-l-full",
+                "bg-[#8177E5]"
+              )}
+            >
+              Sale
+            </div>
+          </div>
+          <div className="flex justify-start text-sm items-center gap-1">
             <LocationIcon className="w-4 h-4" />
             <p>{location}</p>
           </div>
-          <div className="flex flex-wrap gap-2 text-muted-foreground text-bold mt-2">
+          <div className="flex flex-wrap justify-start items-center gap-6 text-muted-foreground text-bold ">
             <div className="flex gap-1 justify-start items-center">
               <BedIcon className="w-4 h-4" />
               <p>{bedrooms}</p>
