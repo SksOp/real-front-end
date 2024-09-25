@@ -20,26 +20,31 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 function HomePriceIndex() {
   return (
     <UnderlineTabs defaultValue="sales">
-      <UnderlineTabsList className="w-full border border-border items-center justify-start rounded-t-xl gap-3 px-3">
+      <UnderlineTabsList className="w-full border border-border items-center justify-center rounded-t-xl gap-3 px-3">
         <UnderlineTabsTrigger
           value="sales"
-          className="flex justify-center items-center gap-2 "
+          className="flex justify-center items-center gap-2 w-1/2"
         >
-          Sales
+          Sales Price Changes
         </UnderlineTabsTrigger>
-        <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
+        <UnderlineTabsTrigger
+          value="rental"
+          className="flex justify-center items-center gap-2 w-1/2"
+        >
+          Rental Price Changes
+        </UnderlineTabsTrigger>
       </UnderlineTabsList>
-      <Card className="rounded-xl bg-background rounded-t-none w-full px-3 py-5 flex flex-col gap-3">
+      <Card className="rounded-xl bg-background rounded-t-none w-full px-3 pb-5 flex flex-col gap-3">
         <UnderlineTabsContent value="sales">
-          <CardHeader className="flex flex-row justify-between items-center  p-0 w-full ">
+          {/* <CardHeader className="flex flex-row justify-between items-center  p-0 w-full ">
             <h3 className="text-base font-semibold text-secondary">
               Price changes (Sales)
             </h3>
             <h3 className="text-xs font-semibold text-primary ">
               Go to transactions
             </h3>
-          </CardHeader>
-          <CardContent className="p-0 w-full mt-2">
+          </CardHeader> */}
+          <CardContent className="p-0 w-full">
             <Tabs defaultValue="property">
               <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
                 <TabsTrigger
@@ -62,15 +67,15 @@ function HomePriceIndex() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardHeader className="flex flex-row justify-between items-center  p-0 w-full ">
+          {/* <CardHeader className="flex flex-row justify-between items-center  p-0 w-full ">
             <h3 className="text-base font-semibold text-secondary">
               Price changes (Rental)
             </h3>
             <h3 className="text-xs font-semibold text-primary ">
               Go to transactions
             </h3>
-          </CardHeader>
-          <CardContent className="p-0 w-full mt-2">
+          </CardHeader> */}
+          <CardContent className="p-0 w-full">
             <Tabs defaultValue="property">
               <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
                 <TabsTrigger
