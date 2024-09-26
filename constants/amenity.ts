@@ -22,7 +22,12 @@ import {
   // CentralHeatingIcon // Hypothetical SVG for Central Heating
 } from "@/public/svg/aminitiesIcon";
 
-export const AmenitiesMap = {
+type Amenity = {
+  svg: React.FC<React.SVGProps<SVGSVGElement>>;
+  title: string;
+};
+
+export const AmenitiesMap: Record<string, Amenity> = {
   "amenity-AC": { svg: ACIcon, title: "Air Conditioner" },
   "amenity-SE": { svg: ACIcon, title: "Security" },
   "amenity-SP": { svg: SwimmingPoolIcon, title: "Swimming Pool" },

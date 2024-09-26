@@ -58,18 +58,17 @@ function InsightPage({ searchParams }: Props) {
             <h3 className="text-secondary font-semibold text-base pl-2">
               My listings (18)
             </h3>
-            {PropertiesList.map((property, index) => (
+            {properties1.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
                 <PropertiesCard
-                  title={property.title!}
+                  name={property.title}
                   key={index}
-                  imageURL={property?.imageURLs ? property?.imageURLs[0]! : ""}
-                  price={property.price}
+                  imageUrl={property?.articleURL ? property?.imageURLs[0]! : ""}
+                  price={Number(property.price.replace(/[^0-9.]/g, ""))}
                   location={property.location}
-                  area={property.area}
-                  bedrooms={property.bedrooms}
-                  bathrooms={property.bathrooms}
-                  permitNumber={Number(property.permitNumber)}
+                  area={Number(property.area.replace(/[^0-9.]/g, ""))}
+                  bedrooms={Number(property.bedrooms)}
+                  bathrooms={Number(property.bathrooms)}
                 />
               </Link>
             ))}

@@ -18,7 +18,13 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import ShareComponent from "@/components/shareComponent";
-import { CopyIcon, LinkIcon, MagicLinkIcon, PDFIcon } from "@/public/svg/icons";
+import {
+  CopyIcon,
+  LinkIcon,
+  MagicLinkIcon,
+  PDFDownloadingIcon,
+  PDFIcon,
+} from "@/public/svg/icons";
 import { properties1 } from "@/constants/properties";
 
 // Load PDFViewer dynamically, only on client side
@@ -82,21 +88,24 @@ function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <Navbar />
-      <PropertyHeader
-        price={property.price}
-        title={property.title}
-        location={property.location}
-        bedrooms={property.bedrooms}
-        bathrooms={property.bathrooms}
-        area={property.area}
-        imageURL={property.imageURLs[0]}
-      />
-      <PropertyImageGallary imageURLs={property.imageURLs} />
-      <PropertyDescription />
-      <PropertyAminities aminities={property.amenities} />
-      <PropertyKeyInformation />
-      <MortageCalculator />
-      <div className="fixed bottom-0 bg-background flex items-center justify-center gap-4 px-4 py-6 w-full">
+      <div className="flex flex-col mx-4 gap-4 mt-16 mb-32">
+        <PropertyHeader
+          imageURL={property.imageURLs[0]}
+          title={property.title}
+          location={property.location}
+          bedrooms={property.bedrooms}
+          bathrooms={property.bathrooms}
+          area={property.area}
+          price={property.price}
+        />
+        <PropertyImageGallary propertyImages={property.imageURLs} />
+        <PropertyDescription />
+        <PropertyAminities aminities={property.amenities} />
+        <PropertyKeyInformation />
+
+        <MortageCalculator />
+      </div>
+      <div className="fixed bottom-0 bg-background flex items-center justify-center gap-4 px-4 py-3 w-full shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
         <Drawer>
           <DrawerTrigger asChild>
             <Button
