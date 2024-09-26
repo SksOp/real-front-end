@@ -70,7 +70,7 @@ function PropertyHeader({
         </div>
         <div className="flex justify-start items-center gap-2">
           <h1 className="text-xl font-bold">{price}</h1>
-          <div className="flex justify-start items-center">
+          <div className="flex justify-start items-center gap-1">
             <UpIcon />
             <span className="text-green-600 font-medium text-xs ">21 %</span>
           </div>

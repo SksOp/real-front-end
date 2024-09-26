@@ -32,7 +32,7 @@ function PropertiesCard({
         <img
           src={imageUrl}
           alt={name}
-          className="object-cover rounded-xl h-full min-w-20"
+          className="object-cover rounded-xl w-full h-full min-w-20"
         />
       </CardHeader>
       <CardContent className="flex flex-col gap-2 justify-around p-0 ">

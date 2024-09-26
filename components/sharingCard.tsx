@@ -33,7 +33,7 @@ function SharingCard() {
           <h3 className="truncate rounded-lg text-sm border px-3 py-4 bg-card">
             https://keypilot/Property_10435903?page=1&position=9&term=copy&origin=search&related_id=10435903
           </h3>
-          <div className="rounded-lg px-4 border py-3">
+          <div className="rounded-lg border p-4">
             <CopyIcon />
           </div>
         </div>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import DataCards from "./data-cards";
 import { useRouter } from "next/navigation";
+import Calculator from "./calculator";
 
 const dataCardsContent = [
   {
@@ -38,10 +39,11 @@ const dataCardsContent = [
 function InsightsTab({ selected }: { selected?: string }) {
   const router = useRouter();
   const [isActive, setIsActive] = useState(selected ?? "dashboards");
+  const [view, setView] = useState("selectCalculator");
 
   return (
     <Tabs value={isActive} onValueChange={(value) => setIsActive(value)}>
-      <TabsList className="w-full gap-3 items-center justify-start bg-background mx-2 ">
+      <TabsList className="w-full gap-3 items-center justify-start bg-background mx-2">
         <TabsTrigger
           value="dashboards"
           className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
@@ -56,7 +58,10 @@ function InsightsTab({ selected }: { selected?: string }) {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="dashboards" className="grid grid-cols-2 mx-2 gap-2">
+      <TabsContent
+        value="dashboards"
+        className="grid grid-cols-2 mx-2 gap-2 mt-2"
+      >
         {dataCardsContent.map((card) => (
           <DataCards
             key={card.id}
@@ -73,17 +78,27 @@ function InsightsTab({ selected }: { selected?: string }) {
         ))}
       </TabsContent>
 
-      <TabsContent value="calculators" className="grid grid-cols-2 mx-2 gap-2">
-        {dataCardsContent.map((card) => (
-          <DataCards key={card.id} bgColor={card.bgColor}>
-            <h3 className="text-secondary font-semibold text-sm">
-              {card.title}
-            </h3>
-            <p className="text-base text-muted-foreground font-normal leading-6">
-              {card.description}
-            </p>
-          </DataCards>
-        ))}
+      <TabsContent value="calculators" className=" mt-0 w-full">
+        {view === "selectCalculator" && (
+          <div className="grid grid-cols-2 mx-2 gap-2">
+            {dataCardsContent.map((card) => (
+              <DataCards
+                key={card.id}
+                bgColor={card.bgColor}
+                onClick={() => setView("calculator")}
+              >
+                <h3 className="text-secondary font-semibold text-sm">
+                  {card.title}
+                </h3>
+                <p className="text-base text-muted-foreground font-normal leading-6">
+                  {card.description}
+                </p>
+              </DataCards>
+            ))}
+          </div>
+        )}
+
+        {view === "calculator" && <Calculator />}
       </TabsContent>
     </Tabs>
   );

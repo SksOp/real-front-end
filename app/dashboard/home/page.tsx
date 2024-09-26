@@ -21,11 +21,11 @@ function HomePage() {
         <HomeTransactionCard />
         <HomeInsights />
         <HomeTotalAds />
-        <FrequentQuestions />
-        <HomeListing />
         <HomeSalesIndex />
         <HomePriceIndex />
         <HomeTopAreas />
+        <HomeListing />
+        <FrequentQuestions />
         <SharingCard />
         <Footer />
       </div>

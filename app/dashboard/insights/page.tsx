@@ -40,7 +40,7 @@ function InsightPage({ searchParams }: Props) {
         onValueChange={(value) => setIsActive(value)}
         className="w-full items-center justify-center pt-5"
       >
-        <TabsList className="w-full border-0 border-b  border-border items-center justify-around gap-3 ">
+        <TabsList className="w-full border-0 border-b  border-border items-center justify-around gap-3 mb-1">
           <TabsTrigger
             value="insights"
             className="flex justify-center items-center gap-2"
@@ -50,20 +50,20 @@ function InsightPage({ searchParams }: Props) {
           <TabsTrigger value="my-listings">My listings</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
         </TabsList>
-        <TabsContent value="insights">
+        <TabsContent value="insights" className="">
           <InsightsTab selected={subtab} />
         </TabsContent>
         <TabsContent value="my-listings">
           <div className="overflow-y-scroll flex flex-col gap-3 px-3 ">
             <h3 className="text-secondary font-semibold text-base pl-2">
-              My listings (18)
+              My listings ({properties1.length})
             </h3>
             {properties1.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
                 <PropertiesCard
                   name={property.title}
                   key={index}
-                  imageUrl={property?.articleURL ? property?.imageURLs[0]! : ""}
+                  imageUrl={property?.imageURLs ? property?.imageURLs[0]! : ""}
                   price={Number(property.price.replace(/[^0-9.]/g, ""))}
                   location={property.location}
                   area={Number(property.area.replace(/[^0-9.]/g, ""))}
