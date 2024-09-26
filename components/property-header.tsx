@@ -10,25 +10,26 @@ import {
 import Image from "next/image";
 import { UpIcon } from "@/public/svg/Indicator";
 
-function PropertyHeader() {
+function PropertyHeader(props: any) {
   return (
-    <Card className="border-0 p-0 w-full bg-background ">
-      <CardHeader className="relative px-0 pb-2 ">
-        <div className="relative w-full ">
-          <Image
-            src="/property.png"
-            className="object-cover w-full  rounded-t-xl"
-            height={200}
-            width={400}
-            alt=""
-          />
-          <div className="absolute inset-0 p-4 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent ">
-            <h3 className="text-white text-base font-semibold">
-              Urban Nexus Plaza
-            </h3>
-            <div className="flex items-center gap-2">
-              <LocationIcon fill="white" />
-              <p className="text-white text-xs">Wonderlust, Wonderland</p>
+    <Card className="border-0 mt-8">
+      <CardHeader>
+        <Image
+          src={props.imageURL}
+          className=" object-cover w-full rounded-t-xl "
+          height={200}
+          width={400}
+          alt={""}
+        />
+      </CardHeader>
+      <CardFooter className="flex flex-col gap-3 border-0    ">
+        <div className="flex justify-between items-center w-full">
+          <div>
+            <h1 className="text-3xl font-bold">{props.price}</h1>
+            <h3 className="text-xl  font-bold">{props.title}</h3>
+            <div className="flex justify-start gap-2 items-center">
+              <LocationIcon />
+              <p className="text-muted-foreground">{props.location}</p>
             </div>
           </div>
         </div>
@@ -36,23 +37,16 @@ function PropertyHeader() {
       <CardFooter className="flex flex-col gap-3 border-0 p-0 justify-center items-start">
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
-            <BedIcon className="w-4 h-4" />
-            <p className="text-accent text-xs font-medium">3 Bedrooms</p>
+            <BedIcon />
+            <p className="text-muted-foreground">{props.bedrooms} Bedroom</p>
           </div>
           <div className="flex justify-center items-center gap-1">
-            <BathIcon className="w-4 h-4" />
-            <p className="text-accent text-xs font-medium">2 Bathrooms</p>
+            <BathIcon />
+            <p className="text-muted-foreground">{props.bathrooms} Bathroom</p>
           </div>
           <div className="flex justify-center items-center gap-1">
-            <AreaSizeIcon className="w-3 h-3" />
-            <p className="text-accent text-xs font-medium">2456 sqft</p>
-          </div>
-        </div>
-        <div className="flex justify-start items-center gap-2">
-          <h1 className="text-xl font-bold">$300,000</h1>
-          <div className="flex justify-start items-center">
-            <UpIcon />
-            <span className="text-green-600 font-medium text-xs ">21 %</span>
+            <AreaSizeIcon />
+            <p className="text-muted-foreground">{props.area}</p>
           </div>
         </div>
       </CardFooter>

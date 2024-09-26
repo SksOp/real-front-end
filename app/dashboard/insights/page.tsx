@@ -9,7 +9,7 @@ import {
 import Filters from "@/components/filters";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Report } from "@/components/reportcharts/report";
-import { PropertiesList } from "@/constants/properties";
+import { PropertiesList, properties1 } from "@/constants/properties";
 import Layout from "@/layout";
 import ExploreTab from "@/components/explore-tab";
 import TransactionTabs from "@/components/transaction-tabs";
@@ -60,7 +60,17 @@ function InsightPage({ searchParams }: Props) {
             </h3>
             {PropertiesList.map((property, index) => (
               <Link href={`/my-property/${index + 1}`} key={index} passHref>
-                <PropertiesCard {...property} key={index} />
+                <PropertiesCard
+                  title={property.title!}
+                  key={index}
+                  imageURL={property?.imageURLs ? property?.imageURLs[0]! : ""}
+                  price={property.price}
+                  location={property.location}
+                  area={property.area}
+                  bedrooms={property.bedrooms}
+                  bathrooms={property.bathrooms}
+                  permitNumber={Number(property.permitNumber)}
+                />
               </Link>
             ))}
           </div>
