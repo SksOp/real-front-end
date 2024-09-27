@@ -93,6 +93,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             vertical={false}
             horizontal={true}
             stroke={gridStroke}
+            syncWithTicks
             {...customGridProps}
           />
           <XAxis
