@@ -91,6 +91,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
 
           <CartesianGrid
             vertical={false}
+            horizontal={true}
             stroke={gridStroke}
             {...customGridProps}
           />
