@@ -30,12 +30,12 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const sampleData = [
-  { month: 2014, value: 0.5 },
-  { month: 2016, value: 1.1 },
-  { month: 2018, value: 0.78 },
-  { month: 2020, value: 1.02 },
-  { month: 2022, value: 1.15 },
-  { month: 2024, value: 0.7 },
+  { month: 2014, value: 5 },
+  { month: 2016, value: 11 },
+  { month: 2018, value: 17 },
+  { month: 2020, value: 12 },
+  { month: 2022, value: 15 },
+  { month: 2024, value: 7 },
 ];
 
 function HomeSalesIndex() {

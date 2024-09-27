@@ -70,9 +70,8 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   // Custom tick formatting with customizable styles
   const customTickFormatter = (value: any): string => {
     const result = tickFormatter(value);
-    return result !== undefined ? result.toString() : "";
+    return result ? result.toString() : value.toString();
   };
-
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer aspect={aspect} height={chartHeight}>
@@ -91,9 +90,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
 
           <CartesianGrid
             vertical={false}
-            horizontal={true}
             stroke={gridStroke}
-            syncWithTicks
             {...customGridProps}
           />
           <XAxis
@@ -104,6 +101,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
             tickCount={data.length}
+            interval={0}
             {...customXAxisProps}
           />
           <YAxis
