@@ -122,7 +122,6 @@ function HomeSalesIndex() {
                   data={sampleData}
                   xAxisDataKey={"month"}
                   yAxisDataKey={"value"}
-                  tickFormatter={(value) => value.toString()}
                 />
               </TabsContent>
             </Tabs>

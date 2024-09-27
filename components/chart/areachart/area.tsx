@@ -63,7 +63,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
 }) => {
   // Adjust the width calculation to account for a constant area component
   const chartWidth = Math.max(data.length * 30, 500); // 80 pixels per data point, minimum 500px width
-  const chartHeight = 250;
+  const chartHeight = 350;
 
   const aspect = chartWidth / chartHeight;
 
@@ -74,8 +74,16 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   };
   return (
     <ChartContainer config={chartConfig}>
-      <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <AreaChart data={data} margin={{ left: -20 }}>
+      <ResponsiveContainer>
+        <AreaChart
+          data={data}
+          margin={{ left: -20, top: 10, right: 10, bottom: 0 }}
+        >
+          <CartesianGrid
+            vertical={false}
+            stroke={gridStroke}
+            {...customGridProps}
+          />
           {/* Define a gradient in the defs section */}
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -88,11 +96,6 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             </linearGradient>
           </defs>
 
-          <CartesianGrid
-            vertical={false}
-            stroke={gridStroke}
-            {...customGridProps}
-          />
           <XAxis
             dataKey={xAxisDataKey}
             tickLine={tickLine}
@@ -101,7 +104,6 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
             tickCount={data.length}
-            interval={0}
             {...customXAxisProps}
           />
           <YAxis
@@ -115,8 +117,9 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
 
           {/* Use the gradient as the fill for the Area */}
           <Area
-            type={"natural"}
+            type={"monotone"}
             dataKey={yAxisDataKey}
+            fillOpacity={1}
             fill="url(#areaGradient)"
             stroke={areaColor}
             strokeWidth={2}
