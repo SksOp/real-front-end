@@ -77,12 +77,12 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
     <ChartContainer config={chartConfig}>
       <AreaChart data={data} margin={{ left: -20 }}>
         {/* Define a gradient in the defs section */}
-        <defs>
+        {/* <defs>
           <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={areaColor} stopOpacity={areaOpacity} />
             <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
           </linearGradient>
-        </defs>
+        </defs> */}
 
         <CartesianGrid
           vertical={false}
@@ -112,7 +112,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
         <Area
           type={"natural"}
           dataKey={yAxisDataKey}
-          fill="url(#areaGradient)"
+          fill={areaColor}
           stroke={areaColor}
           strokeWidth={2}
           dot={true}
