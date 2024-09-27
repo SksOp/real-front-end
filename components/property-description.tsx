@@ -36,7 +36,7 @@ function PropertyDescription() {
                 {endText}
               </span>
               <span
-                className="text-primary font-bold ml-1 cursor-pointer"
+                className="text-primary text-sm font-semibold ml-1 cursor-pointer"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? "Read less" : "Read more"}

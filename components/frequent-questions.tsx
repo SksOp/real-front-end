@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const faqData = [
   {
     id: "item-1",
-    question: "Is it accessible?",
+    question: "Can I create my own dashboard dashboard dashboard dashboard ?",
     answer: "Yes. It adheres to the WAI-ARIA design pattern.",
   },
   {
@@ -40,10 +40,10 @@ export default function FrequentQuestions() {
         <Accordion type="single" collapsible className="w-full">
           {faqData.map((item) => (
             <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger className="font-medium text-secondary text-sm">
+              <AccordionTrigger className="font-medium text-secondary text-sm text-start">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="font-medium text-muted-foreground text-sm">
+              <AccordionContent className="font-normal text-muted-foreground text-sm">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>

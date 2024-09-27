@@ -163,7 +163,13 @@ function MyPage() {
             />
           </div>
         </ChartWrapper>
-        <SimilarTransaction />
+        <ChartWrapper
+          title="Sales Index"
+          description="This is overall sales value index in Dubai."
+          viewAll={true}
+        >
+          <SimilarTransaction />
+        </ChartWrapper>
         <Card>
           <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
             <h3 className="text-lg font-semibold text-secondary">

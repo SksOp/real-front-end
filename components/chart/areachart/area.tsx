@@ -75,60 +75,54 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
 
   return (
     <ChartContainer config={chartConfig}>
-      <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <AreaChart data={data} margin={{ left: -20 }}>
-          {/* Define a gradient in the defs section */}
-          <defs>
-            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="5%"
-                stopColor={areaColor}
-                stopOpacity={areaOpacity}
-              />
-              <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
-            </linearGradient>
-          </defs>
+      <AreaChart data={data} margin={{ left: -20 }}>
+        {/* Define a gradient in the defs section */}
+        <defs>
+          <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor={areaColor} stopOpacity={areaOpacity} />
+            <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
+          </linearGradient>
+        </defs>
 
-          <CartesianGrid
-            vertical={false}
-            stroke={gridStroke}
-            {...customGridProps}
-          />
-          <XAxis
-            dataKey={xAxisDataKey}
-            tickLine={tickLine}
-            tickMargin={tickMargin}
-            axisLine={axisLine}
-            stroke={"#C2C2C2"}
-            tickFormatter={customTickFormatter}
-            tickCount={data.length}
-            {...customXAxisProps}
-          />
-          <YAxis
-            dataKey={yAxisDataKey}
-            tickLine={tickLine}
-            tickMargin={tickMargin}
-            stroke={"#C2C2C2"}
-            axisLine={axisLine}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
+        <CartesianGrid
+          vertical={false}
+          stroke={gridStroke}
+          {...customGridProps}
+        />
+        <XAxis
+          dataKey={xAxisDataKey}
+          tickLine={tickLine}
+          tickMargin={tickMargin}
+          axisLine={axisLine}
+          stroke={"#C2C2C2"}
+          tickFormatter={customTickFormatter}
+          tickCount={data.length}
+          {...customXAxisProps}
+        />
+        <YAxis
+          dataKey={yAxisDataKey}
+          tickLine={tickLine}
+          tickMargin={tickMargin}
+          stroke={"#C2C2C2"}
+          axisLine={axisLine}
+        />
+        <ChartTooltip content={<ChartTooltipContent />} />
 
-          {/* Use the gradient as the fill for the Area */}
-          <Area
-            type={"natural"}
-            dataKey={yAxisDataKey}
-            fill="url(#areaGradient)"
-            stroke={areaColor}
-            strokeWidth={2}
-            dot={true}
-            activeDot={{
-              fill: areaColor || "var(--color-default)",
-              r: 4,
-            }}
-            {...customAreaProps}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+        {/* Use the gradient as the fill for the Area */}
+        <Area
+          type={"natural"}
+          dataKey={yAxisDataKey}
+          fill="url(#areaGradient)"
+          stroke={areaColor}
+          strokeWidth={2}
+          dot={true}
+          activeDot={{
+            fill: areaColor || "var(--color-default)",
+            r: 4,
+          }}
+          {...customAreaProps}
+        />
+      </AreaChart>
     </ChartContainer>
   );
 };
