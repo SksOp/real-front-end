@@ -20,21 +20,28 @@ function PropertyAminities({ aminities }: { aminities: object }) {
   return (
     <Card className="border-0 bg-background">
       <CardHeader className="p-0">
-        <CardTitle className="text-base text-secondary font-medium">
+        <CardTitle className="text-lg text-secondary font-medium">
           Aminities
         </CardTitle>
       </CardHeader>
       <CardContent className="px-1 py-2">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 justify-items-start gap-4">
           {keys.map((key: string) => {
             const AmenitySvg = AmenitiesMap[key]?.svg;
             return (
-              <div key={key} className="flex justify-start gap-2 items-center">
-                {AmenitySvg && <AmenitySvg />}
-                <p className="text-muted-foreground text-sm font-normal">
-                  {AmenitiesMap[key]?.title}
-                </p>
-              </div>
+              <>
+                {AmenitySvg && (
+                  <div
+                    key={key}
+                    className="flex justify-start gap-2 items-center"
+                  >
+                    {AmenitySvg && <AmenitySvg />}
+                    <p className="text-muted-foreground text-sm font-normal">
+                      {AmenitiesMap[key]?.title}
+                    </p>
+                  </div>
+                )}
+              </>
             );
           })}
           {/* <div className="flex justify-start gap-2 items-center">

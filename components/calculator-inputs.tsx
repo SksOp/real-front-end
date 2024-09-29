@@ -90,7 +90,7 @@ function CalculatorInputs({
 
     case "select":
       return (
-        <div className="w-full flex flex-col gap-0.5 w-full">
+        <div className="w-full flex flex-col gap-0.5 ">
           <Label className="text-sm font-semibold text-secondary">
             {title}
             {isOptional && (

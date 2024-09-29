@@ -8,7 +8,9 @@ import {
   RedirectIcon,
 } from "@/public/svg/icons";
 import Image from "next/image";
-import { UpIcon } from "@/public/svg/Indicator";
+import { InsightsGradientIcon, UpIcon } from "@/public/svg/Indicator";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 interface PropertyHeaderProps {
   imageURL: string;
@@ -30,8 +32,8 @@ function PropertyHeader({
   price,
 }: PropertyHeaderProps) {
   return (
-    <Card className="border-0 p-0 w-full bg-background ">
-      <CardHeader className="relative px-0 pb-2 ">
+    <Card className="border-0 p-0 mt-4 w-full bg-background flex flex-col gap-3">
+      <CardHeader className="relative p-0 ">
         <div className="relative w-full ">
           <Image
             src={imageURL}
@@ -53,26 +55,43 @@ function PropertyHeader({
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
             <BedIcon className="w-4 h-4" />
-            <p className="text-accent text-xs font-medium">
+            <p className="text-muted-foreground text-xs font-medium">
               {bedrooms} Bedrooms
             </p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <BathIcon className="w-4 h-4" />
-            <p className="text-accent text-xs font-medium">
+            <p className="text-muted-foreground text-xs font-medium">
               {bathrooms} Bathrooms
             </p>
           </div>
           <div className="flex justify-center items-center gap-1">
             <AreaSizeIcon className="w-3 h-3" />
-            <p className="text-accent text-xs font-medium">{area} sqft</p>
+            <p className="text-muted-foreground text-xs font-medium">
+              {area} sqft
+            </p>
           </div>
         </div>
-        <div className="flex justify-start items-center gap-2">
-          <h1 className="text-xl font-bold">{price}</h1>
-          <div className="flex justify-start items-center gap-1">
-            <UpIcon />
-            <span className="text-green-600 font-medium text-xs ">21 %</span>
+        <div className="flex justify-between items-center w-full">
+          <div className="flex justify-start items-center gap-2">
+            <h1 className="text-xl text-secondary font-bold">{price}</h1>
+            <div className="flex justify-start items-center gap-1">
+              <UpIcon />
+              <span className="text-green-600 font-medium text-xs ">21 %</span>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-[rgba(86,129,235,1)] to-[rgba(211,103,116,1)] p-[1px] rounded-xl">
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full py-1 px-3 bg-gradient-to-br rounded-xl flex items-center justify-center gap-1",
+                "from-[rgba(84,131,237,0.11)] to-[rgba(217,100,109,0.11)]",
+                "border border-transparent text-secondary font-semibold text-xs"
+              )}
+            >
+              <InsightsGradientIcon /> Insights
+            </Button>
           </div>
         </div>
       </CardFooter>

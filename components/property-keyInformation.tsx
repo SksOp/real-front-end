@@ -6,7 +6,7 @@ function PropertyKeyInformation() {
   return (
     <Card className="border-0 bg-background">
       <CardHeader className="p-0">
-        <CardTitle className="text-base text-secondary font-medium">
+        <CardTitle className="text-lg text-secondary font-medium">
           Key Information
         </CardTitle>
       </CardHeader>

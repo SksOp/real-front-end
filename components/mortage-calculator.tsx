@@ -94,7 +94,7 @@ function MortageCalculator() {
   return (
     <Card className="border rounded-xl bg-primary/5">
       <CardHeader>
-        <CardTitle className="text-base text-secondary font-medium">
+        <CardTitle className="text-lg text-secondary font-medium">
           Mortage Calculator
         </CardTitle>
         <CardDescription className="text-muted-foreground text-sm font-normal">
