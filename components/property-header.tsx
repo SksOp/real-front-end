@@ -42,11 +42,13 @@ function PropertyHeader({
             width={400}
             alt=""
           />
-          <div className="absolute inset-0 p-4 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent ">
-            <h3 className="text-white text-base font-semibold">{title}</h3>
+          <div className="absolute inset-0 p-4 flex flex-col gap-1 justify-end bg-gradient-to-t from-black/60 to-transparent ">
+            <h3 className="text-white text-lg font-semibold truncate">
+              {title}
+            </h3>
             <div className="flex items-center gap-2">
-              <LocationIcon fill="white" />
-              <p className="text-white text-xs">{location}</p>
+              <LocationIcon className="w-4 h-4" fill="white" />
+              <p className="text-white text-xs truncate">{location}</p>
             </div>
           </div>
         </div>

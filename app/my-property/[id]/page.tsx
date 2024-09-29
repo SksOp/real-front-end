@@ -88,7 +88,7 @@ function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col px-5 gap-3 mt-16 mb-32">
+      <div className="flex flex-col px-5 gap-4 mt-16 mb-32">
         <PropertyHeader
           imageURL={property.imageURLs[0]}
           title={property.title}
