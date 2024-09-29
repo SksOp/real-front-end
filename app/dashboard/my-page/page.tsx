@@ -163,24 +163,12 @@ function MyPage() {
             />
           </div>
         </ChartWrapper>
-        <ChartWrapper
-          title="Sales Index"
-          description="This is overall sales value index in Dubai."
-          viewAll={true}
-        >
+        <ChartWrapper title="Similar Transactions" viewAll={true}>
           <SimilarTransaction />
         </ChartWrapper>
-        <Card>
-          <CardHeader className="flex flex-row justify-between items-center text-center p-4 w-full ">
-            <h3 className="text-lg font-semibold text-secondary">
-              Price Comparison
-            </h3>
-            <h3 className="text-base font-semibold text-primary">View all</h3>
-          </CardHeader>
-          <CardContent className="px-4 py-0 pb-4 w-full">
-            <PriceChangesTable selectedRow={2} />
-          </CardContent>
-        </Card>
+        <ChartWrapper title="Price Comparison" viewAll={true}>
+          <PriceChangesTable selectedRow={2} />
+        </ChartWrapper>
 
         <ChartWrapper
           title="Sales segmentation"

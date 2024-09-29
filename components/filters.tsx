@@ -137,7 +137,7 @@ function Filters() {
         <div className="flex items-center justify-center  space-x-2 py-3 px-2">
           <XIcon
             className="border border-accent rounded-full "
-            onClick={() => router.push("/dashboard/home")}
+            onClick={() => router.back()}
           />
           <div className="w-[1px] h-8 bg-muted" />
           {selectOptions.map((select, index) => (

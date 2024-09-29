@@ -1,3 +1,4 @@
+import { ListingDataType } from "@/types/listing";
 import { PropertiescardProps } from "@/types/propertyCard";
 
 export const PropertiesList: PropertiescardProps[] = [
@@ -57,7 +58,7 @@ export const PropertiesList: PropertiescardProps[] = [
   },
 ];
 
-export const properties1 = [
+export const properties1: ListingDataType[] = [
   {
     price: "3,750,000 AED",
     title: "High Floor | Large Size | Ready To Move",

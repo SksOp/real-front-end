@@ -43,7 +43,7 @@ function InsightsTab({ selected }: { selected?: string }) {
 
   return (
     <Tabs value={isActive} onValueChange={(value) => setIsActive(value)}>
-      <TabsList className="w-full gap-3 items-center justify-start bg-background mx-2">
+      <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-1">
         <TabsTrigger
           value="dashboards"
           className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"

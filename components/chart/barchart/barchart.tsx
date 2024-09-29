@@ -50,7 +50,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   gridStroke = "#F2F2F2",
   tickColor = "black",
   tickFontSize = "12px",
-  tickFormatter = (value) => value.slice(0, 3),
+  tickFormatter = (value) => value,
   tooltipContent = <Tooltip />,
   tickLine = false,
   tickMargin = 10,

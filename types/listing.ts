@@ -1,10 +1,13 @@
 export interface ListingDataType {
-  imageURL: string;
+  imageURLs: string[];
   price: string;
   title: string;
   location: string;
-  permitNumber: number;
+  permitNumber: string;
   bedrooms: string;
   bathrooms: string;
   area: string;
+  articleURL?: string;
+  amenities: Record<string, string>;
+  referenceNumber: string;
 }

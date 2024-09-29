@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -18,86 +18,27 @@ import {
 import { Area } from "@/constants/area";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import CalculatorPropertySelector from "./calculator-property-selector";
+import CalculatorInputs from "./calculator-inputs";
+import { Separator } from "./ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Switch } from "./ui/switch";
 
 function Calculator() {
-  const [transactionType, setTransactionType] = React.useState<string | null>(
-    null
-  );
-  const [usage, setUsage] = React.useState<string | null>(null);
-  const [propertyType, setPropertyType] = React.useState<string | null>(null);
-  const [Location, setLocation] = React.useState<string | null>(null);
-
-  const handleChange = (
-    setter: React.Dispatch<React.SetStateAction<any>>,
-    value: any
-  ) => {
-    setter((prev: any) => (prev === value ? null : value));
-  };
-
-  const selectOptions = [
-    {
-      value: transactionType,
-      onChange: (val: string) => handleChange(setTransactionType, val),
-      placeholder: "Transaction Type",
-      label: "Transaction Type",
-      options: ["Sales", "Rental"],
-    },
-    {
-      value: usage,
-      onChange: (val: string) => handleChange(setUsage, val),
-      placeholder: "Usage",
-      label: "Usage",
-      options: ["Residential", "Commercial"],
-    },
-    {
-      value: propertyType,
-      onChange: (val: string) => handleChange(setPropertyType, val),
-      placeholder: "Property Type",
-      label: "Property Type",
-      options: ["Apartment", "Villa", "Land"],
-    },
-  ];
-
-  const renderSelect = (
-    label: string,
-    options: string[],
-    placeholder = "Select"
-  ) => (
-    <div className="w-full flex flex-col gap-0.5">
-      <Label className="text-sm font-semibold text-secondary">{label}</Label>
-      <Select>
-        <SelectTrigger className="border rounded-lg bg-card">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option, idx) => (
-            <SelectItem key={idx} value={option}>
-              {option}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  );
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const radioOptions = [
     {
-      value: transactionType,
-      onChange: (val: string) => handleChange(setTransactionType, val),
       placeholder: "Transaction Type",
       label: "Transaction Type",
       options: ["Sales", "Rental"],
     },
     {
-      value: usage,
-      onChange: (val: string) => handleChange(setUsage, val),
       placeholder: "Usage",
       label: "Usage",
       options: ["Residential", "Commercial"],
     },
     {
-      value: propertyType,
-      onChange: (val: string) => handleChange(setPropertyType, val),
       placeholder: "Property Type",
       label: "Property Type",
       options: ["Apartment", "Villa", "Land"],
@@ -105,69 +46,96 @@ function Calculator() {
   ];
 
   return (
-    <Accordion type="single" collapsible className="w-full p-4 pt-0">
-      <AccordionItem value="input">
-        <AccordionTrigger className="text-base text-secondary w-full font-semibold">
-          Inputs
-        </AccordionTrigger>
-        <AccordionContent className=" flex flex-col items-start justify-center gap-5 w-full">
-          {radioOptions.map((radio, idx) => (
-            <div key={idx} className="flex flex-col gap-2">
-              <Label
-                htmlFor={radio.label}
-                className="text-sm font-semibold text-secondary"
+    <div className="w-full p-4 pt-0">
+      <CalculatorPropertySelector />
+      <Accordion type="single" collapsible>
+        <AccordionItem value="input">
+          <AccordionTrigger className="text-base text-secondary w-full font-semibold">
+            Inputs
+          </AccordionTrigger>
+          <AccordionContent className=" flex flex-col items-start justify-center gap-5 w-full">
+            {radioOptions.map((radio, idx) => (
+              <CalculatorInputs
+                key={idx}
+                title={radio.label}
+                options={radio.options}
+                type="radio"
+              />
+            ))}
+
+            <CalculatorInputs
+              title="Location"
+              type="select"
+              options={Area.MostPopularAreas}
+              isOptional
+            />
+            <CalculatorInputs
+              title="Developer"
+              type="select"
+              options={["A", "B", "C", "D"]}
+            />
+
+            <CalculatorInputs
+              title="Annual Appreciation Rate"
+              isOptional
+              type="slider"
+              defaultValue={"34000"}
+            />
+
+            <div className="w-full grid grid-cols-2 gap-4">
+              <CalculatorInputs
+                title="Bedrooms"
+                type="select"
+                options={["1", "2", "3", "4"]}
+              />
+              <CalculatorInputs
+                title="Bathrooms"
+                type="select"
+                options={["1", "2", "3", "4"]}
+              />
+
+              <CalculatorInputs title="Area" type="text" />
+            </div>
+            <Separator />
+            <Card className="bg-background w-full border p-3">
+              <CardHeader className="p-0 flex flex-row justify-between items-center">
+                <CardTitle className="text-sm font-semibold text-secondary">
+                  Purchase Costs
+                </CardTitle>
+                <Switch
+                  id="purchase-costs"
+                  onCheckedChange={(checked) => setExpanded(checked)}
+                />
+              </CardHeader>
+              {expanded && (
+                <CardContent className="p-0 flex flex-col gap-5 my-2">
+                  <CalculatorInputs
+                    title="DLD Fee"
+                    type="text"
+                    placeholder="2430 (4%)"
+                  />
+                  <CalculatorInputs
+                    title="Other Fee"
+                    type="slider"
+                    defaultValue={"64000"}
+                    additionalTexts="Including Broker fee, Legel fee, Extro fee etc."
+                  />
+                </CardContent>
+              )}
+            </Card>
+
+            <div className="w-full mt-4">
+              <Button
+                variant={"secondary"}
+                className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
               >
-                {radio.label}
-              </Label>
-              <RadioGroup className="flex justify-start items-center gap-5 py-2">
-                {radio.options.map((option, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-start gap-1"
-                  >
-                    <RadioGroupItem
-                      value={option}
-                      id={option}
-                      onChange={() => radio.onChange(option)}
-                      className="border-accent text-secondary pb-[0.05rem]"
-                    />
-                    <Label
-                      htmlFor={option}
-                      className="text-muted-foreground font-medium text-sm"
-                    >
-                      {option}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+                Calculate
+              </Button>
             </div>
-          ))}
-          {renderSelect("Location", Area.MostPopularAreas)}
-          {renderSelect("Developer", ["A", "B", "C", "D"])}
-
-          <div className="w-full grid grid-cols-2 gap-4">
-            {renderSelect("Bedrooms", ["1", "2", "3", "4"])}
-            {renderSelect("Bathrooms", ["1", "2", "3", "4"])}{" "}
-            {renderSelect("Room Type", ["Apartment", "Villa", "Land"])}
-            <div className="">
-              <Label className="text-sm font-semibold text-secondary mb-1">
-                Area
-              </Label>
-              <Input type="text" className="border rounded-lg bg-card" />
-            </div>
-          </div>
-
-          <div className="w-full mt-4">
-            <Button
-              variant={"secondary"}
-              className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-lg border"
-            >
-              Calculate
-            </Button>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
   );
 }
 
