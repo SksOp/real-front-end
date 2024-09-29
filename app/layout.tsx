@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="">
+      <body className="select-none">
         <RootProvider>{children}</RootProvider>
       </body>
     </html>
