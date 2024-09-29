@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content={"#fff"} />
+        <meta name="theme-color" content="#fff" />
       </head>
       <body className="select-none">
         <RootProvider>{children}</RootProvider>
