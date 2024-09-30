@@ -9,9 +9,7 @@ function HomeInsights() {
     <div className="w-full flex justify-center items-stretch gap-2 ">
       <DataCards
         bgColor="bg-[#EEFBFC]"
-        onClick={() =>
-          router.push("/dashboard/insights?tab=insights&&subtab=dashboards")
-        }
+        onClick={() => router.push("/app/dashboard")}
       >
         <DashboardIcon />
         <h3 className="text-secondary font-semibold text-base ">Dashboards</h3>
@@ -22,9 +20,7 @@ function HomeInsights() {
       </DataCards>
       <DataCards
         bgColor="bg-[#EEFCEF]"
-        onClick={() =>
-          router.push("/dashboard/insights?tab=insights&&subtab=calculators")
-        }
+        onClick={() => router.push("/app/calculator")}
       >
         <CalculatorIcon />
         <h3 className="text-secondary font-semibold text-base ">Calculators</h3>

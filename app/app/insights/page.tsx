@@ -6,14 +6,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/underline-tabs";
-import Filters from "@/components/filters";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Report } from "@/components/reportcharts/report";
-import { PropertiesList, properties1 } from "@/constants/properties";
+import { properties1 } from "@/constants/properties";
 import Layout from "@/layout";
-import ExploreTab from "@/components/explore-tab";
 import TransactionTabs from "@/components/transaction-tabs";
-import { InsightIcon } from "@/public/svg/navIcons";
 import Link from "next/link";
 import InsightsTab from "@/components/insights-tab";
 
@@ -23,10 +18,7 @@ interface Props {
     subtab?: string;
   };
 }
-import { FilterProvider } from "@/context/filter/filter-provider";
-import ListingTab from "@/components/listing";
 import PropertiesCard from "@/components/propertiesCard";
-import { Separator } from "@/components/ui/separator";
 import TransactionCard from "@/components/transaction-card";
 
 function InsightPage({ searchParams }: Props) {

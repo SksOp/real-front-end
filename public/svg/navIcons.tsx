@@ -205,3 +205,31 @@ export function CompassIcon({ className }: Props) {
     </svg>
   );
 }
+
+export function BackIcon({ className }: Props) {
+  return (
+    <svg
+      className={cn("", className)}
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M25.3332 16H6.6665"
+        stroke="#121212"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M15.9998 25.3332L6.6665 15.9998L15.9998 6.6665"
+        stroke="#121212"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}

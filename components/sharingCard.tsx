@@ -15,7 +15,7 @@ function SharingCard() {
         <CardTitle className="font-semibold text-secondary text-base">
           Help by sharing!
         </CardTitle>
-        <CardDescription className="font-normal text-muted-foreground text-base">
+        <CardDescription className="font-normal text-muted-foreground text-sm">
           Let them know that this is the best place for finding all kinds of
           insights you and your customers are ever looking for~
         </CardDescription>

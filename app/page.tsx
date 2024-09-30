@@ -2,5 +2,5 @@
 import { redirect, useRouter } from "next/navigation";
 
 export default function Home() {
-  return redirect("/dashboard/home");
+  return redirect("/app/home");
 }
