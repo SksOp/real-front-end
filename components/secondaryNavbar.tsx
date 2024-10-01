@@ -1,7 +1,8 @@
 "use client";
 import { BackIcon } from "@/public/svg/navIcons";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useRef } from "react";
+import Progressbar from "./progressbar";
 
 function SecondaryNavbar({
   title,
@@ -11,9 +12,13 @@ function SecondaryNavbar({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const navRef = useRef<HTMLElement | null>(null);
   return (
-    <div className="min-h-screen bg-gradient-to-b from-backgrounds to-[#FAFAFA] w-full max-w-screen overflow-y-auto ">
-      <nav className="w-full bg-background fixed flex  items-center z-50 px-4 py-2 top-0 border-b">
+    <main
+      className="min-h-screen relative bg-gradient-to-b from-backgrounds to-[#FAFAFA] w-full max-w-screen"
+      ref={navRef}
+    >
+      <nav className="w-full bg-background flex  items-center  px-4 py-2 border-b">
         <div onClick={() => router.back()}>
           <BackIcon />
         </div>
@@ -21,8 +26,9 @@ function SecondaryNavbar({
           {title}
         </h3>
       </nav>
+      <Progressbar target={navRef} className="top-0" />
       {children}
-    </div>
+    </main>
   );
 }
 

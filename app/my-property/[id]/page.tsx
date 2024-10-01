@@ -26,6 +26,7 @@ import {
   PDFIcon,
 } from "@/public/svg/icons";
 import { properties1 } from "@/constants/properties";
+import Layout from "@/layout";
 
 // Load PDFViewer dynamically, only on client side
 const PDFViewer = dynamic(() => import("@/components/pdfViewer"), {
@@ -86,8 +87,7 @@ function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <>
-      <Navbar />
+    <Layout page="my-property">
       <div className="flex flex-col px-5 gap-4 mt-16 mb-32">
         <PropertyHeader
           imageURL={property.imageURLs[0]}
@@ -167,7 +167,7 @@ function Page({ params }: { params: { id: string } }) {
           </DrawerContent>
         </Drawer>
       </div>
-    </>
+    </Layout>
   );
 }
 

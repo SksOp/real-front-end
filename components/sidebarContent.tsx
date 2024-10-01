@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
@@ -14,8 +15,10 @@ import {
   ThemeIcon,
   TransactionIcon,
 } from "@/public/svg/sidebarIcons";
+import { useRouter } from "next/navigation";
 
 function SidebarContent() {
+  const router = useRouter();
   return (
     <div className="flex flex-col justify-start items-start gap-5 h-full w-full px-5 pt-9">
       <div className="flex items-center justify-start gap-2">
@@ -32,35 +35,38 @@ function SidebarContent() {
       <div className="flex flex-col gap-1 justify-start items-start w-full">
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/dashboard")}
         >
           <DashboardIcon />
           Dashboard
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/calculators")}
         >
           <CalculatorIcon />
           Calculators
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <TransactionIcon />
           Sales Transactions
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <TransactionIcon />
           Rental Transactions
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/insights?tab=my-listings")}
         >
           <MyPropertiesIcon />
           My Properties
@@ -70,7 +76,7 @@ function SidebarContent() {
       <div className="flex flex-col gap-1 justify-start items-start w-full">
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <AddToHomeIcon />
           Add to Home Screen
@@ -78,7 +84,7 @@ function SidebarContent() {
         <div className="flex justify-between items-center w-full">
           <Button
             variant="ghost"
-            className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+            className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
           >
             <ThemeIcon />
             Dark mode
@@ -87,21 +93,21 @@ function SidebarContent() {
         </div>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <ContactUsIcon />
           Request a Feature
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <ContactUsIcon />
           Submit Feedback
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <SupportIcon />
           Support
@@ -109,7 +115,7 @@ function SidebarContent() {
 
         <Button
           variant="ghost"
-          className="w-full justify-start items-center flex gap-3 text-red-500 font-normal text-sm p-0"
+          className="w-full justify-start items-center flex gap-3 text-red-500 font-normal text-sm px-2"
         >
           <LogoutIcon />
           Logout

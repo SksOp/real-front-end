@@ -47,7 +47,7 @@ function CalculatorPage() {
   const router = useRouter();
   return (
     <SecondaryNavbar title="calculator">
-      <div className="grid grid-cols-2 gap-3 px-3 pt-5 mt-12 mb-4">
+      <div className="grid grid-cols-2 gap-3 px-3 pt-3 mb-4">
         {data.map((card) => (
           <DataCards
             key={card.id}

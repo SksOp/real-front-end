@@ -141,14 +141,14 @@ function Filters() {
   };
 
   return (
-    <div className="w-full bg-background fixed  z-50 top-11">
-      <ScrollArea className="w-full rounded-md overflow-auto">
-        <div className="flex items-center justify-center  space-x-2 py-3 px-2">
-          <XIcon
+    <div className="w-full bg-background sticky z-20 top-0">
+      <ScrollArea className="w-full rounded-md overflow-scroll">
+        <div className="flex items-center justify-start  space-x-2 py-3 px-2">
+          {/* <XIcon
             className="border border-accent rounded-full "
             onClick={clearFilters}
           />
-          <div className="w-[1px] h-8 bg-muted" />
+          <div className="w-[1px] h-8 bg-muted" /> */}
           {selectOptions.map((select, index) => (
             <Drawer key={index}>
               <DrawerTrigger asChild>
@@ -160,7 +160,7 @@ function Filters() {
                   )}
                 >
                   {select.label}
-                  <ChevronDown />
+                  {/* <ChevronDown /> */}
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="max-h-[60%] ">

@@ -32,7 +32,7 @@ function InsightPage({ searchParams }: Props) {
         onValueChange={(value) => setIsActive(value)}
         className="w-full items-center justify-center pt-5"
       >
-        <TabsList className="w-full border-0 border-b  border-border items-center justify-around gap-3 mb-1">
+        <TabsList className="w-full border-0 border-b  border-border items-center justify-around gap-3 mb-1 mt-8">
           <TabsTrigger
             value="insights"
             className="flex justify-center items-center gap-2"

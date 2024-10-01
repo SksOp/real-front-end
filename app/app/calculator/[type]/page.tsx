@@ -40,7 +40,7 @@ function CalculatorPage() {
   return (
     <SecondaryNavbar title="Calculator">
       <Filters />
-      <div className="w-full p-4 pt-0 mt-[6.6rem]">
+      <div className="w-full p-4 ">
         <CalculatorPropertySelector />
         <Accordion type="single" collapsible>
           <AccordionItem value="input">
