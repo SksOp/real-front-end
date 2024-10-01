@@ -13,6 +13,7 @@ import HomeTransactionCard from "@/components/home-transaction-card";
 import InsightCard from "@/components/insightCard";
 import MatrixCard from "@/components/matrix-card";
 import PriceChangesTable from "@/components/price-changes-table";
+import SecondaryNavbar from "@/components/secondaryNavbar";
 import SimilarTransaction from "@/components/similar-transaction";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartConfig } from "@/components/ui/chart";
@@ -68,9 +69,9 @@ function MyPage() {
   ];
 
   return (
-    <>
+    <SecondaryNavbar title="Dashboards">
       <Filters />
-      <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 mt-16 flex flex-col gap-3">
+      <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 mt-[6.6rem] flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3 w-full">
           {matrixData.map((item, index) => (
             <MatrixCard
@@ -190,7 +191,7 @@ function MyPage() {
 
         <Feedback />
       </div>
-    </>
+    </SecondaryNavbar>
   );
 }
 

@@ -21,7 +21,6 @@ import { ChevronDown, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 function Filters() {
-  const router = useRouter();
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDeveloper, setSelectedDeveloper] = useState<string | null>(
@@ -131,13 +130,23 @@ function Filters() {
     ));
   };
 
+  const clearFilters = () => {
+    setSelectedRoom(null);
+    setSelectedLocation(null);
+    setSelectedDeveloper(null);
+    setSelectedArea(null);
+    setSelectedUsage(null);
+    setIsFreehold(null);
+    setPropertyType(null);
+  };
+
   return (
-    <div className="w-full bg-background fixed shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50 top-0 ">
+    <div className="w-full bg-background fixed  z-50 top-11">
       <ScrollArea className="w-full rounded-md overflow-auto">
         <div className="flex items-center justify-center  space-x-2 py-3 px-2">
           <XIcon
             className="border border-accent rounded-full "
-            onClick={() => router.back()}
+            onClick={clearFilters}
           />
           <div className="w-[1px] h-8 bg-muted" />
           {selectOptions.map((select, index) => (
