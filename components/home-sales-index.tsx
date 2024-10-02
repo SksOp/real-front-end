@@ -41,23 +41,31 @@ const sampleData = [
 function HomeSalesIndex() {
   return (
     <UnderlineTabs defaultValue="sales">
-      <UnderlineTabsList className="w-full border border-border items-center justify-start rounded-t-xl gap-3 px-3">
-        <UnderlineTabsTrigger value="sales" className=" ">
-          Sales
+      <UnderlineTabsList className="w-full border border-border items-center justify-center rounded-t-xl gap-3 px-3">
+        <UnderlineTabsTrigger
+          value="sales"
+          className="flex justify-center items-center gap-2 w-1/2"
+        >
+          Sales Price Index
         </UnderlineTabsTrigger>
-        <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
+        <UnderlineTabsTrigger
+          value="rental"
+          className="flex justify-center items-center gap-2 w-1/2"
+        >
+          Rental Price Index
+        </UnderlineTabsTrigger>
       </UnderlineTabsList>
-      <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 py-5 flex flex-col gap-3">
+      <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
         <UnderlineTabsContent value="sales">
-          <CardHeader className="w-full p-0">
+          {/* <CardHeader className="w-full p-0">
             <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Sales Price Index
             </CardTitle>
             <CardDescription className="text-sm text-accent font-normal truncate">
               explore various Dubai price index here.
             </CardDescription>
-          </CardHeader>
-          <CardContent className="p-0 w-full mt-2">
+          </CardHeader> */}
+          <CardContent className="p-0 w-full ">
             <Tabs defaultValue="residential">
               <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                 <TabsTrigger
@@ -92,15 +100,15 @@ function HomeSalesIndex() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardHeader className="w-full p-0">
+          {/* <CardHeader className="w-full p-0">
             <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Rental Price Index
             </CardTitle>
             <CardDescription className="text-sm text-accent font-normal truncate">
               explore various Dubai price index here.
             </CardDescription>
-          </CardHeader>
-          <CardContent className="p-0 w-full mt-2">
+          </CardHeader> */}
+          <CardContent className="p-0 w-full">
             <Tabs defaultValue="residential">
               <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                 <TabsTrigger
@@ -122,6 +130,7 @@ function HomeSalesIndex() {
                   data={sampleData}
                   xAxisDataKey={"month"}
                   yAxisDataKey={"value"}
+                  tickFormatter={(value) => value.toString()}
                 />
               </TabsContent>
             </Tabs>

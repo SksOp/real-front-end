@@ -44,7 +44,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/calculators")}
+          onClick={() => router.push("/app/calculator")}
         >
           <CalculatorIcon />
           Calculators
@@ -52,6 +52,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/transactions")}
         >
           <TransactionIcon />
           Sales Transactions
@@ -59,6 +60,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/transactions")}
         >
           <TransactionIcon />
           Rental Transactions
@@ -66,7 +68,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/insights?tab=my-listings")}
+          onClick={() => router.push("/app/listings")}
         >
           <MyPropertiesIcon />
           My Properties

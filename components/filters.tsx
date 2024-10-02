@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -19,6 +19,7 @@ import DashboardDrawerView from "./dashboard-drawer-view";
 import FilterIcons from "./filter-icons";
 import { ChevronDown, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Progressbar from "./progressbar";
 
 function Filters() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -30,6 +31,7 @@ function Filters() {
   const [selectedUsage, setSelectedUsage] = useState<string | null>();
   const [isFreehold, setIsFreehold] = useState<string | null>(null);
   const [propertyType, setPropertyType] = useState<string | null>(null);
+
   // const [averageTransactionValue, setAverageTransactionValue] = useState<
   //   TransactionChart[] | null
   // >(null);
@@ -141,9 +143,9 @@ function Filters() {
   };
 
   return (
-    <div className="w-full bg-background sticky z-20 top-0">
+    <nav className="w-full bg-background sticky z-20 top-0">
       <ScrollArea className="w-full rounded-md overflow-scroll">
-        <div className="flex items-center justify-start  space-x-2 py-3 px-2">
+        <div className="flex items-center justify-start  space-x-2 py-2 px-2">
           {/* <XIcon
             className="border border-accent rounded-full "
             onClick={clearFilters}
@@ -155,7 +157,7 @@ function Filters() {
                 <Button
                   variant="outline"
                   className={cn(
-                    " rounded-full  text-sm text-muted-foreground p-2  h-8",
+                    " rounded-full  text-sm text-muted-foreground p-2  h-8 hover:bg-primary/10",
                     select.value ? "bg-primary/10 " : "bg-background"
                   )}
                 >
@@ -218,7 +220,7 @@ function Filters() {
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-    </div>
+    </nav>
   );
 }
 

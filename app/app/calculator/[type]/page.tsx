@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -15,9 +15,62 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import SecondaryNavbar from "@/components/secondaryNavbar";
 import Filters from "@/components/filters";
+import { usePathname } from "next/navigation";
+
+const calculatorData = [
+  {
+    id: 1,
+    title: "Sales Value Estimator",
+    description:
+      "Estimate current property sales value based on market trends and attributes.",
+  },
+  {
+    id: 2,
+    title: "Rental Value Estimator",
+    description:
+      "Calculate the optimal rental price using property features and market benchmarks.",
+  },
+  {
+    id: 3,
+    title: "Mortgage Payment Calculator",
+    description:
+      "Calculate mortgage payments, rates, and affordability for property financing.",
+  },
+  {
+    id: 4,
+    title: "Investment ROI Estimator",
+    description:
+      "Estimate property investment returns and future profitability for better decision-making.",
+  },
+  {
+    id: 5,
+    title: "Rent vs Buy Comparison Tool",
+    description:
+      "Compare financial benefits of renting versus buying a property over time.",
+  },
+  {
+    id: 6,
+    title: "Home Affordability Calculator",
+    description:
+      "Assess the budget and affordability of purchasing a property based on finances.",
+  },
+];
 
 function CalculatorPage() {
   const [expanded, setExpanded] = useState<boolean>(false);
+  const pathname = usePathname();
+  const [dashboardId, setDashboardId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const pathSegments = pathname.split("/");
+    const id = parseInt(pathSegments[pathSegments.length - 1], 10);
+
+    if (!isNaN(id)) {
+      setDashboardId(id);
+    }
+  }, [pathname]);
+
+  const calculator = calculatorData.find((item) => item.id === dashboardId);
 
   const radioOptions = [
     {
@@ -38,16 +91,15 @@ function CalculatorPage() {
   ];
 
   return (
-    <SecondaryNavbar title="Calculator">
-      <Filters />
-      <div className="w-full p-4 ">
-        <CalculatorPropertySelector />
+    <SecondaryNavbar title={calculator?.title ?? ""}>
+      <div className="w-full p-4 pt-12">
         <Accordion type="single" collapsible>
           <AccordionItem value="input">
             <AccordionTrigger className="text-base text-secondary w-full font-semibold">
               Inputs
             </AccordionTrigger>
             <AccordionContent className=" flex flex-col items-start justify-center gap-5 w-full">
+              <CalculatorPropertySelector />
               {radioOptions.map((radio, idx) => (
                 <CalculatorInputs
                   key={idx}

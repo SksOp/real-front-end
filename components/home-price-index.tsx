@@ -60,8 +60,14 @@ function HomePriceIndex() {
                   By Area
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="property" className="w-full flex gap-2 ">
+              <TabsContent
+                value="property"
+                className="w-full flex flex-col gap-2 "
+              >
                 <PriceChangesTable />
+                <h3 className="text-primary font-semibold text-right text-sm">
+                  View All
+                </h3>
               </TabsContent>
             </Tabs>
           </CardContent>
@@ -91,8 +97,14 @@ function HomePriceIndex() {
                   By Area
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="property" className="w-full flex gap-2 ">
+              <TabsContent
+                value="property"
+                className="w-full flex flex-col gap-2 "
+              >
                 <PriceChangesTable />
+                <h3 className="text-primary font-semibold text-right text-sm">
+                  View All
+                </h3>
               </TabsContent>
             </Tabs>
           </CardContent>

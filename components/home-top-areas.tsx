@@ -44,23 +44,28 @@ const sampleData = [
 function HomeTopAreas() {
   return (
     <UnderlineTabs defaultValue="sales">
-      <UnderlineTabsList className="w-full border border-border items-center justify-start rounded-t-xl gap-3 px-3">
+      <UnderlineTabsList className="w-full border border-border items-center justify-center rounded-t-xl gap-3 px-3">
         <UnderlineTabsTrigger
           value="sales"
-          className="flex justify-center items-center gap-2 "
+          className="flex justify-center items-center gap-2 w-1/2"
         >
-          Sales
+          Top Sales Area
         </UnderlineTabsTrigger>
-        <UnderlineTabsTrigger value="rental">Rental</UnderlineTabsTrigger>
+        <UnderlineTabsTrigger
+          value="rental"
+          className="flex justify-center items-center gap-2 w-1/2"
+        >
+          Top Rental Area
+        </UnderlineTabsTrigger>
       </UnderlineTabsList>
-      <Card className="rounded-xl bg-background rounded-t-none w-full px-3 py-4 flex flex-col gap-4">
+      <Card className="rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-4">
         <UnderlineTabsContent value="sales">
           {" "}
-          <CardHeader className="w-full p-0">
+          {/* <CardHeader className="w-full p-0">
             <CardTitle className="text-base font-semibold text-secondary">
               Top Areas (Sales)
             </CardTitle>
-          </CardHeader>
+          </CardHeader> */}
           <CardContent className="p-0 w-full mt-2">
             <Tabs defaultValue="volume">
               <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
@@ -95,11 +100,11 @@ function HomeTopAreas() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardHeader className="w-full p-0">
+          {/* <CardHeader className="w-full p-0">
             <CardTitle className="text-base font-semibold text-secondary">
               Top Areas (Rental)
             </CardTitle>
-          </CardHeader>
+          </CardHeader> */}
           <CardContent className="p-0 w-full mt-2">
             <Tabs defaultValue="volume">
               <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
