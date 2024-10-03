@@ -32,7 +32,7 @@ function PropertyHeader({
   price,
 }: PropertyHeaderProps) {
   return (
-    <Card className="border-0 p-0 mt-4 w-full bg-background flex flex-col gap-3">
+    <Card className="border-0 shadow-none p-0 mt-4 w-full bg-background flex flex-col gap-3">
       <CardHeader className="relative p-0 ">
         <div className="relative w-full ">
           <Image

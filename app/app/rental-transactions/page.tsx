@@ -4,11 +4,11 @@ import TransactionCard from "@/components/transaction-card";
 import TransactionTabs from "@/components/transaction-tabs";
 import React from "react";
 
-function TransactionPage() {
+function RentalTransactionPage() {
   return (
-    <SecondaryNavbar title="Transactions">
+    <SecondaryNavbar title="Rental Transactions">
       <div className="flex flex-col gap-3 px-3 py-14">
-        <TransactionTabs tabs={["Cash", "Mortgage"]} />
+        <TransactionTabs tabs={["All", "New", "Renewal"]} />
         <TransactionCard
           date={new Date("2024-07-25")}
           formattedValue={"3.5"}
@@ -19,6 +19,7 @@ function TransactionPage() {
           ACTUAL_AREA={2456}
           TRANS_VALUE={35099900}
           growth={21}
+          tag="Renew"
         />
         <TransactionCard
           date={new Date("2024-07-25")}
@@ -30,6 +31,7 @@ function TransactionPage() {
           ACTUAL_AREA={2456}
           TRANS_VALUE={35099900}
           growth={21}
+          tag="New"
         />
         <TransactionCard
           date={new Date("2024-07-25")}
@@ -41,6 +43,7 @@ function TransactionPage() {
           ACTUAL_AREA={2456}
           TRANS_VALUE={35099900}
           growth={21}
+          tag="Renew"
         />
         <TransactionCard
           date={new Date("2024-07-25")}
@@ -52,10 +55,11 @@ function TransactionPage() {
           ACTUAL_AREA={2456}
           TRANS_VALUE={35099900}
           growth={21}
+          tag="New"
         />
       </div>
     </SecondaryNavbar>
   );
 }
 
-export default TransactionPage;
+export default RentalTransactionPage;

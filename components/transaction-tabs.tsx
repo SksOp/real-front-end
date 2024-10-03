@@ -18,7 +18,7 @@ import { FilterContext } from "@/context/filter/filter-provider";
 import ReportSection from "./insights/reportsection/reportsection";
 import MatrixCard from "./matrix-card";
 
-function TransactionTabs() {
+function TransactionTabs({ tabs }: { tabs: string[] }) {
   const {
     data: Transaction,
     isLoading: isLoading,
@@ -43,19 +43,28 @@ function TransactionTabs() {
   ];
 
   return (
-    <Tabs defaultValue="all">
-      <TabsList className="w-full gap-3 items-center justify-between bg-background ">
+    <Tabs defaultValue={tabs[0]}>
+      <TabsList className="w-full gap-3 items-center justify-between bg-background mb-2">
         <div className="flex justify-start items-center gap-4">
           <Drawer>
-            <DrawerTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ml-2">
+            <DrawerTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
               <FilterIcon />
             </DrawerTrigger>
             <DrawerContent>
               <TransactionFilter />
             </DrawerContent>
           </Drawer>
-          <Separator orientation="vertical" className=" h-5" />
-          <TabsTrigger
+          <Separator orientation="vertical" className="h-5" />
+          {tabs.map((tab, index) => (
+            <TabsTrigger
+              key={index}
+              value={tab}
+              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+            >
+              {tab}
+            </TabsTrigger>
+          ))}
+          {/* <TabsTrigger
             value="all"
             className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
@@ -72,28 +81,31 @@ function TransactionTabs() {
             className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
           >
             Gift
-          </TabsTrigger>
+          </TabsTrigger> */}
         </div>
-        <VerticalThreeDots className="mr-4" />
+        <VerticalThreeDots />
       </TabsList>
-      <TabsContent
-        value="all"
-        className="w-full flex flex-col gap-2 overflow-x-scroll"
-      >
-        <div className="grid grid-cols-2 gap-3 w-full">
-          {matrixData.map((item, index) => (
-            <MatrixCard
-              key={index}
-              title={item.title}
-              value={item.value}
-              growth={item.growth}
-            />
-          ))}
-        </div>
-        {/* {Transaction?.map((transaction, index) => (
+      {tabs.map((tab, index) => (
+        <TabsContent
+          key={index}
+          value={tab}
+          className="w-full mt-0  flex flex-col gap-2 overflow-x-scroll"
+        >
+          <div className="grid grid-cols-2 gap-3 w-full">
+            {matrixData.map((item, index) => (
+              <MatrixCard
+                key={index}
+                title={item.title}
+                value={item.value}
+                growth={item.growth}
+              />
+            ))}
+          </div>
+          {/* {Transaction?.map((transaction, index) => (
           <TransactionCard key={index} {...transaction} />
         ))} */}
-      </TabsContent>
+        </TabsContent>
+      ))}
     </Tabs>
   );
 }

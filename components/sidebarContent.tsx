@@ -52,7 +52,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/transactions")}
+          onClick={() => router.push("/app/sales-transactions")}
         >
           <TransactionIcon />
           Sales Transactions
@@ -60,7 +60,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/transactions")}
+          onClick={() => router.push("/app/rental-transactions")}
         >
           <TransactionIcon />
           Rental Transactions
@@ -83,10 +83,10 @@ function SidebarContent() {
           <AddToHomeIcon />
           Add to Home Screen
         </Button>
-        <div className="flex justify-between items-center w-full">
+        <div className="flex justify-between items-center hover:bg-primary/10 w-full">
           <Button
             variant="ghost"
-            className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+            className="w-full justify-start items-center hover:bg-transparent flex gap-3 text-secondary font-normal text-sm px-2"
           >
             <ThemeIcon />
             Dark mode

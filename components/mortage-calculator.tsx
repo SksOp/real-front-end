@@ -69,7 +69,7 @@ function MortageCalculator() {
     unit: string,
     valueKey: ValueKeys
   ) => (
-    <div className="flex gap-4 items-center w-full">
+    <div className="flex gap-4  items-center w-full">
       {React.createElement(icon, { className: "h-8 w-8" })}
       <div className="flex flex-col gap-2 w-full">
         <h3 className="text-muted-foreground text-sm font-normal">{label}</h3>
@@ -92,7 +92,7 @@ function MortageCalculator() {
   );
 
   return (
-    <Card className="border rounded-xl bg-primary/5">
+    <Card className="border shadow-none rounded-xl bg-primary/5">
       <CardHeader>
         <CardTitle className="text-lg text-secondary font-medium">
           Mortage Calculator

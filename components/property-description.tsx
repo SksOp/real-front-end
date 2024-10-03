@@ -48,7 +48,7 @@ function PropertyDescription() {
   ];
 
   return (
-    <Card className="border-0 bg-background">
+    <Card className="border-0 shadow-none bg-background">
       <CardHeader className="p-0">
         <CardTitle className="text-lg text-secondary font-medium">
           Property Description

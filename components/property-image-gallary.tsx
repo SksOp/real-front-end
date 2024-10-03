@@ -25,7 +25,7 @@ function PropertyImageGallery({
 
   return (
     <div>
-      <Card className="border-0 bg-background p-0 flex flex-col gap-2">
+      <Card className="border-0 shadow-none bg-background p-0 flex flex-col gap-2">
         <CardHeader className="p-0">
           <CardTitle className="text-lg text-secondary font-medium">
             Gallery

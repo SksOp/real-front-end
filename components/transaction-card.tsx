@@ -51,6 +51,7 @@ interface TransactionCardProps {
   ACTUAL_AREA: number;
   TRANS_VALUE: number;
   growth: number;
+  tag: string;
 }
 
 const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
@@ -89,10 +90,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
           <div
             className={cn(
               "px-2  h-5 text-xs absolute pt-[0.1rem] font-normal right-0 text-white rounded-l-full",
-              "bg-[#8177E5]"
+              props.tag === "Renew" || props.tag === "Resale"
+                ? "bg-[#8177E5]"
+                : "bg-[#509BDC]"
             )}
           >
-            Resale
+            {props.tag}
           </div>
         </div>
         <h1 className="text-secondary text-sm font-semibold flex gap-1 items-center justify-start">
