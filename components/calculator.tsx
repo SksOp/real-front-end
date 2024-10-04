@@ -48,7 +48,7 @@ function Calculator() {
   return (
     <div className="w-full p-4 pt-0">
       <CalculatorPropertySelector />
-      <Accordion type="single" collapsible>
+      {/* <Accordion type="single" collapsible>
         <AccordionItem value="input">
           <AccordionTrigger className="text-base text-secondary w-full font-semibold">
             Inputs
@@ -134,7 +134,7 @@ function Calculator() {
             </div>
           </AccordionContent>
         </AccordionItem>
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 }
