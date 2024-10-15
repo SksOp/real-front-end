@@ -4,7 +4,6 @@ import Barchart from "@/components/chart/barchart/barchart";
 import ChartWrapper from "@/components/chart/chartWrapper";
 import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
 import LineChartComponent from "@/components/chart/lineChart/lineChart";
-import PieChartComponent from "@/components/chart/piechart/piechart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
 import DashboardTabs from "@/components/dashboard-tabs";
 import Feedback from "@/components/feedback";
@@ -18,6 +17,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartConfig } from "@/components/ui/chart";
 import Layout from "@/layout";
 import React from "react";
+import DonutChartComponent from "@/components/chart/donutChart/donutChart";
+import { Pie } from "recharts";
+import PieChartComponent from "@/components/chart/pieChart/pieChart";
+import { Component } from "@/components/chart/stackedChart/stackedChart";
 
 const chartConfig = {
   desktop: {
@@ -45,8 +48,6 @@ const chartConfig3 = {
 const data = [
   { name: "Dubai Marina", value: 20, colorClass: "bg-[#FFC8C8]" },
   { name: "Dubai Central", value: 12, colorClass: "bg-[#EFEEFC]" },
-  { name: "Dubai East", value: 21, colorClass: "bg-[#D1F6DB]" },
-  { name: "Dubai West", value: 6, colorClass: "bg-[#FCF8D1]" },
 ];
 
 const sampleData1 = [
@@ -81,6 +82,17 @@ function MyPage() {
             />
           ))}
         </div>
+        <ChartWrapper title="Transaction Type" description="">
+          <Component />
+        </ChartWrapper>
+        <ChartWrapper title="Transaction Type" description="">
+          <PieChartComponent
+            chartConfig={chartConfig2}
+            data={data}
+            dataKey="value"
+            nameKey="name"
+          />
+        </ChartWrapper>
         <ChartWrapper title="Transaction Type" description="">
           <HorizontalBarChartComponent
             chartConfig={chartConfig}
@@ -155,7 +167,7 @@ function MyPage() {
               between 2.4 Million to 5.6 Million. Average price:{" "}
               <span className="font-bold">750000.</span>
             </InsightCard>
-            <PieChartComponent
+            <DonutChartComponent
               chartConfig={chartConfig2}
               data={data}
               dataKey="value"
@@ -175,7 +187,7 @@ function MyPage() {
           description="Compare sales segmentation across residential and commercial."
         >
           <div className="flex flex-col gap-2">
-            <PieChartComponent
+            <DonutChartComponent
               chartConfig={chartConfig3}
               data={[
                 { name: "Residential", value: 30, colorClass: "bg-[#FFDBDB]" },

@@ -1,22 +1,12 @@
 import React from "react";
 import { PieChart, Pie, Cell, Label, Tooltip } from "recharts";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-interface PieChartComponentProps {
+interface DonutChartComponentProps {
   chartConfig: any;
   data: any[];
   dataKey: string;
@@ -30,7 +20,7 @@ interface PieChartComponentProps {
   padAngle?: number;
 }
 
-const PieChartComponent: React.FC<PieChartComponentProps> = ({
+const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   chartConfig,
   data,
   dataKey,
@@ -123,4 +113,4 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   );
 };
 
-export default PieChartComponent;
+export default DonutChartComponent;

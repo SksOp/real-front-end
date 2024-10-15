@@ -1,15 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { Slider } from "./ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
@@ -22,32 +15,43 @@ import {
   CommandList,
 } from "./ui/command";
 import { ChevronDown } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 
 interface CalculatorInputsProps {
   title: string;
   type: string;
-  isOptional?: boolean;
+  is_mandatory: boolean;
   placeholder?: string;
-  defaultValue?: string;
+  default_value?: string | number;
   additionalTexts?: string;
-  options?: string[];
-  value: any; // Accepts any type based on input type
-  onChange: (value: any) => void; // Callback to update parent state
+  options?: (string | number)[];
+  source?: string;
+  searchable?: boolean;
+  value: any;
+  onChange: (value: any) => void;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 function CalculatorInputs({
   title,
   type,
-  isOptional = false,
+  is_mandatory,
   placeholder,
-  defaultValue = "",
-  additionalTexts = "",
-  options = [],
+  default_value,
+  additionalTexts,
+  options,
+  source,
+  searchable,
   value,
   onChange,
+  min = 0,
+  max = 100,
+  step = 1,
 }: CalculatorInputsProps) {
   const renderOptionalLabel = () =>
-    isOptional && (
+    !is_mandatory && (
       <span className="text-accent font-medium text-sm italic">
         {" "}
         (Optional)
@@ -70,15 +74,15 @@ function CalculatorInputs({
             {options?.map((option, idx) => (
               <div key={idx} className="flex items-center justify-start gap-1">
                 <RadioGroupItem
-                  value={option}
-                  id={option}
+                  value={String(option)}
+                  id={String(option)}
                   className="border-accent text-secondary pb-[0.05rem]"
                 />
                 <Label
-                  htmlFor={option}
+                  htmlFor={String(option)}
                   className="text-muted-foreground font-medium text-sm"
                 >
-                  {option}
+                  {String(option)}
                 </Label>
               </div>
             ))}
@@ -86,7 +90,7 @@ function CalculatorInputs({
         </div>
       );
 
-    case "text":
+    case "value":
       return (
         <div className="flex flex-col gap-0.5 w-full px-1">
           <Label className="text-sm font-medium text-secondary mb-1 truncate">
@@ -108,14 +112,15 @@ function CalculatorInputs({
         </div>
       );
 
-    case "select":
+    case "dropdown":
+      const [open, setOpen] = useState(false);
       return (
         <div className="w-full flex flex-col gap-0.5 px-1">
           <Label className="text-sm font-semibold text-secondary">
             {title}
             {renderOptionalLabel()}
           </Label>
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger
               className="flex flex-row justify-between items-center border rounded-lg bg-card"
               asChild
@@ -137,16 +142,19 @@ function CalculatorInputs({
               align="center"
             >
               <Command>
-                <CommandInput placeholder="Search..." />
+                {searchable && <CommandInput placeholder="Search..." />}
                 <CommandList>
-                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandEmpty className="h-fit px-4 py-2 pb-0 text-sm font-normal">
+                    No results found.
+                  </CommandEmpty>
                   <CommandGroup>
-                    {options.map((option, idx) => (
+                    {options?.map((option, idx) => (
                       <CommandItem
                         key={idx}
-                        value={option}
+                        value={String(option)}
                         onSelect={(value) => {
                           onChange(value);
+                          setOpen(false);
                         }}
                       >
                         {option}
@@ -172,7 +180,7 @@ function CalculatorInputs({
               className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-normal bg-muted-foreground py-1 px-2 rounded-lg text-white"
               style={{
                 left: `calc(${Math.min(
-                  Math.max(((value - 10000) / (100000 - 10000)) * 100, 10),
+                  Math.max(((value - min) / (max - min)) * 100, 10),
                   90
                 )}%)`,
               }}
@@ -181,9 +189,9 @@ function CalculatorInputs({
             </div>
             <Slider
               value={[value]}
-              min={10000}
-              max={100000}
-              step={1000}
+              min={min}
+              max={max}
+              step={step}
               onValueChange={(val) => onChange(val[0])}
               className="mt-4"
             />
@@ -193,6 +201,31 @@ function CalculatorInputs({
               </p>
             )}
           </div>
+        </div>
+      );
+
+    case "textSlider":
+      return (
+        <div className="w-full flex flex-col gap-0.5 px-1">
+          <Label className="text-sm font-semibold text-secondary">
+            {title}
+            {renderOptionalLabel()}
+          </Label>
+          <Input
+            type="text"
+            className="border rounded-lg bg-card"
+            placeholder={placeholder || ""}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+          />
+          <Slider
+            value={[value]}
+            min={min}
+            max={max}
+            step={step}
+            onValueChange={(val) => onChange(val[0])}
+            className="mt-4"
+          />
         </div>
       );
 

@@ -1,7 +1,7 @@
 import React from "react";
 import ExploreFormats from "./explore-formats";
-import PieChartComponent from "./chart/piechart/piechart";
 import { ChartConfig } from "./ui/chart";
+import DonutChartComponent from "./chart/donutChart/donutChart";
 
 const data = [
   { name: "Dubai Marina", value: 20, colorClass: "bg-[#FFC8C8]" },
@@ -21,7 +21,7 @@ function ExploreAreaWise() {
   return (
     <ExploreFormats title="Area wise">
       <div className="w-full justify-between items-center">
-        <PieChartComponent
+        <DonutChartComponent
           chartConfig={chartConfig}
           data={data}
           dataKey="value"

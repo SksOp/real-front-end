@@ -5,7 +5,6 @@ import ChartWrapper from "@/components/chart/chartWrapper";
 import DualBarchart from "@/components/chart/dualbarchart/dualBarChart";
 import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
 import LineChartComponent from "@/components/chart/lineChart/lineChart";
-import PieChartComponent from "@/components/chart/piechart/piechart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
 import Feedback from "@/components/feedback";
 import MatrixRow from "@/components/matrix-row";
@@ -16,6 +15,7 @@ import { ChartConfig } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
 import Layout from "@/layout";
 import React from "react";
+import DonutChartComponent from "@/components/chart/donutChart/donutChart";
 
 const chartConfig = {
   desktop: {
@@ -77,7 +77,7 @@ function SettingsPage() {
             title="Number of Transactions"
             description="Number of transactions over time in Dubai."
           >
-            <PieChartComponent
+            <DonutChartComponent
               chartConfig={chartConfig2}
               data={data}
               dataKey="value"

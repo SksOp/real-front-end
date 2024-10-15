@@ -4,7 +4,7 @@ import Barchart from "@/components/chart/barchart/barchart";
 import ChartWrapper from "@/components/chart/chartWrapper";
 import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
 import LineChartComponent from "@/components/chart/lineChart/lineChart";
-import PieChartComponent from "@/components/chart/piechart/piechart";
+import DonutChartComponent from "@/components/chart/donutChart/donutChart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
 import DashboardTabs from "@/components/dashboard-tabs";
 import Feedback from "@/components/feedback";
@@ -274,7 +274,7 @@ function MyPage() {
                 between 2.4 Million to 5.6 Million. Average price:{" "}
                 <span className="font-bold">750000.</span>
               </InsightCard>
-              <PieChartComponent
+              <DonutChartComponent
                 chartConfig={chartConfig2}
                 data={data}
                 dataKey="value"
@@ -294,7 +294,7 @@ function MyPage() {
             description="Compare sales segmentation across residential and commercial."
           >
             <div className="flex flex-col gap-2">
-              <PieChartComponent
+              <DonutChartComponent
                 chartConfig={chartConfig3}
                 data={[
                   {

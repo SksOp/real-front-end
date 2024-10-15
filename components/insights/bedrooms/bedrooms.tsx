@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
-import PieChartComponent from "../../chart/piechart/piechart"; // Adjust the import path according to your project structure
 import { BedroomType } from "@/transcation/types";
 import { Bedroom } from "@/actions/bedroom";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { getBedrooms } from "@/repository/tanstack/queries/functions.queries";
 import { Skeleton } from "@/components/ui/skeleton";
+import DonutChartComponent from "../../chart/donutChart/donutChart";
 
 const chartConfig = {
   "1 B/R": { label: "1 B/R", color: "#f0f9ff" },
@@ -108,7 +108,7 @@ export function Bedrooms() {
   const footerDescription = "Showing total properties for the last 6 months";
 
   return (
-    <PieChartComponent
+    <DonutChartComponent
       // title={title}
       // description={description}
       chartConfig={chartConfig}
