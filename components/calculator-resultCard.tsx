@@ -19,10 +19,14 @@ function CalculatorResultCard({
       <h3 className="text-muted-foreground text-sm font-normal">{title}</h3>
       <div className="flex gap-1">
         <h3 className="text-secondary font-bold text-[1.6rem]">{value} AED</h3>
-        <CircularUpIcon />
-        <span className="text-green-600 font-semibold text-sm">
-          {percentage} %
-        </span>
+        {percentage && (
+          <>
+            <CircularUpIcon />
+            <span className="text-green-600 font-semibold text-sm">
+              {percentage} %
+            </span>
+          </>
+        )}
       </div>
     </Card>
   );

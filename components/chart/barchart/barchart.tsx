@@ -38,7 +38,20 @@ interface BarChartComponentProps {
   referance?: string;
   referanceValue?: number;
   showXAxis?: boolean;
+  showInsideLabel?: boolean;
 }
+
+const formatYAxisTick = (value: number): string => {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  } else {
+    return value.toString();
+  }
+};
 
 const Barchart: React.FC<BarChartComponentProps> = ({
   data,
@@ -61,6 +74,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   referance,
   referanceValue,
   showXAxis = true,
+  showInsideLabel = false,
 }) => {
   // Calculate chart width based on the number of data points
   const chartWidth = Math.max(data.length * 35, 450); // 80 pixels per data point, minimum 500px width
@@ -93,7 +107,12 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               {...customXAxisProps}
             />
           ) : null}
-          <YAxis tickLine={tickLine} tickMargin={0} axisLine={axisLine} />
+          <YAxis
+            tickLine={tickLine}
+            tickFormatter={formatYAxisTick}
+            tickMargin={0}
+            axisLine={axisLine}
+          />
           <Tooltip cursor={false} content={<ChartTooltipContent />} />
 
           {yAxisDataKeys.map((key, index) => (
@@ -103,7 +122,6 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               fill={barColors[index % barColors.length]} // Cycle through colors
               radius={barRadius}
               stroke={"#121212"}
-              barSize={30}
               spacing={20}
               {...customBarProps}
             >
@@ -115,6 +133,17 @@ const Barchart: React.FC<BarChartComponentProps> = ({
                   offset={18}
                   fontSize={14}
                   className="fill-[--color-label]"
+                />
+              )}
+              {showInsideLabel && (
+                <LabelList
+                  dataKey={key}
+                  position="insideTop"
+                  angle={0}
+                  offset={8}
+                  fontSize={16}
+                  stroke="2"
+                  fill="#121212"
                 />
               )}
             </Bar>

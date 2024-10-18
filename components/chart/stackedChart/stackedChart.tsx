@@ -8,6 +8,7 @@ import {
   LineChart,
   ReferenceLine,
   XAxis,
+  YAxis,
 } from "recharts";
 import {
   ChartConfig,
@@ -38,7 +39,20 @@ interface StackedBarChartComponentProps {
   referance?: string;
   referanceValue?: number;
   showXAxis?: boolean;
+  line?: boolean;
 }
+
+const formatYAxisTick = (value: number): string => {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  } else {
+    return value.toString();
+  }
+};
 
 const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   data,
@@ -61,6 +75,7 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   referance,
   referanceValue,
   showXAxis = true,
+  line = false,
 }) => {
   const lineData = data.map((entry, index) => {
     if (index === 0) {
@@ -89,17 +104,18 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
 
   return (
     <ChartContainer config={chartConfig}>
-      <ComposedChart accessibilityLayer data={data}>
+      <ComposedChart accessibilityLayer data={data} margin={{ left: -18 }}>
         <XAxis
           dataKey={xAxisDataKey}
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => {
-            return new Date(value).toLocaleDateString("en-US", {
-              weekday: "short",
-            });
-          }}
+        />
+        <YAxis
+          tickLine={tickLine}
+          tickMargin={tickMargin}
+          tickFormatter={formatYAxisTick}
+          axisLine={axisLine}
         />
         <Bar
           dataKey={yAxisDataKeys[0]}
@@ -116,13 +132,15 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
           style={{ transform: "translate(0,-6px)" }}
           radius={[5, 5, 0, 0]}
         />
-        <Line
-          type="monotone"
-          data={lineData}
-          dataKey="y"
-          stroke="#ff7300"
-          dot={false}
-        />
+        {line && (
+          <Line
+            type="monotone"
+            data={lineData}
+            dataKey="y"
+            stroke="#ff7300"
+            dot={false}
+          />
+        )}
         <ChartTooltip
           content={
             <ChartTooltipContent

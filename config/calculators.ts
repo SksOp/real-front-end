@@ -31,16 +31,8 @@ export const Calculators: Calculator[] = [
         key: "choose_location",
         label: "Choose Location",
         type: "dropdown",
-        source: "dxb_area_list",
-        options: [
-          "Muragab",
-          "Al Safaa",
-          "Muhaisanah Third",
-          "Al-Baloosh",
-          "TILAL AL GHAF",
-          "JUMEIRAH LAKES TOWERS",
-          "Business Bay",
-        ],
+        source: "http://localhost:6968/api/constants",
+        options: [],
         //all the unique area_en from transactions should be listed here;
 
         placeholder: "select area",
@@ -111,8 +103,9 @@ export const Calculators: Calculator[] = [
       { key: "insights", label: "Insights", type: "insights" },
     ],
     calculate: (inputs) => {
-      // const { property_area, no_of_bedrooms, usage_type } = inputs;
+      const { usage_type, choose_location, property_type } = inputs;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
+
       //step 2: calculate the average value based on the above filter [per sqft value]
       //step 3: multiply the psqft value with property_area to get the estimated_sales_value
       //step 4: exception: when the query by sending developer and project returns more than 25 values, average of this value is also displayed in the UI, ill show you how in the design.
@@ -648,16 +641,28 @@ investment will yield a total of 24% return, which is well above the market aver
         key: "rent_vs_buy_chart",
         label: "Rent vs Buy Chart",
         type: "stacked_bar_chart",
+        chartConfig: {
+          principal: { color: "#F0FCF3" },
+          interest: { color: "#FFEDED" },
+        },
       },
       {
         key: "monthly_payment_comparison_chart",
         label: "Monthly Payment Comparison Chart",
+        chartConfig: {
+          Rent: { color: "#FFC8C8" },
+          Buy: { color: "#EFEEFC" },
+        },
         type: "bar_chart",
       },
       {
         key: "total_payment_comparison_chart",
         label: "Total Payment Comparison Chart",
         type: "bar_chart",
+        chartConfig: {
+          Rent: { color: "#FFC8C8" },
+          Buy: { color: "#EFEEFC" },
+        },
       },
       {
         key: "insight",
@@ -666,15 +671,36 @@ investment will yield a total of 24% return, which is well above the market aver
       },
     ],
     calculate: (inputs) => {
-      const { home_price, down_payment, monthly_rent } = inputs;
+      let {
+        home_price,
+        down_payment,
+        monthly_rent,
+        mortgage_rate,
+        rent_duration,
+      } = inputs;
 
-      const comparisonValue = monthly_rent * 12 - down_payment;
+      let totalRentPaid = 0;
+      let propertyValue = home_price;
+      let mortgagePayment = ((home_price - down_payment) * mortgage_rate) / 12;
+      let totalMortgagePaid = 0;
+
+      for (let year = 1; year <= rent_duration; year++) {
+        totalRentPaid += monthly_rent * 12;
+        totalMortgagePaid += mortgagePayment * 12;
+
+        // Adjust rent and property value for the next year
+        // monthly_rent *= 1 + annualRentIncrease / 100;
+        // propertyValue *= 1 + annualAppreciationRate / 100;
+      }
+
+      const totalCostOfBuying = down_payment + totalMortgagePaid;
+      const comparisonValue = totalCostOfBuying - totalRentPaid;
+
       const insights =
         comparisonValue > 0
-          ? "Buying is more beneficial than renting."
-          : "Renting is more beneficial than buying.";
+          ? "Renting is more beneficial than buying."
+          : "Buying is more beneficial than renting.";
 
-      //above comparison value might be wrong
       // const rentVsBuyComparison = (
       //   monthlyRent: number,
       //   propertyPrice: number,
@@ -720,13 +746,31 @@ investment will yield a total of 24% return, which is well above the market aver
       // console.log(insight);
 
       return {
-        rent_vs_buy_chart: {
-          comparison_value: comparisonValue,
-          rent_vs_buy_data: [
-            { year: 1, value: down_payment },
-            { year: 1, value: monthly_rent * 12 },
-          ],
-        },
+        rent_vs_buy_chart: [
+          { year: 2010, principal: 10000, interest: 19000 },
+          { year: 2011, principal: 12000, interest: 18000 },
+          { year: 2012, principal: 14000, interest: 17000 },
+          { year: 2013, principal: 16000, interest: 16000 },
+          { year: 2014, principal: 18000, interest: 15000 },
+          { year: 2015, principal: 20000, interest: 14000 },
+          { year: 2016, principal: 22000, interest: 13000 },
+          { year: 2017, principal: 24000, interest: 12000 },
+          { year: 2018, principal: 26000, interest: 11000 },
+          { year: 2019, principal: 28000, interest: 10000 },
+          { year: 2020, principal: 30000, interest: 8000 },
+          { year: 2021, principal: 32000, interest: 7000 },
+          { year: 2022, principal: 34000, interest: 6000 },
+          { year: 2023, principal: 36000, interest: 5000 },
+          { year: 2024, principal: 38000, interest: 4000 },
+        ],
+        monthly_payment_comparison_chart: [
+          { category: "Rent", value: 8500000 },
+          { category: "Buy", value: 4500000 },
+        ],
+        total_payment_comparison_chart: [
+          { category: "Rent", value: 9500000 },
+          { category: "Buy", value: 2455555 },
+        ],
         insights: insights,
       };
     },
@@ -852,24 +896,26 @@ investment will yield a total of 24% return, which is well above the market aver
         monthly_debts,
         monthly_expenses,
         down_payment,
-        mortgage_multiplier,
+        mortgage_duration,
+        available_monthly_savings,
       } = inputs;
 
       const monthlySavings =
         parseFloat(monthly_income) -
         (parseFloat(monthly_debts) + parseFloat(monthly_expenses));
       const affordable_price =
-        monthlySavings * mortgage_multiplier + down_payment;
+        monthlySavings * parseFloat(mortgage_duration) +
+        parseFloat(down_payment);
 
-      const loan_amount = affordable_price - down_payment;
+      const loan_amount = affordable_price - parseFloat(down_payment);
       const insights =
         "Affordable property price calculated based on your finances.";
 
       return {
         affordable_property_value: affordable_price,
-        down_payment: "",
+        down_payment: down_payment,
         total_loan_amount: loan_amount,
-        monthly_savings: monthlySavings,
+        current_savings: monthlySavings,
         current_expenses: monthly_debts + monthly_expenses,
         insights: insights,
       };

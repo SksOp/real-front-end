@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -19,9 +19,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { InputField } from "@/config/types";
 import CalculatorSwitchCard from "./calculator-switch-card";
 import { Card } from "./ui/card";
-import { CircularUpIcon } from "@/public/svg/Indicator";
 
 interface CalculatorInputsProps {
+  uniqueKey: string;
   title: string;
   type: string;
   is_mandatory: boolean;
@@ -38,7 +38,45 @@ interface CalculatorInputsProps {
   step?: number;
 }
 
+const fetchAndStoreOptions = async (
+  key: string,
+  apiUrl: string,
+  expirationTime: number = 24 * 60 * 60 * 1000
+) => {
+  const now = new Date().getTime();
+  const storedData = localStorage.getItem(key);
+  const storedTimestamp = localStorage.getItem(`${key}_timestamp`);
+
+  if (
+    storedData &&
+    storedTimestamp &&
+    now - parseInt(storedTimestamp) < expirationTime
+  ) {
+    return JSON.parse(storedData);
+  }
+
+  try {
+    const response = await fetch(apiUrl);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const data = await response.json();
+    const uniqueData = data.data.uniqueAreas;
+
+    if (Array.isArray(uniqueData)) {
+      localStorage.setItem(key, JSON.stringify(uniqueData));
+      localStorage.setItem(`${key}_timestamp`, now.toString());
+      return uniqueData;
+    } else {
+      throw new Error("Invalid data format");
+    }
+  } catch (error) {
+    console.error(`Error fetching data from ${apiUrl}:`, error);
+    return [];
+  }
+};
+
 function CalculatorInputs({
+  uniqueKey,
   title,
   type,
   is_mandatory,
@@ -54,6 +92,20 @@ function CalculatorInputs({
   max = 100,
   step = 1,
 }: CalculatorInputsProps) {
+  const [fetchedOptions, setFetchedOptions] = useState<
+    (string | number)[] | InputField[]
+  >(options || []);
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      if (source) {
+        const data = await fetchAndStoreOptions(uniqueKey, source);
+        if (Array.isArray(data) && data.length > 0) setFetchedOptions(data);
+      }
+    };
+    fetchOptions();
+  }, [source, uniqueKey]);
+
   const renderOptionalLabel = () =>
     !is_mandatory && (
       <span className="text-accent font-medium text-sm italic">
@@ -152,10 +204,10 @@ function CalculatorInputs({
                     No results found.
                   </CommandEmpty>
                   <CommandGroup>
-                    {options?.map((option, idx) => (
+                    {fetchedOptions?.map((option, idx) => (
                       <CommandItem
                         key={idx}
-                        value={String(option)}
+                        value={String(option)} // Ensure this is the correct value
                         onSelect={(value) => {
                           onChange(value);
                           setOpen(false);
@@ -268,6 +320,7 @@ function CalculatorInputs({
             (options as InputField[]).map((input: InputField) => (
               <CalculatorInputs
                 key={input?.key}
+                uniqueKey={input?.key}
                 title={input?.label}
                 type={input?.type}
                 is_mandatory={input?.is_mandatory}

@@ -6,13 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Area } from "@/constants/area";
 import { Button } from "@/components/ui/button";
 import CalculatorPropertySelector from "@/components/calculator-property-selector";
 import CalculatorInputs from "@/components/calculator-inputs";
-import { Separator } from "@/components/ui/separator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import SecondaryNavbar from "@/components/secondaryNavbar";
 import Filters from "@/components/filters";
 import { usePathname } from "next/navigation";
@@ -20,8 +16,6 @@ import CalculatorOutputs from "@/components/calculator-outputs";
 import CalculatorCompareCard from "@/components/calculator-compareCard";
 import { Calculator, InputField } from "@/config/types";
 import { Calculators } from "@/config/calculators";
-import PieChartComponent from "@/components/chart/pieChart/pieChart";
-import { ChartConfig } from "@/components/ui/chart";
 
 function CalculatorPage() {
   const [showOutput, setShowOutput] = useState<boolean>(false);
@@ -31,14 +25,11 @@ function CalculatorPage() {
     undefined
   );
   const [results, setResults] = useState<{ [key: string]: any }>({});
-
-  // Initialize input values state
   const [inputValues, setInputValues] = useState<{
     [key: string]: any;
   }>({});
-
-  // Initialize output state
   const [output, setOutput] = useState<string>("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
   useEffect(() => {
     if (!calculator) return;
@@ -73,6 +64,14 @@ function CalculatorPage() {
     // Only update the input values if any auto-computed value changed
     if (hasComputedChange) {
       setInputValues(newInputValues);
+    }
+
+    if (calculator) {
+      const allMandatoryFilled = calculator.inputs.every(
+        (input) =>
+          !input.is_mandatory || (input.is_mandatory && inputValues[input.key])
+      );
+      setIsButtonDisabled(!allMandatoryFilled);
     }
   }, [inputValues, calculator]);
 
@@ -132,11 +131,11 @@ function CalculatorPage() {
 
   const handleCalculate = () => {
     if (!calculator) return; // Ensure calculator is selected
-
+    console.log("inputttt", inputValues);
     // Use the calculator's calculate function to get output
     const result = calculator.calculate(inputValues);
     setResults(result);
-    console.log(results);
+    console.log("resultsss", results);
 
     setOutput(
       `Monthly EMI: AED ${result.emi}, Total Interest: AED ${result.total_interest}`
@@ -167,6 +166,7 @@ function CalculatorPage() {
                   {input.type === "read_only_auto_compute" ? (
                     <CalculatorInputs
                       key={input.key}
+                      uniqueKey={input.key}
                       type={input.type}
                       title={input.label}
                       value={inputValues[input.key]}
@@ -176,6 +176,7 @@ function CalculatorPage() {
                       max={input.max}
                       step={input.step}
                       options={input.options}
+                      source={input.source}
                       is_mandatory={input.is_mandatory}
                       placeholder={input.placeholder ?? "Enter value"}
                       default_value={input.default_value}
@@ -184,6 +185,7 @@ function CalculatorPage() {
                   ) : (
                     <CalculatorInputs
                       key={input.key}
+                      uniqueKey={input.key}
                       type={input.type}
                       title={input.label}
                       value={inputValues[input.key]}
@@ -193,6 +195,7 @@ function CalculatorPage() {
                       max={input.max}
                       step={input.step}
                       options={input.options}
+                      source={input.source}
                       is_mandatory={input.is_mandatory}
                       placeholder={input.placeholder ?? "Enter value"}
                       default_value={input.default_value}
@@ -207,6 +210,7 @@ function CalculatorPage() {
                   variant={"secondary"}
                   className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
                   onClick={handleCalculate}
+                  disabled={isButtonDisabled}
                 >
                   Calculate
                 </Button>

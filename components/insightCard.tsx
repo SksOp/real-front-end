@@ -14,7 +14,7 @@ function InsightCard({
   className?: ClassValue;
 }) {
   return (
-    <div className="bg-gradient-to-r from-[rgba(86,129,235,1)] to-[rgba(211,103,116,1)] p-[1px] rounded-xl">
+    <div className="bg-gradient-to-r w-full from-[rgba(86,129,235,1)] to-[rgba(211,103,116,1)] p-[1px] rounded-xl">
       <Card
         className={cn(
           "w-full p-4 bg-gradient-to-br rounded-xl",

@@ -7,6 +7,8 @@ import PieChartComponent from "./chart/pieChart/pieChart";
 import { ChartConfig } from "./ui/chart";
 import StackedBarchart from "./chart/stackedChart/stackedChart";
 import SimilarTransaction from "./similar-transaction";
+import InsightCard from "./insightCard";
+import Barchart from "./chart/barchart/barchart";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -49,6 +51,7 @@ function CalculatorOutputs({
         />
       );
     case "pie_chart":
+      console.log(value);
       return (
         <ChartWrapper title={title}>
           <PieChartComponent
@@ -74,6 +77,22 @@ function CalculatorOutputs({
 
     case "table":
       return <ChartWrapper title={title}></ChartWrapper>;
+
+    case "bar_chart":
+      return (
+        <ChartWrapper title={title}>
+          <Barchart
+            data={value}
+            chartConfig={chartConfig}
+            xAxisDataKey="category"
+            yAxisDataKeys={["value"]}
+            showInsideLabel={true}
+          />
+        </ChartWrapper>
+      );
+
+    case "insights":
+      return <InsightCard>{value}</InsightCard>;
   }
 }
 
