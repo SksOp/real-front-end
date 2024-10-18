@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
 
 interface HorizontalBarChartComponentProps {
-  chartConfig: any;
+  chartConfig: ChartConfig;
   data: any[];
   xAxisDataKey: string;
   yAxisDataKey: string;
@@ -41,11 +41,8 @@ const HorizontalBarChartComponent: React.FC<
   className,
 }) => {
   return (
-    <ChartContainer
-      config={chartConfig}
-      className={cn("min-h-full w-full", className)}
-    >
-      <ResponsiveContainer className="h-full">
+    <ChartContainer config={chartConfig} className={cn("w-full", className)}>
+      <ResponsiveContainer className="">
         <BarChart
           accessibilityLayer
           data={data}
@@ -54,7 +51,7 @@ const HorizontalBarChartComponent: React.FC<
             right: 30,
             left: 10,
           }}
-          barCategoryGap={30}
+          barCategoryGap={10}
         >
           <YAxis
             dataKey={xAxisDataKey}

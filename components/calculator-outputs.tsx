@@ -1,12 +1,20 @@
 import React from "react";
 import CalculatorResultCard from "./calculator-resultCard";
 import CalculatorCompareCard from "./calculator-compareCard";
+import { OutputField, SubChart } from "@/config/types";
+import ChartWrapper from "./chart/chartWrapper";
+import PieChartComponent from "./chart/pieChart/pieChart";
+import { ChartConfig } from "./ui/chart";
+import StackedBarchart from "./chart/stackedChart/stackedChart";
+import SimilarTransaction from "./similar-transaction";
 
 interface CalculatorOutputsProps {
   type: string;
   title: string;
-  secondaryTitle?: string;
-  value: number;
+  secondary_output?: OutputField;
+  value: any;
+  chartConfig?: ChartConfig;
+  subChart?: SubChart[];
   secondaryValue?: number;
   percentage?: number;
 }
@@ -14,13 +22,15 @@ interface CalculatorOutputsProps {
 function CalculatorOutputs({
   type,
   title,
-  secondaryTitle = "",
+  secondary_output,
   value,
   secondaryValue = 0,
+  chartConfig,
+  subChart,
   percentage,
 }: CalculatorOutputsProps) {
   switch (type) {
-    case "resultCard":
+    case "metric":
       return (
         <CalculatorResultCard
           title={title}
@@ -29,15 +39,41 @@ function CalculatorOutputs({
         />
       );
 
-    case "compareCard":
+    case "comparison":
       return (
         <CalculatorCompareCard
           title1={title}
-          title2={secondaryTitle}
+          title2={secondary_output?.label ?? ""}
           value1={value}
           value2={secondaryValue}
         />
       );
+    case "pie_chart":
+      return (
+        <ChartWrapper title={title}>
+          <PieChartComponent
+            data={value}
+            dataKey="value"
+            nameKey="name"
+            chartConfig={chartConfig}
+          />
+        </ChartWrapper>
+      );
+
+    case "stacked_bar_chart":
+      return (
+        <ChartWrapper title={title}>
+          <StackedBarchart
+            data={value}
+            chartConfig={chartConfig}
+            xAxisDataKey="year"
+            yAxisDataKeys={["principal", "interest"]}
+          />
+        </ChartWrapper>
+      );
+
+    case "table":
+      return <ChartWrapper title={title}></ChartWrapper>;
   }
 }
 

@@ -205,7 +205,19 @@ function SettingsPage() {
           <MatrixRow />
         </ChartWrapper>
 
-        <SimilarTransaction />
+        <SimilarTransaction
+          columns={["Date", "Sell Price", "Area (ft)"]}
+          data={[
+            { Date: "17/Jun/24", "Sell Price": "750,000", "Area (ft)": "494" },
+            { Date: "17/Jun/24", "Sell Price": "750,000", "Area (ft)": "494" },
+            { Date: "17/Jun/24", "Sell Price": "750,000", "Area (ft)": "494" },
+            { Date: "17/Jun/24", "Sell Price": "750,000", "Area (ft)": "494" },
+            { Date: "17/Jun/24", "Sell Price": "750,000", "Area (ft)": "494" },
+            { Date: "17/Jun/24", "Sell Price": "750,000", "Area (ft)": "494" },
+          ]}
+          headerText="Average sales price"
+          headerValue={"2345678"}
+        />
 
         <PriceChangesTable selectedRow={2} />
         <Feedback />

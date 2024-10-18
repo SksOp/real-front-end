@@ -16,6 +16,10 @@ import {
 } from "./ui/command";
 import { ChevronDown } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
+import { InputField } from "@/config/types";
+import CalculatorSwitchCard from "./calculator-switch-card";
+import { Card } from "./ui/card";
+import { CircularUpIcon } from "@/public/svg/Indicator";
 
 interface CalculatorInputsProps {
   title: string;
@@ -24,7 +28,7 @@ interface CalculatorInputsProps {
   placeholder?: string;
   default_value?: string | number;
   additionalTexts?: string;
-  options?: (string | number)[];
+  options?: (string | number)[] | InputField[];
   source?: string;
   searchable?: boolean;
   value: any;
@@ -157,7 +161,7 @@ function CalculatorInputs({
                           setOpen(false);
                         }}
                       >
-                        {option}
+                        {String(option)}
                       </CommandItem>
                     ))}
                   </CommandGroup>
@@ -169,6 +173,7 @@ function CalculatorInputs({
       );
 
     case "slider":
+      console.log(default_value);
       return (
         <div className="flex flex-col gap-8 w-full px-1">
           <Label className="text-sm font-semibold text-secondary">
@@ -192,6 +197,7 @@ function CalculatorInputs({
               min={min}
               max={max}
               step={step}
+              defaultValue={[Number(default_value)]}
               onValueChange={(val) => onChange(val[0])}
               className="mt-4"
             />
@@ -204,7 +210,7 @@ function CalculatorInputs({
         </div>
       );
 
-    case "textSlider":
+    case "slider_with_text":
       return (
         <div className="w-full flex flex-col gap-0.5 px-1">
           <Label className="text-sm font-semibold text-secondary">
@@ -227,6 +233,73 @@ function CalculatorInputs({
             className="mt-4"
           />
         </div>
+      );
+
+    case "currency_text":
+      return (
+        <div className="flex flex-col gap-0.5 w-full px-1">
+          <Label className="text-sm font-medium text-secondary mb-1 truncate">
+            {title}
+            {renderOptionalLabel()}
+          </Label>
+          <div className="flex items-center border border-input rounded-lg bg-card focus-within:ring-ring focus-within:ring-2 focus-within:outline-none">
+            <span className="px-2 text-sm text-accent">AED</span>
+            <Input
+              type="text"
+              className="focus-visible:ring-0 border-0 bg-card focus-visible:ring-offset-0 px-1"
+              placeholder={placeholder || ""}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+            />
+          </div>
+          {additionalTexts && (
+            <p className="text-accent italic font-normal text-xs mt-2">
+              {additionalTexts}
+            </p>
+          )}
+        </div>
+      );
+
+    case "switch":
+      return (
+        <CalculatorSwitchCard title={title}>
+          {Array.isArray(options) &&
+            options.every((opt) => typeof opt === "object") &&
+            (options as InputField[]).map((input: InputField) => (
+              <CalculatorInputs
+                key={input?.key}
+                title={input?.label}
+                type={input?.type}
+                is_mandatory={input?.is_mandatory}
+                default_value={input?.default_value}
+                additionalTexts={input?.helper_text}
+                placeholder={input?.placeholder ?? "enter value"}
+                value={value[input?.key]}
+                onChange={(newValue) =>
+                  onChange({
+                    ...value,
+                    [input?.key]: newValue,
+                  })
+                }
+                options={input?.options}
+                min={input?.min}
+                max={input?.max}
+                step={input?.step}
+              />
+            ))}
+        </CalculatorSwitchCard>
+      );
+
+    case "read_only_auto_compute":
+      return (
+        <Card className="border rounded-lg p-3 flex flex-col gap-1 w-full">
+          <h3 className="text-muted-foreground text-sm font-normal">{title}</h3>
+          <div className="flex gap-1">
+            <h3 className="text-secondary font-semibold text-xl">
+              {value === "NaN" ? "" : value ?? ""} AED
+            </h3>
+          </div>
+        </Card>
       );
 
     default:

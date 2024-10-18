@@ -23,15 +23,16 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
+  Cash: {
+    color: "#DDF8E4",
   },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
+  Mortgage: {
+    color: "#EFEEFC",
   },
-} satisfies ChartConfig;
+  Gifts: {
+    color: "#FFDBDB",
+  },
+} as ChartConfig;
 
 const chartConfig2 = {
   "Dubai Marina": { color: "#FFC8C8" },
@@ -283,7 +284,43 @@ function MyPage() {
             </div>
           </ChartWrapper>
           <ChartWrapper title="Similar Transactions" viewAll={true}>
-            <SimilarTransaction />
+            <SimilarTransaction
+              columns={["Date", "Sell Price", "Area (ft)"]}
+              data={[
+                {
+                  Date: "17/Jun/24",
+                  "Sell Price": "750,000",
+                  "Area (ft)": "494",
+                },
+                {
+                  Date: "17/Jun/24",
+                  "Sell Price": "750,000",
+                  "Area (ft)": "494",
+                },
+                {
+                  Date: "17/Jun/24",
+                  "Sell Price": "750,000",
+                  "Area (ft)": "494",
+                },
+                {
+                  Date: "17/Jun/24",
+                  "Sell Price": "750,000",
+                  "Area (ft)": "494",
+                },
+                {
+                  Date: "17/Jun/24",
+                  "Sell Price": "750,000",
+                  "Area (ft)": "494",
+                },
+                {
+                  Date: "17/Jun/24",
+                  "Sell Price": "750,000",
+                  "Area (ft)": "494",
+                },
+              ]}
+              headerText="Average sales price"
+              headerValue={"2345678"}
+            />
           </ChartWrapper>
           <ChartWrapper title="Price Comparison" viewAll={true}>
             <PriceChangesTable selectedRow={2} />

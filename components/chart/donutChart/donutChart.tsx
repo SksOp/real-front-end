@@ -1,5 +1,12 @@
 import React from "react";
-import { PieChart, Pie, Cell, Label, Tooltip } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Label,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -45,53 +52,55 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   return (
     <div>
       <ChartContainer config={chartConfig} className={className}>
-        <PieChart>
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Pie
-            data={updatedData}
-            dataKey={dataKey}
-            nameKey={nameKey}
-            innerRadius={innerRadius}
-            outerRadius={outerRadius}
-            stroke={"#121212"}
-            strokeWidth={strokeWidth}
-            cornerRadius={cornerRadius}
-            paddingAngle={padAngle}
-          >
-            <Label
-              content={({ viewBox }) => {
-                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                  return (
-                    <text
-                      x={viewBox.cx}
-                      y={viewBox.cy}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                    >
-                      <tspan
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Pie
+              data={updatedData}
+              dataKey={dataKey}
+              nameKey={nameKey}
+              innerRadius={innerRadius}
+              outerRadius={outerRadius}
+              stroke={"#121212"}
+              strokeWidth={strokeWidth}
+              cornerRadius={cornerRadius}
+              paddingAngle={padAngle}
+            >
+              <Label
+                content={({ viewBox }) => {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                    return (
+                      <text
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        className="fill-foreground text-3xl font-bold"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
                       >
-                        {totalProperties.toLocaleString()}
-                      </tspan>
-                      <tspan
-                        x={viewBox.cx}
-                        y={(viewBox.cy || 0) + 24}
-                        className="fill-muted-foreground"
-                      >
-                        {totalLabel}
-                      </tspan>
-                    </text>
-                  );
-                }
-              }}
-            />
-          </Pie>
-        </PieChart>
+                        <tspan
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          className="fill-foreground text-3xl font-bold"
+                        >
+                          {totalProperties.toLocaleString()}
+                        </tspan>
+                        <tspan
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 24}
+                          className="fill-muted-foreground"
+                        >
+                          {totalLabel}
+                        </tspan>
+                      </text>
+                    );
+                  }
+                }}
+              />
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
       </ChartContainer>
       <div className="w-full grid grid-cols-2 gap-x-4">
         {data.map((item) => (

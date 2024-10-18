@@ -29,7 +29,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   className = "mx-auto aspect-square max-h-[250px]",
   totalLabel = "Properties",
   cornerRadius = 5,
-  padAngle = 4,
+  padAngle = 0,
 }) => {
   // Calculate total properties count for the label in the middle of the Pie chart
   const totalProperties = data.reduce((acc, item) => acc + item[dataKey], 0);
@@ -57,7 +57,6 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
             strokeWidth={strokeWidth}
             cornerRadius={cornerRadius}
             paddingAngle={padAngle}
-            
           >
             <LabelList
               dataKey="percentage"
@@ -72,12 +71,12 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
         {data.map((item) => (
           <div
             key={item.name}
-            className="flex items-center  text-base w-full whitespace-nowrap gap-2"
+            className="flex items-center  text-base w-full  gap-2"
           >
             <span
               className={` min-w-3 w-3 h-3 rounded-sm border border-secondary ${item.colorClass}`}
             />
-            <span>{item.name}</span>
+            <span className="text-sm truncate">{item.name}</span>
             <span className="text-secondary text-sm font-semibold">
               {item.value}
             </span>

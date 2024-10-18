@@ -20,7 +20,6 @@ import React from "react";
 import DonutChartComponent from "@/components/chart/donutChart/donutChart";
 import { Pie } from "recharts";
 import PieChartComponent from "@/components/chart/pieChart/pieChart";
-import { Component } from "@/components/chart/stackedChart/stackedChart";
 
 const chartConfig = {
   desktop: {
@@ -82,9 +81,9 @@ function MyPage() {
             />
           ))}
         </div>
-        <ChartWrapper title="Transaction Type" description="">
-          <Component />
-        </ChartWrapper>
+        {/* <ChartWrapper title="Transaction Type" description="">
+          <St />
+        </ChartWrapper> */}
         <ChartWrapper title="Transaction Type" description="">
           <PieChartComponent
             chartConfig={chartConfig2}
@@ -176,7 +175,43 @@ function MyPage() {
           </div>
         </ChartWrapper>
         <ChartWrapper title="Similar Transactions" viewAll={true}>
-          <SimilarTransaction />
+          <SimilarTransaction
+            columns={["Date", "Sell Price", "Area (ft)"]}
+            data={[
+              {
+                Date: "17/Jun/24",
+                "Sell Price": "750,000",
+                "Area (ft)": "494",
+              },
+              {
+                Date: "17/Jun/24",
+                "Sell Price": "750,000",
+                "Area (ft)": "494",
+              },
+              {
+                Date: "17/Jun/24",
+                "Sell Price": "750,000",
+                "Area (ft)": "494",
+              },
+              {
+                Date: "17/Jun/24",
+                "Sell Price": "750,000",
+                "Area (ft)": "494",
+              },
+              {
+                Date: "17/Jun/24",
+                "Sell Price": "750,000",
+                "Area (ft)": "494",
+              },
+              {
+                Date: "17/Jun/24",
+                "Sell Price": "750,000",
+                "Area (ft)": "494",
+              },
+            ]}
+            headerText="Average sales price"
+            headerValue={"2345678"}
+          />
         </ChartWrapper>
         <ChartWrapper title="Price Comparison" viewAll={true}>
           <PriceChangesTable selectedRow={2} />

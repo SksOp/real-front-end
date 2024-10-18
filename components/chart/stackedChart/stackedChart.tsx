@@ -15,35 +15,83 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Tooltip } from "@/components/ui/tooltip";
 
-export const description = "A stacked bar chart with a legend";
+interface StackedBarChartComponentProps {
+  chartConfig: any; // Adjust this type according to the actual ChartConfig type
+  data: any[]; // You can make this more specific if you know the shape of your data
+  xAxisDataKey: string;
+  yAxisDataKeys: string[]; // Array of keys for multiple bars
+  barColors?: string[]; // Array of colors for each bar
+  barRadius?: number;
+  gridStroke?: string;
+  tickColor?: string;
+  tickFontSize?: string;
+  tickFormatter?: (value: any) => string;
+  tooltipContent?: React.ReactElement;
+  tickLine?: boolean;
+  tickMargin?: number;
+  axisLine?: boolean;
+  customBarProps?: Record<string, any>;
+  customXAxisProps?: Record<string, any>;
+  customGridProps?: Record<string, any>;
+  referance?: string;
+  referanceValue?: number;
+  showXAxis?: boolean;
+}
 
-const chartData = [
-  { date: "2024-07-15", running: 450, swimming: 300 },
-  { date: "2024-07-16", running: 380, swimming: 420 },
-  { date: "2024-07-17", running: 520, swimming: 120 },
-  { date: "2024-07-18", running: 140, swimming: 550 },
-  { date: "2024-07-19", running: 600, swimming: 350 },
-  { date: "2024-07-20", running: 480, swimming: 400 },
-];
+const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
+  data,
+  chartConfig,
+  xAxisDataKey,
+  yAxisDataKeys,
+  barColors = ["#F0FCF3", "#FFEDED"], // Default to one color if not provided
+  barRadius = 4,
+  gridStroke = "#F2F2F2",
+  tickColor = "black",
+  tickFontSize = "12px",
+  tickFormatter = (value) => value,
+  tooltipContent = <Tooltip />,
+  tickLine = false,
+  tickMargin = 10,
+  axisLine = false,
+  customBarProps = {},
+  customXAxisProps = {},
+  customGridProps = {},
+  referance,
+  referanceValue,
+  showXAxis = true,
+}) => {
+  const lineData = data.map((entry, index) => {
+    if (index === 0) {
+      // First data point (top-left): sum of the yAxis values for the stacked bars
+      return {
+        [xAxisDataKey]: entry[xAxisDataKey],
+        y: entry[yAxisDataKeys[0]] + entry[yAxisDataKeys[1]], // Sum of the stacked bar heights
+      };
+    } else if (index === data.length - 1) {
+      // Last data point (bottom-right): y = 0
+      return {
+        [xAxisDataKey]: entry[xAxisDataKey],
+        y: 0,
+      };
+    } else {
+      // In-between points: Create a smooth slope between the first and last
+      const firstY = data[0][yAxisDataKeys[0]] + data[0][yAxisDataKeys[1]];
+      return {
+        [xAxisDataKey]: entry[xAxisDataKey],
+        y: ((firstY * (data.length - 1 - index)) / (data.length - 1)).toFixed(
+          2
+        ),
+      };
+    }
+  });
 
-const chartConfig = {
-  running: {
-    label: "Running",
-    color: "hsl(var(--chart-1))",
-  },
-  swimming: {
-    label: "Swimming",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
-
-export function Component() {
   return (
     <ChartContainer config={chartConfig}>
-      <ComposedChart accessibilityLayer data={chartData}>
+      <ComposedChart accessibilityLayer data={data}>
         <XAxis
-          dataKey="date"
+          dataKey={xAxisDataKey}
           tickLine={false}
           tickMargin={10}
           axisLine={false}
@@ -54,19 +102,27 @@ export function Component() {
           }}
         />
         <Bar
-          dataKey="running"
+          dataKey={yAxisDataKeys[0]}
           stackId="a"
-          fill="var(--color-running)"
+          stroke={"#121212"}
+          fill={barColors[0]}
           radius={[0, 0, 5, 5]}
         />
         <Bar
-          dataKey="swimming"
+          dataKey={yAxisDataKeys[1]}
           stackId="a"
-          fill="var(--color-swimming)"
+          stroke={"#121212"}
+          fill={barColors[1]}
           style={{ transform: "translate(0,-6px)" }}
           radius={[5, 5, 0, 0]}
         />
-        <Line type="monotone" dataKey={"running"} stroke="#ff7300" />
+        <Line
+          type="monotone"
+          data={lineData}
+          dataKey="y"
+          stroke="#ff7300"
+          dot={false}
+        />
         <ChartTooltip
           content={
             <ChartTooltipContent
@@ -90,4 +146,6 @@ export function Component() {
       </ComposedChart>
     </ChartContainer>
   );
-}
+};
+
+export default StackedBarchart;

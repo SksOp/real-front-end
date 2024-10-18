@@ -18,8 +18,10 @@ import Filters from "@/components/filters";
 import { usePathname } from "next/navigation";
 import CalculatorOutputs from "@/components/calculator-outputs";
 import CalculatorCompareCard from "@/components/calculator-compareCard";
-import { Calculator } from "@/config/types";
+import { Calculator, InputField } from "@/config/types";
 import { Calculators } from "@/config/calculators";
+import PieChartComponent from "@/components/chart/pieChart/pieChart";
+import { ChartConfig } from "@/components/ui/chart";
 
 function CalculatorPage() {
   const [showOutput, setShowOutput] = useState<boolean>(false);
@@ -28,6 +30,7 @@ function CalculatorPage() {
   const [calculator, setCalculator] = useState<Calculator | undefined>(
     undefined
   );
+  const [results, setResults] = useState<{ [key: string]: any }>({});
 
   // Initialize input values state
   const [inputValues, setInputValues] = useState<{
@@ -38,18 +41,78 @@ function CalculatorPage() {
   const [output, setOutput] = useState<string>("");
 
   useEffect(() => {
+    if (!calculator) return;
+
+    const newInputValues = { ...inputValues };
+    let hasComputedChange = false; // Flag to track if any auto-computed value changes
+
+    calculator.inputs.forEach((input) => {
+      if (input.type === "read_only_auto_compute" && input.calculateFrom) {
+        const calculateFromValues = input.calculateFrom.map(
+          (key) => inputValues[key]
+        );
+
+        // Check if all dependencies (calculateFrom) are defined
+        if (calculateFromValues.every((value) => value !== undefined)) {
+          if (input.calculateValue) {
+            // Perform the computation using the provided calculateValue function
+            const computedValue = input.calculateValue(calculateFromValues);
+
+            const roundedValue = parseFloat(computedValue).toFixed(2);
+
+            // Only update if the computed value is different from the current value
+            if (newInputValues[input.key] !== roundedValue) {
+              newInputValues[input.key] = roundedValue;
+              hasComputedChange = true; // Flag that there's a change
+            }
+          }
+        }
+      }
+    });
+
+    // Only update the input values if any auto-computed value changed
+    if (hasComputedChange) {
+      setInputValues(newInputValues);
+    }
+  }, [inputValues, calculator]);
+
+  useEffect(() => {
     const pathSegments = pathname.split("/");
     const key = pathSegments[pathSegments.length - 1];
 
     if (key) {
       const selectedCalculator = Calculators.find((calc) => calc.key === key);
-
+      console.log(selectedCalculator);
       // Initialize input values based on the selected calculator's configuration
       if (selectedCalculator) {
         const initialInputValues: { [key: string]: any } = {};
+
         selectedCalculator.inputs.forEach((input) => {
-          initialInputValues[input.key] = input.default_value || "";
+          if (input.type === "switch") {
+            // Initialize an object for the switch type inputs
+            const switchValues: { [key: string]: any } = {};
+
+            // Ensure options exist and are of type InputField[]
+            if (
+              Array.isArray(input.options) &&
+              typeof input.options[0] === "object"
+            ) {
+              (input.options as InputField[]).forEach(
+                (nestedInput: InputField) => {
+                  switchValues[nestedInput.key] =
+                    nestedInput.default_value || "";
+                }
+              );
+            }
+
+            // Store the nested switch values
+            initialInputValues[input.key] = switchValues;
+          } else {
+            // For other types, store the default value directly
+            initialInputValues[input.key] = input.default_value || "";
+          }
         });
+
         setCalculator(selectedCalculator);
         setInputValues(initialInputValues);
       }
@@ -68,25 +131,15 @@ function CalculatorPage() {
   console.log(inputValues);
 
   const handleCalculate = () => {
-    // Implement your calculation logic here using inputValues
-    // For demonstration, let's concatenate some values
-    const {
-      "Transaction Type": transactionType,
-      "Select Area": selectArea,
-      "Purchase Price": purchasePrice,
-      "Annual Rental Income": annualRentalIncome,
-      "Annual Appreciation Rate": annualAppreciationRate,
-      "Holding Period": holdingPeriod,
-      // ... other fields
-    } = inputValues;
+    if (!calculator) return; // Ensure calculator is selected
 
-    // Example calculation (replace with actual logic)
-    const estimatedValue =
-      parseFloat(purchasePrice) *
-      (1 + parseFloat(annualAppreciationRate) / 100);
+    // Use the calculator's calculate function to get output
+    const result = calculator.calculate(inputValues);
+    setResults(result);
+    console.log(results);
 
     setOutput(
-      `Estimated Value after holding period: AED ${estimatedValue.toFixed(2)}`
+      `Monthly EMI: AED ${result.emi}, Total Interest: AED ${result.total_interest}`
     );
     setShowOutput(true);
     setActiveAccordion("output");
@@ -110,34 +163,44 @@ function CalculatorPage() {
               <CalculatorPropertySelector />
 
               {calculator?.inputs.map((input) => (
-                <CalculatorInputs
-                  key={input.key}
-                  type={input.type}
-                  title={input.label}
-                  value={inputValues[input.key]}
-                  onChange={(value) => handleInputChange(input.key, value)}
-                  min={input.min}
-                  max={input.max}
-                  step={input.step}
-                  options={input.options}
-                  is_mandatory={input.is_mandatory}
-                  placeholder={input.placeholder ?? "Enter value"}
-                  default_value={input.default_value}
-                />
+                <>
+                  {input.type === "read_only_auto_compute" ? (
+                    <CalculatorInputs
+                      key={input.key}
+                      type={input.type}
+                      title={input.label}
+                      value={inputValues[input.key]}
+                      searchable={input.searchable}
+                      onChange={(value) => handleInputChange(input.key, value)}
+                      min={input.min}
+                      max={input.max}
+                      step={input.step}
+                      options={input.options}
+                      is_mandatory={input.is_mandatory}
+                      placeholder={input.placeholder ?? "Enter value"}
+                      default_value={input.default_value}
+                      additionalTexts={input.helper_text}
+                    />
+                  ) : (
+                    <CalculatorInputs
+                      key={input.key}
+                      type={input.type}
+                      title={input.label}
+                      value={inputValues[input.key]}
+                      searchable={input.searchable}
+                      onChange={(value) => handleInputChange(input.key, value)}
+                      min={input.min}
+                      max={input.max}
+                      step={input.step}
+                      options={input.options}
+                      is_mandatory={input.is_mandatory}
+                      placeholder={input.placeholder ?? "Enter value"}
+                      default_value={input.default_value}
+                      additionalTexts={input.helper_text}
+                    />
+                  )}
+                </>
               ))}
-
-              {/* {Calculators[0].inputs.map((input) => (
-                <CalculatorInputs
-                  key={input.key}
-                  type={input.type}
-                  title={input.title}
-                  value={inputValues[input.key]}
-                  onChange={(value) => handleInputChange(input.key, value)}
-                  min={input.min}
-                  max={input.max}
-                  step={input.step}
-                />
-              ))} */}
 
               <div className="w-full mt-4">
                 <Button
@@ -156,19 +219,20 @@ function CalculatorPage() {
                 Output
               </AccordionTrigger>
               <AccordionContent className="flex flex-col items-start justify-center gap-4 w-full">
-                <p>{output}</p>
-                <CalculatorOutputs
-                  type="resultCard"
-                  title="Estimated Value"
-                  value={1562654}
-                  percentage={10}
-                />
-                <CalculatorCompareCard
-                  title1="Estimated Value"
-                  title2="Market Value"
-                  value1={15654}
-                  value2={15554}
-                />
+                {calculator?.outputs.map((output) => (
+                  <CalculatorOutputs
+                    key={output.key}
+                    type={output.type}
+                    title={output.label}
+                    value={results[output.key]}
+                    secondary_output={output.secondary_output}
+                    chartConfig={output?.chartConfig}
+                    secondaryValue={
+                      results[output?.secondary_output?.key ?? ""] ?? 0
+                    }
+                    subChart={output?.subChart}
+                  />
+                ))}
               </AccordionContent>
             </AccordionItem>
           )}
