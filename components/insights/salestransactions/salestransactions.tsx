@@ -86,7 +86,7 @@ export function GrowthChart({ data }: { data: SalesTransactionsType }) {
       // footerDescription={footerDescription}
       data={chartData}
       xAxisDataKey="duration"
-      yAxisDataKey="property_count"
+      areas={[{ yAxisDataKey: "property_count" }]}
       gridStroke="#FFFFFF"
       tickColor="black"
       tickFontSize="8px"

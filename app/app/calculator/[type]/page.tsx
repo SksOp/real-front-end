@@ -129,11 +129,11 @@ function CalculatorPage() {
 
   console.log(inputValues);
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     if (!calculator) return; // Ensure calculator is selected
     console.log("inputttt", inputValues);
     // Use the calculator's calculate function to get output
-    const result = calculator.calculate(inputValues);
+    const result = await calculator.calculate(inputValues);
     setResults(result);
     console.log("resultsss", results);
 

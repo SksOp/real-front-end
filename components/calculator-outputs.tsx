@@ -9,6 +9,8 @@ import StackedBarchart from "./chart/stackedChart/stackedChart";
 import SimilarTransaction from "./similar-transaction";
 import InsightCard from "./insightCard";
 import Barchart from "./chart/barchart/barchart";
+import EstimationCard from "./estimationCard";
+import AreaChartComponent from "./chart/areachart/area";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -50,6 +52,11 @@ function CalculatorOutputs({
           value2={secondaryValue}
         />
       );
+
+    case "estimationCard":
+      return (
+        <EstimationCard title={title} value={value} confidenceLevel={80} />
+      );
     case "pie_chart":
       console.log(value);
       return (
@@ -87,6 +94,25 @@ function CalculatorOutputs({
             xAxisDataKey="category"
             yAxisDataKeys={["value"]}
             showInsideLabel={true}
+          />
+        </ChartWrapper>
+      );
+
+    case "line_chart":
+      return (
+        <ChartWrapper title={title}>
+          <AreaChartComponent
+            data={value}
+            chartConfig={chartConfig}
+            xAxisDataKey="year"
+            areas={[
+              { yAxisDataKey: "rental_income", areaColor: "#8177E5" },
+              {
+                yAxisDataKey: "capital_appreciation",
+                areaColor: "#121212",
+              },
+            ]}
+            tickFormatter={(value) => value.toString()}
           />
         </ChartWrapper>
       );

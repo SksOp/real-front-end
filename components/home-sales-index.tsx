@@ -86,7 +86,7 @@ function HomeSalesIndex() {
                   chartConfig={chartConfig}
                   data={sampleData}
                   xAxisDataKey={"month"}
-                  yAxisDataKey={"value"}
+                  areas={[{ yAxisDataKey: "value" }]}
                   tickFormatter={(value) => value.toString()}
                 />
               </TabsContent>
@@ -129,7 +129,7 @@ function HomeSalesIndex() {
                   chartConfig={chartConfig}
                   data={sampleData}
                   xAxisDataKey={"month"}
-                  yAxisDataKey={"value"}
+                  areas={[{ yAxisDataKey: "value" }]}
                   tickFormatter={(value) => value.toString()}
                 />
               </TabsContent>

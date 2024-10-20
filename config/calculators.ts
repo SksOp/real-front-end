@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Calculator } from "./types";
 
 export const Calculators: Calculator[] = [
@@ -72,7 +73,7 @@ export const Calculators: Calculator[] = [
         key: "property_type",
         label: "Property Type",
         type: "dropdown",
-        options: ["Villa", "Apartment", "Penthouse", "Land"],
+        options: ["Villa", "Unit", "Building", "Land"],
         //options will change based on the usage type if its residential/commercial; also this list might be incomplete!
         placeholder: "select type",
         is_mandatory: true,
@@ -98,26 +99,63 @@ export const Calculators: Calculator[] = [
       {
         key: "estimated_sales_value",
         label: "Estimated Sales Value",
-        type: "metric",
+        type: "estimationCard",
       },
       { key: "insights", label: "Insights", type: "insights" },
     ],
-    calculate: (inputs) => {
-      const { usage_type, choose_location, property_type } = inputs;
+    calculate: async (inputs) => {
+      const { usage_type, choose_location, property_type, property_area } =
+        inputs;
+      const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
+      try {
+        const response = await axios.get(
+          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transTrends`,
+          {
+            params: {
+              year: current_year,
+              location: choose_location,
+              property_type: property_type,
+              usage_type: usage_type,
+            },
+          }
+        );
 
-      //step 2: calculate the average value based on the above filter [per sqft value]
-      //step 3: multiply the psqft value with property_area to get the estimated_sales_value
+        //step 2: calculate the average value based on the above filter [per sqft value]
+        const transactions = response.data.data.data;
+        if (transactions.length === 0) {
+          throw new Error("No transactions found for the specified filters.");
+        }
+
+        const totalValue = transactions.reduce(
+          (sum: number, transaction: any) => {
+            const sqftValue = transaction.Total_area_in_meter * 10.764;
+            const pricePerft =
+              transaction.Total_Value_of_Transaction / sqftValue;
+            return sum + pricePerft;
+          },
+          0
+        );
+        const averageValuePerSqft = totalValue / transactions.length;
+
+        //step 3: multiply the psqft value with property_area to get the estimated_sales_value
+        const estimated_sales_value = averageValuePerSqft * property_area;
+        return {
+          estimated_sales_value: estimated_sales_value.toFixed(2),
+          insights: `Over the period of 5 years, your property
+investment will yield a total of 24% return, which is well above the market average.`,
+        };
+      } catch (error) {
+        console.error(`Error fetching data :`, error);
+        return {
+          estimated_sales_value: 0,
+          insights: `Cannot calculate the estimated sales value.`,
+        };
+      }
       //step 4: exception: when the query by sending developer and project returns more than 25 values, average of this value is also displayed in the UI, ill show you how in the design.
       //step 5: exception: if the outcome of step 4 is less than 25 rows, then we query again only with developers or only with projects to get the average, and this shall be displayed in the UI as per design.
       // const average_sales_value =
       //   SUM(similar_transaction_values) / COUNT(similar_transactions);
-
-      return {
-        estimated_sales_value: 2650000,
-        insights: `Over the period of 5 years, your property
-investment will yield a total of 24% return, which is well above the market average.`,
-      };
     },
   },
   {
@@ -174,7 +212,7 @@ investment will yield a total of 24% return, which is well above the market aver
         key: "property_type",
         label: "Property Type",
         type: "dropdown",
-        options: ["Villa", "Apartment", "Penthouse", "Land"],
+        options: ["Villa", "Unit", "Building", "Land"],
         is_mandatory: true,
       },
       {
@@ -199,7 +237,7 @@ investment will yield a total of 24% return, which is well above the market aver
       {
         key: "estimated_rental_value",
         label: "Estimated Rental Value",
-        type: "metric",
+        type: "estimationCard",
       },
       { key: "insights", label: "Insights", type: "insights" },
     ],
@@ -392,7 +430,7 @@ investment will yield a total of 24% return, which is well above the market aver
         key: "property_selection",
         label: "Property Selector",
         type: "property_selector",
-        is_mandatory: true,
+        is_mandatory: false,
       },
       {
         key: "transaction_type",
@@ -514,19 +552,33 @@ investment will yield a total of 24% return, which is well above the market aver
         type: "metric",
       },
       {
+        key: "annualized_capital_appreciation",
+        label: "Annualized Capital Apprecition",
+        type: "comparison",
+        secondary_output: {
+          key: "annual_rental_income",
+          label: "Annual rental income",
+          type: "comparison",
+        },
+      },
+      {
+        key: "roi_growth_over_time",
+        label: "ROI growth overtime",
+        type: "line_chart",
+        chartConfig: {
+          rental_income: { color: "#8177E5" },
+          capital_appreciation: { color: "#121212" },
+        },
+      },
+      {
         key: "total_rental_income",
         label: "Total Rental Income",
-        type: "metric",
-      },
-      {
-        key: "total_appreciation",
-        label: "Total Appreciation",
-        type: "metric",
-      },
-      {
-        key: "total_investment",
-        label: "Total Investment",
-        type: "metric",
+        type: "comparison",
+        secondary_output: {
+          key: "total_appreciation",
+          label: "Total Capital Appreciation",
+          type: "comparison",
+        },
       },
       {
         key: "insight",
@@ -536,56 +588,65 @@ investment will yield a total of 24% return, which is well above the market aver
     ],
     calculate: (inputs) => {
       const {
-        total_rental_income,
-        total_capital_appreciation,
-        total_expenses,
-        initial_purchase_price,
-        final_property_value,
+        purchase_price,
+        annual_appreciation_rate,
         holding_period,
-        rental_income_per_year,
-        change_rate,
+        annual_rental_income,
       } = inputs;
-
-      const totalROI =
-        total_rental_income + total_capital_appreciation - total_expenses;
-      const annualizedCapitalAppreciation =
-        (final_property_value - initial_purchase_price) / holding_period;
       // i think code should be something like below: Property Value at Year N=Initial Property Price×(1+Annual Appreciation Rate) power N
+      console.log(
+        "jsIfhdjsn: ",
+        purchase_price,
+        annual_appreciation_rate,
+        holding_period,
+        annual_rental_income
+      );
+      const totalROI =
+        parseFloat(purchase_price) *
+        Math.pow(
+          1 + parseFloat(annual_appreciation_rate),
+          parseInt(holding_period)
+        );
 
-      // const calculateAnnualPropertyValues = (
-      //   initialPrice: number,
-      //   appreciationRate: number,
-      //   holdingPeriod: number
-      // ): number[] => {
-      //   const propertyValues: number[] = [];
-      //   let currentValue = initialPrice;
-
-      //   for (let year = 1; year <= holdingPeriod; year++) {
-      //     currentValue *= (1 + appreciationRate / 100); // Compound yearly
-      //     propertyValues.push(parseFloat(currentValue.toFixed(2))); // Store with 2 decimal precision
-      //   }
-
-      //   return propertyValues;
-      // };
-
-      const annualRentalIncome =
-        rental_income_per_year +
-        (change_rate ? change_rate * rental_income_per_year : 0);
-      //above is value is wrong in the sense that rental income per year first year is already provided
-      //from second year onwards we need to compute based on the user input on rental rate change
-      const totalRentalIncome = total_rental_income; // Assuming this is a sum already provided
-      //above is wrong! total rental income equals to annual rental income multiplied by holding period
-      const totalCapitalAppreciation =
-        final_property_value - initial_purchase_price;
-
+      const annualizedCapitalAppreciation = totalROI / parseInt(holding_period);
+      const totalCapitalAppreciation = totalROI - parseFloat(purchase_price);
+      const annualizedRentalIncome = parseFloat(annual_rental_income);
+      const totalRentalIncome =
+        parseFloat(annual_rental_income) * parseInt(holding_period);
+      console.log(
+        totalROI,
+        annualizedCapitalAppreciation,
+        totalCapitalAppreciation,
+        annualizedRentalIncome,
+        totalRentalIncome
+      );
       const insights =
         "Calculated based on rental income, capital appreciation, and expenses.";
 
       return {
-        total_roi: totalROI,
-        annualized_capital_appreciation: annualizedCapitalAppreciation,
-        total_rental_income: totalRentalIncome,
-        total_capital_appreciation: totalCapitalAppreciation,
+        annualized_roi: totalROI.toFixed(2),
+        annualized_capital_appreciation:
+          annualizedCapitalAppreciation.toFixed(2),
+        annual_rental_income: annualizedRentalIncome.toFixed(2),
+        total_rental_income: totalRentalIncome.toFixed(2),
+        total_appreciation: totalCapitalAppreciation.toFixed(2),
+        roi_growth_over_time: [
+          { year: 2010, rental_income: 10000, capital_appreciation: 19000 },
+          { year: 2011, rental_income: 12000, capital_appreciation: 19500 },
+          { year: 2012, rental_income: 14000, capital_appreciation: 20000 },
+          { year: 2013, rental_income: 16000, capital_appreciation: 20500 },
+          { year: 2014, rental_income: 18000, capital_appreciation: 21000 },
+          { year: 2015, rental_income: 20000, capital_appreciation: 21500 },
+          { year: 2016, rental_income: 22000, capital_appreciation: 22000 },
+          { year: 2017, rental_income: 24000, capital_appreciation: 22500 },
+          { year: 2018, rental_income: 26000, capital_appreciation: 23000 },
+          { year: 2019, rental_income: 28000, capital_appreciation: 23500 },
+          { year: 2020, rental_income: 30000, capital_appreciation: 24000 },
+          { year: 2021, rental_income: 32000, capital_appreciation: 24500 },
+          { year: 2022, rental_income: 34000, capital_appreciation: 25000 },
+          { year: 2023, rental_income: 36000, capital_appreciation: 25500 },
+          { year: 2024, rental_income: 38000, capital_appreciation: 26000 },
+        ],
         insights: insights,
       };
     },
@@ -684,6 +745,7 @@ investment will yield a total of 24% return, which is well above the market aver
       let mortgagePayment = ((home_price - down_payment) * mortgage_rate) / 12;
       let totalMortgagePaid = 0;
 
+      // Simulate rent and property value for each year
       for (let year = 1; year <= rent_duration; year++) {
         totalRentPaid += monthly_rent * 12;
         totalMortgagePaid += mortgagePayment * 12;

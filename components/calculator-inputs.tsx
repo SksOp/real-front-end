@@ -19,6 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { InputField } from "@/config/types";
 import CalculatorSwitchCard from "./calculator-switch-card";
 import { Card } from "./ui/card";
+import axios from "axios";
 
 interface CalculatorInputsProps {
   uniqueKey: string;
@@ -56,10 +57,8 @@ const fetchAndStoreOptions = async (
   }
 
   try {
-    const response = await fetch(apiUrl);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-    const data = await response.json();
+    const response = await axios.get(apiUrl);
+    const data = response.data;
     const uniqueData = data.data.uniqueAreas;
 
     if (Array.isArray(uniqueData)) {

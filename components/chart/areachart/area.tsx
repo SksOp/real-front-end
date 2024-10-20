@@ -9,26 +9,23 @@ import {
   YAxis,
 } from "recharts";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
+interface AreaConfig {
+  yAxisDataKey: string;
+  areaColor?: string;
+  areaOpacity?: number;
+  customAreaProps?: Record<string, any>;
+}
+
 interface AreaChartComponentProps {
   chartConfig: any;
   data: any[];
   xAxisDataKey: string;
-  yAxisDataKey: string;
-  areaColor?: string;
-  areaOpacity?: number;
+  areas: AreaConfig[]; // Now we can pass multiple area configurations
   gridStroke?: string;
   tickColor?: string;
   tickFontSize?: string;
@@ -37,7 +34,6 @@ interface AreaChartComponentProps {
   tickLine?: boolean;
   tickMargin?: number;
   axisLine?: boolean;
-  customAreaProps?: Record<string, any>;
   customXAxisProps?: Record<string, any>;
   customGridProps?: Record<string, any>;
 }
@@ -46,9 +42,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   data,
   chartConfig,
   xAxisDataKey,
-  yAxisDataKey,
-  areaColor = "#B6B1F0",
-  areaOpacity = 0.4,
+  areas, // Array of area configurations
   gridStroke = "#F2F2F2",
   tickColor = "black",
   tickFontSize = "12px",
@@ -57,21 +51,17 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   tickLine = false,
   tickMargin = 10,
   axisLine = false,
-  customAreaProps = {},
   customXAxisProps = {},
   customGridProps = {},
 }) => {
-  // Adjust the width calculation to account for a constant area component
-  const chartWidth = Math.max(data.length * 30, 500); // 80 pixels per data point, minimum 500px width
+  const chartWidth = Math.max(data.length * 30, 500);
   const chartHeight = 350;
 
-  const aspect = chartWidth / chartHeight;
-
-  // Custom tick formatting with customizable styles
   const customTickFormatter = (value: any): string => {
     const result = tickFormatter(value);
     return result ? result.toString() : value.toString();
   };
+
   return (
     <ChartContainer config={chartConfig}>
       <ResponsiveContainer>
@@ -84,16 +74,28 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             stroke={gridStroke}
             {...customGridProps}
           />
-          {/* Define a gradient in the defs section */}
           <defs>
-            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="5%"
-                stopColor={areaColor}
-                stopOpacity={areaOpacity}
-              />
-              <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
-            </linearGradient>
+            {areas.map((area, index) => (
+              <linearGradient
+                key={`areaGradient-${index}`}
+                id={`areaGradient-${index}`}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="5%"
+                  stopColor={area.areaColor || "#B6B1F0"}
+                  stopOpacity={area.areaOpacity || 0.4}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={area.areaColor || "#B6B1F0"}
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            ))}
           </defs>
 
           <XAxis
@@ -107,7 +109,6 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             {...customXAxisProps}
           />
           <YAxis
-            dataKey={yAxisDataKey}
             tickLine={tickLine}
             tickMargin={tickMargin}
             stroke={"#C2C2C2"}
@@ -115,21 +116,23 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
           />
           <ChartTooltip content={<ChartTooltipContent />} />
 
-          {/* Use the gradient as the fill for the Area */}
-          <Area
-            type={"monotone"}
-            dataKey={yAxisDataKey}
-            fillOpacity={1}
-            fill="url(#areaGradient)"
-            stroke={areaColor}
-            strokeWidth={2}
-            dot={true}
-            activeDot={{
-              fill: areaColor || "var(--color-default)",
-              r: 4,
-            }}
-            {...customAreaProps}
-          />
+          {areas.map((area, index) => (
+            <Area
+              key={`area-${index}`}
+              type={"monotone"}
+              dataKey={area.yAxisDataKey}
+              fillOpacity={1}
+              fill={`url(#areaGradient-${index})`}
+              stroke={area.areaColor || "#B6B1F0"}
+              strokeWidth={2}
+              dot={true}
+              activeDot={{
+                fill: area.areaColor || "var(--color-default)",
+                r: 4,
+              }}
+              {...area.customAreaProps}
+            />
+          ))}
         </AreaChart>
       </ResponsiveContainer>
     </ChartContainer>

@@ -52,9 +52,10 @@ export interface OutputField {
     | "metric"
     | "comparison"
     | "insights"
+    | "estimationCard"
     | "pie_chart"
     | "stacked_bar_chart"
-    | "multi_line_smooth_bar_chart"
+    | "line_chart"
     | "table"
     | "bar_chart";
   chartConfig?: ChartConfig;

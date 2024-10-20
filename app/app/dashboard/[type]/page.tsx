@@ -251,7 +251,7 @@ function MyPage() {
                   { month: "Dec", value1: 30 },
                 ]}
                 xAxisDataKey="month"
-                yAxisDataKey="value1"
+                areas={[{ yAxisDataKey: "value1" }]}
               />
               <InsightCard className="bg-purple-50">
                 This type of properties has high demand in this area and demand

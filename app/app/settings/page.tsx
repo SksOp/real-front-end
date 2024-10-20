@@ -107,7 +107,7 @@ function SettingsPage() {
             chartConfig={chartConfig}
             data={sampleData}
             xAxisDataKey={"month"}
-            yAxisDataKey={"value"}
+            areas={[{ yAxisDataKey: "value" }]}
           />
         </ChartWrapper>
 

@@ -114,9 +114,9 @@ export function LocationTransaction() {
       data={chartData}
       gridStroke="#ccc"
       xAxisDataKey="location"
-      yAxisDataKey="transactions"
-      areaColor="#A9A1F4"
-      areaOpacity={0.4}
+      areas={[
+        { yAxisDataKey: "transactions", areaColor: "#", areaOpacity: 0.4 },
+      ]}
       tickFormatter={(value: any) => value.slice(0, 3)}
     />
   );
