@@ -69,7 +69,7 @@ function MyPage() {
 
   return (
     <>
-      <Filters />
+      {/* <Filters /> */}
       <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 mt-16 flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3 w-full">
           {matrixData.map((item, index) => (

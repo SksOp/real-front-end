@@ -59,7 +59,7 @@ const fetchAndStoreOptions = async (
   try {
     const response = await axios.get(apiUrl);
     const data = response.data;
-    const uniqueData = data.data.uniqueAreas;
+    const uniqueData = data.data;
 
     if (Array.isArray(uniqueData)) {
       localStorage.setItem(key, JSON.stringify(uniqueData));

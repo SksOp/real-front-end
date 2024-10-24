@@ -32,15 +32,19 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   padAngle = 0,
 }) => {
   // Calculate total properties count for the label in the middle of the Pie chart
-  const totalProperties = data.reduce((acc, item) => acc + item[dataKey], 0);
+  const totalProperties = data.reduce(
+    (acc, item) => acc + parseFloat(item[dataKey]),
+    0
+  );
 
   // Map the data to include the fill color from the chartConfig
   const updatedData = data.map((d) => ({
     ...d,
     fill: chartConfig[d[nameKey]]?.color || "#ccc", // Fallback color
-    percentage: `${((d[dataKey] / totalProperties) * 100).toFixed(2)} %`,
+    percentage: `${((parseFloat(d[dataKey]) / totalProperties) * 100).toFixed(
+      2
+    )} %`,
   }));
-  console.log(updatedData);
   return (
     <div>
       <ChartContainer config={chartConfig} className={className}>

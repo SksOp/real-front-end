@@ -4,7 +4,6 @@ import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
-  CartesianGrid,
   LabelList,
   ResponsiveContainer,
   XAxis,
@@ -28,6 +27,7 @@ interface HorizontalBarChartComponentProps {
   yAxisDataKey: string;
   position?: LabelPosition;
   className?: ClassValue;
+  minBarLength?: number; // New prop to set minimum bar length
 }
 
 const HorizontalBarChartComponent: React.FC<
@@ -39,10 +39,13 @@ const HorizontalBarChartComponent: React.FC<
   yAxisDataKey,
   position,
   className,
+  minBarLength = 50, // Default minimum bar length
 }) => {
+  const maxDataValue = Math.max(...data.map((item) => item[yAxisDataKey]));
+  const minDataValue = Math.min(...data.map((item) => item[yAxisDataKey]));
   return (
     <ChartContainer config={chartConfig} className={cn("w-full", className)}>
-      <ResponsiveContainer className="">
+      <ResponsiveContainer>
         <BarChart
           accessibilityLayer
           data={data}
@@ -74,6 +77,7 @@ const HorizontalBarChartComponent: React.FC<
             radius={4}
             barSize={30}
             spacing={40}
+            minPointSize={minBarLength} // Set minimum point size
           >
             <LabelList
               dataKey={xAxisDataKey}

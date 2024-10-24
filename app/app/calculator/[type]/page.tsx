@@ -231,6 +231,7 @@ function CalculatorPage() {
                     value={results[output.key]}
                     secondary_output={output.secondary_output}
                     chartConfig={output?.chartConfig}
+                    output={results}
                     secondaryValue={
                       results[output?.secondary_output?.key ?? ""] ?? 0
                     }

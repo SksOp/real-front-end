@@ -64,7 +64,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
 
   return (
     <ChartContainer config={chartConfig}>
-      <ResponsiveContainer>
+      <ResponsiveContainer width={chartWidth} height={chartHeight}>
         <AreaChart
           data={data}
           margin={{ left: -20, top: 10, right: 10, bottom: 0 }}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CalculatorResultCard from "./calculator-resultCard";
 import CalculatorCompareCard from "./calculator-compareCard";
 import { OutputField, SubChart } from "@/config/types";
@@ -11,6 +11,9 @@ import InsightCard from "./insightCard";
 import Barchart from "./chart/barchart/barchart";
 import EstimationCard from "./estimationCard";
 import AreaChartComponent from "./chart/areachart/area";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Slider } from "./ui/slider";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -21,6 +24,7 @@ interface CalculatorOutputsProps {
   subChart?: SubChart[];
   secondaryValue?: number;
   percentage?: number;
+  output?: any;
 }
 
 function CalculatorOutputs({
@@ -31,6 +35,7 @@ function CalculatorOutputs({
   secondaryValue = 0,
   chartConfig,
   subChart,
+  output,
   percentage,
 }: CalculatorOutputsProps) {
   switch (type) {
@@ -53,12 +58,42 @@ function CalculatorOutputs({
         />
       );
 
+    // case "variable_output":
+    //   const [scrollValue, setScrollValue] = useState(0);
+    //   const { min, max, step } = value;
+    //   return (
+    //     <div className="w-full flex flex-col gap-0.5 px-1">
+    //       <Label className="text-sm font-semibold text-secondary">
+    //         {title}
+    //       </Label>
+    //       <Input
+    //         type="text"
+    //         className="border rounded-lg bg-card"
+    //         value={value}
+    //         onChange={(e) => onChange(e.target.value)}
+    //       />
+    //       <Slider
+    //         value={[value]}
+    //         min={min}
+    //         max={max}
+    //         step={step}
+    //         onValueChange={(val) => onChange(val[0])}
+    //         className="mt-4"
+    //       />
+    //     </div>
+    //   );
+
     case "estimationCard":
+      console.log(output.confidenceLevel);
       return (
-        <EstimationCard title={title} value={value} confidenceLevel={80} />
+        <EstimationCard
+          title={title}
+          value={value}
+          confidenceLevel={output?.confidenceLevel}
+        />
       );
     case "pie_chart":
-      console.log(value);
+      console.log("output", value);
       return (
         <ChartWrapper title={title}>
           <PieChartComponent
@@ -71,19 +106,24 @@ function CalculatorOutputs({
       );
 
     case "stacked_bar_chart":
+      console.log("stacked_bar_chart", value);
+      const keys = Object.keys(value[0]);
       return (
         <ChartWrapper title={title}>
           <StackedBarchart
             data={value}
             chartConfig={chartConfig}
-            xAxisDataKey="year"
-            yAxisDataKeys={["principal", "interest"]}
+            xAxisDataKey={keys[0]}
+            lineKey="Balance"
+            line={true}
+            yAxisDataKeys={[keys[1], keys[2]]}
           />
         </ChartWrapper>
       );
 
     case "table":
-      return <ChartWrapper title={title}></ChartWrapper>;
+      console.log(value);
+      return <SimilarTransaction data={value.data} columns={value.columns} />;
 
     case "bar_chart":
       return (
@@ -99,6 +139,7 @@ function CalculatorOutputs({
       );
 
     case "line_chart":
+      console.log("line_chart", value);
       return (
         <ChartWrapper title={title}>
           <AreaChartComponent

@@ -1,26 +1,14 @@
 "use client";
-import AreaChartComponent from "@/components/chart/areachart/area";
-import Barchart from "@/components/chart/barchart/barchart";
-import ChartWrapper from "@/components/chart/chartWrapper";
-import HorizontalBarChartComponent from "@/components/chart/horizontalbarchart/horizontalbarchart";
-import LineChartComponent from "@/components/chart/lineChart/lineChart";
-import DonutChartComponent from "@/components/chart/donutChart/donutChart";
-import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
-import DashboardTabs from "@/components/dashboard-tabs";
 import Feedback from "@/components/feedback";
 import Filters from "@/components/filters";
-import HomeTransactionCard from "@/components/home-transaction-card";
-import InsightCard from "@/components/insightCard";
 import MatrixCard from "@/components/matrix-card";
-import PriceChangesTable from "@/components/price-changes-table";
-import Progressbar from "@/components/progressbar";
 import SecondaryNavbar from "@/components/secondaryNavbar";
-import SimilarTransaction from "@/components/similar-transaction";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartConfig } from "@/components/ui/chart";
-import Layout from "@/layout";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
+import { dashboards } from "@/config/dashboards";
+import DashboardCharts from "@/components/dashboard-charts";
 
 const chartConfig = {
   Cash: {
@@ -63,145 +51,110 @@ const sampleData1 = [
   { year: "2024", value: 32 },
 ];
 
-const dashboardData = [
-  {
-    id: 1,
-    title: "Sales Transactions Overview",
-    description:
-      "Analyze sales transactions, values, and trends across the Dubai property market.",
-  },
-  {
-    id: 2,
-    title: "Mortgage Transactions Analysis",
-    description:
-      "Insights into property purchases made using mortgage financing trends and details.",
-  },
-  {
-    id: 3,
-    title: "Gift Transactions Insights",
-    description:
-      "Track and analyze property transactions gifted, highlighting market behavior and trends.",
-  },
-  {
-    id: 4,
-    title: "Overall Market Transactions",
-    description:
-      "Comprehensive overview of all sales, mortgages, and gift property transactions.",
-  },
-  {
-    id: 5,
-    title: "Residential Sales Breakdown",
-    description:
-      "Analysis of residential property sales, including pricing, volumes, and market activity.",
-  },
-  {
-    id: 6,
-    title: "Commercial Sales Overview",
-    description:
-      "Track and analyze sales in the commercial property sector including offices and shops.",
-  },
-  {
-    id: 7,
-    title: "Rental Market Trends",
-    description:
-      "Overview of rental transactions and trends, showing market performance across Dubai.",
-  },
-  {
-    id: 8,
-    title: "Residential Rentals Analysis",
-    description:
-      "In-depth look into rental transactions for residential properties, including rates and trends.",
-  },
-  {
-    id: 9,
-    title: "Commercial Rentals Overview",
-    description:
-      "Analysis of commercial property rentals including warehouses, offices, and retail units.",
-  },
-  {
-    id: 10,
-    title: "Developer Sales Comparison",
-    description:
-      "Compare sales performance among Dubai's leading property developers.",
-  },
-  {
-    id: 11,
-    title: "Residential Index Overview",
-    description:
-      "Key metrics and index to track trends in residential property sales and rentals.",
-  },
-  {
-    id: 12,
-    title: "Commercial Index Overview",
-    description:
-      "Commercial property index tracking trends and performance across different sectors and areas.",
-  },
-  {
-    id: 13,
-    title: "Annual Performance Summary",
-    description:
-      "Annual overview of market performance, transactions, growth, and other vital metrics.",
-  },
-  {
-    id: 14,
-    title: "Supply Trends Dashboard",
-    description:
-      "Insights on property supply, including available inventory across various Dubai areas.",
-  },
-  {
-    id: 15,
-    title: "Top Performing Areas",
-    description:
-      "Discover high-performing areas based on transactions, demand, and property trends.",
-  },
-  {
-    id: 16,
-    title: "Offplan Market Insights",
-    description:
-      "Analysis of offplan property sales trends, developer performance, and future inventory.",
-  },
-];
-
 function MyPage() {
   const navRef = useRef<HTMLElement | null>(null);
   const pathname = usePathname();
-  const [dashboardId, setDashboardId] = useState<number | null>(null);
+  const [dashboard, setDashboard] = useState<Dashboard | undefined>(undefined);
+  const [matrixData, setMatrixData] = useState<MatrixData[] | undefined>(
+    undefined
+  );
+  const [charts, setCharts] = useState<ChartDescription[] | undefined>(
+    undefined
+  );
+  const [filters, setFilters] = useState<{ [key: string]: string | number }>({
+    year: 2024,
+  });
+
+  const handleFilterChange = (filterKey: string, value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
+  };
 
   useEffect(() => {
     const pathSegments = pathname.split("/");
-    const id = parseInt(pathSegments[pathSegments.length - 1], 10);
+    const key = pathSegments[pathSegments.length - 1];
+    if (key) {
+      const selectedDashboard = dashboards.find((item) => item.key === key);
 
-    if (!isNaN(id)) {
-      setDashboardId(id);
+      setDashboard(selectedDashboard);
     }
   }, [pathname]);
 
-  const dashboard = dashboardData.find((item) => item.id === dashboardId);
+  useEffect(() => {
+    const fetchMatricsData = async () => {
+      console.log("fetching matrics data");
+      const date = new Date();
+      const presentYear = date.getFullYear();
+      filters.year = presentYear;
+      console.log("filters", filters);
+      const matrixOutput = await dashboard?.calculate_matrics?.(filters);
 
-  const matrixData = [
-    { title: "Average Rental Value", value: "120 K", growth: -21 },
-    { title: "Sales per SQFT", value: "$3.5 M", growth: 21 },
-    { title: "Total Value", value: "165 K", growth: 21 },
-    { title: "No of Transactions", value: "20", growth: -21 },
-  ];
+      console.log("matrixOutput", matrixOutput);
+      if (Array.isArray(data) && data.length > 0) setMatrixData(matrixOutput);
+    };
+
+    if (dashboard) {
+      fetchMatricsData();
+    }
+  }, [dashboard, filters]);
+
+  useEffect(() => {
+    console.log(filters);
+    const fetchChartsData = async () => {
+      console.log("fetching charts data");
+      dashboard?.calculate_charts?.forEach(async (chart) => {
+        const chartData = await chart.calculate();
+        setCharts((prev) => [...(prev ?? []), chartData]);
+      });
+      console.log("charts", charts);
+    };
+
+    if (dashboard) {
+      fetchChartsData();
+    }
+  }, [dashboard, filters]);
+
+  // const dashboard = dashboards.find((item) => item.key === dashboardId);
+
+  // const matrixData = [
+  //   { title: "Average Rental Value", value: "120 K", growth: -21 },
+  //   { title: "Sales per SQFT", value: "$3.5 M", growth: 21 },
+  //   { title: "Total Value", value: "165 K", growth: 21 },
+  //   { title: "No of Transactions", value: "20", growth: -21 },
+  // ];
 
   return (
-    <SecondaryNavbar title={dashboard?.title ?? ""} className="sticky">
-      <Filters />
+    <SecondaryNavbar title={dashboard?.name ?? ""} className="sticky">
+      <Filters
+        selectOptions={dashboard?.page_filters || []}
+        selectedFilters={filters}
+        onChange={handleFilterChange}
+      />
       {/* <Progressbar target={navRef} className="top-12" /> */}
       <main ref={navRef}>
         <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
           <div className="grid grid-cols-2 gap-3 w-full">
-            {matrixData.map((item, index) => (
+            {matrixData?.map((item, index) => (
               <MatrixCard
                 key={index}
                 title={item.title}
                 value={item.value}
-                growth={item.growth}
+                growth={parseInt(String(item.growth))}
               />
             ))}
           </div>
-          <ChartWrapper title="Transaction Type" description="">
+
+          {charts?.map((chart) => (
+            <DashboardCharts
+              type={chart.chart_type}
+              data={chart.data}
+              chartConfig={chart.chartConfig}
+              title={chart.name}
+              filters={chart.filters}
+              columns={chart?.columns}
+              description={chart.description}
+            />
+          ))}
+          {/* <ChartWrapper title="Transaction Type" description="">
             <HorizontalBarChartComponent
               chartConfig={chartConfig}
               data={[
@@ -213,8 +166,8 @@ function MyPage() {
               yAxisDataKey={"value"}
               className="max-h-[140px]"
             />
-          </ChartWrapper>
-          <ChartWrapper
+          </ChartWrapper> */}
+          {/* <ChartWrapper
             title="Transactions Value Trend"
             description="Compare transactional total value and value per sqft over time."
             filters={["Total Value", "Value per SQFT"]}
@@ -346,7 +299,7 @@ function MyPage() {
               />
               <DashboardTabs />
             </div>
-          </ChartWrapper>
+          </ChartWrapper> */}
 
           <Feedback />
         </div>

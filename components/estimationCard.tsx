@@ -29,13 +29,13 @@ function EstimationCard({
         <div
           className={cn(
             "h-0.5 w-full bg-[#E0E0E0]",
-            confidenceLevel >= 40 && "bg-[#FFC267]"
+            confidenceLevel >= 500 && "bg-[#FFC267]"
           )}
         />
         <div
           className={cn(
             "h-0.5 w-full bg-[#E0E0E0]",
-            confidenceLevel >= 70 && "bg-[#42BE64]"
+            confidenceLevel > 1000 && "bg-[#42BE64]"
           )}
         />
       </div>
@@ -45,16 +45,16 @@ function EstimationCard({
           <span
             className={cn(
               "",
-              confidenceLevel >= 70
+              confidenceLevel >= 1000
                 ? "text-[#42BE64]"
-                : confidenceLevel >= 40
+                : confidenceLevel >= 500
                 ? "text-[#FFC267]"
                 : "text-[#FF7171]"
             )}
           >
-            {confidenceLevel >= 70
+            {confidenceLevel > 1000
               ? "High"
-              : confidenceLevel >= 40
+              : confidenceLevel >= 500
               ? "Medium"
               : "Low"}
           </span>

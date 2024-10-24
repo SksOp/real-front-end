@@ -4,9 +4,38 @@ import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 
 interface MatrixCardProp {
   title: string;
-  value: string;
+  value: number | string;
   growth: number;
 }
+
+const isNumeric = (value: string) => {
+  return !isNaN(parseFloat(value)) && isFinite(parseFloat(value));
+};
+
+// Helper function to format the values
+const formatValue = (value: number | string) => {
+  let numericValue: number;
+
+  // If the value is a string and numeric, convert it to a number
+  if (typeof value === "string" && isNumeric(value)) {
+    numericValue = parseFloat(value);
+  } else if (typeof value === "number") {
+    numericValue = value;
+  } else {
+    return value; // If it's not numeric, return as is
+  }
+
+  // Format the numeric value
+  if (numericValue >= 1_000_000_000) {
+    return (numericValue / 1_000_000_000).toFixed(1) + "B";
+  } else if (numericValue >= 1_000_000) {
+    return (numericValue / 1_000_000).toFixed(1) + "M";
+  } else if (numericValue >= 1_000) {
+    return (numericValue / 1_000).toFixed(1) + "K";
+  } else {
+    return numericValue.toString(); // Return smaller numbers as is
+  }
+};
 
 function MatrixCard({ title, value, growth }: MatrixCardProp) {
   return (
@@ -17,7 +46,9 @@ function MatrixCard({ title, value, growth }: MatrixCardProp) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex items-center w-full justify-start gap-1  p-0  truncate">
-        <h3 className="text-lg font-semibold text-secondary">{value}</h3>
+        <h3 className="text-lg font-semibold text-secondary">
+          {formatValue(value)}
+        </h3>
         {growth > 0 ? (
           <div className="flex items-center justify-start gap-0.5">
             <CircularUpIcon className="h-4 w-4" />

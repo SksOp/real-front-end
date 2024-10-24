@@ -32,7 +32,8 @@ export const Calculators: Calculator[] = [
         key: "choose_location",
         label: "Choose Location",
         type: "dropdown",
-        source: "http://localhost:6968/api/constants",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
         options: [],
         //all the unique area_en from transactions should be listed here;
 
@@ -46,7 +47,8 @@ export const Calculators: Calculator[] = [
         type: "dropdown",
         options: ["A", "B", "C", "D"],
         //all the unique developers from transactions should be listed here;
-        source: "dxb_dev_list",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer_en",
         placeholder: "select developer",
         searchable: true,
         is_mandatory: false,
@@ -64,7 +66,8 @@ export const Calculators: Calculator[] = [
         ],
         //all the unique projects from transactions should be listed here;
 
-        source: "dxb_project_list",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=project_en",
         placeholder: "select project",
         searchable: true,
         is_mandatory: false,
@@ -74,6 +77,8 @@ export const Calculators: Calculator[] = [
         label: "Property Type",
         type: "dropdown",
         options: ["Villa", "Unit", "Building", "Land"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
         //options will change based on the usage type if its residential/commercial; also this list might be incomplete!
         placeholder: "select type",
         is_mandatory: true,
@@ -110,7 +115,7 @@ export const Calculators: Calculator[] = [
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transTrends`,
+          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
           {
             params: {
               year: current_year,
@@ -126,7 +131,7 @@ export const Calculators: Calculator[] = [
         if (transactions.length === 0) {
           throw new Error("No transactions found for the specified filters.");
         }
-
+        console.log("transactions: ", transactions);
         const totalValue = transactions.reduce(
           (sum: number, transaction: any) => {
             const sqftValue = transaction.Total_area_in_meter * 10.764;
@@ -136,19 +141,29 @@ export const Calculators: Calculator[] = [
           },
           0
         );
+
+        const totalConfidence = transactions.reduce(
+          (sum: number, transaction: any) => {
+            return sum + transaction.nuber_of_columns_used;
+          },
+          0
+        );
+
         const averageValuePerSqft = totalValue / transactions.length;
+        const confidenceValue = totalConfidence;
 
         //step 3: multiply the psqft value with property_area to get the estimated_sales_value
         const estimated_sales_value = averageValuePerSqft * property_area;
         return {
           estimated_sales_value: estimated_sales_value.toFixed(2),
+          confidenceLevel: confidenceValue,
           insights: `Over the period of 5 years, your property
 investment will yield a total of 24% return, which is well above the market average.`,
         };
       } catch (error) {
         console.error(`Error fetching data :`, error);
         return {
-          estimated_sales_value: 0,
+          estimated_sales_value: "N/A",
           insights: `Cannot calculate the estimated sales value.`,
         };
       }
@@ -168,7 +183,7 @@ investment will yield a total of 24% return, which is well above the market aver
         key: "property_selection",
         label: "Property Selector",
         type: "property_selector",
-        is_mandatory: true,
+        is_mandatory: false,
       },
       {
         key: "usage_type",
@@ -185,18 +200,27 @@ investment will yield a total of 24% return, which is well above the market aver
         is_mandatory: true,
       },
       {
-        key: "choose_area",
-        label: "Choose Area",
+        key: "choose_location",
+        label: "Choose Location",
         type: "dropdown",
-        source: "dxb_area_list",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+        options: [],
+        //all the unique area_en from transactions should be listed here;
+
+        placeholder: "select area",
         searchable: true,
         is_mandatory: true,
       },
       {
-        key: "choose_developer",
-        label: "Choose Developer",
+        key: "select_developer",
+        label: "Select Developer",
         type: "dropdown",
-        source: "dxb_dev_list",
+        options: ["A", "B", "C", "D"],
+        //all the unique developers from transactions should be listed here;
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer_en",
+        placeholder: "select developer",
         searchable: true,
         is_mandatory: false,
       },
@@ -204,7 +228,18 @@ investment will yield a total of 24% return, which is well above the market aver
         key: "choose_project",
         label: "Choose Project",
         type: "dropdown",
-        source: "dxb_proj_list",
+        options: [
+          "BLUE BAY",
+          "SILICON GATE 3",
+          "CLAREN 2",
+          "AZURE RESIDENCE",
+          "Azizi. Liatris",
+        ],
+        //all the unique projects from transactions should be listed here;
+
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=project_en",
+        placeholder: "select project",
         searchable: true,
         is_mandatory: false,
       },
@@ -213,6 +248,10 @@ investment will yield a total of 24% return, which is well above the market aver
         label: "Property Type",
         type: "dropdown",
         options: ["Villa", "Unit", "Building", "Land"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
+        //options will change based on the usage type if its residential/commercial; also this list might be incomplete!
+        placeholder: "select type",
         is_mandatory: true,
       },
       {
@@ -242,16 +281,72 @@ investment will yield a total of 24% return, which is well above the market aver
       { key: "insights", label: "Insights", type: "insights" },
     ],
 
-    calculate: (inputs) => {
-      // const { property_area, usage_type } = inputs;
+    calculate: async (inputs) => {
+      const {
+        usage_type,
+        sale_type,
+        choose_location,
+        choose_project,
+        property_type,
+      } = inputs;
+      const current_year = 2024;
+      // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
+      try {
+        const response = await axios.get(
+          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental`,
+          {
+            params: {
+              year: current_year,
+              area_en: choose_location,
+              property_type: property_type,
+              usage_type: usage_type,
+            },
+          }
+        );
+        console.log("response: ", response);
+        //step 2: calculate the average value based on the above filter [per sqft value]
+        const rentalDatas = response.data.data.data;
+        if (rentalDatas.length === 0) {
+          throw new Error("No transactions found for the specified filters.");
+        }
+
+        const totalValue = rentalDatas.reduce((sum: number, rents: any) => {
+          const startDate = new Date(rents.START_DATE.value);
+          const endDate = new Date(rents.END_DATE.value);
+          const totalMonths =
+            (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+            (endDate.getMonth() - startDate.getMonth());
+
+          const rentPerMonth = rents.ANNUAL_AMOUNT
+            ? rents.ANNUAL_AMOUNT / 12
+            : rents.CONTRACT_AMOUNT / totalMonths;
+          return sum + rentPerMonth;
+        }, 0);
+
+        const totalConfidence = rentalDatas.reduce(
+          (sum: number, rentalData: any) => {
+            return sum + rentalData.nuber_of_columns_used;
+          },
+          0
+        );
+
+        const estimated_rental_value = totalValue / rentalDatas.length;
+        return {
+          estimated_rental_value: estimated_rental_value.toFixed(2),
+          confidenceLevel: totalConfidence,
+          insights: `Over the period of 5 years, your property
+investment will yield a total of 24% return, which is well above the market average.`,
+        };
+      } catch (error) {
+        console.error(`Error fetching data :`, error);
+        return {
+          estimated_sales_value: "N/A",
+          insights: `Cannot calculate the estimated sales value.`,
+        };
+      }
       //calculation approach is same as the sales_value_estimator
       // const average_rental_value =
       //   SUM(similar_rental_values) / COUNT(similar_rental_transactions);
-
-      return {
-        estimated_rental_value: 2650000,
-        insights: "Calculated based on property area and usage type.",
-      };
     },
   },
   {
@@ -304,12 +399,12 @@ investment will yield a total of 24% return, which is well above the market aver
         type: "metric",
       },
       {
-        key: "total_interest_monthly",
-        label: "Total Interest Monthly",
+        key: "total_interest",
+        label: "Total Interest",
         type: "comparison",
         secondary_output: {
-          key: "total_principal_monthly",
-          label: "Total Principal Monthly",
+          key: "total_principal",
+          label: "Total Principal",
           type: "comparison",
         },
       },
@@ -340,6 +435,11 @@ investment will yield a total of 24% return, which is well above the market aver
         ],
       },
       {
+        key: "amortization_table",
+        label: "Amortization Table",
+        type: "table",
+      },
+      {
         key: "insight",
         label: "Insight",
         type: "insights",
@@ -350,71 +450,74 @@ investment will yield a total of 24% return, which is well above the market aver
         inputs;
 
       const loan_amount = property_price - down_payment;
-      const monthly_rate = interest_rate / 12;
+      const monthly_rate = interest_rate / 12 / 100;
       const n_payments = mortgage_duration * 12;
-      const emi_payment =
+      const emi_payment_monthly =
         (loan_amount * monthly_rate * Math.pow(1 + monthly_rate, n_payments)) /
         (Math.pow(1 + monthly_rate, n_payments) - 1);
-      const monthly_interest = loan_amount * monthly_rate;
-      const monthly_principal = emi_payment - monthly_interest;
-      const total_interest = monthly_interest * monthly_interest;
-      const total_payment = total_interest + loan_amount;
+      const emi_payment_yearly = emi_payment_monthly * 12;
+      const total_interest = emi_payment_monthly * n_payments - loan_amount;
+
+      // Initialize balance as the loan amount
+      let balance = loan_amount;
+
+      const breakdown = [];
+      const start_year = 2024; // Starting year for the mortgage
+      let yearly_principal = 0;
+      let yearly_interest = 0;
+
+      for (let i = 1; i <= n_payments; i++) {
+        // Calculate monthly interest and principal
+        const interest_payment = balance * monthly_rate;
+        const principal_payment = emi_payment_monthly - interest_payment;
+
+        // Update balance after this month's payment
+        balance -= principal_payment;
+
+        // Accumulate yearly totals
+        yearly_principal += principal_payment;
+        yearly_interest += interest_payment;
+
+        // At the end of every 12 months (i.e., a year), store the values
+        if (i % 12 === 0) {
+          const year = start_year + Math.floor(i / 12) - 1;
+          balance = Math.abs(balance) < 0.01 ? 0 : balance;
+          breakdown.push({
+            Year: year,
+            Principal: yearly_principal.toFixed(2),
+            Interest: yearly_interest.toFixed(2),
+            Balance: balance.toFixed(2),
+          });
+
+          // Reset yearly totals for the next year
+          yearly_principal = 0;
+          yearly_interest = 0;
+        }
+      }
 
       const insights =
         "Monthly payments calculated based on loan amount and interest rate.";
 
       return {
-        emi: emi_payment.toFixed(2),
-        total_interest_monthly: monthly_interest.toFixed(2),
-        total_principal_monthly: monthly_principal.toFixed(2),
+        emi: emi_payment_monthly.toFixed(2),
+        total_interest: total_interest.toFixed(2),
+        total_principal: loan_amount.toFixed(2),
         total_payment_breakup_pie: [
           {
             name: "Priciple Loan Amount",
-            value: loan_amount,
+            value: loan_amount.toFixed(2),
             colorClass: "bg-[#FFC8C8]",
           },
           {
             name: "Total Interest",
-            value: total_interest,
+            value: total_interest.toFixed(2),
             colorClass: "bg-[#EFEEFC]",
           },
         ],
-        amortization_stacked_bar_chart: [
-          { year: 2010, principal: 10000, interest: 19000 },
-          { year: 2011, principal: 12000, interest: 18000 },
-          { year: 2012, principal: 14000, interest: 17000 },
-          { year: 2013, principal: 16000, interest: 16000 },
-          { year: 2014, principal: 18000, interest: 15000 },
-          { year: 2015, principal: 20000, interest: 14000 },
-          { year: 2016, principal: 22000, interest: 13000 },
-          { year: 2017, principal: 24000, interest: 12000 },
-          { year: 2018, principal: 26000, interest: 11000 },
-          { year: 2019, principal: 28000, interest: 10000 },
-          { year: 2020, principal: 30000, interest: 8000 },
-          { year: 2021, principal: 32000, interest: 7000 },
-          { year: 2022, principal: 34000, interest: 6000 },
-          { year: 2023, principal: 36000, interest: 5000 },
-          { year: 2024, principal: 38000, interest: 4000 },
-        ],
+        amortization_stacked_bar_chart: breakdown,
         amortization_table: {
-          columns: ["Year", "Principal", "Interest"],
-          data: [
-            { year: 2010, principal: 10000, interest: 19000 },
-            { year: 2011, principal: 12000, interest: 18000 },
-            { year: 2012, principal: 14000, interest: 17000 },
-            { year: 2013, principal: 16000, interest: 16000 },
-            { year: 2014, principal: 18000, interest: 15000 },
-            { year: 2015, principal: 20000, interest: 14000 },
-            { year: 2016, principal: 22000, interest: 13000 },
-            { year: 2017, principal: 24000, interest: 12000 },
-            { year: 2018, principal: 26000, interest: 11000 },
-            { year: 2019, principal: 28000, interest: 10000 },
-            { year: 2020, principal: 30000, interest: 8000 },
-            { year: 2021, principal: 32000, interest: 7000 },
-            { year: 2022, principal: 34000, interest: 6000 },
-            { year: 2023, principal: 36000, interest: 5000 },
-            { year: 2024, principal: 38000, interest: 4000 },
-          ],
+          columns: ["Year", "Principal", "Interest", "Balance"],
+          data: breakdown,
         },
         insights: insights,
       };
@@ -581,7 +684,7 @@ investment will yield a total of 24% return, which is well above the market aver
         },
       },
       {
-        key: "insight",
+        key: "insights",
         label: "Insight",
         type: "insights",
       },
@@ -594,60 +697,62 @@ investment will yield a total of 24% return, which is well above the market aver
         annual_rental_income,
       } = inputs;
       // i think code should be something like below: Property Value at Year N=Initial Property Price×(1+Annual Appreciation Rate) power N
-      console.log(
-        "jsIfhdjsn: ",
-        purchase_price,
-        annual_appreciation_rate,
-        holding_period,
-        annual_rental_income
-      );
-      const totalROI =
-        parseFloat(purchase_price) *
-        Math.pow(
-          1 + parseFloat(annual_appreciation_rate),
-          parseInt(holding_period)
-        );
 
-      const annualizedCapitalAppreciation = totalROI / parseInt(holding_period);
-      const totalCapitalAppreciation = totalROI - parseFloat(purchase_price);
-      const annualizedRentalIncome = parseFloat(annual_rental_income);
-      const totalRentalIncome =
-        parseFloat(annual_rental_income) * parseInt(holding_period);
-      console.log(
-        totalROI,
-        annualizedCapitalAppreciation,
-        totalCapitalAppreciation,
-        annualizedRentalIncome,
-        totalRentalIncome
-      );
-      const insights =
+      const purchasePrice = parseFloat(purchase_price);
+      const annualAppreciationRate = parseFloat(annual_appreciation_rate) / 100; // Convert % to decimal
+      const holdingPeriod = parseInt(holding_period);
+      const annualRentalIncome = parseFloat(annual_rental_income);
+
+      // Calculate the total property value at the end of the holding period
+      // Property Value at Year N = Initial Property Price × (1 + Annual Appreciation Rate)^N
+      const futurePropertyValue =
+        purchasePrice * Math.pow(1 + annualAppreciationRate, holdingPeriod);
+
+      // Calculate the total capital appreciation (increase in property value)
+      const totalCapitalAppreciation = futurePropertyValue - purchasePrice;
+
+      // Calculate the total rental income over the holding period
+      const totalRentalIncome = annualRentalIncome * holdingPeriod;
+
+      // Total return is the sum of capital appreciation and rental income
+      const totalReturn = totalCapitalAppreciation + totalRentalIncome;
+
+      // Calculate the annualized ROI (annual return on investment)
+      const annualizedROI = totalReturn / holdingPeriod;
+
+      // Calculate the annualized capital appreciation
+      const annualizedCapitalAppreciation =
+        totalCapitalAppreciation / holdingPeriod;
+
+      // Calculate the annual rental income (this is just the same as annual_rental_income)
+      const annualRentalIncomePerYear = totalRentalIncome / holdingPeriod;
+
+      const breakdown = [];
+      for (let year = 1; year <= holdingPeriod; year++) {
+        const annualAppreciation =
+          purchasePrice * Math.pow(1 + annualAppreciationRate, year);
+        const capital_appreciation = annualAppreciation - purchasePrice;
+        const annual_rents = annualRentalIncome * year;
+        breakdown.push({
+          year: year,
+          rental_income: annual_rents,
+          capital_appreciation: capital_appreciation,
+        });
+      }
+      console.log("breakdown: ", breakdown);
+
+      const insight =
         "Calculated based on rental income, capital appreciation, and expenses.";
 
       return {
-        annualized_roi: totalROI.toFixed(2),
+        annualized_roi: annualizedROI.toFixed(2),
         annualized_capital_appreciation:
           annualizedCapitalAppreciation.toFixed(2),
-        annual_rental_income: annualizedRentalIncome.toFixed(2),
+        annual_rental_income: annualRentalIncome.toFixed(2),
         total_rental_income: totalRentalIncome.toFixed(2),
         total_appreciation: totalCapitalAppreciation.toFixed(2),
-        roi_growth_over_time: [
-          { year: 2010, rental_income: 10000, capital_appreciation: 19000 },
-          { year: 2011, rental_income: 12000, capital_appreciation: 19500 },
-          { year: 2012, rental_income: 14000, capital_appreciation: 20000 },
-          { year: 2013, rental_income: 16000, capital_appreciation: 20500 },
-          { year: 2014, rental_income: 18000, capital_appreciation: 21000 },
-          { year: 2015, rental_income: 20000, capital_appreciation: 21500 },
-          { year: 2016, rental_income: 22000, capital_appreciation: 22000 },
-          { year: 2017, rental_income: 24000, capital_appreciation: 22500 },
-          { year: 2018, rental_income: 26000, capital_appreciation: 23000 },
-          { year: 2019, rental_income: 28000, capital_appreciation: 23500 },
-          { year: 2020, rental_income: 30000, capital_appreciation: 24000 },
-          { year: 2021, rental_income: 32000, capital_appreciation: 24500 },
-          { year: 2022, rental_income: 34000, capital_appreciation: 25000 },
-          { year: 2023, rental_income: 36000, capital_appreciation: 25500 },
-          { year: 2024, rental_income: 38000, capital_appreciation: 26000 },
-        ],
-        insights: insights,
+        roi_growth_over_time: breakdown,
+        insights: insight,
       };
     },
   },
@@ -740,60 +845,42 @@ investment will yield a total of 24% return, which is well above the market aver
         rent_duration,
       } = inputs;
 
-      let totalRentPaid = 0;
-      let propertyValue = home_price;
-      let mortgagePayment = ((home_price - down_payment) * mortgage_rate) / 12;
-      let totalMortgagePaid = 0;
+      const homePrice = parseFloat(home_price);
+      const downPayment = parseFloat(down_payment);
+      const monthlyRent = parseFloat(monthly_rent);
+      const mortgageRate = parseFloat(mortgage_rate);
+      const holdingPeriod = parseInt(rent_duration);
 
-      // Simulate rent and property value for each year
-      for (let year = 1; year <= rent_duration; year++) {
-        totalRentPaid += monthly_rent * 12;
-        totalMortgagePaid += mortgagePayment * 12;
+      const totalRentPaid = monthlyRent * 12 * holdingPeriod;
+      const loanAmount = homePrice - downPayment;
+      const monthlyRate = mortgageRate / 100 / 12;
+      const loanTermYears = holdingPeriod;
+      const numberOfPayments = loanTermYears * 12;
+      const monthlyBuyPayment =
+        (loanAmount *
+          monthlyRate *
+          Math.pow(1 + monthlyRate, numberOfPayments)) /
+        (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      const totalBuyPayment = monthlyBuyPayment * (holdingPeriod * 12);
 
-        // Adjust rent and property value for the next year
-        // monthly_rent *= 1 + annualRentIncrease / 100;
-        // propertyValue *= 1 + annualAppreciationRate / 100;
+      const annualCosts = [];
+      let remainingLoanAmount = loanAmount;
+      for (let year = 1; year <= holdingPeriod; year++) {
+        const rentCost = monthlyRent * 12 * year;
+        const interestPayment = remainingLoanAmount * monthlyRate;
+        const principalPayment = monthlyBuyPayment - interestPayment;
+        remainingLoanAmount -= principalPayment;
+        annualCosts.push({
+          year: year,
+          rentCost: rentCost.toFixed(2),
+          buyCost: remainingLoanAmount.toFixed(2),
+        });
       }
 
-      const totalCostOfBuying = down_payment + totalMortgagePaid;
-      const comparisonValue = totalCostOfBuying - totalRentPaid;
-
-      const insights =
-        comparisonValue > 0
-          ? "Renting is more beneficial than buying."
-          : "Buying is more beneficial than renting.";
-
-      // const rentVsBuyComparison = (
-      //   monthlyRent: number,
-      //   propertyPrice: number,
-      //   downPayment: number,
-      //   mortgageRate: number,
-      //   holdingPeriod: number,
-      //   annualRentIncrease: number,
-      //   annualAppreciationRate: number
-      // ): string => {
-      //   let totalRentPaid = 0;
-      //   let propertyValue = propertyPrice;
-      //   let mortgagePayment = ((propertyPrice - downPayment) * mortgageRate) / 12;
-      //   let totalMortgagePaid = 0;
-
-      //   // Simulate rent and property value for each year
-      //   for (let year = 1; year <= holdingPeriod; year++) {
-      //     totalRentPaid += monthlyRent * 12;
-      //     totalMortgagePaid += mortgagePayment * 12;
-
-      //     // Adjust rent and property value for the next year
-      //     monthlyRent *= 1 + annualRentIncrease / 100;
-      //     propertyValue *= 1 + annualAppreciationRate / 100;
-      //   }
-
-      //   const totalCostOfBuying = downPayment + totalMortgagePaid;
-      //   const comparisonValue = totalCostOfBuying - totalRentPaid;
-
-      //   return comparisonValue > 0
+      // const insights =
+      //   comparisonValue > 0
       //     ? "Renting is more beneficial than buying."
       //     : "Buying is more beneficial than renting.";
-      // };
 
       // // Example usage
       // const insight = rentVsBuyComparison(
@@ -808,32 +895,16 @@ investment will yield a total of 24% return, which is well above the market aver
       // console.log(insight);
 
       return {
-        rent_vs_buy_chart: [
-          { year: 2010, principal: 10000, interest: 19000 },
-          { year: 2011, principal: 12000, interest: 18000 },
-          { year: 2012, principal: 14000, interest: 17000 },
-          { year: 2013, principal: 16000, interest: 16000 },
-          { year: 2014, principal: 18000, interest: 15000 },
-          { year: 2015, principal: 20000, interest: 14000 },
-          { year: 2016, principal: 22000, interest: 13000 },
-          { year: 2017, principal: 24000, interest: 12000 },
-          { year: 2018, principal: 26000, interest: 11000 },
-          { year: 2019, principal: 28000, interest: 10000 },
-          { year: 2020, principal: 30000, interest: 8000 },
-          { year: 2021, principal: 32000, interest: 7000 },
-          { year: 2022, principal: 34000, interest: 6000 },
-          { year: 2023, principal: 36000, interest: 5000 },
-          { year: 2024, principal: 38000, interest: 4000 },
-        ],
+        rent_vs_buy_chart: annualCosts,
         monthly_payment_comparison_chart: [
-          { category: "Rent", value: 8500000 },
-          { category: "Buy", value: 4500000 },
+          { category: "Rent", value: monthlyRent.toFixed(2) },
+          { category: "Buy", value: monthlyBuyPayment.toFixed(2) },
         ],
         total_payment_comparison_chart: [
-          { category: "Rent", value: 9500000 },
-          { category: "Buy", value: 2455555 },
+          { category: "Rent", value: totalRentPaid.toFixed(2) },
+          { category: "Buy", value: totalBuyPayment.toFixed(2) },
         ],
-        insights: insights,
+        insights: "insights",
       };
     },
   },
@@ -856,8 +927,8 @@ investment will yield a total of 24% return, which is well above the market aver
         is_mandatory: true,
       },
       {
-        key: "monthly_expenses",
-        label: "Monthly Expenses",
+        key: "monthly_household_expenses",
+        label: "Monthly Household Expense",
         type: "currency_text",
         is_mandatory: true,
       },
@@ -903,18 +974,13 @@ investment will yield a total of 24% return, which is well above the market aver
         type: "currency_text",
         is_mandatory: true,
       },
-      {
-        key: "mortgage_duration",
-        label: "Mortgage Duration (Years)",
-        type: "slider",
-        min: 1,
-        max: 30,
-        step: 1,
-        default_value: 20,
-        is_mandatory: true,
-      },
     ],
     outputs: [
+      {
+        key: "monthly_payment",
+        label: "Monthly Payment",
+        type: "metric",
+      },
       {
         key: "affordable_property_value",
         label: "Affordable Property Value",
@@ -960,25 +1026,38 @@ investment will yield a total of 24% return, which is well above the market aver
         down_payment,
         mortgage_duration,
         available_monthly_savings,
+        savings_allocation,
       } = inputs;
 
+      const monthlyIncome = parseFloat(monthly_income);
+      const monthlyDebts = parseFloat(monthly_debts);
+      const monthlyExpenses = parseFloat(monthly_expenses);
+      const downPayment = parseFloat(down_payment);
+      const mortgageDuration = parseFloat(mortgage_duration);
+
       const monthlySavings =
-        parseFloat(monthly_income) -
-        (parseFloat(monthly_debts) + parseFloat(monthly_expenses));
+        parseFloat(available_monthly_savings) *
+        (parseFloat(savings_allocation) / 100);
+
+      // const monthlySavings =
+      //   parseFloat(monthly_income) -
+      //   (parseFloat(monthly_debts) + parseFloat(monthly_expenses));
       const affordable_price =
         monthlySavings * parseFloat(mortgage_duration) +
         parseFloat(down_payment);
 
-      const loan_amount = affordable_price - parseFloat(down_payment);
+      const loanAmount = affordable_price - downPayment;
+      const currentExpenses = monthlyDebts + monthlyExpenses;
+
       const insights =
         "Affordable property price calculated based on your finances.";
 
       return {
-        affordable_property_value: affordable_price,
-        down_payment: down_payment,
-        total_loan_amount: loan_amount,
-        current_savings: monthlySavings,
-        current_expenses: monthly_debts + monthly_expenses,
+        affordable_property_value: affordable_price.toFixed(2),
+        down_payment: downPayment.toFixed(2),
+        total_loan_amount: loanAmount.toFixed(2),
+        current_savings: monthlySavings.toFixed(2),
+        current_expenses: currentExpenses.toFixed(2),
         insights: insights,
       };
     },

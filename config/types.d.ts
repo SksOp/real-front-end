@@ -52,6 +52,7 @@ export interface OutputField {
     | "metric"
     | "comparison"
     | "insights"
+    | "variable_output"
     | "estimationCard"
     | "pie_chart"
     | "stacked_bar_chart"
@@ -59,6 +60,8 @@ export interface OutputField {
     | "table"
     | "bar_chart";
   chartConfig?: ChartConfig;
+  calculateFrom?: string[];
+  calculateValue?: (value: any) => any;
   subChart?: SubChart[];
 }
 
@@ -85,41 +88,44 @@ export interface SubMetric {
   api_endpoint: string;
 }
 
-// Type for a metric or chart in the dashboard
-export interface Chart {
-  key: string;
+export interface ChartDescription {
   name: string;
   description?: string;
   filters?: string[];
-  chartConfig?: ChartConfig;
-  chart_type?:
+  chart_type:
+    | "horizontal_bar"
     | "bar"
     | "line"
+    | "area"
     | "donut"
-    | "pie"
-    | "stacked_bar"
-    | "percentile_bar"
     | "table"
-    | "comparison_table"
-    | "horizontal_bar";
-  sub_metrics?: Chart[];
-  api_endpoint?: string;
-  calculate?: (inputs: Record<string, any>) => Record<string, any>;
-  view_more?: boolean;
+    | percentile_bar;
+  chartConfig: ChartConfig;
+  data: any[];
+  columns?: string[];
+  sub_charts?: Dashboard.calculate_charts;
   insights?: string;
 }
 
 // Type for the dashboard_filters object
 export interface DashboardFilters {
-  usage: "residential" | "commercial" | null;
   mode: "sales" | "rental" | null;
+  usage?: "residential" | "commercial" | null;
+  group_en?: "sales" | "gifts" | "mortgage" | null;
 }
 
 export interface MatrixData {
   key: string;
   title: string;
   value: string | number;
-  growth: string | number;
+  growth?: string | number;
+}
+
+export interface PageFilter {
+  key: string;
+  label: string;
+  source?: string;
+  options?: string[];
 }
 
 // Type for a dashboard object
@@ -130,7 +136,16 @@ export interface Dashboard {
   type: "standard" | "custom";
   label?: string;
   dashboard_filters?: DashboardFilters;
-  page_filters: Filter[];
-  matrics: MatrixData[];
-  charts: Chart[];
+  page_filters: PageFilter[];
+
+  matrics?: MatrixData[];
+  calculate_matrics?: (params?: {
+    [key: string]: string | number;
+  }) => Promise<MatrixData[]>;
+  calculate_charts?: {
+    key: string;
+    calculate: (params?: {
+      [key: string]: string | number;
+    }) => Promise<ChartDescription>;
+  }[];
 }

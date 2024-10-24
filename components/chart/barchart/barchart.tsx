@@ -76,11 +76,12 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   showXAxis = true,
   showInsideLabel = false,
 }) => {
-  // Calculate chart width based on the number of data points
-  const chartWidth = Math.max(data.length * 35, 450); // 80 pixels per data point, minimum 500px width
-  const chartHeight = 250;
+  const maxValue = Math.max(
+    ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
+  );
 
-  const aspect = chartWidth / chartHeight;
+  // Add some padding to the top of the chart
+  const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
 
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any): string => {
@@ -90,7 +91,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
 
   return (
     <ChartContainer config={chartConfig}>
-      <ResponsiveContainer aspect={aspect} height={chartHeight}>
+      <ResponsiveContainer>
         <BarChart data={data} margin={{ left: -30 }} barGap={10}>
           <CartesianGrid
             vertical={false}
@@ -112,6 +113,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             tickFormatter={formatYAxisTick}
             tickMargin={0}
             axisLine={axisLine}
+            domain={yAxisDomain}
           />
           <Tooltip cursor={false} content={<ChartTooltipContent />} />
 

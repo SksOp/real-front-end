@@ -18,22 +18,28 @@ interface SimilarTransactionProps {
   headerValue?: string;
 }
 
+function formatNumber(value: string | number): string {
+  const num = typeof value === "string" ? parseFloat(value) : value;
+
+  if (isNaN(num)) return value.toString(); // Return the original value if it's not a valid number
+
+  if (num >= 1_000_000) {
+    return `${(num / 1_000_000).toFixed(1)}M`; // For millions
+  } else if (num >= 1_000) {
+    return `${(num / 1_000).toFixed(1)}K`; // For thousands
+  }
+
+  return num.toString(); // Return the number as is if it's below 1000
+}
+
 function SimilarTransaction({
   columns,
   data,
   headerText,
   headerValue,
 }: SimilarTransactionProps) {
-  const transactions = [
-    { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
-    { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
-    { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
-    { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
-    { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
-    { date: "17/Jun/24", sellPrice: "750,000", area: "494" },
-  ];
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col w-full gap-4">
       {headerText && (
         <div className="bg-card py-3 px-2 flex items-center justify-around rounded-xl">
           <h3 className="text-muted-foreground text-sm font-light">
@@ -48,9 +54,9 @@ function SimilarTransaction({
         </div>
       )}
       <div className="border rounded-xl w-full overflow-hidden">
-        <Table className="">
+        <Table className="w-full">
           <TableHeader className="">
-            <TableRow className="bg-card rounded-t-xl">
+            <TableRow className="bg-card w-full rounded-t-xl">
               {columns.map((column, idx) => (
                 <TableHead
                   key={idx}
@@ -75,7 +81,11 @@ function SimilarTransaction({
                 )}
               >
                 {columns.map((column, colIndex) => (
-                  <TableCell key={colIndex}>{row[column]}</TableCell>
+                  <TableCell key={colIndex}>
+                    {column === "Year"
+                      ? row[column]
+                      : formatNumber(row[column])}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

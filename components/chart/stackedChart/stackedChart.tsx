@@ -5,7 +5,6 @@ import {
   BarChart,
   ComposedChart,
   Line,
-  LineChart,
   ReferenceLine,
   XAxis,
   YAxis,
@@ -40,6 +39,7 @@ interface StackedBarChartComponentProps {
   referanceValue?: number;
   showXAxis?: boolean;
   line?: boolean;
+  lineKey?: string;
 }
 
 const formatYAxisTick = (value: number): string => {
@@ -76,40 +76,20 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   referanceValue,
   showXAxis = true,
   line = false,
+  lineKey,
 }) => {
   const lineData = data.map((entry, index) => {
-    if (index === 0) {
-      // First data point (top-left): sum of the yAxis values for the stacked bars
-      return {
-        [xAxisDataKey]: entry[xAxisDataKey],
-        y: entry[yAxisDataKeys[0]] + entry[yAxisDataKeys[1]], // Sum of the stacked bar heights
-      };
-    } else if (index === data.length - 1) {
-      // Last data point (bottom-right): y = 0
-      return {
-        [xAxisDataKey]: entry[xAxisDataKey],
-        y: 0,
-      };
-    } else {
-      // In-between points: Create a smooth slope between the first and last
-      const firstY = data[0][yAxisDataKeys[0]] + data[0][yAxisDataKeys[1]];
-      return {
-        [xAxisDataKey]: entry[xAxisDataKey],
-        y: ((firstY * (data.length - 1 - index)) / (data.length - 1)).toFixed(
-          2
-        ),
-      };
-    }
+    return { x: entry[xAxisDataKey], y: entry[lineKey ?? ""] };
   });
 
   return (
     <ChartContainer config={chartConfig}>
-      <ComposedChart accessibilityLayer data={data} margin={{ left: -18 }}>
+      <ComposedChart data={data} margin={{ left: -18 }}>
         <XAxis
           dataKey={xAxisDataKey}
           tickLine={false}
-          tickMargin={10}
-          axisLine={false}
+          tickMargin={tickMargin}
+          axisLine={axisLine}
         />
         <YAxis
           tickLine={tickLine}
@@ -129,7 +109,7 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
           stackId="a"
           stroke={"#121212"}
           fill={barColors[1]}
-          style={{ transform: "translate(0,-6px)" }}
+          style={{ transform: "translate(0,-6px)" }} // Adjust this if necessary
           radius={[5, 5, 0, 0]}
         />
         {line && (
@@ -139,6 +119,7 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
             dataKey="y"
             stroke="#ff7300"
             dot={false}
+            strokeWidth={2} // You can adjust the stroke width as needed
           />
         )}
         <ChartTooltip
