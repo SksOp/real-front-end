@@ -22,8 +22,9 @@ function formatNumber(value: string | number): string {
   const num = typeof value === "string" ? parseFloat(value) : value;
 
   if (isNaN(num)) return value.toString(); // Return the original value if it's not a valid number
-
-  if (num >= 1_000_000) {
+  if (num >= 1_000_000_000) {
+    return `${(num / 1_000_000_000).toFixed(1)}B`; // For billions
+  } else if (num >= 1_000_000) {
     return `${(num / 1_000_000).toFixed(1)}M`; // For millions
   } else if (num >= 1_000) {
     return `${(num / 1_000).toFixed(1)}K`; // For thousands
@@ -61,6 +62,7 @@ function SimilarTransaction({
                 <TableHead
                   key={idx}
                   className={cn(
+                    "text-center",
                     idx === 0 && "rounded-tl-xl",
                     idx === columns.length - 1 && "rounded-tr-xl",
                     "text-secondary"
@@ -82,7 +84,7 @@ function SimilarTransaction({
               >
                 {columns.map((column, colIndex) => (
                   <TableCell key={colIndex}>
-                    {column === "Year"
+                    {column === "Year" || column === "Date"
                       ? row[column]
                       : formatNumber(row[column])}
                   </TableCell>

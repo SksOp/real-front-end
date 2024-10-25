@@ -14,6 +14,7 @@ import AreaDrawerView from "./area-drawer-view";
 import DashboardDrawerView from "./dashboard-drawer-view";
 import FilterIcons from "./filter-icons";
 import { PageFilter } from "@/config/types";
+import { Input } from "./ui/input";
 
 function Filters({
   selectOptions,
@@ -27,6 +28,9 @@ function Filters({
   const [filterOptions, setFilterOptions] = useState<{
     [key: string]: string[];
   }>({});
+  const [searchQueries, setSearchQueries] = useState<{ [key: string]: string }>(
+    {}
+  );
 
   useEffect(() => {
     const fetchOptions = async (filter: PageFilter) => {
@@ -50,6 +54,10 @@ function Filters({
     });
   }, [selectOptions]);
 
+  const handleSearchChange = (key: string, value: string) => {
+    setSearchQueries((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <nav className="w-full bg-background sticky z-20 top-0">
       <ScrollArea className="w-full rounded-md overflow-scroll">
@@ -69,36 +77,54 @@ function Filters({
                   {select.label}
                 </Button>
               </DrawerTrigger>
-              <DrawerContent className="max-h-[60%]">
+              <DrawerContent className="max-h-[60%] p-2">
                 <DrawerHeader className="flex justify-start items-center gap-2">
                   <FilterIcons option={select.label} />
                   <DrawerTitle className="font-light text-lg text-secondary">
                     {select.label}
                   </DrawerTitle>
                 </DrawerHeader>
-                <div className="space-y-4">
+                {select.searchable && (
+                  <Input
+                    placeholder="Search"
+                    value={searchQueries[select.key] || ""}
+                    onChange={(e) =>
+                      handleSearchChange(select.key, e.target.value)
+                    }
+                    className="bg-secondary-foreground border-2 font-bold text-secondary"
+                  />
+                )}
+                <div className="space-y-4 overflow-y-scroll mt-2">
                   {filterOptions[select.key] ? (
-                    filterOptions[select.key].map((option, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center space-x-2 p-2"
-                      >
-                        <input
-                          type="radio"
-                          name={select.label}
-                          value={option}
-                          checked={selectedFilters[select.key] === option}
-                          onChange={() => onChange(select.key, option)}
-                          className="form-radio h-4 w-4 text-muted transition duration-150 ease-in-out"
-                        />
-                        <label
-                          htmlFor={option || ""}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    filterOptions[select.key]
+                      .filter((option) =>
+                        option
+                          .toLowerCase()
+                          .includes(
+                            (searchQueries[select.key] || "").toLowerCase()
+                          )
+                      )
+                      .map((option, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center space-x-2 p-2"
                         >
-                          {option}
-                        </label>
-                      </div>
-                    ))
+                          <input
+                            type="radio"
+                            name={select.label}
+                            value={option}
+                            checked={selectedFilters[select.key] === option}
+                            onChange={() => onChange(select.key, option)}
+                            className="form-radio h-4 w-4 text-muted transition duration-150 ease-in-out"
+                          />
+                          <label
+                            htmlFor={option || ""}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {option}
+                          </label>
+                        </div>
+                      ))
                   ) : (
                     <div>Loading options...</div>
                   )}

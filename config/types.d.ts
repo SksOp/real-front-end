@@ -126,6 +126,7 @@ export interface PageFilter {
   label: string;
   source?: string;
   options?: string[];
+  searchable?: boolean;
 }
 
 // Type for a dashboard object

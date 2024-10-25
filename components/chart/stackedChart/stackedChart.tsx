@@ -6,6 +6,7 @@ import {
   ComposedChart,
   Line,
   ReferenceLine,
+  ResponsiveContainer,
   XAxis,
   YAxis,
 } from "recharts";
@@ -37,7 +38,6 @@ interface StackedBarChartComponentProps {
   customGridProps?: Record<string, any>;
   referance?: string;
   referanceValue?: number;
-  showXAxis?: boolean;
   line?: boolean;
   lineKey?: string;
 }
@@ -74,75 +74,91 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   customGridProps = {},
   referance,
   referanceValue,
-  showXAxis = true,
   line = false,
   lineKey,
 }) => {
   const lineData = data.map((entry, index) => {
     return { x: entry[xAxisDataKey], y: entry[lineKey ?? ""] };
   });
-
+  const maxValue = Math.max(
+    ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
+  );
+  const yAxisDomain = [0, maxValue * 1.1];
+  const chartWidth = Math.max(data.length * 30, 500);
+  const chartHeight = 350;
+  const customTickFormatter = (value: any): string => {
+    const result = tickFormatter(value);
+    return result !== undefined ? result.toString() : "";
+  };
   return (
-    <ChartContainer config={chartConfig}>
-      <ComposedChart data={data} margin={{ left: -18 }}>
-        <XAxis
-          dataKey={xAxisDataKey}
-          tickLine={false}
-          tickMargin={tickMargin}
-          axisLine={axisLine}
-        />
-        <YAxis
-          tickLine={tickLine}
-          tickMargin={tickMargin}
-          tickFormatter={formatYAxisTick}
-          axisLine={axisLine}
-        />
-        <Bar
-          dataKey={yAxisDataKeys[0]}
-          stackId="a"
-          stroke={"#121212"}
-          fill={barColors[0]}
-          radius={[0, 0, 5, 5]}
-        />
-        <Bar
-          dataKey={yAxisDataKeys[1]}
-          stackId="a"
-          stroke={"#121212"}
-          fill={barColors[1]}
-          style={{ transform: "translate(0,-6px)" }} // Adjust this if necessary
-          radius={[5, 5, 0, 0]}
-        />
-        {line && (
-          <Line
-            type="monotone"
-            data={lineData}
-            dataKey="y"
-            stroke="#ff7300"
-            dot={false}
-            strokeWidth={2} // You can adjust the stroke width as needed
+    <ChartContainer
+      config={chartConfig}
+      className="min-h-[250px]  overflow-x-scroll"
+    >
+      <ResponsiveContainer width={chartWidth} height={chartHeight}>
+        <ComposedChart data={data} margin={{ left: -15 }} barGap={20}>
+          <XAxis
+            dataKey={xAxisDataKey}
+            tickLine={false}
+            tickMargin={tickMargin}
+            axisLine={axisLine}
+            tickFormatter={tickFormatter}
           />
-        )}
-        <ChartTooltip
-          content={
-            <ChartTooltipContent
-              hideLabel
-              formatter={(value, name) => (
-                <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
-                  {chartConfig[name as keyof typeof chartConfig]?.label || name}
-                  <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                    {value}
-                    <span className="font-normal text-muted-foreground">
-                      kcal
-                    </span>
-                  </div>
-                </div>
-              )}
+          <YAxis
+            tickLine={tickLine}
+            tickMargin={tickMargin}
+            tickFormatter={formatYAxisTick}
+            axisLine={axisLine}
+            domain={yAxisDomain}
+          />
+          <Bar
+            dataKey={yAxisDataKeys[0]}
+            stackId="a"
+            stroke={"#121212"}
+            fill={barColors[0]}
+            radius={[0, 0, 5, 5]}
+          />
+          <Bar
+            dataKey={yAxisDataKeys[1]}
+            stackId="a"
+            stroke={"#121212"}
+            fill={barColors[1]}
+            style={{ transform: "translate(0,-6px)" }} // Adjust this if necessary
+            radius={[5, 5, 0, 0]}
+          />
+          {line && (
+            <Line
+              type="monotone"
+              data={lineData}
+              dataKey="y"
+              stroke="#ff7300"
+              dot={false}
+              strokeWidth={2} // You can adjust the stroke width as needed
             />
-          }
-          cursor={false}
-          defaultIndex={1}
-        />
-      </ComposedChart>
+          )}
+          <ChartTooltip
+            content={
+              <ChartTooltipContent
+                hideLabel
+                formatter={(value, name) => (
+                  <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
+                    {chartConfig[name as keyof typeof chartConfig]?.label ||
+                      name}
+                    <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                      {value}
+                      <span className="font-normal text-muted-foreground">
+                        kcal
+                      </span>
+                    </div>
+                  </div>
+                )}
+              />
+            }
+            cursor={false}
+            defaultIndex={1}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
     </ChartContainer>
   );
 };

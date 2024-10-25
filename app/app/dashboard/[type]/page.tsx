@@ -64,6 +64,7 @@ function MyPage() {
   const [filters, setFilters] = useState<{ [key: string]: string | number }>({
     year: 2024,
   });
+  const [chartFilter, setChartFilter] = useState<string>("Total Value");
 
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));

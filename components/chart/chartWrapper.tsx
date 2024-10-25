@@ -41,8 +41,6 @@ function ChartWrapper({
   viewAll = false,
   className,
 }: ChartWrapperProps) {
-  const [selectedFilter, setSelectedFilter] = useState(filters[0] ?? "");
-
   const defaultView = (
     <div className="flex flex-col gap-6 justify-center items-center">
       <Image
@@ -139,7 +137,7 @@ function ChartWrapper({
           </Tabs>
         )}
       </CardHeader>
-      <CardContent className="w-full p-0 mt-2">
+      <CardContent className="w-full p-0 mt-2 overflow-x-scroll">
         {children ?? defaultView}
       </CardContent>
     </Card>

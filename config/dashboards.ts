@@ -19,7 +19,7 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=bedroom",
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=room",
       },
       {
         key: "developer",
@@ -34,6 +34,7 @@ export const dashboards: Dashboard[] = [
         source:
           "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
+        searchable: true,
       },
       {
         key: "freehold",
@@ -158,7 +159,7 @@ export const dashboards: Dashboard[] = [
       },
       {
         key: "transactions_value_trend",
-        calculate: async () => {
+        calculate: async (params) => {
           try {
             const response = await axios.get(
               `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=2014&end_year=2024`
@@ -167,7 +168,10 @@ export const dashboards: Dashboard[] = [
             const data = response.data.data.data;
             const chartData = data.map((item: any) => ({
               year: item.Year,
-              value: item.Total_Value_of_Transaction,
+              value:
+                params?.type === "Value per SQFT"
+                  ? item.Total_price_per_sqft
+                  : item.Total_Value_of_Transaction,
             }));
 
             // Will do the required calculation here and return the data to build graph

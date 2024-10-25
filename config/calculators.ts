@@ -944,7 +944,7 @@ investment will yield a total of 24% return, which is well above the market aver
         key: "monthly_expense",
         label: "Monthly Expense",
         type: "read_only_auto_compute",
-        calculateFrom: ["monthly_debts", "monthly_expenses"],
+        calculateFrom: ["monthly_debts", "monthly_household_expenses"],
         calculateValue: (calculateFrom) =>
           parseFloat(calculateFrom[0]) + parseFloat(calculateFrom[1]),
         is_mandatory: true,
@@ -958,16 +958,7 @@ investment will yield a total of 24% return, which is well above the market aver
           parseFloat(calculateFrom[0]) - parseFloat(calculateFrom[1]),
         is_mandatory: true,
       },
-      {
-        key: "savings_allocation",
-        label: "Savings Allocation (%)",
-        type: "slider_with_text",
-        min: 0,
-        max: 100,
-        step: 1,
-        default_value: 50,
-        is_mandatory: true,
-      },
+
       {
         key: "down_payment",
         label: "Down Payment",
@@ -979,38 +970,7 @@ investment will yield a total of 24% return, which is well above the market aver
       {
         key: "monthly_payment",
         label: "Monthly Payment",
-        type: "metric",
-      },
-      {
-        key: "affordable_property_value",
-        label: "Affordable Property Value",
-        type: "metric",
-      },
-      {
-        key: "down_payment",
-        label: "Down Payment",
-        type: "comparison",
-        secondary_output: {
-          key: "total_loan_amount",
-          label: "Total Loan Amount",
-          type: "comparison",
-        },
-      },
-      {
-        key: "current_savings",
-        label: "Current Savings",
-        type: "comparison",
-        secondary_output: {
-          key: "current_expenses",
-          label: "Current Expenses",
-          type: "comparison",
-        },
-      },
-
-      {
-        key: "savings_after_mortgage",
-        label: "Savings After Mortgage",
-        type: "metric",
+        type: "variable_output",
       },
       {
         key: "insight",
@@ -1022,43 +982,22 @@ investment will yield a total of 24% return, which is well above the market aver
       const {
         monthly_income,
         monthly_debts,
-        monthly_expenses,
+        monthly_household_expenses,
         down_payment,
         mortgage_duration,
         available_monthly_savings,
-        savings_allocation,
       } = inputs;
-
-      const monthlyIncome = parseFloat(monthly_income);
-      const monthlyDebts = parseFloat(monthly_debts);
-      const monthlyExpenses = parseFloat(monthly_expenses);
-      const downPayment = parseFloat(down_payment);
-      const mortgageDuration = parseFloat(mortgage_duration);
-
-      const monthlySavings =
-        parseFloat(available_monthly_savings) *
-        (parseFloat(savings_allocation) / 100);
-
-      // const monthlySavings =
-      //   parseFloat(monthly_income) -
-      //   (parseFloat(monthly_debts) + parseFloat(monthly_expenses));
-      const affordable_price =
-        monthlySavings * parseFloat(mortgage_duration) +
-        parseFloat(down_payment);
-
-      const loanAmount = affordable_price - downPayment;
-      const currentExpenses = monthlyDebts + monthlyExpenses;
-
+      console.log("inputs Home: ", inputs);
       const insights =
         "Affordable property price calculated based on your finances.";
 
       return {
-        affordable_property_value: affordable_price.toFixed(2),
-        down_payment: downPayment.toFixed(2),
-        total_loan_amount: loanAmount.toFixed(2),
-        current_savings: monthlySavings.toFixed(2),
-        current_expenses: currentExpenses.toFixed(2),
-        insights: insights,
+        monthly_income,
+        monthly_debts,
+        monthly_household_expenses,
+        down_payment,
+        mortgage_duration,
+        available_monthly_savings,
       };
     },
   },

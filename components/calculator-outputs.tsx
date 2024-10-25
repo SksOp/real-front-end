@@ -14,6 +14,7 @@ import AreaChartComponent from "./chart/areachart/area";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Slider } from "./ui/slider";
+import HomeAffordibilityCalculator from "./home-affordibility-calculator";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -58,30 +59,9 @@ function CalculatorOutputs({
         />
       );
 
-    // case "variable_output":
-    //   const [scrollValue, setScrollValue] = useState(0);
-    //   const { min, max, step } = value;
-    //   return (
-    //     <div className="w-full flex flex-col gap-0.5 px-1">
-    //       <Label className="text-sm font-semibold text-secondary">
-    //         {title}
-    //       </Label>
-    //       <Input
-    //         type="text"
-    //         className="border rounded-lg bg-card"
-    //         value={value}
-    //         onChange={(e) => onChange(e.target.value)}
-    //       />
-    //       <Slider
-    //         value={[value]}
-    //         min={min}
-    //         max={max}
-    //         step={step}
-    //         onValueChange={(val) => onChange(val[0])}
-    //         className="mt-4"
-    //       />
-    //     </div>
-    //   );
+    case "variable_output":
+      console.log("variable_output", output);
+      return <HomeAffordibilityCalculator inputs={output} />;
 
     case "estimationCard":
       console.log(output.confidenceLevel);
@@ -94,6 +74,7 @@ function CalculatorOutputs({
       );
     case "pie_chart":
       console.log("output", value);
+
       return (
         <ChartWrapper title={title}>
           <PieChartComponent

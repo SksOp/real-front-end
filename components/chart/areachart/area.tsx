@@ -38,6 +38,18 @@ interface AreaChartComponentProps {
   customGridProps?: Record<string, any>;
 }
 
+const formatYAxisTick = (value: number): string => {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  } else {
+    return value.toString();
+  }
+};
+
 const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   data,
   chartConfig,
@@ -46,7 +58,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   gridStroke = "#F2F2F2",
   tickColor = "black",
   tickFontSize = "12px",
-  tickFormatter = (value) => value.slice(0, 3),
+  tickFormatter = (value) => value,
   tooltipContent = <Tooltip />,
   tickLine = false,
   tickMargin = 10,
@@ -67,7 +79,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
       <ResponsiveContainer width={chartWidth} height={chartHeight}>
         <AreaChart
           data={data}
-          margin={{ left: -20, top: 10, right: 10, bottom: 0 }}
+          margin={{ left: -10, top: 10, right: 10, bottom: 0 }}
         >
           <CartesianGrid
             vertical={false}
@@ -113,6 +125,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             tickMargin={tickMargin}
             stroke={"#C2C2C2"}
             axisLine={axisLine}
+            tickFormatter={formatYAxisTick}
           />
           <ChartTooltip content={<ChartTooltipContent />} />
 

@@ -88,11 +88,14 @@ const Barchart: React.FC<BarChartComponentProps> = ({
     const result = tickFormatter(value);
     return result !== undefined ? result.toString() : "";
   };
-
+  const chartWidth = Math.max(data.length * (30 + 40), 400);
   return (
-    <ChartContainer config={chartConfig}>
-      <ResponsiveContainer>
-        <BarChart data={data} margin={{ left: -30 }} barGap={10}>
+    <ChartContainer
+      config={chartConfig}
+      className="min-h-[250px] w-full overflow-x-auto"
+    >
+      <ResponsiveContainer width={chartWidth} height={300}>
+        <BarChart data={data} margin={{ left: -20 }} barGap={20}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -125,6 +128,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               radius={barRadius}
               stroke={"#121212"}
               spacing={20}
+              overflow={"scroll"}
               {...customBarProps}
             >
               {!showXAxis && (
