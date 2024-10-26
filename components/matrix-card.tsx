@@ -5,10 +5,11 @@ import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 interface MatrixCardProp {
   title: string;
   value: number | string;
-  growth: number;
+  growth?: number;
 }
 
-const isNumeric = (value: string) => {
+const isNumeric = (value: string | undefined) => {
+  if (value === undefined) return false;
   return !isNaN(parseFloat(value)) && isFinite(parseFloat(value));
 };
 
@@ -49,17 +50,17 @@ function MatrixCard({ title, value, growth }: MatrixCardProp) {
         <h3 className="text-lg font-semibold text-secondary">
           {formatValue(value)}
         </h3>
-        {growth > 0 ? (
+        {growth && growth > 0 ? (
           <div className="flex items-center justify-start gap-0.5">
             <CircularUpIcon className="h-4 w-4" />
             <p className="text-green-600 font-medium text-xs">{growth}%</p>
           </div>
-        ) : (
+        ) : growth && growth < 0 ? (
           <div className="flex items-center justify-start gap-0.5">
             <CircularDownIcon className="h-4 w-4" />
             <p className="text-red-600 font-medium text-xs">{-growth}%</p>
           </div>
-        )}
+        ) : null}
       </CardContent>
     </Card>
   );

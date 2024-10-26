@@ -64,7 +64,7 @@ function MyPage() {
   const [filters, setFilters] = useState<{ [key: string]: string | number }>({
     year: 2024,
   });
-  const [chartFilter, setChartFilter] = useState<string>("Total Value");
+  const [chartFilter, setChartFilter] = useState<string | null>();
 
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
@@ -102,10 +102,13 @@ function MyPage() {
     console.log(filters);
     const fetchChartsData = async () => {
       console.log("fetching charts data");
+      const allCharts: ChartDescription[] = [];
       dashboard?.calculate_charts?.forEach(async (chart) => {
-        const chartData = await chart.calculate();
-        setCharts((prev) => [...(prev ?? []), chartData]);
+        const chartData = await chart.calculate(filters);
+        console.log("chartData", chartData);
+        allCharts.push(chartData);
       });
+      setCharts(allCharts);
       console.log("charts", charts);
     };
 
@@ -130,7 +133,7 @@ function MyPage() {
         selectedFilters={filters}
         onChange={handleFilterChange}
       />
-      {/* <Progressbar target={navRef} className="top-12" /> */}
+
       <main ref={navRef}>
         <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
           <div className="grid grid-cols-2 gap-3 w-full">
@@ -155,152 +158,6 @@ function MyPage() {
               description={chart.description}
             />
           ))}
-          {/* <ChartWrapper title="Transaction Type" description="">
-            <HorizontalBarChartComponent
-              chartConfig={chartConfig}
-              data={[
-                { name: "Cash", value: 90, fill: "#DDF8E4" },
-                { name: "Mortgage", value: 30, fill: "#EFEEFC" },
-                { name: "Gifts", value: 20, fill: "#FFDBDB" },
-              ]}
-              xAxisDataKey={"name"}
-              yAxisDataKey={"value"}
-              className="max-h-[140px]"
-            />
-          </ChartWrapper> */}
-          {/* <ChartWrapper
-            title="Transactions Value Trend"
-            description="Compare transactional total value and value per sqft over time."
-            filters={["Total Value", "Value per SQFT"]}
-          >
-            <div className="flex flex-col gap-2">
-              <Barchart
-                chartConfig={chartConfig}
-                data={sampleData1}
-                xAxisDataKey={"year"}
-                yAxisDataKeys={["value"]}
-              />
-              <InsightCard className="bg-purple-50">
-                Lorem ipsum <span className="font-bold">4%</span> sit amet
-                consectetur. Gravida augue aliquam interdum morbi eu elit. Neque
-                <br />
-                Average price: <span className="font-bold">750000.</span>
-              </InsightCard>
-            </div>
-          </ChartWrapper>
-          <ChartWrapper
-            title="Sales Transactions Trend"
-            description="Compare number of transactions over time!"
-            filters={["Monthly", "Quarterly", "Yearly"]}
-          >
-            <div className="flex flex-col gap-2">
-              <AreaChartComponent
-                chartConfig={chartConfig}
-                data={[
-                  { month: "January", value1: 10 },
-                  { month: "March", value1: 20 },
-                  { month: "May", value1: 30 },
-                  { month: "Jul", value1: 20 },
-                  { month: "Sep", value1: 10 },
-                  { month: "Dec", value1: 30 },
-                ]}
-                xAxisDataKey="month"
-                areas={[{ yAxisDataKey: "value1" }]}
-              />
-              <InsightCard className="bg-purple-50">
-                This type of properties has high demand in this area and demand
-                is 10% higher than the overall Dubai overage.
-              </InsightCard>
-            </div>
-          </ChartWrapper>
-
-          <ChartWrapper
-            title="Sales Index"
-            description="This is overall sales value index in Dubai."
-            viewAll={true}
-          >
-            <div className="flex flex-col gap-4">
-              <SalesIndexCardComponent
-                percentile25={247685}
-                percentile75={566778}
-              />
-              <InsightCard className="bg-purple-50">
-                Above chart indicates that most properties sold in Dubai ranges
-                between 2.4 Million to 5.6 Million. Average price:{" "}
-                <span className="font-bold">750000.</span>
-              </InsightCard>
-              <DonutChartComponent
-                chartConfig={chartConfig2}
-                data={data}
-                dataKey="value"
-                nameKey="name"
-              />
-            </div>
-          </ChartWrapper>
-          <ChartWrapper title="Similar Transactions" viewAll={true}>
-            <SimilarTransaction
-              columns={["Date", "Sell Price", "Area (ft)"]}
-              data={[
-                {
-                  Date: "17/Jun/24",
-                  "Sell Price": "750,000",
-                  "Area (ft)": "494",
-                },
-                {
-                  Date: "17/Jun/24",
-                  "Sell Price": "750,000",
-                  "Area (ft)": "494",
-                },
-                {
-                  Date: "17/Jun/24",
-                  "Sell Price": "750,000",
-                  "Area (ft)": "494",
-                },
-                {
-                  Date: "17/Jun/24",
-                  "Sell Price": "750,000",
-                  "Area (ft)": "494",
-                },
-                {
-                  Date: "17/Jun/24",
-                  "Sell Price": "750,000",
-                  "Area (ft)": "494",
-                },
-                {
-                  Date: "17/Jun/24",
-                  "Sell Price": "750,000",
-                  "Area (ft)": "494",
-                },
-              ]}
-              headerText="Average sales price"
-              headerValue={"2345678"}
-            />
-          </ChartWrapper>
-          <ChartWrapper title="Price Comparison" viewAll={true}>
-            <PriceChangesTable selectedRow={2} />
-          </ChartWrapper>
-
-          <ChartWrapper
-            title="Sales segmentation"
-            description="Compare sales segmentation across residential and commercial."
-          >
-            <div className="flex flex-col gap-2">
-              <DonutChartComponent
-                chartConfig={chartConfig3}
-                data={[
-                  {
-                    name: "Residential",
-                    value: 30,
-                    colorClass: "bg-[#FFDBDB]",
-                  },
-                  { name: "Commercial", value: 20, colorClass: "bg-[#DDF8E4]" },
-                ]}
-                dataKey="value"
-                nameKey="name"
-              />
-              <DashboardTabs />
-            </div>
-          </ChartWrapper> */}
 
           <Feedback />
         </div>

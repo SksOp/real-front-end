@@ -77,26 +77,20 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   line = false,
   lineKey,
 }) => {
-  const lineData = data.map((entry, index) => {
-    return { x: entry[xAxisDataKey], y: entry[lineKey ?? ""] };
-  });
   const maxValue = Math.max(
     ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
   );
-  const yAxisDomain = [0, maxValue * 1.1];
-  const chartWidth = Math.max(data.length * 30, 500);
-  const chartHeight = 350;
-  const customTickFormatter = (value: any): string => {
-    const result = tickFormatter(value);
-    return result !== undefined ? result.toString() : "";
-  };
+
+  // Add some padding to the top of the chart
+  const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
+  const chartWidth = Math.max(data.length * 80, 400);
   return (
     <ChartContainer
       config={chartConfig}
       className="min-h-[250px]  overflow-x-scroll"
     >
-      <ResponsiveContainer width={chartWidth} height={chartHeight}>
-        <ComposedChart data={data} margin={{ left: -15 }} barGap={20}>
+      <ResponsiveContainer width={chartWidth} height={300}>
+        <ComposedChart data={data} margin={{ left: -15 }}>
           <XAxis
             dataKey={xAxisDataKey}
             tickLine={false}
@@ -111,11 +105,23 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
             axisLine={axisLine}
             domain={yAxisDomain}
           />
+          {line && (
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              tickLine={tickLine}
+              tickMargin={tickMargin}
+              tickFormatter={formatYAxisTick}
+              hide={true}
+              axisLine={axisLine}
+            />
+          )}
           <Bar
             dataKey={yAxisDataKeys[0]}
             stackId="a"
             stroke={"#121212"}
             fill={barColors[0]}
+            barSize={20}
             radius={[0, 0, 5, 5]}
           />
           <Bar
@@ -123,16 +129,17 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
             stackId="a"
             stroke={"#121212"}
             fill={barColors[1]}
-            style={{ transform: "translate(0,-6px)" }} // Adjust this if necessary
+            barSize={20}
+            className="-translate-y-0.5"
             radius={[5, 5, 0, 0]}
           />
           {line && (
             <Line
+              yAxisId="right"
               type="monotone"
-              data={lineData}
-              dataKey="y"
+              dataKey={lineKey}
               stroke="#ff7300"
-              dot={false}
+              dot={true}
               strokeWidth={2} // You can adjust the stroke width as needed
             />
           )}
@@ -145,9 +152,9 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
                     {chartConfig[name as keyof typeof chartConfig]?.label ||
                       name}
                     <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                      {value}
+                      {formatYAxisTick(Number(value))}
                       <span className="font-normal text-muted-foreground">
-                        kcal
+                        AED
                       </span>
                     </div>
                   </div>

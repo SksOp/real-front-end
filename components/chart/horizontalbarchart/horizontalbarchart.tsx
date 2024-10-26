@@ -44,7 +44,7 @@ const HorizontalBarChartComponent: React.FC<
   const maxDataValue = Math.max(...data.map((item) => item[yAxisDataKey]));
   const minDataValue = Math.min(...data.map((item) => item[yAxisDataKey]));
   return (
-    <ChartContainer config={chartConfig} className={cn("w-full", className)}>
+    <ChartContainer config={chartConfig} className={cn(" w-full", className)}>
       <ResponsiveContainer>
         <BarChart
           accessibilityLayer
@@ -76,7 +76,6 @@ const HorizontalBarChartComponent: React.FC<
             stroke={"#121212"}
             radius={4}
             barSize={30}
-            spacing={40}
             minPointSize={minBarLength} // Set minimum point size
           >
             <LabelList

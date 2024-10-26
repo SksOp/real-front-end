@@ -455,53 +455,53 @@ investment will yield a total of 24% return, which is well above the market aver
       const emi_payment_monthly =
         (loan_amount * monthly_rate * Math.pow(1 + monthly_rate, n_payments)) /
         (Math.pow(1 + monthly_rate, n_payments) - 1);
-      const emi_payment_yearly = emi_payment_monthly * 12;
-      const total_interest = emi_payment_monthly * n_payments - loan_amount;
 
-      // Initialize balance as the loan amount
       let balance = loan_amount;
+      const amortizationSchedule = [];
+      let totalInterest = 0;
+      const currentYear = new Date().getFullYear();
+      for (let year = 1; year <= mortgage_duration; year++) {
+        let principalPaidYearly = 0;
+        let interestPaidYearly = 0;
 
-      const breakdown = [];
-      const start_year = 2024; // Starting year for the mortgage
-      let yearly_principal = 0;
-      let yearly_interest = 0;
+        for (let month = 1; month <= 12; month++) {
+          const interestPayment = balance * monthly_rate;
+          const principalPayment = emi_payment_monthly - interestPayment;
 
-      for (let i = 1; i <= n_payments; i++) {
-        // Calculate monthly interest and principal
-        const interest_payment = balance * monthly_rate;
-        const principal_payment = emi_payment_monthly - interest_payment;
+          interestPaidYearly += interestPayment;
+          principalPaidYearly += principalPayment;
+          balance -= principalPayment;
 
-        // Update balance after this month's payment
-        balance -= principal_payment;
+          // Accumulate total interest paid
+          totalInterest += interestPayment;
 
-        // Accumulate yearly totals
-        yearly_principal += principal_payment;
-        yearly_interest += interest_payment;
-
-        // At the end of every 12 months (i.e., a year), store the values
-        if (i % 12 === 0) {
-          const year = start_year + Math.floor(i / 12) - 1;
-          balance = Math.abs(balance) < 0.01 ? 0 : balance;
-          breakdown.push({
-            Year: year,
-            Principal: yearly_principal.toFixed(2),
-            Interest: yearly_interest.toFixed(2),
-            Balance: balance.toFixed(2),
-          });
-
-          // Reset yearly totals for the next year
-          yearly_principal = 0;
-          yearly_interest = 0;
+          // If balance reaches 0, we break out of the loop early
+          if (balance <= 0) {
+            balance = 0;
+            break;
+          }
         }
+
+        amortizationSchedule.push({
+          Year: currentYear + year - 1,
+          Principal: principalPaidYearly.toFixed(2),
+          Interest: interestPaidYearly.toFixed(2),
+          Balance: balance.toFixed(2),
+        });
+
+        if (balance === 0) break; // End the loop if the loan is fully repaid
       }
+
+      // Calculating Total Payment
+      const totalPayment = loan_amount + totalInterest;
 
       const insights =
         "Monthly payments calculated based on loan amount and interest rate.";
 
       return {
         emi: emi_payment_monthly.toFixed(2),
-        total_interest: total_interest.toFixed(2),
-        total_principal: loan_amount.toFixed(2),
+        total_interest: totalInterest.toFixed(2),
+        total_principal: totalPayment.toFixed(2),
         total_payment_breakup_pie: [
           {
             name: "Priciple Loan Amount",
@@ -510,14 +510,14 @@ investment will yield a total of 24% return, which is well above the market aver
           },
           {
             name: "Total Interest",
-            value: total_interest.toFixed(2),
+            value: totalInterest.toFixed(2),
             colorClass: "bg-[#EFEEFC]",
           },
         ],
-        amortization_stacked_bar_chart: breakdown,
+        amortization_stacked_bar_chart: amortizationSchedule,
         amortization_table: {
           columns: ["Year", "Principal", "Interest", "Balance"],
-          data: breakdown,
+          data: amortizationSchedule,
         },
         insights: insights,
       };
@@ -734,7 +734,7 @@ investment will yield a total of 24% return, which is well above the market aver
         const capital_appreciation = annualAppreciation - purchasePrice;
         const annual_rents = annualRentalIncome * year;
         breakdown.push({
-          year: year,
+          year: 2023 + year,
           rental_income: annual_rents,
           capital_appreciation: capital_appreciation,
         });
@@ -897,12 +897,24 @@ investment will yield a total of 24% return, which is well above the market aver
       return {
         rent_vs_buy_chart: annualCosts,
         monthly_payment_comparison_chart: [
-          { category: "Rent", value: monthlyRent.toFixed(2) },
-          { category: "Buy", value: monthlyBuyPayment.toFixed(2) },
+          { category: "Rent", value: monthlyRent.toFixed(2), fill: "DDDAF9" },
+          {
+            category: "Buy",
+            value: monthlyBuyPayment.toFixed(2),
+            fill: "#F0FCF3",
+          },
         ],
         total_payment_comparison_chart: [
-          { category: "Rent", value: totalRentPaid.toFixed(2) },
-          { category: "Buy", value: totalBuyPayment.toFixed(2) },
+          {
+            category: "Rent",
+            value: totalRentPaid.toFixed(2),
+            fill: "#DDDAF9",
+          },
+          {
+            category: "Buy",
+            value: totalBuyPayment.toFixed(2),
+            fill: "#F0FCF3",
+          },
         ],
         insights: "insights",
       };

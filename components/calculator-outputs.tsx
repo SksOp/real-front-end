@@ -15,6 +15,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Slider } from "./ui/slider";
 import HomeAffordibilityCalculator from "./home-affordibility-calculator";
+import ChartException from "./chartException";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -77,12 +78,16 @@ function CalculatorOutputs({
 
       return (
         <ChartWrapper title={title}>
-          <PieChartComponent
-            data={value}
-            dataKey="value"
-            nameKey="name"
-            chartConfig={chartConfig}
-          />
+          {value.length === 0 ? (
+            <ChartException />
+          ) : (
+            <PieChartComponent
+              data={value}
+              dataKey="value"
+              nameKey="name"
+              chartConfig={chartConfig}
+            />
+          )}
         </ChartWrapper>
       );
 
@@ -95,7 +100,7 @@ function CalculatorOutputs({
             data={value}
             chartConfig={chartConfig}
             xAxisDataKey={keys[0]}
-            lineKey="Balance"
+            lineKey={keys[3]}
             line={true}
             yAxisDataKeys={[keys[1], keys[2]]}
           />
@@ -107,15 +112,20 @@ function CalculatorOutputs({
       return <SimilarTransaction data={value.data} columns={value.columns} />;
 
     case "bar_chart":
+      console.log(chartConfig);
       return (
         <ChartWrapper title={title}>
-          <Barchart
-            data={value}
-            chartConfig={chartConfig}
-            xAxisDataKey="category"
-            yAxisDataKeys={["value"]}
-            showInsideLabel={true}
-          />
+          {value.length === 0 ? (
+            <ChartException />
+          ) : (
+            <Barchart
+              data={value}
+              chartConfig={chartConfig}
+              xAxisDataKey="category"
+              yAxisDataKeys={["value"]}
+              showInsideLabel={true}
+            />
+          )}
         </ChartWrapper>
       );
 
@@ -123,19 +133,23 @@ function CalculatorOutputs({
       console.log("line_chart", value);
       return (
         <ChartWrapper title={title}>
-          <AreaChartComponent
-            data={value}
-            chartConfig={chartConfig}
-            xAxisDataKey="year"
-            areas={[
-              { yAxisDataKey: "rental_income", areaColor: "#8177E5" },
-              {
-                yAxisDataKey: "capital_appreciation",
-                areaColor: "#121212",
-              },
-            ]}
-            tickFormatter={(value) => value.toString()}
-          />
+          {value.length === 0 ? (
+            <ChartException />
+          ) : (
+            <AreaChartComponent
+              data={value}
+              chartConfig={chartConfig}
+              xAxisDataKey="year"
+              areas={[
+                { yAxisDataKey: "rental_income", areaColor: "#8177E5" },
+                {
+                  yAxisDataKey: "capital_appreciation",
+                  areaColor: "#121212",
+                },
+              ]}
+              tickFormatter={(value) => value.toString()}
+            />
+          )}
         </ChartWrapper>
       );
 

@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +22,7 @@ import {
   InfoIcon,
   ShareIcon,
 } from "@/public/svg/Indicator";
+import ChartException from "../chartException";
 
 interface ChartWrapperProps {
   title: string;
@@ -41,21 +41,6 @@ function ChartWrapper({
   viewAll = false,
   className,
 }: ChartWrapperProps) {
-  const defaultView = (
-    <div className="flex flex-col gap-6 justify-center items-center">
-      <Image
-        src="/imgs/exception.png"
-        width={120}
-        height={120}
-        className="object-cover"
-        alt={"exception"}
-      />
-      <span className="text-muted-foreground text-center">
-        No data available!
-      </span>
-    </div>
-  );
-
   return (
     <Card
       className={cn(
@@ -118,27 +103,12 @@ function ChartWrapper({
                   {filter}
                 </TabsTrigger>
               ))}
-
-              {/* <div className="flex space-x-2 py-2 w-full overflow-scroll">
-                {filters.map((filter) => (
-                  <div
-                    key={filter}
-                    onClick={() => setSelectedFilter(filter)}
-                    className={cn(
-                      "h-10 px-4 py-2 rounded-full border border-input bg-background  whitespace-nowrap ",
-                      selectedFilter === filter && "bg-secondary text-white"
-                    )}
-                  >
-                    {filter}
-                  </div>
-                ))}
-              </div> */}
             </TabsList>
           </Tabs>
         )}
       </CardHeader>
       <CardContent className="w-full p-0 mt-2 overflow-x-scroll">
-        {children ?? defaultView}
+        {children ?? <ChartException />}
       </CardContent>
     </Card>
   );

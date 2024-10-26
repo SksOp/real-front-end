@@ -109,7 +109,28 @@ export const dashboards: Dashboard[] = [
         ];
       } catch (error) {
         console.error("Error calculating metrics:", error);
-        throw new Error("Failed to calculate metrics.");
+        return [
+          {
+            key: "avg_sales_value",
+            title: "Average Sales Value",
+            value: "N/A",
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Sales Per Sqft",
+            value: "N/A",
+          },
+          {
+            key: "total_value",
+            title: "Total Value",
+            value: "N/A",
+          },
+          {
+            key: "no_of_transactions",
+            title: "No of Transactions",
+            value: "N/A",
+          },
+        ];
       }
     },
 
@@ -153,7 +174,24 @@ export const dashboards: Dashboard[] = [
             };
           } catch (error) {
             console.error("Error calculating transactions type chart:", error);
-            throw new Error("Failed to calculate transactions type chart.");
+            return {
+              name: "Transactions Type",
+              filters: [],
+              chart_type: "horizontal_bar",
+              chartConfig: {
+                Cash: {
+                  color: "#DDF8E4",
+                },
+                Mortgage: {
+                  color: "#EFEEFC",
+                },
+                Gifts: {
+                  color: "#FFDBDB",
+                },
+              },
+              sub_charts: [],
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
@@ -197,9 +235,23 @@ export const dashboards: Dashboard[] = [
               "Error calculating transactions value trend chart:",
               error
             );
-            throw new Error(
-              "Failed to calculate transactions value trend chart."
-            );
+            return {
+              name: "Transactions Value Trend",
+              description:
+                "Compare transactional total value and value per sqft over time.",
+              filters: ["Total Value", "Value per SQFT"],
+              chart_type: "bar",
+              chartConfig: {
+                desktop: {
+                  label: "Desktop",
+                  color: "hsl(var(--chart-1))",
+                },
+              },
+              sub_charts: [],
+              insights:
+                "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
@@ -239,9 +291,22 @@ export const dashboards: Dashboard[] = [
               "Error calculating sales transactions trend chart:",
               error
             );
-            throw new Error(
-              "Failed to calculate sales transactions trend chart."
-            );
+            return {
+              name: "Sales Transactions Trend",
+              description: "Compare number of transactions over time!",
+              filters: ["Monthly", "Quarterly", "Yearly"],
+              chart_type: "line",
+              chartConfig: {
+                desktop: {
+                  label: "Desktop",
+                  color: "hsl(var(--chart-1))",
+                },
+              },
+              sub_charts: [],
+              insights:
+                "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
@@ -363,7 +428,16 @@ export const dashboards: Dashboard[] = [
               "Error calculating similar transactions chart:",
               error
             );
-            throw new Error("Failed to calculate similar transactions chart.");
+            return {
+              name: "Similar Transactions",
+              chart_type: "table",
+              chartConfig: {},
+              filters: [],
+              sub_metrics: [],
+              view_more: true,
+              columns: [],
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
