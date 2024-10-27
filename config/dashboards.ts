@@ -59,52 +59,54 @@ export const dashboards: Dashboard[] = [
           throw new Error("No transactions found for the specified filters.");
         }
 
-        const totalValue = transactions.reduce(
-          (sum: number, transaction: any) => {
-            return (
-              sum +
-              transaction.Total_Value_of_Transaction /
-                transaction.nuber_of_columns_used
-            );
-          },
-          0
-        );
+        const growthCalculator = (current: number, previous: number) =>
+          ((current - previous) / previous) * 100;
 
-        const totalAreaInMeter = transactions.reduce(
-          (sum: number, transaction: any) => {
-            return sum + transaction.Total_area_in_meter * 10.764;
-          },
-          0
+        const avgSalesValue = transactions[1].average_value_of_transactions;
+        const avgSalesValueGrowth = growthCalculator(
+          parseFloat(avgSalesValue),
+          parseFloat(transactions[0].average_value_of_transactions)
         );
-
-        const avgSalesValue = totalValue;
-        const salesPerSqft = 10.764 * (totalValue / totalAreaInMeter);
-        const noOfTransactions = transactions.length;
+        const salesPerSqft = transactions[1].average_Price_per_sqft;
+        const salesPerSqftGrowth = growthCalculator(
+          parseFloat(salesPerSqft),
+          parseFloat(transactions[0].average_Price_per_sqft)
+        );
+        const totalValue = transactions[1].Total_Value_of_Transaction;
+        const totalValueGrowth = growthCalculator(
+          parseFloat(totalValue),
+          parseFloat(transactions[0].Total_Value_of_Transaction)
+        );
+        const noOfTransactions = transactions[1].number_of_Row_Used;
+        const noOfTransactionsGrowth = growthCalculator(
+          parseFloat(noOfTransactions),
+          parseFloat(transactions[0].number_of_Row_Used)
+        );
 
         return [
           {
             key: "avg_sales_value",
             title: "Average Sales Value",
             value: avgSalesValue.toFixed(2),
-            growth: "-21",
+            growth: avgSalesValueGrowth.toFixed(2),
           },
           {
             key: "sales_per_sqft",
             title: "Sales Per Sqft",
             value: salesPerSqft.toFixed(2),
-            growth: "21",
+            growth: salesPerSqftGrowth.toFixed(2),
           },
           {
             key: "total_value",
             title: "Total Value",
             value: totalValue.toFixed(2),
-            growth: "21",
+            growth: totalValueGrowth.toFixed(2),
           },
           {
             key: "no_of_transactions",
             title: "No of Transactions",
             value: noOfTransactions,
-            growth: "-21",
+            growth: noOfTransactionsGrowth.toFixed(2),
           },
         ];
       } catch (error) {
@@ -145,15 +147,30 @@ export const dashboards: Dashboard[] = [
                 params: params,
               }
             );
-
             // Will do the required calculation here and return the data to build graph
-            const data = response.data.data.data[0];
-            const chartData = [
-              { name: "Cash", value: data.total_sales, fill: "#DDF8E4" },
-              { name: "Mortgage", value: data.total_mortgage, fill: "#EFEEFC" },
-              { name: "Gifts", value: data.total_gift, fill: "#FFDBDB" },
-            ];
+            const data = response.data.data.data;
             console.log("data Transs", data);
+            const totalSalesSum = data.reduce(
+              (acc: number, curr: any) => acc + curr.total_sales,
+              0
+            );
+
+            const totalMortageSum = data.reduce(
+              (acc: number, curr: any) => acc + curr.total_mortgage,
+              0
+            );
+
+            const totalGiftSum = data.reduce(
+              (acc: number, curr: any) => acc + curr.total_gift,
+              0
+            );
+
+            const chartData = [
+              { name: "Cash", value: totalSalesSum, fill: "#DDF8E4" },
+              { name: "Mortgage", value: totalMortageSum, fill: "#EFEEFC" },
+              { name: "Gifts", value: totalGiftSum, fill: "#FFDBDB" },
+            ];
+
             return {
               name: "Transactions Type",
               filters: [],
@@ -199,25 +216,42 @@ export const dashboards: Dashboard[] = [
         key: "transactions_value_trend",
         calculate: async (params) => {
           try {
+            const date = new Date();
+            const end_year = date.getFullYear();
+            const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=2014&end_year=2024`
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+              {
+                params: params,
+              }
             );
 
             const data = response.data.data.data;
-            const chartData = data.map((item: any) => ({
+            console.log("data Transs", data);
+
+            const totalValue = data.map((item: any) => ({
               year: item.Year,
-              value:
-                params?.type === "Value per SQFT"
-                  ? item.Total_price_per_sqft
-                  : item.Total_Value_of_Transaction,
+              value: item.Total_Value_of_Transaction.toFixed(2),
             }));
 
+            const pricePerSqft = data.map((item: any) => ({
+              year: item.Year,
+              value: item.Total_price_per_sqft.toFixed(2),
+            }));
+            console.log("totalValue", totalValue);
             // Will do the required calculation here and return the data to build graph
             return {
               name: "Transactions Value Trend",
               description:
                 "Compare transactional total value and value per sqft over time.",
-              filters: ["Total Value", "Value per SQFT"],
+              filters: [
+                { key: "total_value", label: "Total Value", data: totalValue },
+                {
+                  key: "price_per_sqft",
+                  label: "Value per SQFT",
+                  data: pricePerSqft,
+                },
+              ],
               chart_type: "bar",
               chartConfig: {
                 desktop: {
@@ -228,7 +262,7 @@ export const dashboards: Dashboard[] = [
               sub_charts: [],
               insights:
                 "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
-              data: chartData, // Calculated data will be here
+              data: totalValue, // Calculated data will be here
             };
           } catch (error) {
             console.error(
@@ -257,23 +291,53 @@ export const dashboards: Dashboard[] = [
       },
       {
         key: "sales_transactions_trend",
-        calculate: async () => {
+        calculate: async (params) => {
           try {
+            const date = new Date();
+            const end_year = date.getFullYear();
+            const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?year=2024`
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+              {
+                params: params,
+              }
             );
-
             const data = response.data.data.data;
-            const chartData = data.map((item: any) => ({
-              month: item.Month,
-              value1: item.Total_Value_of_Transaction,
+            console.log("chddd", data);
+            const yearlyData = data.map((item: any) => ({
+              year: item.Year,
+              value1: item.number_of_Row_Used,
             }));
+
+            const currentYearData = data[data.length - 1];
+            const monthlyData = currentYearData.month_data.map((item: any) => ({
+              year: item.Month,
+              value1: item.number_of_Row_Used,
+            }));
+
+            let i = 11;
+            while (monthlyData.length !== 12) {
+              const prevYearData = data[data.length - 2];
+              monthlyData.unshift({
+                year: prevYearData.month_data[i].Month,
+                value1: prevYearData.month_data[i].number_of_Row_Used,
+              });
+              i--;
+            }
 
             // Will do the required calculation here and return the data to build graph
             return {
               name: "Sales Transactions Trend",
               description: "Compare number of transactions over time!",
-              filters: ["Monthly", "Quarterly", "Yearly"],
+              filters: [
+                { key: "monthly", label: "Monthly", data: monthlyData },
+                {
+                  key: "quarterly",
+                  label: "Quarterly",
+                  data: yearlyData,
+                },
+                { key: "yearly", label: "Yearly", data: yearlyData },
+              ],
               chart_type: "line",
               chartConfig: {
                 desktop: {
@@ -281,10 +345,11 @@ export const dashboards: Dashboard[] = [
                   color: "hsl(var(--chart-1))",
                 },
               },
+              columns: ["time", "value"],
               sub_charts: [],
               insights:
                 "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-              data: chartData, // Calculated data will be here
+              data: monthlyData, // Calculated data will be here
             };
           } catch (error) {
             console.error(
@@ -467,13 +532,31 @@ export const dashboards: Dashboard[] = [
       },
       {
         key: "sales_segmentation",
-        calculate: async () => {
+        calculate: async (params) => {
           try {
             // const response = await axios.get(
-            //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/metrics/total_sales_value`
+            //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+            //   {
+            //     params: params,
+            //   }
+            // );
+            // // Will do the required calculation here and return the data to build graph
+
+            // const data = response.data.data.data;
+            // const commercialData = data.filter(
+            //   (item: any) => item.usage_category === "Commercial"
+            // );
+            // const residential = data.filter(
+            //   (item: any) => item.usage_category === "Residential"
+            // );
+            // const others = data.filter(
+            //   (item: any) => item.usage_category === "Others"
             // );
 
-            // Will do the required calculation here and return the data to build graph
+            // const saleType = [
+            //   {name: }
+            // ];
+
             return {
               name: "Sales Segmentation",
               description:

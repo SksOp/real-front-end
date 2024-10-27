@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import Barchart from "./chart/barchart/barchart";
 import { ChartConfig } from "./ui/chart";
@@ -18,7 +19,7 @@ interface DashboardChartsProps {
   chartConfig: ChartConfig;
   data: any;
   columns?: string[];
-  filters?: string[];
+  filters?: any[];
 }
 
 const DashboardCharts: React.FC<DashboardChartsProps> = ({
@@ -31,6 +32,10 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   columns = [],
   filters,
 }) => {
+  const [selectedFilter, setSelectedFilter] = useState(
+    filters ? filters[0] : null
+  );
+
   const renderChart = () => {
     switch (type) {
       case "horizontal_bar":
@@ -47,7 +52,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
         return (
           <Barchart
             chartConfig={chartConfig}
-            data={data}
+            data={selectedFilter?.data ?? data}
             xAxisDataKey={"year"}
             yAxisDataKeys={["value"]}
           />
@@ -56,8 +61,8 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
         return (
           <AreaChartComponent
             chartConfig={chartConfig}
-            data={data}
-            xAxisDataKey="month"
+            data={selectedFilter?.data ?? data}
+            xAxisDataKey="year"
             areas={[{ yAxisDataKey: "value1" }]}
             tickFormatter={(value) => value.toString()}
           />
@@ -94,10 +99,11 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             {filters?.map((filter) => (
               <TabsTrigger
                 value={filter}
-                key={filter}
+                key={filter?.key}
+                onClick={() => setSelectedFilter(filter)}
                 className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
               >
-                {filter}
+                {filter?.label}
               </TabsTrigger>
             ))}
           </TabsList>

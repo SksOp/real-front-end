@@ -61,9 +61,9 @@ function MyPage() {
   const [charts, setCharts] = useState<ChartDescription[] | undefined>(
     undefined
   );
-  const [filters, setFilters] = useState<{ [key: string]: string | number }>({
-    year: 2024,
-  });
+  const [filters, setFilters] = useState<{ [key: string]: string | number }>(
+    {}
+  );
   const [chartFilter, setChartFilter] = useState<string | null>();
 
   const handleFilterChange = (filterKey: string, value: string) => {
@@ -85,7 +85,8 @@ function MyPage() {
       console.log("fetching matrics data");
       const date = new Date();
       const presentYear = date.getFullYear();
-      filters.year = presentYear;
+      filters.start_year = presentYear - 1;
+      filters.end_year = presentYear;
       console.log("filters", filters);
       const matrixOutput = await dashboard?.calculate_matrics?.(filters);
 
@@ -103,7 +104,7 @@ function MyPage() {
     const fetchChartsData = async () => {
       console.log("fetching charts data");
       const allCharts: ChartDescription[] = [];
-      dashboard?.calculate_charts?.forEach(async (chart) => {
+      dashboard?.calculate_charts?.map(async (chart) => {
         const chartData = await chart.calculate(filters);
         console.log("chartData", chartData);
         allCharts.push(chartData);

@@ -30,6 +30,18 @@ interface HorizontalBarChartComponentProps {
   minBarLength?: number; // New prop to set minimum bar length
 }
 
+const formatYAxisTick = (value: number): string => {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  } else {
+    return value.toString();
+  }
+};
+
 const HorizontalBarChartComponent: React.FC<
   HorizontalBarChartComponentProps
 > = ({
@@ -39,10 +51,10 @@ const HorizontalBarChartComponent: React.FC<
   yAxisDataKey,
   position,
   className,
-  minBarLength = 50, // Default minimum bar length
 }) => {
   const maxDataValue = Math.max(...data.map((item) => item[yAxisDataKey]));
   const minDataValue = Math.min(...data.map((item) => item[yAxisDataKey]));
+
   return (
     <ChartContainer config={chartConfig} className={cn(" w-full", className)}>
       <ResponsiveContainer>
@@ -76,7 +88,6 @@ const HorizontalBarChartComponent: React.FC<
             stroke={"#121212"}
             radius={4}
             barSize={30}
-            minPointSize={minBarLength} // Set minimum point size
           >
             <LabelList
               dataKey={xAxisDataKey}

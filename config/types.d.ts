@@ -88,10 +88,16 @@ export interface SubMetric {
   api_endpoint: string;
 }
 
+export interface SubFilters {
+  key: string;
+  label: string;
+  data: any[];
+}
+
 export interface ChartDescription {
   name: string;
   description?: string;
-  filters?: string[];
+  filters?: any[];
   chart_type:
     | "horizontal_bar"
     | "bar"
