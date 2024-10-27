@@ -125,7 +125,34 @@ function ExplorePriceChanges() {
             <PriceCard key={index} {...card} />
           ))} */}
 
-          <PriceChangesTable />
+          <PriceChangesTable
+            data={[
+              {
+                name: "Burj Khalifa",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+              {
+                name: "Palm Jumeirah",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+              {
+                name: "Dubai Mall",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+              {
+                name: "Jumeirah Beach",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+            ]}
+          />
         </TabsContent>
       </Tabs>
     </ExploreFormats>

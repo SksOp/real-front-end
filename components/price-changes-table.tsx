@@ -3,19 +3,14 @@ import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 import { Badge } from "./ui/badge";
 import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 import { cn } from "@/lib/utils";
-
-// Define types for the props used in the components
-interface PropertyInfoProps {
-  label: string;
-  value: string;
-}
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface PriceTableRowProps {
   name: string;
   avgPrice: string;
   pricePerSqFt: string;
   transactions: string;
-  isMuted: boolean;
+  isMuted?: boolean;
   isSelected?: boolean;
 }
 
@@ -54,7 +49,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </h3>
             <div className="flex gap-1 justify-start items-center">
               <h2 className="text-base text-secondary font-medium">
-                {avgPrice}
+                {FormatValue(avgPrice)}
               </h2>
               <span className="text-red-600 font-medium">21%</span>
               <CircularDownIcon />
@@ -65,7 +60,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
               {"Price Per sq. ft"}
             </h3>
             <h2 className="text-base text-secondary font-medium">
-              {pricePerSqFt}
+              {FormatValue(pricePerSqFt)}
             </h2>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
@@ -74,7 +69,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             </h3>
             <div className="flex gap-1 justify-start items-center">
               <h2 className="text-base text-secondary font-medium">
-                {transactions}
+                {FormatValue(transactions)}
               </h2>
               <span className="text-green-600 font-medium">21%</span>
               <CircularUpIcon />
@@ -88,39 +83,14 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
 
 // PriceChangesTable Component to render the table with rows
 interface PriceChangesTableProps {
+  data: PriceTableRowProps[]; // Array of objects with label and value
   selectedRow?: number; // Index of the selected row
 }
 
 const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
+  data,
   selectedRow,
 }) => {
-  const data = [
-    {
-      name: "Burj Khalifa",
-      avgPrice: "900K",
-      pricePerSqFt: "900K",
-      transactions: "1546",
-    },
-    {
-      name: "Palm Jumeirah",
-      avgPrice: "900K",
-      pricePerSqFt: "900K",
-      transactions: "1546",
-    },
-    {
-      name: "Dubai Mall",
-      avgPrice: "900K",
-      pricePerSqFt: "900K",
-      transactions: "1546",
-    },
-    {
-      name: "Jumeirah Beach",
-      avgPrice: "900K",
-      pricePerSqFt: "900K",
-      transactions: "1546",
-    },
-  ];
-
   return (
     <div className="border rounded-xl w-full overflow-hidden">
       <Table>

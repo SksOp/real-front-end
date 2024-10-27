@@ -11,6 +11,7 @@ import SimilarTransaction from "./similar-transaction";
 import ChartException from "./chartException";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import SecondaryChartWrapper from "./secondaryChartWrapper";
+import PriceChangesTable from "./price-changes-table";
 
 interface DashboardChartsProps {
   type: string;
@@ -56,7 +57,6 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             data={data}
             xAxisDataKey={"name"}
             yAxisDataKey={"value"}
-            className="max-h-[140px]"
           />
         );
       case "bar":
@@ -88,11 +88,11 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             nameKey="name"
           />
         );
-      case "sales_index":
+      case "percentile_bar":
         return (
           <SalesIndexCardComponent
-            percentile25={247685}
-            percentile75={566778}
+            percentile25={data[0]}
+            percentile75={data[1]}
           />
         );
       case "table":
@@ -104,6 +104,8 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             headerText="Average sales price"
           />
         );
+      case "comparison_table":
+        return <PriceChangesTable data={data} selectedRow={selectedFilter} />;
 
       default:
         return <ChartException />;

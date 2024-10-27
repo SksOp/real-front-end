@@ -237,7 +237,7 @@ export const dashboards: Dashboard[] = [
 
             const pricePerSqft = data.map((item: any) => ({
               year: item.Year,
-              value: item.Total_price_per_sqft.toFixed(2),
+              value: item.average_Price_per_sqft.toFixed(2),
             }));
             console.log("totalValue", totalValue);
             // Will do the required calculation here and return the data to build graph
@@ -391,60 +391,100 @@ export const dashboards: Dashboard[] = [
       },
       {
         key: "sales_index",
-        calculate: async () => {
+        calculate: async (params) => {
           try {
-            // const response = await axios.get(
-            //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/lastTrans`
-            // );
+            const response = await axios.get(
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
+              {
+                params: params,
+              }
+            );
+
+            const responseRange = await axios.get(
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?start_year=2024&end_year=2024`,
+              {
+                params: params,
+              }
+            );
 
             // Will do the required calculation here and return the data to build graph
+            const data = response.data.data.quartiles;
+            console.log("percentile25", data);
+            const percentile25 = data[0].max;
+            const percentile75 = data[3].min;
+
+            const rangeData = responseRange.data.data.data[0];
+            console.log("rangeData", rangeData);
+            const chartData = [
+              {
+                name: "<500K",
+                value: rangeData.total_sales_under_500k,
+                colorClass: "bg-[#FFDBDB]",
+              },
+              {
+                name: "500K to 1M",
+                value: rangeData.total_sales_500k_to_1M,
+                colorClass: "bg-[#EFEEFC]",
+              },
+              {
+                name: "1M to 2M",
+                value: rangeData.total_sales_1M_to_2M,
+                colorClass: "bg-[#DDF8E4]",
+              },
+              {
+                name: "2M to 3M",
+                value: rangeData.total_sales_2M_to_3M,
+                colorClass: "bg-[#FCF8D1]",
+              },
+              {
+                name: "3M to 4M",
+                value: rangeData.total_sales_3M_to_4M,
+                colorClass: "bg-[#FFC8C8]",
+              },
+              {
+                name: "4M to 5M",
+                value: rangeData.total_sales_4M_to_5M,
+                colorClass: "bg-[#FFC8C8]",
+              },
+              {
+                name: "5M to 10M",
+                value: rangeData.total_sales_5M_to_10M,
+                colorClass: "bg-[#FFC8C8]",
+              },
+              {
+                name: ">10M",
+                value: rangeData.total_sales_over_10M,
+                colorClass: "bg-[#FFC8C8]",
+              },
+            ];
+
             return {
               name: "Sales Index",
               description: "This is overall sales value index in Dubai.",
               chart_type: "percentile_bar",
               filters: [],
-              chartConfig: {
-                desktop: {
-                  label: "Desktop",
-                  color: "hsl(var(--chart-1))",
-                },
-              },
+              chartConfig: {},
               sub_charts: [
                 {
-                  key: "properties",
-                  calculate: async () => {
-                    try {
-                      const response = await axios.get(
-                        `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/metrics/total_sales_value`
-                      );
-
-                      // Will do the required calculation here and return the data to build graph
-                      return {
-                        name: "Sales Index",
-                        chart_type: "donut",
-                        chartConfig: {
-                          "Dubai Marina": { color: "#FFC8C8" },
-                          "Dubai Central": { color: "#EFEEFC" },
-                          "Dubai East": { color: "#D1F6DB" },
-                          "Dubai West": { color: "#FCF8D1" },
-                        },
-                        data: [], // Calculated data will be here
-                      };
-                    } catch (error) {
-                      console.error(
-                        "Error calculating properties for sales index:",
-                        error
-                      );
-                      throw new Error(
-                        "Failed to calculate properties for sales index."
-                      );
-                    }
+                  key: "price_range",
+                  name: "Price Range",
+                  chart_type: "donut",
+                  chartConfig: {
+                    "<500K": { color: "#FFDBDB" },
+                    "500K to 1M": { color: "#EFEEFC" },
+                    "1M to 2M": { color: "#DDF8E4" },
+                    "2M to 3M": { color: "#FCF8D1" },
+                    "3M to 4M": { color: "#FFC8C8" },
+                    "4M to 5M": { color: "#FFC8C8" },
+                    "5M to 10M": { color: "#FFC8C8" },
+                    ">10M": { color: "#FFC8C8" },
                   },
+                  data: chartData, // Calculated data will be here
                 },
               ],
               insights:
                 "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
-              data: [], // Calculated data will be here
+              data: [percentile25, percentile75], // Calculated data will be here
             };
           } catch (error) {
             console.error("Error calculating sales index chart:", error);
@@ -525,13 +565,25 @@ export const dashboards: Dashboard[] = [
       },
       {
         key: "price_Comparison",
-        calculate: async () => {
+        calculate: async (params) => {
           try {
-            // const response = await axios.get(
-            //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/metrics/total_sales_value`
-            // );
-
+            const response = await axios.get(
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?location=Business%20Bay`,
+              {
+                params: params,
+              }
+            );
             // Will do the required calculation here and return the data to build graph
+
+            const data = response.data.data.data;
+            console.log("compare data", data);
+            const chartData = data.map((item: any) => ({
+              name: item.AREA_EN,
+              avgPrice: item.avg_trans_value.toFixed(2),
+              pricePerSqFt: item.avg_price_per_sqft.toFixed(2),
+              transactions: item.num_sales.toFixed(2),
+            }));
+
             return {
               name: "Price Comparison",
               chart_type: "comparison_table",
@@ -539,7 +591,7 @@ export const dashboards: Dashboard[] = [
               chartConfig: {},
               sub_metrics: [],
               view_more: true,
-              data: [], // Calculated data will be here
+              data: chartData, // Calculated data will be here
             };
           } catch (error) {
             console.error("Error calculating price comparison chart:", error);
@@ -574,70 +626,114 @@ export const dashboards: Dashboard[] = [
               },
             ];
 
-            const saleType = [
-              {
-                name: "Free Hold",
-                value:
-                  data[0].types.free_hold_en.free_hold +
-                  data[1].types.free_hold_en.free_hold,
-                fill: "#DDF8E4",
-              },
-              {
-                name: "Lease",
-                value:
-                  data[0].types.free_hold_en.lease +
-                  data[1].types.free_hold_en.lease,
-                fill: "#EFEEFC",
-              },
-            ];
+            const colors: Record<string, string> = {
+              freeHold: "#DDF8E4",
+              lease: "#EFEEFC",
+              ready: "#DDF8E4",
+              offplan: "#FFDBDB",
+              land: "#E5F2FF",
+              unit: "#FFE2E2",
+              building: "#FFF3E0",
+              villa: "#E2FFEB",
+              count_1_B_R: "#E2FFEB",
+              count_2_B_R: "#FFE2E2",
+              count_3_B_R: "#FFF3E0",
+              count_4_B_R: "#E5F2FF",
+              count_5_B_R: "#FFDBDB",
+              count_6_B_R: "#DDF8E4",
+              count_7_B_R: "#EFEEFC",
+              count_8_B_R: "#CBE5FB",
+              count_9_B_R: "#FCF8D1",
+              count_studio: "#FFC8C8",
+              count_single_room: "#FFC8C8",
+              count_penthouse: "#FFC8C8",
+            };
 
-            const firstSale = [
-              {
-                name: "Ready",
-                value:
-                  data[0].types.offplan_en.ready +
-                  data[1].types.offplan_en.offplan,
-                fill: "#DDF8E4",
+            const categories = {
+              free_hold_en: {
+                types: ["free_hold", "lease"],
+                names: ["Free Hold", "Lease"],
+                colorKeys: ["freeHold", "lease"],
               },
-              {
-                name: "Offplan",
-                value:
-                  data[0].types.offplan_en.ready +
-                  data[1].types.offplan_en.offplan,
-                fill: "#FFDBDB",
+              offplan_en: {
+                types: ["ready", "offplan"],
+                names: ["Ready", "Offplan"],
+                colorKeys: ["ready", "offplan"],
               },
-            ];
-            console.log(firstSale);
-            const propertyType = [
-              {
-                name: "Land",
-                value:
-                  data[0].types.prop_type_en.land +
-                  data[1].types.prop_type_en.land,
-                fill: "#DDF8E4",
+              prop_type_en: {
+                types: ["land", "unit", "building", "villa"],
+                names: ["Land", "Unit", "Building", "Villa"],
+                colorKeys: ["land", "unit", "building", "villa"],
               },
-              {
-                name: "Unit",
-                value:
-                  data[0].types.prop_type_en.unit +
-                  data[1].types.prop_type_en.unit,
-                fill: "#EFEEFC",
+              rooms_en: {
+                types: [
+                  "count_1_B_R",
+                  "count_2_B_R",
+                  "count_3_B_R",
+                  "count_4_B_R",
+                  "count_5_B_R",
+                  "count_6_B_R",
+                  "count_7_B_R",
+                  "count_8_B_R",
+                  "count_9_B_R",
+                  "count_studio",
+                  "count_single_room",
+                  "count_penthouse",
+                ],
+                names: [
+                  "1 BR",
+                  "2 BR",
+                  "3 BR",
+                  "4 BR",
+                  "5 BR",
+                  "6 BR",
+                  "7 BR",
+                  "8 BR",
+                  "9 BR",
+                  "Studio",
+                  "Single Room",
+                  "Penthouse",
+                ],
+                colorKeys: [
+                  "count_1_B_R",
+                  "count_2_B_R",
+                  "count_3_B_R",
+                  "count_4_B_R",
+                  "count_5_B_R",
+                  "count_6_B_R",
+                  "count_7_B_R",
+                  "count_8_B_R",
+                  "count_9_B_R",
+                  "count_studio",
+                  "count_single_room",
+                  "count_penthouse",
+                ],
               },
-              {
-                name: "Building",
-                value:
-                  data[0].types.prop_type_en.building +
-                  data[1].types.prop_type_en.building,
-                fill: "#FCF8D1",
-              },
-              {
-                name: "Villa",
-                value:
-                  data[0].types.prop_type_en.villa +
-                  data[1].types.prop_type_en.villa,
-                fill: "#CBE5FB",
-              },
-            ];
+            };
+
+            const createCategory = (indexes: number[]) => {
+              const result: any = {};
+              for (const [
+                category,
+                { types, names, colorKeys },
+              ] of Object.entries(categories)) {
+                result[category] = types.map((type, i) => ({
+                  name: names[i],
+                  value: indexes.reduce(
+                    // (sum, idx) => sum + data[idx].types[`${category}_en`][type],
+                    (sum, idx) => sum + data[idx].types[category][type],
+                    0
+                  ),
+                  fill: colors[colorKeys[i]],
+                }));
+              }
+              return result;
+            };
+
+            const allData = createCategory([0, 1]);
+            console.log("allData HHHHHH", allData);
+            const residentialData = createCategory([1]);
+            const commercialData = createCategory([0]);
 
             return {
               name: "Sales Segmentation",
@@ -659,7 +755,7 @@ export const dashboards: Dashboard[] = [
                   name: "Sales Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  data: saleType, // Calculated data will be here
+                  data: allData?.free_hold_en, // Calculated data will be here
                   insights:
                     "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
                 },
@@ -668,14 +764,21 @@ export const dashboards: Dashboard[] = [
                   name: "Property Status",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  data: firstSale, // Calculated data will be here
+                  data: allData?.offplan_en, // Calculated data will be here
                 },
                 {
                   key: "property_type",
                   name: "Property Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  data: propertyType, // Calculated data will be here
+                  data: allData?.prop_type_en, // Calculated data will be here
+                },
+                {
+                  key: "rooms",
+                  name: "Rooms",
+                  chart_type: "horizontal_bar",
+                  chartConfig: {},
+                  data: allData?.rooms_en, // Calculated data will be here
                 },
               ],
               data: chartData, // Calculated data will be here

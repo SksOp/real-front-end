@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { FormatValue } from "@/utils/formatNumbers";
 import React, { useEffect, useState } from "react";
 
 interface SalesIndexCardComponentProps {
@@ -70,10 +71,10 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
       </div>
       <div className="flex justify-between text-gray-600 text-sm w-full">
         <div className="w-full flex justify-center">
-          <span>AED {percentile25}</span>
+          <span>AED {FormatValue(percentile25)}</span>
         </div>
         <div className="w-full flex justify-center">
-          <span>AED {percentile75}</span>
+          <span>AED {FormatValue(percentile75)}</span>
         </div>
       </div>
     </div>

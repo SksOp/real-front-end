@@ -214,7 +214,35 @@ function MyPage() {
           />
         </ChartWrapper>
         <ChartWrapper title="Price Comparison" viewAll={true}>
-          <PriceChangesTable selectedRow={2} />
+          <PriceChangesTable
+            data={[
+              {
+                name: "Burj Khalifa",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+              {
+                name: "Palm Jumeirah",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+              {
+                name: "Dubai Mall",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+              {
+                name: "Jumeirah Beach",
+                avgPrice: "900K",
+                pricePerSqFt: "900K",
+                transactions: "1546",
+              },
+            ]}
+            selectedRow={2}
+          />
         </ChartWrapper>
 
         <ChartWrapper

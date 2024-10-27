@@ -56,33 +56,32 @@ const HorizontalBarChartComponent: React.FC<
   maxBarLength = 100, // Define a maximum bar length to limit extreme values
 }) => {
   // Determine max and min values of the original y-axis data
-  const maxDataValue = Math.max(...data.map((item) => item[yAxisDataKey]));
-  const minDataValue = Math.min(...data.map((item) => item[yAxisDataKey]));
+  // const maxDataValue = Math.max(...data.map((item) => item[yAxisDataKey]));
+  // const minDataValue = Math.min(...data.map((item) => item[yAxisDataKey]));
 
-  const isUniformData = maxDataValue === minDataValue;
+  // const isUniformData = maxDataValue === minDataValue;
 
-  // Apply linear normalization or set a fixed value if all data is uniform
-  const normalizedData = data.map((item) => {
-    const value = item[yAxisDataKey];
-    const normalizedValue = isUniformData
-      ? minBarLength // Set to minBarLength if all values are the same
-      : ((value - minDataValue) / (maxDataValue - minDataValue)) *
-          (maxBarLength - minBarLength) +
-        minBarLength; // Scale to fit within min and max range
+  // // Apply linear normalization or set a fixed value if all data is uniform
+  // const normalizedData = data.map((item) => {
+  //   const value = item[yAxisDataKey];
+  //   const normalizedValue = isUniformData
+  //     ? minBarLength // Set to minBarLength if all values are the same
+  //     : ((value - minDataValue) / (maxDataValue - minDataValue)) *
+  //         (maxBarLength - minBarLength) +
+  //       minBarLength; // Scale to fit within min and max range
 
-    return {
-      ...item,
-      normalizedValue, // Normalized bar length for display
-    };
-  });
+  //   return {
+  //     ...item,
+  //     normalizedValue, // Normalized bar length for display
+  //   };
+  // });
 
-  console.log(normalizedData, data);
   return (
     <ChartContainer config={chartConfig} className={cn("w-full", className)}>
       <ResponsiveContainer>
         <BarChart
           accessibilityLayer
-          data={normalizedData}
+          data={data}
           layout="vertical"
           margin={{
             right: 30,
@@ -105,7 +104,7 @@ const HorizontalBarChartComponent: React.FC<
             content={<ChartTooltipContent indicator="line" />}
           />
           <Bar
-            dataKey="normalizedValue"
+            dataKey={yAxisDataKey}
             layout="vertical"
             stroke={"#121212"}
             radius={4}

@@ -64,7 +64,34 @@ function HomePriceIndex() {
                 value="property"
                 className="w-full flex flex-col gap-2 "
               >
-                <PriceChangesTable />
+                <PriceChangesTable
+                  data={[
+                    {
+                      name: "Burj Khalifa",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Palm Jumeirah",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Dubai Mall",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Jumeirah Beach",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                  ]}
+                />
                 <h3 className="text-primary font-semibold text-right text-sm">
                   View All
                 </h3>
@@ -101,7 +128,34 @@ function HomePriceIndex() {
                 value="property"
                 className="w-full flex flex-col gap-2 "
               >
-                <PriceChangesTable />
+                <PriceChangesTable
+                  data={[
+                    {
+                      name: "Burj Khalifa",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Palm Jumeirah",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Dubai Mall",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Jumeirah Beach",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                  ]}
+                />
                 <h3 className="text-primary font-semibold text-right text-sm">
                   View All
                 </h3>
