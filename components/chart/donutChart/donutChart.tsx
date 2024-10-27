@@ -27,6 +27,18 @@ interface DonutChartComponentProps {
   padAngle?: number;
 }
 
+const formatValue = (value: number): string => {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  } else {
+    return value.toString();
+  }
+};
+
 const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   chartConfig,
   data,
@@ -36,10 +48,18 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   outerRadius = 80,
   strokeWidth = 1,
   className = "mx-auto aspect-square max-h-[250px]",
-  totalLabel = "Properties",
+  totalLabel = "Total",
   cornerRadius = 5,
   padAngle = 4,
 }) => {
+  // Helper function to format numbers with suffixes
+  const formatNumber = (num: number): string => {
+    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
+    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
+    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
+    return num.toString();
+  };
+
   // Calculate total properties count for the label in the middle of the Pie chart
   const totalProperties = data.reduce((acc, item) => acc + item[dataKey], 0);
 
@@ -82,9 +102,9 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-2xl font-bold"
                         >
-                          {totalProperties.toLocaleString()}
+                          {formatNumber(totalProperties)}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -102,19 +122,20 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
           </PieChart>
         </ResponsiveContainer>
       </ChartContainer>
-      <div className="w-full grid grid-cols-2 gap-x-4">
+      <div className="w-full grid grid-cols-2 gap-x-8 gap-4 ">
         {data.map((item) => (
-          <div
-            key={item.name}
-            className="flex items-center  text-base w-full whitespace-nowrap gap-2"
-          >
+          <div key={item.name} className="flex items-start w-full gap-2">
             <span
-              className={` min-w-3 w-3 h-3 rounded-sm border border-secondary ${item.colorClass}`}
+              className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}
             />
-            <span>{item.name}</span>
-            <span className="text-secondary text-sm font-semibold">
-              {item.value}
-            </span>
+            <div className="flex flex-col gap-1 ">
+              <div className="flex  gap-2 justify-center items-center">
+                <span className="text-sm truncate">{item.name}</span>
+              </div>
+              <span className="text-secondary text-sm font-semibold">
+                {formatValue(item.value)}
+              </span>
+            </div>
           </div>
         ))}
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import Barchart from "./chart/barchart/barchart";
 import { ChartConfig } from "./ui/chart";
@@ -10,6 +10,7 @@ import ChartWrapper from "./chart/chartWrapper";
 import SimilarTransaction from "./similar-transaction";
 import ChartException from "./chartException";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import SecondaryChartWrapper from "./secondaryChartWrapper";
 
 interface DashboardChartsProps {
   type: string;
@@ -20,6 +21,8 @@ interface DashboardChartsProps {
   data: any;
   columns?: string[];
   filters?: any[];
+  otherInfo?: number | string;
+  subCharts?: any[];
 }
 
 const DashboardCharts: React.FC<DashboardChartsProps> = ({
@@ -31,12 +34,20 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   data,
   columns = [],
   filters,
+  otherInfo,
+  subCharts,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
     filters ? filters[0] : null
   );
 
-  const renderChart = () => {
+  const renderChart = (
+    type: string,
+    data: any[],
+    chartConfig: ChartConfig,
+    selectedFilter?: any,
+    columns?: string[]
+  ) => {
     switch (type) {
       case "horizontal_bar":
         return (
@@ -68,6 +79,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           />
         );
       case "donut":
+        console.log("donut", data);
         return (
           <DonutChartComponent
             chartConfig={chartConfig}
@@ -84,7 +96,14 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           />
         );
       case "table":
-        return <SimilarTransaction data={data} columns={columns} />;
+        return (
+          <SimilarTransaction
+            data={data}
+            columns={columns ?? []}
+            headerValue={String(otherInfo)}
+            headerText="Average sales price"
+          />
+        );
 
       default:
         return <ChartException />;
@@ -109,7 +128,14 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           </TabsList>
         </Tabs>
       )}
-      {renderChart()}
+      {renderChart(type, data, chartConfig, selectedFilter, columns)}
+      <div className="flex flex-col gap-3 mt-4">
+        {subCharts?.map((chart) => (
+          <SecondaryChartWrapper key={chart.key} title={chart.name}>
+            {renderChart(chart.chart_type, chart.data, chart.chartConfig)}
+          </SecondaryChartWrapper>
+        ))}
+      </div>
     </ChartWrapper>
   );
 };

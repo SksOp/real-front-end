@@ -225,8 +225,16 @@ function MyPage() {
             <DonutChartComponent
               chartConfig={chartConfig3}
               data={[
-                { name: "Residential", value: 30, colorClass: "bg-[#FFDBDB]" },
-                { name: "Commercial", value: 20, colorClass: "bg-[#DDF8E4]" },
+                {
+                  name: "Residential",
+                  value: 310361,
+                  colorClass: "bg-[#FFDBDB]",
+                },
+                {
+                  name: "Commercial",
+                  value: 310361,
+                  colorClass: "bg-[#DDF8E4]",
+                },
               ]}
               dataKey="value"
               nameKey="name"

@@ -64,8 +64,6 @@ function MyPage() {
   const [filters, setFilters] = useState<{ [key: string]: string | number }>(
     {}
   );
-  const [chartFilter, setChartFilter] = useState<string | null>();
-
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
   };
@@ -100,17 +98,22 @@ function MyPage() {
   }, [dashboard, filters]);
 
   useEffect(() => {
-    console.log(filters);
     const fetchChartsData = async () => {
       console.log("fetching charts data");
-      const allCharts: ChartDescription[] = [];
-      dashboard?.calculate_charts?.map(async (chart) => {
-        const chartData = await chart.calculate(filters);
-        console.log("chartData", chartData);
-        allCharts.push(chartData);
-      });
-      setCharts(allCharts);
-      console.log("charts", charts);
+
+      if (dashboard?.calculate_charts) {
+        // Map over calculate_charts and wait for all async calculate calls to resolve
+        const allCharts = await Promise.all(
+          dashboard.calculate_charts.map(async (chart) => {
+            const chartData = await chart.calculate(filters);
+            console.log("chartData", chartData);
+            return chartData;
+          })
+        );
+
+        setCharts(allCharts);
+        console.log("charts", allCharts);
+      }
     };
 
     if (dashboard) {
@@ -156,6 +159,8 @@ function MyPage() {
               title={chart.name}
               filters={chart.filters}
               columns={chart?.columns}
+              otherInfo={chart.otherInfo}
+              subCharts={chart.sub_charts}
               description={chart.description}
             />
           ))}

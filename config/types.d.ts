@@ -109,6 +109,7 @@ export interface ChartDescription {
   chartConfig: ChartConfig;
   data: any[];
   columns?: string[];
+  otherInfo?: number | string;
   sub_charts?: Dashboard.calculate_charts;
   insights?: string;
 }
