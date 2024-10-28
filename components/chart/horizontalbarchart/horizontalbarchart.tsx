@@ -111,6 +111,7 @@ const HorizontalBarChartComponent: React.FC<
             layout="vertical"
             stroke={"#121212"}
             radius={4}
+            spacing={10}
             barSize={30}
           >
             {/* Label for category name */}
