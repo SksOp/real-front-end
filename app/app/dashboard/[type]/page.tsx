@@ -161,6 +161,7 @@ function MyPage() {
               columns={chart?.columns}
               otherInfo={chart.otherInfo}
               subCharts={chart.sub_charts}
+              styles={chart.styles}
               description={chart.description}
             />
           ))}

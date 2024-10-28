@@ -187,6 +187,7 @@ export const dashboards: Dashboard[] = [
                   color: "#FFDBDB",
                 },
               },
+              styles: "min-h-[150px] h-[150px]",
               sub_charts: [],
               data: chartData, // Calculated data will be here
             };
@@ -755,6 +756,7 @@ export const dashboards: Dashboard[] = [
                   name: "Sales Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
+                  styles: "min-h-[100px] h-[100px]",
                   data: allData?.free_hold_en, // Calculated data will be here
                   insights:
                     "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
@@ -764,6 +766,7 @@ export const dashboards: Dashboard[] = [
                   name: "Property Status",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
+                  styles: "min-h-[100px] h-[100px]",
                   data: allData?.offplan_en, // Calculated data will be here
                 },
                 {
@@ -771,6 +774,7 @@ export const dashboards: Dashboard[] = [
                   name: "Property Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
+                  styles: "min-h-[150px]  ",
                   data: allData?.prop_type_en, // Calculated data will be here
                 },
                 {
@@ -778,6 +782,7 @@ export const dashboards: Dashboard[] = [
                   name: "Rooms",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
+                  styles: "min-h-[450px]",
                   data: allData?.rooms_en, // Calculated data will be here
                 },
               ],

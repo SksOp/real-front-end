@@ -12,6 +12,7 @@ import ChartException from "./chartException";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import SecondaryChartWrapper from "./secondaryChartWrapper";
 import PriceChangesTable from "./price-changes-table";
+import { ClassValue } from "clsx";
 
 interface DashboardChartsProps {
   type: string;
@@ -24,6 +25,7 @@ interface DashboardChartsProps {
   filters?: any[];
   otherInfo?: number | string;
   subCharts?: any[];
+  styles?: ClassValue;
 }
 
 const DashboardCharts: React.FC<DashboardChartsProps> = ({
@@ -37,18 +39,21 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   filters,
   otherInfo,
   subCharts,
+  styles,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
     filters ? filters[0] : null
   );
-
+  console.log("selectedFilter", subCharts);
   const renderChart = (
     type: string,
     data: any[],
     chartConfig: ChartConfig,
     selectedFilter?: any,
-    columns?: string[]
+    columns?: string[],
+    className?: ClassValue
   ) => {
+    console.log(styles);
     switch (type) {
       case "horizontal_bar":
         return (
@@ -57,6 +62,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             data={data}
             xAxisDataKey={"name"}
             yAxisDataKey={"value"}
+            className={className}
           />
         );
       case "bar":
@@ -130,11 +136,18 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           </TabsList>
         </Tabs>
       )}
-      {renderChart(type, data, chartConfig, selectedFilter, columns)}
+      {renderChart(type, data, chartConfig, selectedFilter, columns, styles)}
       <div className="flex flex-col gap-3 mt-4">
         {subCharts?.map((chart) => (
           <SecondaryChartWrapper key={chart.key} title={chart.name}>
-            {renderChart(chart.chart_type, chart.data, chart.chartConfig)}
+            {renderChart(
+              chart.chart_type,
+              chart.data,
+              chart.chartConfig,
+              selectedFilter,
+              columns,
+              chart.styles
+            )}
           </SecondaryChartWrapper>
         ))}
       </div>

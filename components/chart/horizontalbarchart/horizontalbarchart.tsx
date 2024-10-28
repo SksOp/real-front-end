@@ -75,9 +75,11 @@ const HorizontalBarChartComponent: React.FC<
   //     normalizedValue, // Normalized bar length for display
   //   };
   // });
+  const chartHeight = 40 * data.length;
+  console.log(className);
 
   return (
-    <ChartContainer config={chartConfig} className={cn("w-full", className)}>
+    <ChartContainer config={chartConfig} className={cn("w-full ", className)}>
       <ResponsiveContainer>
         <BarChart
           accessibilityLayer
@@ -88,6 +90,7 @@ const HorizontalBarChartComponent: React.FC<
             left: 10,
           }}
           barCategoryGap={10}
+          barGap={10}
         >
           <YAxis
             dataKey={xAxisDataKey}

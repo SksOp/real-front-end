@@ -1,6 +1,7 @@
 // types/calculatorTypes.ts
 
 import { ChartConfig } from "@/components/ui/chart";
+import { ClassValue } from "clsx";
 
 export interface InputField {
   key: string;
@@ -109,6 +110,7 @@ export interface ChartDescription {
   chartConfig: ChartConfig;
   data: any[];
   columns?: string[];
+  styles?: ClassValue;
   otherInfo?: number | string;
   sub_charts?: Dashboard.calculate_charts;
   insights?: string;
