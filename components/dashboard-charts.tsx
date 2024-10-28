@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import SecondaryChartWrapper from "./secondaryChartWrapper";
 import PriceChangesTable from "./price-changes-table";
 import { ClassValue } from "clsx";
+import HomeTotalAds, { HorizontalBarChart } from "./home-total-ads";
 
 interface DashboardChartsProps {
   type: string;
@@ -44,6 +45,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   const [selectedFilter, setSelectedFilter] = useState(
     filters ? filters[0] : null
   );
+  const [subChartFilter, setSubChartFilter] = useState(null);
   console.log("selectedFilter", subCharts);
   const renderChart = (
     type: string,
@@ -137,19 +139,45 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
         </Tabs>
       )}
       {renderChart(type, data, chartConfig, selectedFilter, columns, styles)}
+
+      {subCharts &&
+        subCharts?.length > 0 &&
+        subCharts[0]?.filters?.length > 0 && (
+          <Tabs defaultValue={subCharts[0]?.filters[0].key}>
+            <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mt-4">
+              {subCharts[0]?.filters.map((filter: any) => (
+                <TabsTrigger
+                  value={filter.key}
+                  key={filter.key}
+                  onClick={() => setSubChartFilter(filter.key)}
+                  className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                >
+                  {filter.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        )}
+
       <div className="flex flex-col gap-3 mt-4">
-        {subCharts?.map((chart) => (
-          <SecondaryChartWrapper key={chart.key} title={chart.name}>
-            {renderChart(
-              chart.chart_type,
-              chart.data,
-              chart.chartConfig,
-              selectedFilter,
-              columns,
-              chart.styles
-            )}
-          </SecondaryChartWrapper>
-        ))}
+        {subCharts?.map((chart) => {
+          const filterData = chart.filters?.find(
+            (f: any) => f.key === subChartFilter
+          )?.data;
+
+          return (
+            <SecondaryChartWrapper key={chart.key} title={chart.name}>
+              {renderChart(
+                chart.chart_type,
+                filterData || chart.data,
+                chart.chartConfig,
+                selectedFilter,
+                columns,
+                chart.styles
+              )}
+            </SecondaryChartWrapper>
+          );
+        })}
       </div>
     </ChartWrapper>
   );

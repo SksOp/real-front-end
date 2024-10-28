@@ -19,6 +19,8 @@ import {
 import { LabelPosition } from "recharts/types/component/Label";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
+import { Tooltip } from "@/components/ui/tooltip";
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface HorizontalBarChartComponentProps {
   chartConfig: ChartConfig;
@@ -27,21 +29,19 @@ interface HorizontalBarChartComponentProps {
   yAxisDataKey: string;
   position?: LabelPosition;
   className?: ClassValue;
-  minBarLength?: number; // Minimum bar length for display
-  maxBarLength?: number; // Maximum bar length for display
+  barRadius?: number;
+  gridStroke?: string;
+  tickColor?: string;
+  tickFontSize?: string;
+  tickFormatter?: (value: any) => string;
+  tooltipContent?: React.ReactElement;
+  tickLine?: boolean;
+  tickMargin?: number;
+  axisLine?: boolean;
+  customBarProps?: Record<string, any>;
+  customXAxisProps?: Record<string, any>;
+  customGridProps?: Record<string, any>;
 }
-
-const formatValue = (value: number): string => {
-  if (value >= 1000000000) {
-    return (value / 1000000000).toFixed(0) + "B";
-  } else if (value >= 1000000) {
-    return (value / 1000000).toFixed(0) + "M";
-  } else if (value >= 1000) {
-    return (value / 1000).toFixed(0) + "K";
-  } else {
-    return value.toString();
-  }
-};
 
 const HorizontalBarChartComponent: React.FC<
   HorizontalBarChartComponentProps
@@ -52,45 +52,40 @@ const HorizontalBarChartComponent: React.FC<
   yAxisDataKey,
   position,
   className,
-  minBarLength = 25,
-  maxBarLength = 100, // Define a maximum bar length to limit extreme values
+  barRadius = 4,
+  gridStroke = "#F2F2F2",
+  tickColor = "black",
+  tickFontSize = "12px",
+  tickFormatter = (value) => value,
+  tooltipContent = <Tooltip />,
+  tickLine = false,
+  tickMargin = 10,
+  axisLine = false,
+  customBarProps = {},
+  customXAxisProps = {},
+  customGridProps = {},
 }) => {
-  // Determine max and min values of the original y-axis data
-  // const maxDataValue = Math.max(...data.map((item) => item[yAxisDataKey]));
-  // const minDataValue = Math.min(...data.map((item) => item[yAxisDataKey]));
+  const maxValue = Math.max(...data.map((item) => item[yAxisDataKey]));
 
-  // const isUniformData = maxDataValue === minDataValue;
-
-  // // Apply linear normalization or set a fixed value if all data is uniform
-  // const normalizedData = data.map((item) => {
-  //   const value = item[yAxisDataKey];
-  //   const normalizedValue = isUniformData
-  //     ? minBarLength // Set to minBarLength if all values are the same
-  //     : ((value - minDataValue) / (maxDataValue - minDataValue)) *
-  //         (maxBarLength - minBarLength) +
-  //       minBarLength; // Scale to fit within min and max range
-
-  //   return {
-  //     ...item,
-  //     normalizedValue, // Normalized bar length for display
-  //   };
-  // });
-  const chartHeight = 40 * data.length;
-  console.log(className);
+  // Add some padding to the top of the chart
+  const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
 
   return (
-    <ChartContainer config={chartConfig} className={cn("w-full ", className)}>
+    <ChartContainer
+      config={chartConfig}
+      className={cn("w-full min-h-full", className)}
+    >
       <ResponsiveContainer>
         <BarChart
           accessibilityLayer
           data={data}
           layout="vertical"
           margin={{
-            right: 30,
+            right: 50,
             left: 10,
           }}
           barCategoryGap={10}
-          barGap={10}
+          barGap={20}
         >
           <YAxis
             dataKey={xAxisDataKey}
@@ -111,15 +106,15 @@ const HorizontalBarChartComponent: React.FC<
             layout="vertical"
             stroke={"#121212"}
             radius={4}
-            spacing={10}
             barSize={30}
           >
             {/* Label for category name */}
             <LabelList
               dataKey={xAxisDataKey}
-              position={position ?? "insideLeft"}
+              position={position ?? "insideTopLeft"}
               offset={8}
               className="fill-[--color-label]"
+              formatter={(value: string) => ""}
               fontSize={14}
             />
             {/* Label for original value */}
@@ -129,6 +124,9 @@ const HorizontalBarChartComponent: React.FC<
               offset={8}
               className="fill-foreground"
               fontSize={12}
+              formatter={(value: number) =>
+                value > 0 ? FormatValue(value) : "0"
+              }
             />
           </Bar>
         </BarChart>

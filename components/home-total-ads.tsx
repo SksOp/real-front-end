@@ -26,7 +26,7 @@ interface HorizontalBarChartProps {
   data: DataItem[];
 }
 
-function HorizontalBarChart({ data }: HorizontalBarChartProps) {
+export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
   const maxValue = Math.max(...data.map((item) => item.value));
   return (
     <div className="flex flex-col gap-3">

@@ -81,7 +81,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   );
 
   // Add some padding to the top of the chart
-  const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
+  const yAxisDomain = [0, parseInt(String(maxValue))]; // 10% padding
 
   // Custom tick rendering with customizable styles
   const customTickFormatter = (value: any): string => {
@@ -95,7 +95,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
       className="min-h-[250px] w-full overflow-x-auto"
     >
       <ResponsiveContainer width={chartWidth} height={300}>
-        <BarChart data={data} margin={{ left: -20 }} barGap={20}>
+        <BarChart data={data} margin={{ left: -20, top: 10 }} barGap={20}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}

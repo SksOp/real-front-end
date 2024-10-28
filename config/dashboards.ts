@@ -19,7 +19,7 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=room",
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
       },
       {
         key: "developer",
@@ -187,7 +187,7 @@ export const dashboards: Dashboard[] = [
                   color: "#FFDBDB",
                 },
               },
-              styles: "min-h-[150px] h-[150px]",
+              styles: "min-h-[100px] ",
               sub_charts: [],
               data: chartData, // Calculated data will be here
             };
@@ -735,7 +735,8 @@ export const dashboards: Dashboard[] = [
             console.log("allData HHHHHH", allData);
             const residentialData = createCategory([1]);
             const commercialData = createCategory([0]);
-
+            console.log("residentialData", residentialData);
+            console.log("commercialData", commercialData);
             return {
               name: "Sales Segmentation",
               description:
@@ -749,14 +750,26 @@ export const dashboards: Dashboard[] = [
                   color: "#EFEEFC",
                 },
               },
-              filters: [],
               sub_charts: [
                 {
                   key: "sale_type",
                   name: "Sales Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  styles: "min-h-[100px] h-[100px]",
+                  styles: "min-h-[100px]",
+                  filters: [
+                    { key: "all", label: "All", data: allData.free_hold_en },
+                    {
+                      key: "residential",
+                      label: "Residential",
+                      data: residentialData.free_hold_en,
+                    },
+                    {
+                      key: "commercial",
+                      label: "Commercial",
+                      data: commercialData.free_hold_en,
+                    },
+                  ],
                   data: allData?.free_hold_en, // Calculated data will be here
                   insights:
                     "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
@@ -766,7 +779,20 @@ export const dashboards: Dashboard[] = [
                   name: "Property Status",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  styles: "min-h-[100px] h-[100px]",
+                  filters: [
+                    { key: "all", label: "All", data: allData.offplan_en },
+                    {
+                      key: "residential",
+                      label: "Residential",
+                      data: residentialData.offplan_en,
+                    },
+                    {
+                      key: "commercial",
+                      label: "Commercial",
+                      data: commercialData.offplan_en,
+                    },
+                  ],
+                  styles: "min-h-[100px] ",
                   data: allData?.offplan_en, // Calculated data will be here
                 },
                 {
@@ -775,6 +801,19 @@ export const dashboards: Dashboard[] = [
                   chart_type: "horizontal_bar",
                   chartConfig: {},
                   styles: "min-h-[150px]  ",
+                  filters: [
+                    { key: "all", label: "All", data: allData.prop_type_en },
+                    {
+                      key: "residential",
+                      label: "Residential",
+                      data: residentialData.prop_type_en,
+                    },
+                    {
+                      key: "commercial",
+                      label: "Commercial",
+                      data: commercialData.prop_type_en,
+                    },
+                  ],
                   data: allData?.prop_type_en, // Calculated data will be here
                 },
                 {
@@ -783,6 +822,19 @@ export const dashboards: Dashboard[] = [
                   chart_type: "horizontal_bar",
                   chartConfig: {},
                   styles: "min-h-[450px]",
+                  filters: [
+                    { key: "all", label: "All", data: allData.rooms_en },
+                    {
+                      key: "residential",
+                      label: "Residential",
+                      data: residentialData.rooms_en,
+                    },
+                    {
+                      key: "commercial",
+                      label: "Commercial",
+                      data: commercialData.rooms_en,
+                    },
+                  ],
                   data: allData?.rooms_en, // Calculated data will be here
                 },
               ],
@@ -791,6 +843,161 @@ export const dashboards: Dashboard[] = [
           } catch (error) {
             console.error("Error calculating sales segmentation chart:", error);
             throw new Error("Failed to calculate sales segmentation chart.");
+          }
+        },
+      },
+    ],
+  },
+  {
+    key: "rental_market_trends",
+    name: "Rental Market Trends",
+    description:
+      "Overview of rental transactions and trends, showing market performance across Dubai.",
+    type: "standard",
+    label: "new",
+    dashboard_filters: {
+      usage: null,
+      mode: "rental",
+    },
+    page_filters: [
+      {
+        key: "bedroom",
+        label: "Bedroom",
+        options: ["1", "2", "3", "4", "5", "6"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+      },
+      {
+        key: "developer",
+        label: "Developer",
+        options: ["A", "B", "C", "D"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+      },
+      {
+        key: "location",
+        label: "Location",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+        options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
+        searchable: true,
+      },
+      {
+        key: "freehold",
+        label: "Freehold",
+        options: ["Yes", "No"],
+      },
+    ],
+    calculate_matrics: async (params) => {
+      try {
+        // const response = await axios.get(
+        //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
+        //   {
+        //     params: params,
+        //   }
+        // );
+
+        return [
+          {
+            key: "avg_rent_new",
+            title: "Average Rent (New)",
+            value: "N/A",
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Average Rent Renewal",
+            value: "N/A",
+          },
+          {
+            key: "total_transactions",
+            title: "Total Transactions",
+            value: "N/A",
+          },
+          {
+            key: "renewal_ratio",
+            title: "Renewal Ratio",
+            value: "N/A",
+          },
+        ];
+      } catch (error) {
+        console.error("Error calculating metrics:", error);
+        return [
+          {
+            key: "avg_rent_new",
+            title: "Average Rent (New)",
+            value: "N/A",
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Average Rent Renewal",
+            value: "N/A",
+          },
+          {
+            key: "total_transactions",
+            title: "Total Transactions",
+            value: "N/A",
+          },
+          {
+            key: "renewal_ratio",
+            title: "Renewal Ratio",
+            value: "N/A",
+          },
+        ];
+      }
+    },
+    calculate_charts: [
+      {
+        key: "average_rent",
+        calculate: async (params) => {
+          try {
+            // Will do the required calculation here and return the data to build graph
+
+            return {
+              name: "Average Rent",
+              description:
+                "Compare transactional total value and value per sqft over time.",
+              filters: [
+                { key: "all", label: "All", data: [] },
+                {
+                  key: "new",
+                  label: "New",
+                  data: [],
+                },
+              ],
+              chart_type: "bar",
+              chartConfig: {
+                desktop: {
+                  label: "Desktop",
+                  color: "hsl(var(--chart-1))",
+                },
+              },
+              sub_charts: [],
+              insights:
+                "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+              data: [], // Calculated data will be here
+            };
+          } catch (error) {
+            console.error(
+              "Error calculating transactions value trend chart:",
+              error
+            );
+            return {
+              name: "Transactions Value Trend",
+              description:
+                "Compare transactional total value and value per sqft over time.",
+              filters: ["Total Value", "Value per SQFT"],
+              chart_type: "bar",
+              chartConfig: {
+                desktop: {
+                  label: "Desktop",
+                  color: "hsl(var(--chart-1))",
+                },
+              },
+              sub_charts: [],
+              insights:
+                "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
