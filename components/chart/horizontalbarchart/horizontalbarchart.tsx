@@ -65,33 +65,42 @@ const HorizontalBarChartComponent: React.FC<
   customXAxisProps = {},
   customGridProps = {},
 }) => {
-  const maxValue = Math.max(...data.map((item) => item[yAxisDataKey]));
+  const modifiedData = data.map((item) => ({
+    ...item,
+    originalValue: item[yAxisDataKey],
+    [`${yAxisDataKey}_scaled`]: Math.log(item[yAxisDataKey] + 1), // Add 1 to avoid log(0)
+  }));
 
-  // Add some padding to the top of the chart
-  const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
+  const maxValue = Math.max(
+    ...modifiedData.map((item) => item[`${yAxisDataKey}_scaled`])
+  );
+  const yAxisDomain = [0, maxValue * 1.1]; // Add padding for visual clarity
 
+  // Dynamically calculate chart height based on the number of data items
+  const minHeight = data.length * 50; // 50px per item, minimum 150px
+  console.log(data.length);
   return (
     <ChartContainer
       config={chartConfig}
-      className={cn("w-full min-h-full", className)}
+      className={cn("w-full", "")}
+      style={{ height: `${minHeight}px` }}
     >
       <BarChart
-        accessibilityLayer
-        data={data}
+        data={modifiedData}
         layout="vertical"
         margin={{
-          right: 50,
-          left: 10,
+          top: 10,
+          right: 40,
         }}
-        barCategoryGap={10}
-        barGap={20}
+        barCategoryGap={10} // Adjust gap between bar categories
+        barGap={20} // Adjust gap between bars within a category
       >
         <YAxis
           dataKey={xAxisDataKey}
           type="category"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
+          tickLine={tickLine}
+          tickMargin={tickMargin}
+          axisLine={axisLine}
           tickFormatter={(value) => value.slice(0, 3)}
           hide
         />
@@ -101,19 +110,19 @@ const HorizontalBarChartComponent: React.FC<
           content={<ChartTooltipContent indicator="line" />}
         />
         <Bar
-          dataKey={yAxisDataKey}
+          dataKey={`${yAxisDataKey}_scaled`}
           layout="vertical"
-          stroke={"#121212"}
-          radius={4}
+          stroke="#121212"
+          radius={barRadius}
           barSize={30}
+          {...customBarProps}
         >
           {/* Label for category name */}
           <LabelList
             dataKey={xAxisDataKey}
-            position={position ?? "insideTopLeft"}
+            position={position ?? "insideLeft"}
             offset={8}
             className="fill-[--color-label]"
-            formatter={(value: string) => ""}
             fontSize={14}
           />
           {/* Label for original value */}
@@ -124,7 +133,7 @@ const HorizontalBarChartComponent: React.FC<
             className="fill-foreground"
             fontSize={12}
             formatter={(value: number) =>
-              value > 0 ? FormatValue(value) : "0"
+              value === 0 ? `(0)` : FormatValue(value)
             }
           />
         </Bar>

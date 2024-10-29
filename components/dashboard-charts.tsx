@@ -64,7 +64,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             data={data}
             xAxisDataKey={"name"}
             yAxisDataKey={"value"}
-            className={className}
+            className={"min-h"}
           />
         );
       case "bar":

@@ -187,7 +187,7 @@ export const dashboards: Dashboard[] = [
                   color: "#FFDBDB",
                 },
               },
-              styles: "min-h-[100px] ",
+              styles: "min-h-[100px]",
               sub_charts: [],
               data: chartData, // Calculated data will be here
             };
@@ -614,21 +614,27 @@ export const dashboards: Dashboard[] = [
 
             const data = response.data.data.data;
             console.log("data Transs", data);
+            const commercialTotalData = data.filter(
+              (item: any) => item.usage_category === "Commercial"
+            );
+            const residentialTotalData = data.filter(
+              (item: any) => item.usage_category === "Residential"
+            );
             const chartData = [
               {
                 name: "Commercial",
-                value: data[0].total_commercial,
+                value: commercialTotalData[0].total_commercial,
                 colorClass: "bg-[#FFC8C8]",
               },
               {
                 name: "Residential",
-                value: data[1].total_residential,
+                value: residentialTotalData[0].total_residential,
                 colorClass: "bg-[#EFEEFC]",
               },
             ];
 
             const colors: Record<string, string> = {
-              freeHold: "#DDF8E4",
+              free_hold: "#DDF8E4",
               lease: "#EFEEFC",
               ready: "#DDF8E4",
               offplan: "#FFDBDB",
@@ -712,31 +718,63 @@ export const dashboards: Dashboard[] = [
               },
             };
 
-            const createCategory = (indexes: number[]) => {
+            const createCategory = (categoryData: any[]) => {
               const result: any = {};
-              for (const [
-                category,
-                { types, names, colorKeys },
-              ] of Object.entries(categories)) {
-                result[category] = types.map((type, i) => ({
-                  name: names[i],
-                  value: indexes.reduce(
-                    // (sum, idx) => sum + data[idx].types[`${category}_en`][type],
-                    (sum, idx) => sum + data[idx].types[category][type],
-                    0
-                  ),
-                  fill: colors[colorKeys[i]],
-                }));
+
+              for (const [category, { types, names }] of Object.entries(
+                categories
+              )) {
+                result[category] = types
+                  .map((type, i) => {
+                    // Sum values for each type
+                    const totalValue = categoryData.reduce((sum, item) => {
+                      return sum + (item.types[category][type] || 0);
+                    }, 0);
+
+                    // Return "Others" for rooms with 5+ BHK in one entry
+                    if (category === "rooms_en" && i === 4) {
+                      const othersValue = types
+                        .slice(4)
+                        .reduce((sum, roomType) => {
+                          return (
+                            sum +
+                            categoryData.reduce((sumInner, item) => {
+                              return (
+                                sumInner + (item.types[category][roomType] || 0)
+                              );
+                            }, 0)
+                          );
+                        }, 0);
+
+                      return {
+                        name: "Others",
+                        value: othersValue,
+                        fill: colors["count_5_B_R"] || "#000",
+                      };
+                    }
+
+                    // Skip types in "Others" range for rooms
+                    if (category === "rooms_en" && i > 4) return null;
+
+                    return {
+                      name: names[i],
+                      value: totalValue,
+                      fill: colors[type] || "#000",
+                    };
+                  })
+                  .filter(Boolean); // Remove null entries
               }
+
               return result;
             };
 
-            const allData = createCategory([0, 1]);
-            console.log("allData HHHHHH", allData);
-            const residentialData = createCategory([1]);
-            const commercialData = createCategory([0]);
-            console.log("residentialData", residentialData);
-            console.log("commercialData", commercialData);
+            const allData = createCategory([
+              ...residentialTotalData,
+              ...commercialTotalData,
+            ]);
+            const residentialData = createCategory(residentialTotalData);
+            const commercialData = createCategory(commercialTotalData);
+            console.log("residentialData  ", residentialData);
             return {
               name: "Sales Segmentation",
               description:
@@ -756,7 +794,6 @@ export const dashboards: Dashboard[] = [
                   name: "Sales Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  styles: "min-h-[100px]",
                   filters: [
                     { key: "all", label: "All", data: allData.free_hold_en },
                     {
@@ -792,7 +829,6 @@ export const dashboards: Dashboard[] = [
                       data: commercialData.offplan_en,
                     },
                   ],
-                  styles: "min-h-[100px] ",
                   data: allData?.offplan_en, // Calculated data will be here
                 },
                 {
@@ -800,7 +836,6 @@ export const dashboards: Dashboard[] = [
                   name: "Property Type",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  styles: "min-h-[150px]  ",
                   filters: [
                     { key: "all", label: "All", data: allData.prop_type_en },
                     {
@@ -821,7 +856,6 @@ export const dashboards: Dashboard[] = [
                   name: "Rooms",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
-                  styles: "min-h-[450px]",
                   filters: [
                     { key: "all", label: "All", data: allData.rooms_en },
                     {
@@ -1002,6 +1036,274 @@ export const dashboards: Dashboard[] = [
         },
       },
     ],
+  },
+  {
+    key: "mortgage_transactions_analysis",
+    name: "Mortgage Transactions Analysis",
+    description:
+      "Insights into property purchases made using mortgage financing trends and details.",
+    type: "standard",
+    label: "new",
+    dashboard_filters: {
+      group_en: "mortgage",
+      mode: "sales",
+    },
+    page_filters: [
+      {
+        key: "bedroom",
+        label: "Bedroom",
+        options: ["1", "2", "3", "4", "5", "6"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+      },
+      {
+        key: "developer",
+        label: "Developer",
+        options: ["A", "B", "C", "D"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+      },
+      {
+        key: "location",
+        label: "Location",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+        options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
+        searchable: true,
+      },
+      {
+        key: "freehold",
+        label: "Freehold",
+        options: ["Yes", "No"],
+      },
+    ],
+
+    calculate_matrics: async (params) => {
+      try {
+        const response = await axios.get(
+          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=mortgage`,
+          {
+            params: params,
+          }
+        );
+
+        console.log("response", response.data);
+        const transactions = response.data.data.data;
+
+        if (transactions.length === 0) {
+          throw new Error("No transactions found for the specified filters.");
+        }
+
+        const growthCalculator = (current: number, previous: number) =>
+          ((current - previous) / previous) * 100;
+
+        const avgSalesValue = transactions[1].average_value_of_transactions;
+        const avgSalesValueGrowth = growthCalculator(
+          parseFloat(avgSalesValue),
+          parseFloat(transactions[0].average_value_of_transactions)
+        );
+        const salesPerSqft = transactions[1].average_Price_per_sqft;
+        const salesPerSqftGrowth = growthCalculator(
+          parseFloat(salesPerSqft),
+          parseFloat(transactions[0].average_Price_per_sqft)
+        );
+        const totalValue = transactions[1].Total_Value_of_Transaction;
+        const totalValueGrowth = growthCalculator(
+          parseFloat(totalValue),
+          parseFloat(transactions[0].Total_Value_of_Transaction)
+        );
+        const noOfTransactions = transactions[1].number_of_Row_Used;
+        const noOfTransactionsGrowth = growthCalculator(
+          parseFloat(noOfTransactions),
+          parseFloat(transactions[0].number_of_Row_Used)
+        );
+
+        return [
+          {
+            key: "avg_sales_value",
+            title: "Average Sales Value",
+            value: avgSalesValue.toFixed(2),
+            growth: avgSalesValueGrowth.toFixed(2),
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Sales Per Sqft",
+            value: salesPerSqft.toFixed(2),
+            growth: salesPerSqftGrowth.toFixed(2),
+          },
+          {
+            key: "total_value",
+            title: "Total Value",
+            value: totalValue.toFixed(2),
+            growth: totalValueGrowth.toFixed(2),
+          },
+          {
+            key: "no_of_transactions",
+            title: "No of Transactions",
+            value: noOfTransactions,
+            growth: noOfTransactionsGrowth.toFixed(2),
+          },
+        ];
+      } catch (error) {
+        console.error("Error calculating metrics:", error);
+        return [
+          {
+            key: "avg_sales_value",
+            title: "Average Sales Value",
+            value: "N/A",
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Sales Per Sqft",
+            value: "N/A",
+          },
+          {
+            key: "total_value",
+            title: "Total Value",
+            value: "N/A",
+          },
+          {
+            key: "no_of_transactions",
+            title: "No of Transactions",
+            value: "N/A",
+          },
+        ];
+      }
+    },
+  },
+  {
+    key: "gift_transactions_insights",
+    name: "Gift Transactions Insights",
+    description:
+      "Track and analyze property transactions gifted, highlighting market behavior and trends.",
+    type: "standard",
+    label: "new",
+    dashboard_filters: {
+      group_en: "mortgage",
+      mode: "sales",
+    },
+    page_filters: [
+      {
+        key: "bedroom",
+        label: "Bedroom",
+        options: ["1", "2", "3", "4", "5", "6"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+      },
+      {
+        key: "developer",
+        label: "Developer",
+        options: ["A", "B", "C", "D"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+      },
+      {
+        key: "location",
+        label: "Location",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+        options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
+        searchable: true,
+      },
+      {
+        key: "freehold",
+        label: "Freehold",
+        options: ["Yes", "No"],
+      },
+    ],
+
+    calculate_matrics: async (params) => {
+      try {
+        const response = await axios.get(
+          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=gift`,
+          {
+            params: params,
+          }
+        );
+
+        console.log("response", response.data);
+        const transactions = response.data.data.data;
+
+        if (transactions.length === 0) {
+          throw new Error("No transactions found for the specified filters.");
+        }
+
+        const growthCalculator = (current: number, previous: number) =>
+          ((current - previous) / previous) * 100;
+
+        const avgSalesValue = transactions[1].average_value_of_transactions;
+        const avgSalesValueGrowth = growthCalculator(
+          parseFloat(avgSalesValue),
+          parseFloat(transactions[0].average_value_of_transactions)
+        );
+        const salesPerSqft = transactions[1].average_Price_per_sqft;
+        const salesPerSqftGrowth = growthCalculator(
+          parseFloat(salesPerSqft),
+          parseFloat(transactions[0].average_Price_per_sqft)
+        );
+        const totalValue = transactions[1].Total_Value_of_Transaction;
+        const totalValueGrowth = growthCalculator(
+          parseFloat(totalValue),
+          parseFloat(transactions[0].Total_Value_of_Transaction)
+        );
+        const noOfTransactions = transactions[1].number_of_Row_Used;
+        const noOfTransactionsGrowth = growthCalculator(
+          parseFloat(noOfTransactions),
+          parseFloat(transactions[0].number_of_Row_Used)
+        );
+
+        return [
+          {
+            key: "avg_sales_value",
+            title: "Average Sales Value",
+            value: avgSalesValue.toFixed(2),
+            growth: avgSalesValueGrowth.toFixed(2),
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Sales Per Sqft",
+            value: salesPerSqft.toFixed(2),
+            growth: salesPerSqftGrowth.toFixed(2),
+          },
+          {
+            key: "total_value",
+            title: "Total Value",
+            value: totalValue.toFixed(2),
+            growth: totalValueGrowth.toFixed(2),
+          },
+          {
+            key: "no_of_transactions",
+            title: "No of Transactions",
+            value: noOfTransactions,
+            growth: noOfTransactionsGrowth.toFixed(2),
+          },
+        ];
+      } catch (error) {
+        console.error("Error calculating metrics:", error);
+        return [
+          {
+            key: "avg_sales_value",
+            title: "Average Sales Value",
+            value: "N/A",
+          },
+          {
+            key: "sales_per_sqft",
+            title: "Sales Per Sqft",
+            value: "N/A",
+          },
+          {
+            key: "total_value",
+            title: "Total Value",
+            value: "N/A",
+          },
+          {
+            key: "no_of_transactions",
+            title: "No of Transactions",
+            value: "N/A",
+          },
+        ];
+      }
+    },
   },
 ];
 
