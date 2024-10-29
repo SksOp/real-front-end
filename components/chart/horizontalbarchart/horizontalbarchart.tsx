@@ -75,62 +75,60 @@ const HorizontalBarChartComponent: React.FC<
       config={chartConfig}
       className={cn("w-full min-h-full", className)}
     >
-      <ResponsiveContainer>
-        <BarChart
-          accessibilityLayer
-          data={data}
+      <BarChart
+        accessibilityLayer
+        data={data}
+        layout="vertical"
+        margin={{
+          right: 50,
+          left: 10,
+        }}
+        barCategoryGap={10}
+        barGap={20}
+      >
+        <YAxis
+          dataKey={xAxisDataKey}
+          type="category"
+          tickLine={false}
+          tickMargin={10}
+          axisLine={false}
+          tickFormatter={(value) => value.slice(0, 3)}
+          hide
+        />
+        <XAxis type="number" hide />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent indicator="line" />}
+        />
+        <Bar
+          dataKey={yAxisDataKey}
           layout="vertical"
-          margin={{
-            right: 50,
-            left: 10,
-          }}
-          barCategoryGap={10}
-          barGap={20}
+          stroke={"#121212"}
+          radius={4}
+          barSize={30}
         >
-          <YAxis
+          {/* Label for category name */}
+          <LabelList
             dataKey={xAxisDataKey}
-            type="category"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
-            hide
+            position={position ?? "insideTopLeft"}
+            offset={8}
+            className="fill-[--color-label]"
+            formatter={(value: string) => ""}
+            fontSize={14}
           />
-          <XAxis type="number" hide />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator="line" />}
-          />
-          <Bar
+          {/* Label for original value */}
+          <LabelList
             dataKey={yAxisDataKey}
-            layout="vertical"
-            stroke={"#121212"}
-            radius={4}
-            barSize={30}
-          >
-            {/* Label for category name */}
-            <LabelList
-              dataKey={xAxisDataKey}
-              position={position ?? "insideTopLeft"}
-              offset={8}
-              className="fill-[--color-label]"
-              formatter={(value: string) => ""}
-              fontSize={14}
-            />
-            {/* Label for original value */}
-            <LabelList
-              dataKey={yAxisDataKey}
-              position="right"
-              offset={8}
-              className="fill-foreground"
-              fontSize={12}
-              formatter={(value: number) =>
-                value > 0 ? FormatValue(value) : "0"
-              }
-            />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            position="right"
+            offset={8}
+            className="fill-foreground"
+            fontSize={12}
+            formatter={(value: number) =>
+              value > 0 ? FormatValue(value) : "0"
+            }
+          />
+        </Bar>
+      </BarChart>
     </ChartContainer>
   );
 };
