@@ -109,6 +109,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               tickMargin={tickMargin}
               axisLine={axisLine}
               tickFormatter={customTickFormatter}
+              interval={"preserveStart"}
               {...customXAxisProps}
             />
           ) : null}

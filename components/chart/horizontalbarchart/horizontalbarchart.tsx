@@ -65,7 +65,7 @@ const HorizontalBarChartComponent: React.FC<
   customXAxisProps = {},
   customGridProps = {},
 }) => {
-  const modifiedData = data.map((item) => ({
+  const modifiedData = data?.map((item) => ({
     ...item,
     originalValue: item[yAxisDataKey],
     [`${yAxisDataKey}_scaled`]: Math.log(item[yAxisDataKey] + 1), // Add 1 to avoid log(0)
@@ -90,7 +90,7 @@ const HorizontalBarChartComponent: React.FC<
         layout="vertical"
         margin={{
           top: 10,
-          right: 40,
+          right: 50,
         }}
         barCategoryGap={10} // Adjust gap between bar categories
         barGap={20} // Adjust gap between bars within a category

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { all } from "axios";
 import { Dashboard } from "./types";
 
 export const dashboards: Dashboard[] = [
@@ -67,9 +67,9 @@ export const dashboards: Dashboard[] = [
           parseFloat(avgSalesValue),
           parseFloat(transactions[0].average_value_of_transactions)
         );
-        const salesPerSqft = transactions[1].average_Price_per_sqft;
+        const avgPricePerSqft = transactions[1].average_Price_per_sqft;
         const salesPerSqftGrowth = growthCalculator(
-          parseFloat(salesPerSqft),
+          parseFloat(avgPricePerSqft),
           parseFloat(transactions[0].average_Price_per_sqft)
         );
         const totalValue = transactions[1].Total_Value_of_Transaction;
@@ -91,9 +91,9 @@ export const dashboards: Dashboard[] = [
             growth: avgSalesValueGrowth.toFixed(2),
           },
           {
-            key: "sales_per_sqft",
-            title: "Sales Per Sqft",
-            value: salesPerSqft.toFixed(2),
+            key: "avg_price_per_sqft",
+            title: "Avg. Price per SQFT",
+            value: avgPricePerSqft.toFixed(2),
             growth: salesPerSqftGrowth.toFixed(2),
           },
           {
@@ -218,6 +218,7 @@ export const dashboards: Dashboard[] = [
         key: "transactions_value_trend",
         calculate: async (params) => {
           try {
+            params = {};
             const date = new Date();
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
@@ -295,6 +296,7 @@ export const dashboards: Dashboard[] = [
         key: "sales_transactions_trend",
         calculate: async (params) => {
           try {
+            params = {};
             const date = new Date();
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
@@ -306,11 +308,14 @@ export const dashboards: Dashboard[] = [
             );
             const data = response.data.data.data;
             console.log("chddd", data);
+
+            // Process yearly data
             const yearlyData = data.map((item: any) => ({
               year: item.Year,
               value1: item.number_of_Row_Used,
             }));
 
+            // Process monthly data for the current year
             const months = [
               "Jan",
               "Feb",
@@ -331,16 +336,41 @@ export const dashboards: Dashboard[] = [
               value1: item.number_of_Row_Used,
             }));
 
+            // Ensure monthly data has 12 months (by adding data from the previous year if necessary)
             let i = 11;
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: months[parseInt(prevYearData.month_data[i].Month) - 1],
+                year: `${
+                  months[parseInt(prevYearData.month_data[i].Month) - 1]
+                }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
             }
-            console.log(yearlyData, monthlyData);
+
+            // Process quarterly data for the last 3 years
+            const quarterlyData = [];
+            for (let j = data.length - 3; j < data.length; j++) {
+              const yearData = data[j].month_data;
+              for (let q = 0; q < 4; q++) {
+                const startMonth = q * 3;
+                const endMonth = startMonth + 3;
+                const quarterMonths = yearData.slice(startMonth, endMonth);
+
+                const quarterValue = quarterMonths.reduce(
+                  (sum: number, item: any) => sum + item.number_of_Row_Used,
+                  0
+                );
+
+                quarterlyData.push({
+                  year: `Q${q + 1} ${data[j].Year}`,
+                  value1: quarterValue,
+                });
+              }
+            }
+
+            console.log(yearlyData, monthlyData, quarterlyData);
             // Will do the required calculation here and return the data to build graph
             return {
               name: "Sales Transactions Trend",
@@ -350,7 +380,7 @@ export const dashboards: Dashboard[] = [
                 {
                   key: "quarterly",
                   label: "Quarterly",
-                  data: yearlyData,
+                  data: quarterlyData,
                 },
                 { key: "yearly", label: "Yearly", data: yearlyData },
               ],
@@ -393,6 +423,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "sales_index",
         calculate: async (params) => {
+          params = {};
           try {
             const response = await axios.get(
               `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
@@ -522,10 +553,11 @@ export const dashboards: Dashboard[] = [
       },
       {
         key: "similar_transactions",
-        calculate: async () => {
+        calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`,
+              { params: params }
             );
 
             // Will do the required calculation here and return the data to build graph
@@ -560,7 +592,7 @@ export const dashboards: Dashboard[] = [
               };
             });
 
-            const avgValue = totalValue / data.length;
+            const avgValue = data[0].avg_value_per_year.toFixed(2);
 
             return {
               name: "Similar Transactions",
@@ -642,7 +674,7 @@ export const dashboards: Dashboard[] = [
             const response = await axios.get(
               `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
               {
-                params: params,
+                params: { params },
               }
             );
             // // Will do the required calculation here and return the data to build graph
@@ -650,11 +682,12 @@ export const dashboards: Dashboard[] = [
             const data = response.data.data.data;
             console.log("data Transs", data);
             const commercialTotalData = data.filter(
-              (item: any) => item.usage_category === "Commercial"
+              (item: any) => item.USAGE_EN === "Commercial"
             );
             const residentialTotalData = data.filter(
-              (item: any) => item.usage_category === "Residential"
+              (item: any) => item.USAGE_EN === "Residential"
             );
+            console.log("commercialTotalData", commercialTotalData);
             const chartData = [
               {
                 name: "Commercial",
@@ -691,125 +724,103 @@ export const dashboards: Dashboard[] = [
               count_penthouse: "#FFC8C8",
             };
 
-            const categories = {
-              free_hold_en: {
-                types: ["free_hold", "lease"],
-                names: ["Free Hold", "Lease"],
-                colorKeys: ["freeHold", "lease"],
-              },
-              offplan_en: {
-                types: ["ready", "offplan"],
-                names: ["Ready", "Offplan"],
-                colorKeys: ["ready", "offplan"],
-              },
-              prop_type_en: {
-                types: ["land", "unit", "building", "villa"],
-                names: ["Land", "Unit", "Building", "Villa"],
-                colorKeys: ["land", "unit", "building", "villa"],
-              },
-              rooms_en: {
-                types: [
-                  "count_1_B_R",
-                  "count_2_B_R",
-                  "count_3_B_R",
-                  "count_4_B_R",
-                  "count_5_B_R",
-                  "count_6_B_R",
-                  "count_7_B_R",
-                  "count_8_B_R",
-                  "count_9_B_R",
-                  "count_studio",
-                  "count_single_room",
-                  "count_penthouse",
-                ],
-                names: [
-                  "1 BR",
-                  "2 BR",
-                  "3 BR",
-                  "4 BR",
-                  "5 BR",
-                  "6 BR",
-                  "7 BR",
-                  "8 BR",
-                  "9 BR",
-                  "Studio",
-                  "Single Room",
-                  "Penthouse",
-                ],
-                colorKeys: [
-                  "count_1_B_R",
-                  "count_2_B_R",
-                  "count_3_B_R",
-                  "count_4_B_R",
-                  "count_5_B_R",
-                  "count_6_B_R",
-                  "count_7_B_R",
-                  "count_8_B_R",
-                  "count_9_B_R",
-                  "count_studio",
-                  "count_single_room",
-                  "count_penthouse",
-                ],
-              },
+            const categories: {
+              [key: string]: { key: string; name: string; color: string }[];
+            } = {
+              free_hold_en: [
+                { key: "free_hold", name: "Freehold", color: colors.free_hold },
+                { key: "lease", name: "Lease", color: colors.lease },
+              ],
+              offplan_en: [
+                { key: "ready", name: "Ready", color: colors.ready },
+                { key: "offplan", name: "Offplan", color: colors.offplan },
+              ],
+              group_en: [
+                { key: "total_sales", name: "Total Sales", color: "" },
+                { key: "total_mortgage", name: "Total Mortgage", color: "" },
+                { key: "total_gift", name: "Total Gift", color: "" },
+              ],
+              prop_type_en: [
+                { key: "land", name: "Land", color: colors.land },
+                { key: "unit", name: "Unit", color: colors.unit },
+                { key: "building", name: "Building", color: colors.building },
+                { key: "villa", name: "Villa", color: colors.villa },
+              ],
             };
 
-            const createCategory = (categoryData: any[]) => {
-              const result: any = {};
+            const allData: any = {};
 
-              for (const [category, { types, names }] of Object.entries(
-                categories
-              )) {
-                result[category] = types
-                  .map((type, i) => {
-                    // Sum values for each type
-                    const totalValue = categoryData.reduce((sum, item) => {
-                      return sum + (item.types[category][type] || 0);
-                    }, 0);
+            Object.keys(categories).forEach((categoryKey) => {
+              allData[categoryKey] = categories[categoryKey].map(
+                ({ key, name, color }) => {
+                  const value = data.reduce((sum: number, item: any) => {
+                    const commercialValue =
+                      item.total_commercial > 0
+                        ? item.types[categoryKey]?.[key] || 0
+                        : 0;
+                    const residentialValue =
+                      item.total_residential > 0
+                        ? item.types[categoryKey]?.[key] || 0
+                        : 0;
+                    return sum + commercialValue + residentialValue;
+                  }, 0);
 
-                    // Return "Others" for rooms with 5+ BHK in one entry
-                    if (category === "rooms_en" && i === 4) {
-                      const othersValue = types
-                        .slice(4)
-                        .reduce((sum, roomType) => {
-                          return (
-                            sum +
-                            categoryData.reduce((sumInner, item) => {
-                              return (
-                                sumInner + (item.types[category][roomType] || 0)
-                              );
-                            }, 0)
-                          );
-                        }, 0);
+                  return { name, value, fill: color };
+                }
+              );
+            });
 
-                      return {
-                        name: "Others",
-                        value: othersValue,
-                        fill: colors["count_5_B_R"] || "#000",
-                      };
-                    }
+            const residentialData: any = {};
+            Object.keys(categories).forEach((categoryKey) => {
+              residentialData[categoryKey] = categories[categoryKey].map(
+                ({ key, name, color }) => {
+                  const value = residentialTotalData.reduce(
+                    (sum: number, item: any) => {
+                      const commercialValue =
+                        item.total_commercial > 0
+                          ? item.types[categoryKey]?.[key] || 0
+                          : 0;
+                      const residentialValue =
+                        item.total_residential > 0
+                          ? item.types[categoryKey]?.[key] || 0
+                          : 0;
+                      return sum + commercialValue + residentialValue;
+                    },
+                    0
+                  );
 
-                    // Skip types in "Others" range for rooms
-                    if (category === "rooms_en" && i > 4) return null;
+                  return { name, value, fill: color };
+                }
+              );
+            });
 
-                    return {
-                      name: names[i],
-                      value: totalValue,
-                      fill: colors[type] || "#000",
-                    };
-                  })
-                  .filter(Boolean); // Remove null entries
-              }
+            const commercialData: any = {};
+            Object.keys(categories).forEach((categoryKey) => {
+              commercialData[categoryKey] = categories[categoryKey].map(
+                ({ key, name, color }) => {
+                  const value = commercialTotalData.reduce(
+                    (sum: number, item: any) => {
+                      const commercialValue =
+                        item.total_commercial > 0
+                          ? item.types[categoryKey]?.[key] || 0
+                          : 0;
+                      const residentialValue =
+                        item.total_residential > 0
+                          ? item.types[categoryKey]?.[key] || 0
+                          : 0;
+                      return sum + commercialValue + residentialValue;
+                    },
+                    0
+                  );
 
-              return result;
-            };
+                  return { name, value, fill: color };
+                }
+              );
+            });
 
-            const allData = createCategory([
-              ...residentialTotalData,
-              ...commercialTotalData,
-            ]);
-            const residentialData = createCategory(residentialTotalData);
-            const commercialData = createCategory(commercialTotalData);
-            console.log("residentialData  ", residentialData);
+            console.log("residentialData", residentialData);
+
+            // console.log("residentialData  ", residentialData);
             return {
               name: "Sales Segmentation",
               description:
@@ -886,26 +897,26 @@ export const dashboards: Dashboard[] = [
                   ],
                   data: allData?.prop_type_en, // Calculated data will be here
                 },
-                {
-                  key: "rooms",
-                  name: "Rooms",
-                  chart_type: "horizontal_bar",
-                  chartConfig: {},
-                  filters: [
-                    { key: "all", label: "All", data: allData.rooms_en },
-                    {
-                      key: "residential",
-                      label: "Residential",
-                      data: residentialData.rooms_en,
-                    },
-                    {
-                      key: "commercial",
-                      label: "Commercial",
-                      data: commercialData.rooms_en,
-                    },
-                  ],
-                  data: allData?.rooms_en, // Calculated data will be here
-                },
+                // {
+                //   key: "rooms",
+                //   name: "Rooms",
+                //   chart_type: "horizontal_bar",
+                //   chartConfig: {},
+                //   filters: [
+                //     { key: "all", label: "All", data: allData.rooms_en },
+                //     {
+                //       key: "residential",
+                //       label: "Residential",
+                //       data: residentialData.rooms_en,
+                //     },
+                //     {
+                //       key: "commercial",
+                //       label: "Commercial",
+                //       data: commercialData.rooms_en,
+                //     },
+                //   ],
+                //   data: allData?.rooms_en, // Calculated data will be here
+                // },
               ],
               data: chartData, // Calculated data will be here
             };
@@ -1027,13 +1038,13 @@ export const dashboards: Dashboard[] = [
           {
             key: "total_transactions",
             title: "Total Transactions",
-            value: totalTransaction,
+            value: totalTransaction * 100,
             growth: totalTransactionGrowth.toFixed(2),
           },
           {
             key: "renewal_ratio",
             title: "Renewal Ratio",
-            value: renewalRatio.toFixed(2),
+            value: String((renewalRatio * 100).toFixed(2)) + "%",
             growth: renewalRatioGrowth.toFixed(2),
           },
         ];
@@ -1065,7 +1076,7 @@ export const dashboards: Dashboard[] = [
     },
     calculate_charts: [
       {
-        key: "average_rent",
+        key: "rental_transactions_value_trend",
         calculate: async (params) => {
           try {
             // Will do the required calculation here and return the data to build graph
@@ -1100,7 +1111,7 @@ export const dashboards: Dashboard[] = [
             console.log("totalValue", avgRents);
             // Will do the required calculation here and return the data to build graph
             return {
-              name: "Transactions Value Trend",
+              name: "Rental Transactions Value Trend",
               description:
                 "Compare transactional total value and value per sqft over time.",
               filters: [
@@ -1154,7 +1165,7 @@ export const dashboards: Dashboard[] = [
         },
       },
       {
-        key: "sales_transactions_trend",
+        key: "rental_transactions_trend",
         calculate: async (params) => {
           try {
             const date = new Date();
@@ -1168,10 +1179,6 @@ export const dashboards: Dashboard[] = [
             );
             const data = response.data.data.data;
             console.log("chddd", data);
-            const yearlyData = data.map((item: any) => ({
-              year: item.Year,
-              value1: item.number_of_Row_Used,
-            }));
 
             const months = [
               "Jan",
@@ -1188,33 +1195,30 @@ export const dashboards: Dashboard[] = [
               "Dec",
             ];
             const currentYearData = data[data.length - 1];
-            const monthlyData = currentYearData.month_data.map((item: any) => ({
+
+            const allData = currentYearData.month_data.map((item: any) => ({
               year: months[parseInt(item.Month) - 1],
               value1: item.Total_Transactions,
             }));
 
-            let i = 11;
-            while (monthlyData.length !== 12) {
-              const prevYearData = data[data.length - 2];
-              monthlyData.unshift({
-                year: months[parseInt(prevYearData.month_data[i].Month) - 1],
-                value1: prevYearData.month_data[i].number_of_Row_Used,
-              });
-              i--;
-            }
-            console.log(yearlyData, monthlyData);
+            const newData = currentYearData.month_data.map((item: any) => ({
+              year: months[parseInt(item.Month) - 1],
+              value1: item.Total_Transactions,
+            }));
+
+            const renewData = currentYearData.month_data.map((item: any) => ({
+              year: months[parseInt(item.Month) - 1],
+              value1: item.Total_Transactions,
+            }));
+
             // Will do the required calculation here and return the data to build graph
             return {
-              name: "Sales Transactions Trend",
+              name: "Rental Transactions Trend",
               description: "Compare number of transactions over time!",
               filters: [
-                { key: "All", label: "All", data: monthlyData },
-                // {
-                //   key: "quarterly",
-                //   label: "Quarterly",
-                //   data: yearlyData,
-                // },
-                // { key: "yearly", label: "Yearly", data: yearlyData },
+                { key: "All", label: "All", data: allData },
+                { key: "new", label: "New", data: newData },
+                { key: "renew", label: "Renew", data: renewData },
               ],
               chart_type: "line",
               chartConfig: {
@@ -1226,7 +1230,7 @@ export const dashboards: Dashboard[] = [
               sub_charts: [],
               insights:
                 "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-              data: monthlyData, // Calculated data will be here
+              data: allData, // Calculated data will be here
             };
           } catch (error) {
             console.error(

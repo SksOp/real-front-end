@@ -61,6 +61,9 @@ function MyPage() {
   useEffect(() => {
     const fetchChartsData = async () => {
       setLoading(true); // Start loading
+      const date = new Date();
+      const presentYear = date.getFullYear();
+      filters.year = presentYear;
       if (dashboard?.calculate_charts) {
         const allCharts = await Promise.all(
           dashboard.calculate_charts.map(async (chart) => {

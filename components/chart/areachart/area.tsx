@@ -61,7 +61,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   tickFormatter = (value) => value,
   tooltipContent = <Tooltip />,
   tickLine = false,
-  tickMargin = 10,
+  tickMargin = 15,
   axisLine = false,
   customXAxisProps = {},
   customGridProps = {},
@@ -118,7 +118,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
             tickCount={data.length}
-            {...customXAxisProps}
+            interval="preserveStart"
           />
           <YAxis
             tickLine={tickLine}

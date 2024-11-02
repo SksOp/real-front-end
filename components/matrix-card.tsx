@@ -17,6 +17,10 @@ const isNumeric = (value: string | undefined) => {
 const formatValue = (value: number | string) => {
   let numericValue: number;
 
+  if (typeof value === "string" && value.trim().endsWith("%")) {
+    return value;
+  }
+
   // If the value is a string and numeric, convert it to a number
   if (typeof value === "string" && isNumeric(value)) {
     numericValue = parseFloat(value);
@@ -39,6 +43,7 @@ const formatValue = (value: number | string) => {
 };
 
 function MatrixCard({ title, value, growth }: MatrixCardProp) {
+  console.log(value);
   return (
     <Card className=" rounded-xl flex w-full flex-col py-3 px-3 gap-4">
       <CardHeader className="p-0 w-full">

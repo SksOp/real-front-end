@@ -71,7 +71,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   ) => {
     console.log(styles);
 
-    if (data.length === 0 || !data) {
+    if (data?.length === 0 || !data) {
       return <ChartException />;
     }
 
