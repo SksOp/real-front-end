@@ -88,14 +88,15 @@ const Barchart: React.FC<BarChartComponentProps> = ({
     const result = tickFormatter(value);
     return result !== undefined ? result.toString() : "";
   };
+
   const chartWidth = Math.max(data.length * (30 + 40), 400);
   return (
     <ChartContainer
       config={chartConfig}
       className="min-h-[250px] w-full overflow-x-auto"
     >
-      <ResponsiveContainer width={chartWidth} height={300}>
-        <BarChart data={data} margin={{ left: -20, top: 10 }} barGap={20}>
+      <ResponsiveContainer width={chartWidth} height={maxValue}>
+        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={20}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}

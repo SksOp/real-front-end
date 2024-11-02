@@ -1,7 +1,10 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
@@ -10,11 +13,11 @@ import {
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import AreaDrawerView from "./area-drawer-view";
-import DashboardDrawerView from "./dashboard-drawer-view";
 import FilterIcons from "./filter-icons";
 import { PageFilter } from "@/config/types";
 import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 function Filters({
   selectOptions,
@@ -52,10 +55,14 @@ function Filters({
         fetchOptions(filter);
       }
     });
-  }, [selectOptions]);
+  }, [selectOptions, filterOptions]);
 
   const handleSearchChange = (key: string, value: string) => {
     setSearchQueries((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleOptionChange = (key: string, value: string) => {
+    onChange(key, value);
   };
 
   return (
@@ -95,39 +102,44 @@ function Filters({
                   />
                 )}
                 <div className="space-y-4 overflow-y-scroll mt-2">
-                  {filterOptions[select.key] ? (
-                    filterOptions[select.key]
-                      .filter((option) =>
-                        option
-                          .toLowerCase()
-                          .includes(
-                            (searchQueries[select.key] || "").toLowerCase()
-                          )
-                      )
-                      .map((option, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center space-x-2 p-2"
-                        >
-                          <input
-                            type="radio"
-                            name={select.label}
-                            value={option}
-                            checked={selectedFilters[select.key] === option}
-                            onChange={() => onChange(select.key, option)}
-                            className="form-radio h-4 w-4 text-muted transition duration-150 ease-in-out"
-                          />
-                          <label
-                            htmlFor={option || ""}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            {option}
-                          </label>
-                        </div>
-                      ))
-                  ) : (
-                    <div>Loading options...</div>
-                  )}
+                  <RadioGroup
+                    value={selectedFilters[select.key]?.toString()}
+                    onValueChange={(value) =>
+                      handleOptionChange(select.key, value)
+                    }
+                  >
+                    {filterOptions[select.key] ? (
+                      filterOptions[select.key]
+                        .filter((option) =>
+                          option
+                            .toLowerCase()
+                            .includes(
+                              (searchQueries[select.key] || "").toLowerCase()
+                            )
+                        )
+                        .map((option, idx) => (
+                          <DrawerClose key={idx}>
+                            <div
+                              key={idx}
+                              className="flex items-center space-x-2 p-2"
+                            >
+                              <RadioGroupItem
+                                value={option}
+                                id={`${select.key}-${option}`}
+                              />
+                              <Label
+                                htmlFor={`${select.key}-${option}`}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              >
+                                {option}
+                              </Label>
+                            </div>
+                          </DrawerClose>
+                        ))
+                    ) : (
+                      <div>Loading options...</div>
+                    )}
+                  </RadioGroup>
                 </div>
               </DrawerContent>
             </Drawer>

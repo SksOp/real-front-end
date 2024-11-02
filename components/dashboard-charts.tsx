@@ -43,10 +43,24 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   styles,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
-    filters ? filters[0] : null
+    filters?.[0]?.key ?? null
   );
-  const [subChartFilter, setSubChartFilter] = useState(null);
-  console.log("selectedFilter", subCharts);
+  const [subChartFilter, setSubChartFilter] = useState(
+    subCharts && subCharts?.length > 0 && subCharts[0].filters?.length > 0
+      ? subCharts[0].filters[0].key
+      : null
+  );
+
+  useEffect(() => {
+    setSelectedFilter(filters?.[0]?.key ?? null);
+  }, [data, filters]);
+
+  const getSelectedFilterData = () => {
+    return (
+      filters?.find((filter) => filter.key === selectedFilter)?.data ?? data
+    );
+  };
+
   const renderChart = (
     type: string,
     data: any[],
@@ -56,6 +70,11 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
     className?: ClassValue
   ) => {
     console.log(styles);
+
+    if (data.length === 0 || !data) {
+      return <ChartException />;
+    }
+
     switch (type) {
       case "horizontal_bar":
         return (
@@ -123,27 +142,36 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   return (
     <ChartWrapper title={title} description={description} viewAll={viewAll}>
       {filters && filters.length > 0 && (
-        <Tabs defaultValue={filters[0]}>
+        <Tabs defaultValue={selectedFilter} key={selectedFilter}>
           <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-4">
-            {filters?.map((filter) => (
+            {filters.map((filter) => (
               <TabsTrigger
-                value={filter}
-                key={filter?.key}
-                onClick={() => setSelectedFilter(filter)}
+                value={filter.key}
+                key={filter.key}
+                onClick={() => setSelectedFilter(filter.key)}
                 className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
               >
-                {filter?.label}
+                {filter.label}
               </TabsTrigger>
             ))}
           </TabsList>
         </Tabs>
       )}
-      {renderChart(type, data, chartConfig, selectedFilter, columns, styles)}
+      <div className="overflow-scroll">
+        {renderChart(
+          type,
+          getSelectedFilterData(),
+          chartConfig,
+          selectedFilter,
+          columns,
+          styles
+        )}
+      </div>
 
       {subCharts &&
-        subCharts?.length > 0 &&
+        subCharts.length > 0 &&
         subCharts[0]?.filters?.length > 0 && (
-          <Tabs defaultValue={subCharts[0]?.filters[0].key}>
+          <Tabs defaultValue={subChartFilter} key={subChartFilter}>
             <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mt-4">
               {subCharts[0]?.filters.map((filter: any) => (
                 <TabsTrigger
@@ -167,14 +195,16 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
 
           return (
             <SecondaryChartWrapper key={chart.key} title={chart.name}>
-              {renderChart(
-                chart.chart_type,
-                filterData || chart.data,
-                chart.chartConfig,
-                selectedFilter,
-                columns,
-                chart.styles
-              )}
+              <div className="overflow-scroll">
+                {renderChart(
+                  chart.chart_type,
+                  filterData || chart.data,
+                  chart.chartConfig,
+                  selectedFilter,
+                  columns,
+                  chart.styles
+                )}
+              </div>
             </SecondaryChartWrapper>
           );
         })}

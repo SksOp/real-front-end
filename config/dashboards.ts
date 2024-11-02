@@ -489,7 +489,34 @@ export const dashboards: Dashboard[] = [
             };
           } catch (error) {
             console.error("Error calculating sales index chart:", error);
-            throw new Error("Failed to calculate sales index chart.");
+            return {
+              name: "Sales Index",
+              description: "This is overall sales value index in Dubai.",
+              chart_type: "percentile_bar",
+              filters: [],
+              chartConfig: {},
+              sub_charts: [
+                {
+                  key: "price_range",
+                  name: "Price Range",
+                  chart_type: "donut",
+                  chartConfig: {
+                    "<500K": { color: "#FFDBDB" },
+                    "500K to 1M": { color: "#EFEEFC" },
+                    "1M to 2M": { color: "#DDF8E4" },
+                    "2M to 3M": { color: "#FCF8D1" },
+                    "3M to 4M": { color: "#FFC8C8" },
+                    "4M to 5M": { color: "#FFC8C8" },
+                    "5M to 10M": { color: "#FFC8C8" },
+                    ">10M": { color: "#FFC8C8" },
+                  },
+                  data: [], // Calculated data will be here
+                },
+              ],
+              insights:
+                "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
@@ -596,7 +623,15 @@ export const dashboards: Dashboard[] = [
             };
           } catch (error) {
             console.error("Error calculating price comparison chart:", error);
-            throw new Error("Failed to calculate price comparison chart.");
+            return {
+              name: "Price Comparison",
+              chart_type: "comparison_table",
+              filters: [],
+              chartConfig: {},
+              sub_metrics: [],
+              view_more: true,
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
@@ -876,7 +911,22 @@ export const dashboards: Dashboard[] = [
             };
           } catch (error) {
             console.error("Error calculating sales segmentation chart:", error);
-            throw new Error("Failed to calculate sales segmentation chart.");
+            return {
+              name: "Sales Segmentation",
+              description:
+                "Compare sales segmentation across residential and commercial.",
+              chart_type: "donut",
+              chartConfig: {
+                Commercial: {
+                  color: "#DDF8E4",
+                },
+                Residential: {
+                  color: "#EFEEFC",
+                },
+              },
+              sub_charts: [],
+              data: [], // Calculated data will be here
+            };
           }
         },
       },
@@ -924,33 +974,67 @@ export const dashboards: Dashboard[] = [
     ],
     calculate_matrics: async (params) => {
       try {
-        // const response = await axios.get(
-        //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
-        //   {
-        //     params: params,
-        //   }
-        // );
+        const response = await axios.get(
+          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=2023&end_year=2024`,
+          {
+            params: params,
+          }
+        );
+
+        const rents = response.data.data.data;
+
+        if (rents.length === 0) {
+          throw new Error("No transactions found for the specified filters.");
+        }
+
+        const growthCalculator = (current: number, previous: number) =>
+          ((current - previous) / previous) * 100;
+
+        const avgRentNew = rents[1].avg_rent_new_yearly;
+        const avgRentNewGrowth = growthCalculator(
+          parseFloat(avgRentNew),
+          parseFloat(rents[0].avg_rent_new_yearly)
+        );
+        const avgRentRenewal = rents[1].avg_rent_renewal_yearly;
+        const avgRentRenewalGrowth = growthCalculator(
+          parseFloat(avgRentRenewal),
+          parseFloat(rents[0].avg_rent_renewal_yearly)
+        );
+        const totalTransaction = rents[1].total_transaction_yearly;
+        const totalTransactionGrowth = growthCalculator(
+          parseFloat(totalTransaction),
+          parseFloat(rents[0].total_transaction_yearly)
+        );
+        const renewalRatio = rents[1].renewal_ratio_yearly;
+        const renewalRatioGrowth = growthCalculator(
+          parseFloat(renewalRatio),
+          parseFloat(rents[0].renewal_ratio_yearly)
+        );
 
         return [
           {
             key: "avg_rent_new",
             title: "Average Rent (New)",
-            value: "N/A",
+            value: avgRentNew.toFixed(2),
+            growth: avgRentNewGrowth.toFixed(2),
           },
           {
             key: "sales_per_sqft",
             title: "Average Rent Renewal",
-            value: "N/A",
+            value: avgRentRenewal.toFixed(2),
+            growth: avgRentRenewalGrowth.toFixed(2),
           },
           {
             key: "total_transactions",
             title: "Total Transactions",
-            value: "N/A",
+            value: totalTransaction,
+            growth: totalTransactionGrowth.toFixed(2),
           },
           {
             key: "renewal_ratio",
             title: "Renewal Ratio",
-            value: "N/A",
+            value: renewalRatio.toFixed(2),
+            growth: renewalRatioGrowth.toFixed(2),
           },
         ];
       } catch (error) {
@@ -985,17 +1069,51 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             // Will do the required calculation here and return the data to build graph
+            const date = new Date();
+            const end_year = date.getFullYear();
+            const start_year = end_year - 9;
+            console.log("params", params);
+            const response = await axios.get(
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year${start_year}&end_year=${end_year}`,
+              {
+                params: {},
+              }
+            );
+            console.log("response barrr", response.data);
+            const data = response.data.data.data;
+            console.log("data Transs", data);
 
+            const avgRents = data.map((item: any) => ({
+              year: item.Year,
+              value: item.avg_rent_yearly.toFixed(2),
+            }));
+
+            const avgRentNew = data.map((item: any) => ({
+              year: item.Year,
+              value: item.avg_rent_new_yearly.toFixed(2),
+            }));
+
+            const avgRentRenew = data.map((item: any) => ({
+              year: item.Year,
+              value: item.avg_rent_renewal_yearly.toFixed(2),
+            }));
+            console.log("totalValue", avgRents);
+            // Will do the required calculation here and return the data to build graph
             return {
-              name: "Average Rent",
+              name: "Transactions Value Trend",
               description:
                 "Compare transactional total value and value per sqft over time.",
               filters: [
-                { key: "all", label: "All", data: [] },
+                { key: "all", label: "All", data: avgRents },
                 {
                   key: "new",
                   label: "New",
-                  data: [],
+                  data: avgRentNew,
+                },
+                {
+                  key: "renew",
+                  label: "Renew",
+                  data: avgRentRenew,
                 },
               ],
               chart_type: "bar",
@@ -1008,7 +1126,7 @@ export const dashboards: Dashboard[] = [
               sub_charts: [],
               insights:
                 "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
-              data: [], // Calculated data will be here
+              data: avgRents, // Calculated data will be here
             };
           } catch (error) {
             console.error(
@@ -1030,6 +1148,105 @@ export const dashboards: Dashboard[] = [
               sub_charts: [],
               insights:
                 "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+              data: [], // Calculated data will be here
+            };
+          }
+        },
+      },
+      {
+        key: "sales_transactions_trend",
+        calculate: async (params) => {
+          try {
+            const date = new Date();
+            const end_year = date.getFullYear();
+            const start_year = end_year - 9;
+            const response = await axios.get(
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year${start_year}&end_year=${end_year}`,
+              {
+                params: {},
+              }
+            );
+            const data = response.data.data.data;
+            console.log("chddd", data);
+            const yearlyData = data.map((item: any) => ({
+              year: item.Year,
+              value1: item.number_of_Row_Used,
+            }));
+
+            const months = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ];
+            const currentYearData = data[data.length - 1];
+            const monthlyData = currentYearData.month_data.map((item: any) => ({
+              year: months[parseInt(item.Month) - 1],
+              value1: item.Total_Transactions,
+            }));
+
+            let i = 11;
+            while (monthlyData.length !== 12) {
+              const prevYearData = data[data.length - 2];
+              monthlyData.unshift({
+                year: months[parseInt(prevYearData.month_data[i].Month) - 1],
+                value1: prevYearData.month_data[i].number_of_Row_Used,
+              });
+              i--;
+            }
+            console.log(yearlyData, monthlyData);
+            // Will do the required calculation here and return the data to build graph
+            return {
+              name: "Sales Transactions Trend",
+              description: "Compare number of transactions over time!",
+              filters: [
+                { key: "All", label: "All", data: monthlyData },
+                // {
+                //   key: "quarterly",
+                //   label: "Quarterly",
+                //   data: yearlyData,
+                // },
+                // { key: "yearly", label: "Yearly", data: yearlyData },
+              ],
+              chart_type: "line",
+              chartConfig: {
+                desktop: {
+                  label: "Desktop",
+                  color: "hsl(var(--chart-1))",
+                },
+              },
+              sub_charts: [],
+              insights:
+                "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+              data: monthlyData, // Calculated data will be here
+            };
+          } catch (error) {
+            console.error(
+              "Error calculating sales transactions trend chart:",
+              error
+            );
+            return {
+              name: "Sales Transactions Trend",
+              description: "Compare number of transactions over time!",
+              filters: [],
+              chart_type: "line",
+              chartConfig: {
+                desktop: {
+                  label: "Desktop",
+                  color: "hsl(var(--chart-1))",
+                },
+              },
+              sub_charts: [],
+              insights:
+                "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
               data: [], // Calculated data will be here
             };
           }
