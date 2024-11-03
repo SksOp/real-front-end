@@ -194,7 +194,16 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           )?.data;
 
           return (
-            <SecondaryChartWrapper key={chart.key} title={chart.name}>
+            <SecondaryChartWrapper
+              key={chart.key}
+              title={
+                chart.key === "rooms"
+                  ? subChartFilter === "commercial"
+                    ? "Property Sub Type"
+                    : "Rooms"
+                  : chart.name
+              }
+            >
               <div className="overflow-scroll">
                 {renderChart(
                   chart.chart_type,

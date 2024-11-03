@@ -4,6 +4,7 @@ import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
+  Cell,
   LabelList,
   ResponsiveContainer,
   XAxis,
@@ -78,6 +79,7 @@ const HorizontalBarChartComponent: React.FC<
 
   // Dynamically calculate chart height based on the number of data items
   const minHeight = data.length * 50; // 50px per item, minimum 150px
+
   console.log(data.length);
   return (
     <ChartContainer
@@ -89,8 +91,9 @@ const HorizontalBarChartComponent: React.FC<
         data={modifiedData}
         layout="vertical"
         margin={{
-          top: 10,
-          right: 50,
+          top: 5,
+          right: 45,
+          left: 10,
         }}
         barCategoryGap={10} // Adjust gap between bar categories
         barGap={20} // Adjust gap between bars within a category
@@ -117,15 +120,16 @@ const HorizontalBarChartComponent: React.FC<
           barSize={30}
           {...customBarProps}
         >
-          {/* Label for category name */}
+          {/* label for category */}
           <LabelList
             dataKey={xAxisDataKey}
             position={position ?? "insideLeft"}
             offset={8}
             className="fill-[--color-label]"
             fontSize={14}
+            formatter={(value: string) => value}
           />
-          {/* Label for original value */}
+          {/* Custom label for zero values */}
           <LabelList
             dataKey={yAxisDataKey}
             position="right"

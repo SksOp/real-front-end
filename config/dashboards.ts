@@ -674,7 +674,7 @@ export const dashboards: Dashboard[] = [
             const response = await axios.get(
               `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
               {
-                params: { params },
+                params: params,
               }
             );
             // // Will do the required calculation here and return the data to build graph
@@ -700,6 +700,7 @@ export const dashboards: Dashboard[] = [
                 colorClass: "bg-[#EFEEFC]",
               },
             ];
+            console.log("chartData", chartData);
 
             const colors: Record<string, string> = {
               free_hold: "#DDF8E4",
@@ -748,79 +749,182 @@ export const dashboards: Dashboard[] = [
               ],
             };
 
+            const calculateCategoryData = (
+              sourceData: any[],
+              categoryKey: string
+            ) => {
+              return categories[categoryKey].map(({ key, name, color }) => {
+                const value = sourceData.reduce((sum: number, item: any) => {
+                  const commercialValue =
+                    item.total_commercial > 0
+                      ? item.types[categoryKey]?.[key] || 0
+                      : 0;
+                  const residentialValue =
+                    item.total_residential > 0
+                      ? item.types[categoryKey]?.[key] || 0
+                      : 0;
+                  return sum + commercialValue + residentialValue;
+                }, 0);
+                return { name, value, fill: color };
+              });
+            };
+
             const allData: any = {};
-
-            Object.keys(categories).forEach((categoryKey) => {
-              allData[categoryKey] = categories[categoryKey].map(
-                ({ key, name, color }) => {
-                  const value = data.reduce((sum: number, item: any) => {
-                    const commercialValue =
-                      item.total_commercial > 0
-                        ? item.types[categoryKey]?.[key] || 0
-                        : 0;
-                    const residentialValue =
-                      item.total_residential > 0
-                        ? item.types[categoryKey]?.[key] || 0
-                        : 0;
-                    return sum + commercialValue + residentialValue;
-                  }, 0);
-
-                  return { name, value, fill: color };
-                }
-              );
-            });
-
             const residentialData: any = {};
-            Object.keys(categories).forEach((categoryKey) => {
-              residentialData[categoryKey] = categories[categoryKey].map(
-                ({ key, name, color }) => {
-                  const value = residentialTotalData.reduce(
-                    (sum: number, item: any) => {
-                      const commercialValue =
-                        item.total_commercial > 0
-                          ? item.types[categoryKey]?.[key] || 0
-                          : 0;
-                      const residentialValue =
-                        item.total_residential > 0
-                          ? item.types[categoryKey]?.[key] || 0
-                          : 0;
-                      return sum + commercialValue + residentialValue;
-                    },
-                    0
-                  );
-
-                  return { name, value, fill: color };
-                }
-              );
-            });
-
             const commercialData: any = {};
-            Object.keys(categories).forEach((categoryKey) => {
-              commercialData[categoryKey] = categories[categoryKey].map(
-                ({ key, name, color }) => {
-                  const value = commercialTotalData.reduce(
-                    (sum: number, item: any) => {
-                      const commercialValue =
-                        item.total_commercial > 0
-                          ? item.types[categoryKey]?.[key] || 0
-                          : 0;
-                      const residentialValue =
-                        item.total_residential > 0
-                          ? item.types[categoryKey]?.[key] || 0
-                          : 0;
-                      return sum + commercialValue + residentialValue;
-                    },
-                    0
-                  );
 
-                  return { name, value, fill: color };
-                }
+            Object.keys(categories).forEach((categoryKey) => {
+              allData[categoryKey] = calculateCategoryData(data, categoryKey);
+              residentialData[categoryKey] = calculateCategoryData(
+                residentialTotalData,
+                categoryKey
+              );
+              commercialData[categoryKey] = calculateCategoryData(
+                commercialTotalData,
+                categoryKey
               );
             });
+            console.log("allData", residentialData);
+            allData["rooms_en"] = [
+              {
+                name: "Studio",
+                value: residentialTotalData[0].types.rooms_en.count_studio,
+                fill: colors.count_studio,
+              },
+              {
+                name: "Single Room",
+                value: residentialTotalData[0].types.rooms_en.count_single_room,
+                fill: colors.count_single_room,
+              },
+              {
+                name: "Penthouse",
+                value: residentialTotalData[0].types.rooms_en.count_penthouse,
+                fill: colors.count_penthouse,
+              },
+              {
+                name: "1 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_1_B_R,
+                fill: colors.count_1_B_R,
+              },
+              {
+                name: "2 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_2_B_R,
+                fill: colors.count_2_B_R,
+              },
+              {
+                name: "3 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_3_B_R,
+                fill: colors.count_3_B_R,
+              },
+              {
+                name: "4 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_4_B_R,
+                fill: colors.count_4_B_R,
+              },
+              {
+                name: "5 B/R+",
+                value:
+                  residentialTotalData[0].types.rooms_en.count_5_B_R +
+                  residentialTotalData[0].types.rooms_en.count_6_B_R +
+                  residentialTotalData[0].types.rooms_en.count_7_B_R +
+                  residentialTotalData[0].types.rooms_en.count_8_B_R +
+                  residentialTotalData[0].types.rooms_en.count_9_B_R,
+                fill: colors.count_5_B_R,
+              },
+            ];
 
-            console.log("residentialData", residentialData);
+            residentialData["rooms_en"] = [
+              {
+                name: "Studio",
+                value: residentialTotalData[0].types.rooms_en.count_studio,
+                fill: colors.count_studio,
+              },
+              {
+                name: "Single Room",
+                value: residentialTotalData[0].types.rooms_en.count_single_room,
+                fill: colors.count_single_room,
+              },
+              {
+                name: "Penthouse",
+                value: residentialTotalData[0].types.rooms_en.count_penthouse,
+                fill: colors.count_penthouse,
+              },
+              {
+                name: "1 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_1_B_R,
+                fill: colors.count_1_B_R,
+              },
+              {
+                name: "2 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_2_B_R,
+                fill: colors.count_2_B_R,
+              },
+              {
+                name: "3 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_3_B_R,
+                fill: colors.count_3_B_R,
+              },
+              {
+                name: "4 B/R",
+                value: residentialTotalData[0].types.rooms_en.count_4_B_R,
+                fill: colors.count_4_B_R,
+              },
+              {
+                name: "5 B/R+",
+                value:
+                  residentialTotalData[0].types.rooms_en.count_5_B_R +
+                  residentialTotalData[0].types.rooms_en.count_6_B_R +
+                  residentialTotalData[0].types.rooms_en.count_7_B_R +
+                  residentialTotalData[0].types.rooms_en.count_8_B_R +
+                  residentialTotalData[0].types.rooms_en.count_9_B_R,
+                fill: colors.count_5_B_R,
+              },
+            ];
+            commercialData["rooms_en"] = [
+              {
+                name: "Industrial",
+                value:
+                  commercialTotalData[0].types.prop_sb_type_en.count_industrial,
+                fill: colors.count_studio,
+              },
+              {
+                name: "Commercial",
+                value:
+                  commercialTotalData[0].types.prop_sb_type_en.count_commercial,
+                fill: colors.count_single_room,
+              },
+              {
+                name: "Office",
+                value:
+                  commercialTotalData[0].types.prop_sb_type_en.count_office,
+                fill: colors.count_penthouse,
+              },
+              {
+                name: "Shop",
+                value: commercialTotalData[0].types.prop_sb_type_en.count_shop,
+                fill: colors.count_1_B_R,
+              },
+              {
+                name: "Show Rooms",
+                value:
+                  commercialTotalData[0].types.prop_sb_type_en.count_show_rooms,
+                fill: colors.count_2_B_R,
+              },
+              {
+                name: "Gymnasium",
+                value:
+                  commercialTotalData[0].types.prop_sb_type_en.count_gymnasium,
+                fill: colors.count_3_B_R,
+              },
+              {
+                name: "Sports Club",
+                value:
+                  commercialTotalData[0].types.prop_sb_type_en
+                    .count_sports_club,
+                fill: colors.count_4_B_R,
+              },
+            ];
 
-            // console.log("residentialData  ", residentialData);
             return {
               name: "Sales Segmentation",
               description:
@@ -897,26 +1001,26 @@ export const dashboards: Dashboard[] = [
                   ],
                   data: allData?.prop_type_en, // Calculated data will be here
                 },
-                // {
-                //   key: "rooms",
-                //   name: "Rooms",
-                //   chart_type: "horizontal_bar",
-                //   chartConfig: {},
-                //   filters: [
-                //     { key: "all", label: "All", data: allData.rooms_en },
-                //     {
-                //       key: "residential",
-                //       label: "Residential",
-                //       data: residentialData.rooms_en,
-                //     },
-                //     {
-                //       key: "commercial",
-                //       label: "Commercial",
-                //       data: commercialData.rooms_en,
-                //     },
-                //   ],
-                //   data: allData?.rooms_en, // Calculated data will be here
-                // },
+                {
+                  key: "rooms",
+                  name: "Rooms",
+                  chart_type: "horizontal_bar",
+                  chartConfig: {},
+                  filters: [
+                    { key: "all", label: "All", data: allData.rooms_en },
+                    {
+                      key: "residential",
+                      label: "Residential",
+                      data: residentialData.rooms_en,
+                    },
+                    {
+                      key: "commercial",
+                      label: "Commercial",
+                      data: commercialData.rooms_en,
+                    },
+                  ],
+                  data: allData.rooms_en, // Calculated data will be here
+                },
               ],
               data: chartData, // Calculated data will be here
             };
