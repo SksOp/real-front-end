@@ -970,11 +970,30 @@ investment will yield a total of 24% return, which is well above the market aver
           parseFloat(calculateFrom[0]) - parseFloat(calculateFrom[1]),
         is_mandatory: true,
       },
-
+      {
+        key: "mortgage_rate",
+        label: "Mortgage Rate",
+        type: "slider",
+        min: 1,
+        max: 15,
+        step: 1,
+        default_value: 4.5,
+        is_mandatory: true,
+      },
       {
         key: "down_payment",
         label: "Down Payment",
         type: "currency_text",
+        is_mandatory: true,
+      },
+      {
+        key: "mortgage_duration",
+        label: "Mortgage Duration",
+        type: "slider",
+        min: 1,
+        max: 30,
+        step: 1,
+        default_value: 15,
         is_mandatory: true,
       },
     ],
@@ -997,6 +1016,7 @@ investment will yield a total of 24% return, which is well above the market aver
         monthly_household_expenses,
         down_payment,
         mortgage_duration,
+        mortgage_rate,
         available_monthly_savings,
       } = inputs;
       console.log("inputs Home: ", inputs);
@@ -1009,6 +1029,7 @@ investment will yield a total of 24% return, which is well above the market aver
         monthly_household_expenses,
         down_payment,
         mortgage_duration,
+        mortgage_rate,
         available_monthly_savings,
       };
     },

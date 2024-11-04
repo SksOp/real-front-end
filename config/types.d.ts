@@ -111,7 +111,10 @@ export interface ChartDescription {
   data: any[];
   columns?: string[];
   styles?: ClassValue;
-  otherInfo?: number | string;
+  otherInfo?: {
+    name: string;
+    value: string;
+  }[];
   sub_charts?: Dashboard.calculate_charts;
   insights?: string;
 }

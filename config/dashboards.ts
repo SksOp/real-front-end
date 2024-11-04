@@ -602,7 +602,7 @@ export const dashboards: Dashboard[] = [
               filters: [],
               sub_metrics: [],
               view_more: true,
-              otherInfo: avgValue,
+              otherInfo: [{ name: "Average Sales Value", value: avgValue }],
               columns: chartcolumns,
               data: chartData, // Calculated data will be here
             };
@@ -618,6 +618,7 @@ export const dashboards: Dashboard[] = [
               filters: [],
               sub_metrics: [],
               view_more: true,
+              additionalInfo: "N/A",
               columns: [],
               data: [], // Calculated data will be here
             };
@@ -1524,7 +1525,7 @@ export const dashboards: Dashboard[] = [
 
             // Will do the required calculation here and return the data to build graph
             const data = response.data.data.data;
-            const chartcolumns = ["Date", "Rent Price", "Area (ft)"];
+            const chartcolumns = ["Date", "Rent Price", "Sub Property"];
             const chartData = data.map((item: any) => {
               // Inline date formatting
               const months = [
@@ -1542,18 +1543,19 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
 
-              const date = new Date(item.REGISTRATION_DATE.value);
+              const date = new Date(item.registration_date.value);
               const formattedDate = `${date.getDate()}/${
                 months[date.getMonth()]
               }/${date.getFullYear()}`;
               return {
                 Date: formattedDate, // Use the formatted date
-                "Rent Price": item.ANNUAL_AMOUNT,
-                "Area (ft)": item.ACTUAL_AREA.toFixed(2),
+                "Rent Price": item.annual_amount,
+                "Sub Property": item.property_subtype,
               };
             });
 
-            // const avgValue = data[0].avg_value_per_year.toFixed(2) ?? 0;
+            const avgValueNew = data[0].avg_value_new.toFixed(2);
+            const avgValueRenewal = data[0].avg_value_renewed.toFixed(2);
 
             return {
               name: "Similar Transactions",
@@ -1562,7 +1564,10 @@ export const dashboards: Dashboard[] = [
               filters: [],
               sub_metrics: [],
               view_more: true,
-              otherInfo: 0,
+              otherInfo: [
+                { name: "Average Rent (New)", value: avgValueNew },
+                { name: "Average Rent (Renewal)", value: avgValueRenewal },
+              ],
               columns: chartcolumns,
               data: chartData, // Calculated data will be here
             };

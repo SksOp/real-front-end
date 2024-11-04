@@ -10,27 +10,15 @@ import {
   TableRow,
 } from "./ui/table";
 import { cn } from "@/lib/utils";
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface SimilarTransactionProps {
   columns: string[];
   data: Array<Record<string, string | number>>;
   headerText?: string;
   headerValue?: string;
-}
-
-function formatNumber(value: string | number): string {
-  const num = typeof value === "string" ? parseFloat(value) : value;
-
-  if (isNaN(num)) return value.toString(); // Return the original value if it's not a valid number
-  if (num >= 1_000_000_000) {
-    return `${(num / 1_000_000_000).toFixed(1)}B`; // For billions
-  } else if (num >= 1_000_000) {
-    return `${(num / 1_000_000).toFixed(1)}M`; // For millions
-  } else if (num >= 1_000) {
-    return `${(num / 1_000).toFixed(1)}K`; // For thousands
-  }
-
-  return num.toString(); // Return the number as is if it's below 1000
+  headerText2?: string;
+  headerValue2?: string;
 }
 
 function SimilarTransaction({
@@ -38,10 +26,33 @@ function SimilarTransaction({
   data,
   headerText,
   headerValue,
+  headerText2,
+  headerValue2,
 }: SimilarTransactionProps) {
   return (
     <div className="flex flex-col w-full gap-4">
-      {headerText && (
+      {headerText && headerText2 ? (
+        // If both headers are present, display headers in one row and values in a row below
+        <div className="bg-card py-3 px-2 flex flex-col items-center rounded-xl">
+          <div className="flex justify-around items-center gap-4 text-center w-full">
+            <h3 className="text-muted-foreground text-center text-sm font-light">
+              {headerText}
+            </h3>
+            <h3 className="text-muted-foreground text-center text-sm font-light">
+              {headerText2}
+            </h3>
+          </div>
+          <div className="flex justify-around w-full mt-2">
+            <p className="text-secondary text-sm font-light">
+              {headerValue} AED
+            </p>
+            <p className="text-secondary text-sm font-light">
+              {headerValue2} AED
+            </p>
+          </div>
+        </div>
+      ) : headerText ? (
+        // If only one header is present, retain the original single-row design
         <div className="bg-card py-3 px-2 flex items-center justify-around rounded-xl">
           <h3 className="text-muted-foreground text-sm font-light">
             {headerText}:
@@ -53,7 +64,8 @@ function SimilarTransaction({
             <DisableBulbIcon />
           </div>
         </div>
-      )}
+      ) : null}
+
       <div className="border rounded-xl w-full overflow-hidden">
         <Table className="w-full">
           <TableHeader className="">
@@ -62,7 +74,7 @@ function SimilarTransaction({
                 <TableHead
                   key={idx}
                   className={cn(
-                    "text-center",
+                    "",
                     idx === 0 && "rounded-tl-xl",
                     idx === columns.length - 1 && "rounded-tr-xl",
                     "text-secondary"
@@ -86,7 +98,7 @@ function SimilarTransaction({
                   <TableCell key={colIndex}>
                     {column === "Year" || column === "Date"
                       ? row[column]
-                      : formatNumber(row[column])}
+                      : FormatValue(row[column])}
                   </TableCell>
                 ))}
               </TableRow>

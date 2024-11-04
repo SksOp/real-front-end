@@ -24,7 +24,7 @@ interface DashboardChartsProps {
   data: any;
   columns?: string[];
   filters?: any[];
-  otherInfo?: number | string;
+  otherInfo?: { name: string; value: string }[];
   subCharts?: any[];
   styles?: ClassValue;
 }
@@ -127,8 +127,10 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           <SimilarTransaction
             data={data}
             columns={columns ?? []}
-            headerValue={String(otherInfo)}
-            headerText="Average sales price"
+            headerValue={otherInfo && otherInfo[0]?.value}
+            headerText={otherInfo && otherInfo[0]?.name}
+            headerValue2={otherInfo && otherInfo[1]?.value}
+            headerText2={otherInfo && otherInfo[1]?.name}
           />
         );
       case "comparison_table":
