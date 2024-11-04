@@ -1396,6 +1396,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "rental_index",
         calculate: async (params) => {
+          params = {};
           try {
             const response = await axios.get(
               `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/index`,
@@ -1406,7 +1407,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/rentalIndex?start_year=${end_year}&end_year=${end_year}`,
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/rentIndex?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -1422,43 +1423,33 @@ export const dashboards: Dashboard[] = [
             console.log("rangeData", rangeData);
             const chartData = [
               {
-                name: "<500K",
-                value: rangeData.total_sales_under_500k,
+                name: "<25K",
+                value: rangeData.total_rents_under_25k,
                 colorClass: "bg-[#FFDBDB]",
               },
               {
-                name: "500K to 1M",
-                value: rangeData.total_sales_500k_to_1M,
+                name: "25K to 50k",
+                value: rangeData.total_rents_25k_to_50k,
                 colorClass: "bg-[#EFEEFC]",
               },
               {
-                name: "1M to 2M",
-                value: rangeData.total_sales_1M_to_2M,
+                name: "50k to 100k",
+                value: rangeData.total_rents_50k_to_100k,
                 colorClass: "bg-[#DDF8E4]",
               },
               {
-                name: "2M to 3M",
-                value: rangeData.total_sales_2M_to_3M,
+                name: "100k to 200k",
+                value: rangeData.total_rents_100k_to_200k,
                 colorClass: "bg-[#FCF8D1]",
               },
               {
-                name: "3M to 4M",
-                value: rangeData.total_sales_3M_to_4M,
+                name: "200k to 400k",
+                value: rangeData.total_rents_200k_to_400k,
                 colorClass: "bg-[#FFC8C8]",
               },
               {
-                name: "4M to 5M",
-                value: rangeData.total_sales_4M_to_5M,
-                colorClass: "bg-[#FFC8C8]",
-              },
-              {
-                name: "5M to 10M",
-                value: rangeData.total_sales_5M_to_10M,
-                colorClass: "bg-[#FFC8C8]",
-              },
-              {
-                name: ">10M",
-                value: rangeData.total_sales_over_10M,
+                name: ">400k",
+                value: rangeData.total_sales_over_400k,
                 colorClass: "bg-[#FFC8C8]",
               },
             ];
@@ -1475,14 +1466,12 @@ export const dashboards: Dashboard[] = [
                   name: "Price Range",
                   chart_type: "donut",
                   chartConfig: {
-                    "<500K": { color: "#FFDBDB" },
-                    "500K to 1M": { color: "#EFEEFC" },
-                    "1M to 2M": { color: "#DDF8E4" },
-                    "2M to 3M": { color: "#FCF8D1" },
-                    "3M to 4M": { color: "#FFC8C8" },
-                    "4M to 5M": { color: "#FFC8C8" },
-                    "5M to 10M": { color: "#FFC8C8" },
-                    ">10M": { color: "#FFC8C8" },
+                    "<25K": { color: "#FFDBDB" },
+                    "25K to 50k": { color: "#EFEEFC" },
+                    "50k to 100k": { color: "#DDF8E4" },
+                    "100k to 200k": { color: "#FCF8D1" },
+                    "200k to 400k": { color: "#FFC8C8" },
+                    ">400k": { color: "#FFC8C8" },
                   },
                   data: chartData, // Calculated data will be here
                 },
@@ -1536,7 +1525,6 @@ export const dashboards: Dashboard[] = [
             // Will do the required calculation here and return the data to build graph
             const data = response.data.data.data;
             const chartcolumns = ["Date", "Rent Price", "Area (ft)"];
-            let totalValue = 0;
             const chartData = data.map((item: any) => {
               // Inline date formatting
               const months = [
@@ -1553,19 +1541,19 @@ export const dashboards: Dashboard[] = [
                 "Nov",
                 "Dec",
               ];
-              const date = new Date(item.dates.value);
+
+              const date = new Date(item.REGISTRATION_DATE.value);
               const formattedDate = `${date.getDate()}/${
                 months[date.getMonth()]
               }/${date.getFullYear()}`;
-              totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
-                "Rent Price": item.value,
-                "Area (ft)": item.price_per_sqft.toFixed(2),
+                "Rent Price": item.ANNUAL_AMOUNT,
+                "Area (ft)": item.ACTUAL_AREA.toFixed(2),
               };
             });
 
-            const avgValue = data[0].avg_value_per_year.toFixed(2);
+            // const avgValue = data[0].avg_value_per_year.toFixed(2) ?? 0;
 
             return {
               name: "Similar Transactions",
@@ -1574,7 +1562,7 @@ export const dashboards: Dashboard[] = [
               filters: [],
               sub_metrics: [],
               view_more: true,
-              otherInfo: avgValue,
+              otherInfo: 0,
               columns: chartcolumns,
               data: chartData, // Calculated data will be here
             };
@@ -1600,8 +1588,11 @@ export const dashboards: Dashboard[] = [
         key: "rent_Comparison",
         calculate: async (params) => {
           try {
+            const date = new Date();
+            const end_year = date.getFullYear();
+            const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/comp?location=Business%20Bay`,
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/comp?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -1612,9 +1603,9 @@ export const dashboards: Dashboard[] = [
             console.log("compare data", data);
             const chartData = data.map((item: any) => ({
               name: item.AREA_EN,
-              avgPrice: item.avg_trans_value.toFixed(2),
-              pricePerSqFt: item.avg_price_per_sqft.toFixed(2),
-              transactions: item.num_sales.toFixed(2),
+              avgPrice: item.avg_rent_value.toFixed(2),
+              pricePerSqFt: String(item.renewal_ratio.toFixed(2) * 100) + "%",
+              transactions: item.num_rents.toFixed(2),
             }));
 
             return {
@@ -1644,8 +1635,11 @@ export const dashboards: Dashboard[] = [
         key: "rental_segmentation",
         calculate: async (params) => {
           try {
+            const date = new Date();
+            const end_year = date.getFullYear();
+            params = {};
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/types`,
+              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/segment?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -1653,7 +1647,7 @@ export const dashboards: Dashboard[] = [
             // // Will do the required calculation here and return the data to build graph
 
             const data = response.data.data.data;
-            console.log("data Transs", data);
+            console.log("data Transs", response);
             const commercialTotalData = data.filter(
               (item: any) => item.USAGE_EN === "Commercial"
             );
@@ -1705,14 +1699,21 @@ export const dashboards: Dashboard[] = [
                 { key: "free_hold", name: "Freehold", color: colors.free_hold },
                 { key: "lease", name: "Lease", color: colors.lease },
               ],
-              offplan_en: [
-                { key: "ready", name: "Ready", color: colors.ready },
-                { key: "offplan", name: "Offplan", color: colors.offplan },
+              version_en: [
+                { key: "new_version", name: "New", color: colors.ready },
+                {
+                  key: "renew_version",
+                  name: "Renew",
+                  color: colors.offplan,
+                },
               ],
-              group_en: [
-                { key: "total_sales", name: "Total Sales", color: "" },
-                { key: "total_mortgage", name: "Total Mortgage", color: "" },
-                { key: "total_gift", name: "Total Gift", color: "" },
+              total_properties: [
+                {
+                  key: "Individual",
+                  name: "Individual",
+                  color: colors.count_1_B_R,
+                },
+                { key: "Bulk", name: "Bulk", color: colors.count_4_B_R },
               ],
               prop_type_en: [
                 { key: "land", name: "Land", color: colors.land },
@@ -1758,145 +1759,6 @@ export const dashboards: Dashboard[] = [
               );
             });
             console.log("allData", residentialData);
-            allData["rooms_en"] = [
-              {
-                name: "Studio",
-                value: residentialTotalData[0].types.rooms_en.count_studio,
-                fill: colors.count_studio,
-              },
-              {
-                name: "Single Room",
-                value: residentialTotalData[0].types.rooms_en.count_single_room,
-                fill: colors.count_single_room,
-              },
-              {
-                name: "Penthouse",
-                value: residentialTotalData[0].types.rooms_en.count_penthouse,
-                fill: colors.count_penthouse,
-              },
-              {
-                name: "1 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_1_B_R,
-                fill: colors.count_1_B_R,
-              },
-              {
-                name: "2 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_2_B_R,
-                fill: colors.count_2_B_R,
-              },
-              {
-                name: "3 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_3_B_R,
-                fill: colors.count_3_B_R,
-              },
-              {
-                name: "4 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_4_B_R,
-                fill: colors.count_4_B_R,
-              },
-              {
-                name: "5 B/R+",
-                value:
-                  residentialTotalData[0].types.rooms_en.count_5_B_R +
-                  residentialTotalData[0].types.rooms_en.count_6_B_R +
-                  residentialTotalData[0].types.rooms_en.count_7_B_R +
-                  residentialTotalData[0].types.rooms_en.count_8_B_R +
-                  residentialTotalData[0].types.rooms_en.count_9_B_R,
-                fill: colors.count_5_B_R,
-              },
-            ];
-
-            residentialData["rooms_en"] = [
-              {
-                name: "Studio",
-                value: residentialTotalData[0].types.rooms_en.count_studio,
-                fill: colors.count_studio,
-              },
-              {
-                name: "Single Room",
-                value: residentialTotalData[0].types.rooms_en.count_single_room,
-                fill: colors.count_single_room,
-              },
-              {
-                name: "Penthouse",
-                value: residentialTotalData[0].types.rooms_en.count_penthouse,
-                fill: colors.count_penthouse,
-              },
-              {
-                name: "1 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_1_B_R,
-                fill: colors.count_1_B_R,
-              },
-              {
-                name: "2 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_2_B_R,
-                fill: colors.count_2_B_R,
-              },
-              {
-                name: "3 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_3_B_R,
-                fill: colors.count_3_B_R,
-              },
-              {
-                name: "4 B/R",
-                value: residentialTotalData[0].types.rooms_en.count_4_B_R,
-                fill: colors.count_4_B_R,
-              },
-              {
-                name: "5 B/R+",
-                value:
-                  residentialTotalData[0].types.rooms_en.count_5_B_R +
-                  residentialTotalData[0].types.rooms_en.count_6_B_R +
-                  residentialTotalData[0].types.rooms_en.count_7_B_R +
-                  residentialTotalData[0].types.rooms_en.count_8_B_R +
-                  residentialTotalData[0].types.rooms_en.count_9_B_R,
-                fill: colors.count_5_B_R,
-              },
-            ];
-            commercialData["rooms_en"] = [
-              {
-                name: "Industrial",
-                value:
-                  commercialTotalData[0].types.prop_sb_type_en.count_industrial,
-                fill: colors.count_studio,
-              },
-              {
-                name: "Commercial",
-                value:
-                  commercialTotalData[0].types.prop_sb_type_en.count_commercial,
-                fill: colors.count_single_room,
-              },
-              {
-                name: "Office",
-                value:
-                  commercialTotalData[0].types.prop_sb_type_en.count_office,
-                fill: colors.count_penthouse,
-              },
-              {
-                name: "Shop",
-                value: commercialTotalData[0].types.prop_sb_type_en.count_shop,
-                fill: colors.count_1_B_R,
-              },
-              {
-                name: "Show Rooms",
-                value:
-                  commercialTotalData[0].types.prop_sb_type_en.count_show_rooms,
-                fill: colors.count_2_B_R,
-              },
-              {
-                name: "Gymnasium",
-                value:
-                  commercialTotalData[0].types.prop_sb_type_en.count_gymnasium,
-                fill: colors.count_3_B_R,
-              },
-              {
-                name: "Sports Club",
-                value:
-                  commercialTotalData[0].types.prop_sb_type_en
-                    .count_sports_club,
-                fill: colors.count_4_B_R,
-              },
-            ];
 
             return {
               name: "Rental Segmentation",
@@ -1940,19 +1802,19 @@ export const dashboards: Dashboard[] = [
                   chart_type: "horizontal_bar",
                   chartConfig: {},
                   filters: [
-                    { key: "all", label: "All", data: allData.offplan_en },
+                    { key: "all", label: "All", data: allData.version_en },
                     {
                       key: "residential",
                       label: "Residential",
-                      data: residentialData.offplan_en,
+                      data: residentialData.version_en,
                     },
                     {
                       key: "commercial",
                       label: "Commercial",
-                      data: commercialData.offplan_en,
+                      data: commercialData.version_en,
                     },
                   ],
-                  data: allData?.offplan_en, // Calculated data will be here
+                  data: allData?.version_en, // Calculated data will be here
                 },
                 {
                   key: "property_type",
@@ -1975,24 +1837,28 @@ export const dashboards: Dashboard[] = [
                   data: allData?.prop_type_en, // Calculated data will be here
                 },
                 {
-                  key: "rooms",
-                  name: "Rooms",
+                  key: "total_properties",
+                  name: "Total Propertries",
                   chart_type: "horizontal_bar",
                   chartConfig: {},
                   filters: [
-                    { key: "all", label: "All", data: allData.rooms_en },
+                    {
+                      key: "all",
+                      label: "All",
+                      data: allData.total_properties,
+                    },
                     {
                       key: "residential",
                       label: "Residential",
-                      data: residentialData.rooms_en,
+                      data: residentialData.total_properties,
                     },
                     {
                       key: "commercial",
                       label: "Commercial",
-                      data: commercialData.rooms_en,
+                      data: commercialData.total_properties,
                     },
                   ],
-                  data: allData.rooms_en, // Calculated data will be here
+                  data: allData.total_properties, // Calculated data will be here
                 },
               ],
               data: chartData, // Calculated data will be here

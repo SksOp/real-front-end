@@ -1,46 +1,13 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface MatrixCardProp {
   title: string;
   value: number | string;
   growth?: number;
 }
-
-const isNumeric = (value: string | undefined) => {
-  if (value === undefined) return false;
-  return !isNaN(parseFloat(value)) && isFinite(parseFloat(value));
-};
-
-// Helper function to format the values
-const formatValue = (value: number | string) => {
-  let numericValue: number;
-
-  if (typeof value === "string" && value.trim().endsWith("%")) {
-    return value;
-  }
-
-  // If the value is a string and numeric, convert it to a number
-  if (typeof value === "string" && isNumeric(value)) {
-    numericValue = parseFloat(value);
-  } else if (typeof value === "number") {
-    numericValue = value;
-  } else {
-    return value; // If it's not numeric, return as is
-  }
-
-  // Format the numeric value
-  if (numericValue >= 1_000_000_000) {
-    return (numericValue / 1_000_000_000).toFixed(1) + "B";
-  } else if (numericValue >= 1_000_000) {
-    return (numericValue / 1_000_000).toFixed(1) + "M";
-  } else if (numericValue >= 1_000) {
-    return (numericValue / 1_000).toFixed(1) + "K";
-  } else {
-    return numericValue.toString(); // Return smaller numbers as is
-  }
-};
 
 function MatrixCard({ title, value, growth }: MatrixCardProp) {
   console.log(value);
@@ -53,7 +20,7 @@ function MatrixCard({ title, value, growth }: MatrixCardProp) {
       </CardHeader>
       <CardContent className="flex items-center w-full justify-start gap-1  p-0  truncate">
         <h3 className="text-lg font-semibold text-secondary">
-          {formatValue(value)}
+          {FormatValue(value)}
         </h3>
         {growth && growth > 0 ? (
           <div className="flex items-center justify-start gap-0.5">

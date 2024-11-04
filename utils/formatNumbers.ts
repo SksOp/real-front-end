@@ -5,6 +5,10 @@ const isNumeric = (value: string) => {
 const FormatValue = (value: number | string) => {
   let numericValue: number;
 
+  if (typeof value === "string" && value.trim().endsWith("%")) {
+    return value;
+  }
+
   // If the value is a string and numeric, convert it to a number
   if (typeof value === "string" && isNumeric(value)) {
     numericValue = parseFloat(value);

@@ -12,6 +12,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface DonutChartComponentProps {
   chartConfig: any;
@@ -26,18 +27,6 @@ interface DonutChartComponentProps {
   cornerRadius?: number;
   padAngle?: number;
 }
-
-const formatValue = (value: number): string => {
-  if (value >= 1000000000) {
-    return (value / 1000000000).toFixed(0) + "B";
-  } else if (value >= 1000000) {
-    return (value / 1000000).toFixed(0) + "M";
-  } else if (value >= 1000) {
-    return (value / 1000).toFixed(0) + "K";
-  } else {
-    return value.toString();
-  }
-};
 
 const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   chartConfig,
@@ -133,7 +122,7 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
                 <span className="text-sm truncate">{item.name}</span>
               </div>
               <span className="text-secondary text-sm font-semibold">
-                {formatValue(item.value)}
+                {FormatValue(item.value)}
               </span>
             </div>
           </div>
