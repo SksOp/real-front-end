@@ -145,7 +145,7 @@ function CalculatorPage() {
   };
 
   return (
-    <SecondaryNavbar title={calculator?.name ?? ""}>
+    <SecondaryNavbar page="calculators" title={calculator?.name ?? ""}>
       <div className="w-full p-4 pt-12">
         <Accordion
           type="single"

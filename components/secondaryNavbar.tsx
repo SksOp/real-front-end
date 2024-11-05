@@ -5,13 +5,16 @@ import { ClassValue } from "clsx";
 import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
 import Progressbar from "./progressbar";
+import Navbar from "@/layout/nav/navBar";
 
 function SecondaryNavbar({
   title,
+  page,
   className,
   children,
 }: {
   title: string;
+  page?: string;
   className?: ClassValue;
   children: React.ReactNode;
 }) {
@@ -20,12 +23,14 @@ function SecondaryNavbar({
 
   return (
     <main
-      className="min-h-screen relative bg-gradient-to-b from-backgrounds to-[#FAFAFA] w-full max-w-screen"
+      className={
+        "min-h-screen relative bg-gradient-to-b from-backgrounds to-[#FAFAFA] w-full max-w-screen"
+      }
       ref={navRef}
     >
       <nav
         className={cn(
-          "w-full bg-background flex fixed  items-center z-50  px-4 py-2 border-b",
+          "w-full bg-background flex fixed  items-center z-50 md:hidden px-4 py-2 border-b",
           className
         )}
       >
@@ -36,6 +41,7 @@ function SecondaryNavbar({
           {title}
         </h3>
       </nav>
+      <Navbar page={page} className={cn("hidden md:block", className)} />
       <Progressbar target={navRef} className="top-11" />
       {children}
     </main>

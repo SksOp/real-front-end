@@ -19,13 +19,16 @@ function HomePage() {
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA]  mt-20 px-3 flex flex-col gap-3">
         <HomeTransactionCard />
         <HomeInsights />
-        <HomeTotalAds />
-        <HomeSalesIndex />
-        <HomePriceIndex />
-        <HomeTopAreas />
-        <HomeListing />
-        <FrequentQuestions />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <HomeTotalAds />
+          <HomeSalesIndex />
+          <HomePriceIndex />
+          <HomeTopAreas />
+          <HomeListing />
+          <FrequentQuestions />
+        </div>
         <SharingCard />
+
         <Footer />
       </div>
     </Layout>

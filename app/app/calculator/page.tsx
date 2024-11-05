@@ -8,7 +8,7 @@ import React from "react";
 function CalculatorPage() {
   const router = useRouter();
   return (
-    <SecondaryNavbar title="calculators">
+    <SecondaryNavbar page="calculators" title="calculators">
       <div className="grid grid-cols-2 gap-3 px-3 pt-16 mb-4">
         {Calculators.map((card) => (
           <DataCards

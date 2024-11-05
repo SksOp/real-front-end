@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 function HomeInsights() {
   const router = useRouter();
   return (
-    <div className="w-full flex justify-center items-stretch gap-2 ">
+    <div className="w-full flex justify-center items-stretch gap-2 md:gap-4">
       <DataCards
         bgColor="bg-[#EEFBFC]"
         onClick={() => router.push("/app/dashboard")}

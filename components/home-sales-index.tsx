@@ -81,7 +81,7 @@ function HomeSalesIndex() {
                   Commercial
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="residential" className="">
+              <TabsContent value="residential">
                 <AreaChartComponent
                   chartConfig={chartConfig}
                   data={sampleData}

@@ -16,18 +16,14 @@ function Progressbar({
     if (!target.current) return;
 
     const element = target.current;
-    const totalHeight =
-      element.clientHeight - element.offsetTop - window.innerHeight;
-    const windowScrollTop =
-      window.screenY ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop;
+    const elementTop = element.getBoundingClientRect().top + window.scrollY;
+    const totalHeight = element.clientHeight - window.innerHeight;
+    const windowScrollTop = window.scrollY;
 
-    if (windowScrollTop === 0) return setProgress(0);
+    if (windowScrollTop <= elementTop) return setProgress(0);
+    if (windowScrollTop >= elementTop + totalHeight) return setProgress(100);
 
-    if (windowScrollTop > totalHeight) return setProgress(100);
-
-    setProgress((windowScrollTop / totalHeight) * 100);
+    setProgress(((windowScrollTop - elementTop) / totalHeight) * 100);
   }, [target]);
 
   useEffect(() => {

@@ -14,7 +14,7 @@ function Layout({
   const mainRef = useRef<HTMLElement | null>(null);
   return (
     <main ref={mainRef}>
-      <Navbar />
+      <Navbar page={page} />
       <Progressbar target={mainRef} />
       <div className="min-h-screen bg-gradient-to-b from-backgrounds to-[#FAFAFA] max-w-screen overflow-y-auto ">
         {children}

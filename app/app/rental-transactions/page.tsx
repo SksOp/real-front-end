@@ -6,7 +6,7 @@ import React from "react";
 
 function RentalTransactionPage() {
   return (
-    <SecondaryNavbar title="Rental Transactions">
+    <SecondaryNavbar page="transactions" title="Rental Transactions">
       <div className="flex flex-col gap-3 px-3 py-14">
         <TransactionTabs tabs={["All", "New", "Renewal"]} />
         <TransactionCard

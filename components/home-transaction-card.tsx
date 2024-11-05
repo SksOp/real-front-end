@@ -43,7 +43,7 @@ function HomeTransactionCard() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="sales" className="w-full flex  ">
-            <div className="grid grid-cols-2 gap-3 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
               {data.map((item, index) => (
                 <MatrixCard
                   key={index}

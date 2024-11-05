@@ -4,17 +4,22 @@ import Filters from "@/components/filters";
 import MatrixCard from "@/components/matrix-card";
 import SecondaryNavbar from "@/components/secondaryNavbar";
 import { ChartConfig } from "@/components/ui/chart";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
 import { dashboards } from "@/config/dashboards";
 import DashboardCharts from "@/components/dashboard-charts";
 import { Spinner } from "@/components/ui/spinner";
+import { Tabs } from "@/components/ui/tabs";
+import DashboardSelector from "@/components/dashboard-selector";
+import DashboardData from "@/components/all-dashboard-data";
 
-function MyPage() {
+function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
-  const pathname = usePathname();
-  const [dashboard, setDashboard] = useState<Dashboard | undefined>(undefined);
+  const { type } = useParams();
+  const [dashboard, setDashboard] = useState<Dashboard | undefined>(
+    dashboards.find((item) => item.key === type)
+  );
   const [matrixData, setMatrixData] = useState<MatrixData[] | undefined>(
     undefined
   );
@@ -30,14 +35,14 @@ function MyPage() {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
   };
 
-  useEffect(() => {
-    const pathSegments = pathname.split("/");
-    const key = pathSegments[pathSegments.length - 1];
-    if (key) {
-      const selectedDashboard = dashboards.find((item) => item.key === key);
-      setDashboard(selectedDashboard);
-    }
-  }, [pathname]);
+  // useEffect(() => {
+  //   const pathSegments = pathname.split("/");
+  //   const key = pathSegments[pathSegments.length - 1];
+  //   if (key) {
+  //     const selectedDashboard = dashboards.find((item) => item.key === key);
+  //     setDashboard(selectedDashboard);
+  //   }
+  // }, [pathname]);
 
   useEffect(() => {
     const fetchMatrixData = async () => {
@@ -81,18 +86,14 @@ function MyPage() {
   }, [dashboard, filters]);
 
   return (
-    <SecondaryNavbar title={dashboard?.name ?? ""} className="sticky">
-      <Filters
-        selectOptions={dashboard?.page_filters || []}
-        selectedFilters={filters}
-        onChange={handleFilterChange}
-      />
+    <SecondaryNavbar page="dashboards" title={dashboard?.name ?? ""}>
+      <div className="flex flex-col w-full gap-3 md:hidden">
+        <Filters
+          selectOptions={dashboard?.page_filters || []}
+          selectedFilters={filters}
+          onChange={handleFilterChange}
+        />
 
-      {loading ? ( // Display loading screen when loading
-        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
-          <Spinner />
-        </div>
-      ) : (
         <main ref={navRef}>
           <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
             <div className="grid grid-cols-2 gap-3 w-full">
@@ -125,9 +126,65 @@ function MyPage() {
             <Feedback />
           </div>
         </main>
-      )}
+      </div>
+
+      <div className="md:flex w-full justify-between hidden ">
+        <Tabs defaultValue={"all-dashboards"} className="flex flex-col w-full ">
+          <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
+            <DashboardSelector />
+          </div>
+          <div className="flex gap-5 w-full">
+            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+              <DashboardData /> {/* Display all leads */}
+            </div>
+            <div className="md:flex md:flex-col md:w-1/2 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+              <Filters
+                selectOptions={dashboard?.page_filters || []}
+                selectedFilters={filters}
+                onChange={handleFilterChange}
+              />
+
+              <main ref={navRef}>
+                <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
+                  <div className="grid grid-cols-2 gap-3 w-full">
+                    {matrixData?.map((item, index) => (
+                      <MatrixCard
+                        key={index}
+                        title={item.title}
+                        value={item.value}
+                        growth={parseInt(String(item.growth))}
+                      />
+                    ))}
+                  </div>
+
+                  {charts?.map((chart, index) => (
+                    <DashboardCharts
+                      key={index}
+                      type={chart.chart_type}
+                      data={chart.data}
+                      chartConfig={chart.chartConfig}
+                      title={chart.name}
+                      filters={chart.filters}
+                      columns={chart?.columns}
+                      otherInfo={chart.otherInfo}
+                      subCharts={chart.sub_charts}
+                      styles={chart.styles}
+                      description={chart.description}
+                    />
+                  ))}
+
+                  <Feedback />
+                </div>
+              </main>
+            </div>
+            <div className="lg:flex md:w-[20%] hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+              insights
+            </div>
+          </div>
+        </Tabs>
+      </div>
     </SecondaryNavbar>
   );
 }
 
-export default MyPage;
+export default DashboardDetailPage;
