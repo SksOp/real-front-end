@@ -38,7 +38,9 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
     const loanAmount = affordable_price - parseFloat(down_payment);
     const currentExpenses =
       parseFloat(monthly_debts) + parseFloat(monthly_household_expenses);
-    // deduct montly emi for mortgage from available monthly savings
+
+    const currentSavings =
+      parseFloat(available_monthly_savings) - monthlySavings;
 
     const savingAfterMortgage =
       available_monthly_savings - affordable_price * monthlyRate;
@@ -48,6 +50,7 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
       loanAmount: loanAmount.toFixed(2),
       currentExpenses: currentExpenses.toFixed(2),
       monthlySavings: monthlySavings.toFixed(2),
+      currentSavings: currentSavings.toFixed(2),
       down_payment: parseFloat(down_payment).toFixed(2),
       savingAfterMortgage: savingAfterMortgage.toFixed(2),
     };
@@ -92,7 +95,7 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
               )}%)`,
             }}
           >
-            {result?.monthlySavings}
+            {parseInt(result?.monthlySavings)}
           </div>
           <Slider
             value={[scrollValue]}
@@ -117,7 +120,7 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
       <CalculatorCompareCard
         title1={"Current Savings (Monthly)"}
         title2={"Current Expense (Monthly)"}
-        value1={result?.monthlySavings}
+        value1={result?.currentSavings}
         value2={result?.currentExpenses}
       />
       <CalculatorResultCard
