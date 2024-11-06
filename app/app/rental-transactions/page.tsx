@@ -1,12 +1,12 @@
 "use client";
-import SecondaryNavbar from "@/components/secondaryNavbar";
 import TransactionCard from "@/components/transaction-card";
 import TransactionTabs from "@/components/transaction-tabs";
+import Layout from "@/layout/secondary";
 import React from "react";
 
 function RentalTransactionPage() {
   return (
-    <SecondaryNavbar page="transactions" title="Rental Transactions">
+    <Layout page="transactions" title="Rental Transactions">
       <div className="flex flex-col gap-3 px-3 py-14">
         <TransactionTabs tabs={["All", "New", "Renewal"]} />
         <TransactionCard
@@ -58,7 +58,7 @@ function RentalTransactionPage() {
           tag="New"
         />
       </div>
-    </SecondaryNavbar>
+    </Layout>
   );
 }
 

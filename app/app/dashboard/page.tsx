@@ -1,6 +1,5 @@
 "use client";
 import DataCards from "@/components/data-cards";
-import SecondaryNavbar from "@/components/secondaryNavbar";
 import { dashboards } from "@/config/dashboards";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -8,11 +7,13 @@ import DashboardDetailPage from "./[type]/page";
 import { Tabs } from "@/components/ui/tabs";
 import DashboardSelector from "@/components/dashboard-selector";
 import DashboardData from "@/components/all-dashboard-data";
+import SecondaryNavbar from "@/layout/secondary/nav/navbar";
+import Layout from "@/layout/secondary";
 
 function DashboardPage() {
   const router = useRouter();
   return (
-    <SecondaryNavbar page="dashboards" title="Dashboards">
+    <Layout page="dashboards" title="Dashboards">
       <div className="flex w-full justify-center ">
         <Tabs defaultValue={"all-dashboards"} className="flex flex-col w-full ">
           <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
@@ -45,7 +46,7 @@ function DashboardPage() {
           ))}
         </div> */}
       </div>
-    </SecondaryNavbar>
+    </Layout>
   );
 }
 

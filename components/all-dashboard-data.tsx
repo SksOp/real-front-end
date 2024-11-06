@@ -19,7 +19,7 @@ function DashboardData() {
       onClick={() => setSelectedDashboard(dashboard.key)}
       className={
         selectedDashboard === dashboard.key
-          ? "border-2 border-primary rounded-lg"
+          ? "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
           : ""
       }
     >
@@ -39,10 +39,16 @@ function DashboardData() {
 
   return (
     <div className="w-full">
-      <TabsContent value="all-dashboards" className="flex flex-col gap-3 px-2">
+      <TabsContent
+        value="all-dashboards"
+        className="md:flex md:flex-col grid grid-cols-2 gap-3 px-2"
+      >
         {allDashboards}
       </TabsContent>
-      <TabsContent value="your-dashboards" className="flex flex-col gap-3 px-2">
+      <TabsContent
+        value="your-dashboards"
+        className="md:flex md:flex-col grid grid-cols-2 gap-3 px-2"
+      >
         {yourDashboards}
       </TabsContent>
     </div>

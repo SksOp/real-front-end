@@ -9,8 +9,7 @@ import HomeTopAreas from "@/components/home-top-areas";
 import HomeTotalAds from "@/components/home-total-ads";
 import HomeTransactionCard from "@/components/home-transaction-card";
 import SharingCard from "@/components/sharingCard";
-import Layout from "@/layout";
-import Navbar from "@/layout/nav/navBar";
+import Layout from "@/layout/home";
 import React from "react";
 
 function HomePage() {

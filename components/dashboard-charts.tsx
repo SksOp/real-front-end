@@ -14,6 +14,7 @@ import SecondaryChartWrapper from "./secondaryChartWrapper";
 import PriceChangesTable from "./price-changes-table";
 import { ClassValue } from "clsx";
 import HomeTotalAds, { HorizontalBarChart } from "./home-total-ads";
+import { cn } from "@/lib/utils";
 
 interface DashboardChartsProps {
   type: string;
@@ -26,7 +27,7 @@ interface DashboardChartsProps {
   filters?: any[];
   otherInfo?: { name: string; value: string }[];
   subCharts?: any[];
-  styles?: ClassValue;
+  className?: ClassValue;
 }
 
 const DashboardCharts: React.FC<DashboardChartsProps> = ({
@@ -40,7 +41,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   filters,
   otherInfo,
   subCharts,
-  styles,
+  className,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
     filters?.[0]?.key ?? null
@@ -69,8 +70,6 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
     columns?: string[],
     className?: ClassValue
   ) => {
-    console.log(styles);
-
     if (data?.length === 0 || !data) {
       return <ChartException />;
     }
@@ -142,7 +141,12 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   };
 
   return (
-    <ChartWrapper title={title} description={description} viewAll={viewAll}>
+    <ChartWrapper
+      title={title}
+      description={description}
+      viewAll={viewAll}
+      className={cn("", className)}
+    >
       {filters && filters.length > 0 && (
         <Tabs defaultValue={selectedFilter} key={selectedFilter}>
           <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-4">
@@ -166,7 +170,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           chartConfig,
           selectedFilter,
           columns,
-          styles
+          className
         )}
       </div>
 
@@ -189,8 +193,8 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           </Tabs>
         )}
 
-      <div className="flex flex-col gap-3 mt-4">
-        {subCharts?.map((chart) => {
+      <div className="flex flex-col md:grid md:grid-cols-2 gap-3 mt-4">
+        {subCharts?.map((chart, idx, arr) => {
           const filterData = chart.filters?.find(
             (f: any) => f.key === subChartFilter
           )?.data;
@@ -205,17 +209,21 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
                     : "Rooms"
                   : chart.name
               }
+              className={cn(
+                "overflow-scroll ",
+                arr.length % 2 !== 0 && idx === arr.length - 1
+                  ? "col-span-2"
+                  : ""
+              )}
             >
-              <div className="overflow-scroll">
-                {renderChart(
-                  chart.chart_type,
-                  filterData || chart.data,
-                  chart.chartConfig,
-                  selectedFilter,
-                  columns,
-                  chart.styles
-                )}
-              </div>
+              {renderChart(
+                chart.chart_type,
+                filterData || chart.data,
+                chart.chartConfig,
+                selectedFilter,
+                columns,
+                chart.styles
+              )}
             </SecondaryChartWrapper>
           );
         })}

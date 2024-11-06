@@ -2,11 +2,12 @@
 import SecondaryNavbar from "@/components/secondaryNavbar";
 import TransactionCard from "@/components/transaction-card";
 import TransactionTabs from "@/components/transaction-tabs";
+import Layout from "@/layout/secondary";
 import React from "react";
 
 function SalesTransactionPage() {
   return (
-    <SecondaryNavbar page="transactions" title="Sales Transactions">
+    <Layout page="transactions" title="Sales Transactions">
       <div className="flex flex-col gap-3 px-3 py-14">
         <TransactionTabs tabs={["All", "Cash", "Mortgage"]} />
         <TransactionCard
@@ -58,7 +59,7 @@ function SalesTransactionPage() {
           tag="Resale"
         />
       </div>
-    </SecondaryNavbar>
+    </Layout>
   );
 }
 

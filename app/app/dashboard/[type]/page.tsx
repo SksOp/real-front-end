@@ -13,6 +13,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Tabs } from "@/components/ui/tabs";
 import DashboardSelector from "@/components/dashboard-selector";
 import DashboardData from "@/components/all-dashboard-data";
+import Layout from "@/layout/secondary";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
@@ -34,15 +35,6 @@ function DashboardDetailPage() {
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
   };
-
-  // useEffect(() => {
-  //   const pathSegments = pathname.split("/");
-  //   const key = pathSegments[pathSegments.length - 1];
-  //   if (key) {
-  //     const selectedDashboard = dashboards.find((item) => item.key === key);
-  //     setDashboard(selectedDashboard);
-  //   }
-  // }, [pathname]);
 
   useEffect(() => {
     const fetchMatrixData = async () => {
@@ -86,8 +78,8 @@ function DashboardDetailPage() {
   }, [dashboard, filters]);
 
   return (
-    <SecondaryNavbar page="dashboards" title={dashboard?.name ?? ""}>
-      <div className="flex flex-col w-full gap-3 md:hidden">
+    <Layout page="dashboards" title={dashboard?.name ?? ""} className="sticky">
+      <div className="flex flex-col w-full gap-3 md:hidden top-11">
         <Filters
           selectOptions={dashboard?.page_filters || []}
           selectedFilters={filters}
@@ -106,7 +98,6 @@ function DashboardDetailPage() {
                 />
               ))}
             </div>
-
             {charts?.map((chart, index) => (
               <DashboardCharts
                 key={index}
@@ -118,7 +109,6 @@ function DashboardDetailPage() {
                 columns={chart?.columns}
                 otherInfo={chart.otherInfo}
                 subCharts={chart.sub_charts}
-                styles={chart.styles}
                 description={chart.description}
               />
             ))}
@@ -135,31 +125,44 @@ function DashboardDetailPage() {
           </div>
           <div className="flex gap-5 w-full">
             <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              <DashboardData /> {/* Display all leads */}
+              <DashboardData />
             </div>
-            <div className="md:flex md:flex-col md:w-1/2 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+            <div className="md:flex md:flex-col md:w-2/3 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
               <Filters
                 selectOptions={dashboard?.page_filters || []}
                 selectedFilters={filters}
                 onChange={handleFilterChange}
               />
 
-              <main ref={navRef}>
-                <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
-                  <div className="grid grid-cols-2 gap-3 w-full">
-                    {matrixData?.map((item, index) => (
-                      <MatrixCard
-                        key={index}
-                        title={item.title}
-                        value={item.value}
-                        growth={parseInt(String(item.growth))}
-                      />
-                    ))}
-                  </div>
-
-                  {charts?.map((chart, index) => (
-                    <DashboardCharts
+              <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+                  {matrixData?.map((item, index) => (
+                    <MatrixCard
                       key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={parseInt(String(item.growth))}
+                    />
+                  ))}
+                </div>
+                {charts && (
+                  <DashboardCharts
+                    type={charts[0].chart_type}
+                    data={charts[0].data}
+                    chartConfig={charts[0].chartConfig}
+                    title={charts[0].name}
+                    filters={charts[0].filters}
+                    columns={charts[0]?.columns}
+                    otherInfo={charts[0].otherInfo}
+                    subCharts={charts[0].sub_charts}
+                    description={charts[0].description}
+                  />
+                )}
+
+                <div className="grid grid-cols-2 gap-2 items-stretch">
+                  {charts?.slice(1, -1).map((chart, index, arr) => (
+                    <DashboardCharts
+                      key={index + 1}
                       type={chart.chart_type}
                       data={chart.data}
                       chartConfig={chart.chartConfig}
@@ -168,22 +171,39 @@ function DashboardDetailPage() {
                       columns={chart?.columns}
                       otherInfo={chart.otherInfo}
                       subCharts={chart.sub_charts}
-                      styles={chart.styles}
                       description={chart.description}
+                      className={
+                        arr.length % 2 !== 0 && index === arr.length - 1
+                          ? "col-span-2"
+                          : ""
+                      }
                     />
                   ))}
-
-                  <Feedback />
                 </div>
-              </main>
+
+                {charts && (
+                  <DashboardCharts
+                    type={charts[charts.length - 1].chart_type}
+                    data={charts[charts.length - 1].data}
+                    chartConfig={charts[charts.length - 1].chartConfig}
+                    title={charts[charts.length - 1].name}
+                    filters={charts[charts.length - 1].filters}
+                    columns={charts[charts.length - 1]?.columns}
+                    otherInfo={charts[charts.length - 1].otherInfo}
+                    subCharts={charts[charts.length - 1].sub_charts}
+                    description={charts[charts.length - 1].description}
+                  />
+                )}
+                <Feedback />
+              </div>
             </div>
-            <div className="lg:flex md:w-[20%] hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+            <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
               insights
             </div>
           </div>
         </Tabs>
       </div>
-    </SecondaryNavbar>
+    </Layout>
   );
 }
 
