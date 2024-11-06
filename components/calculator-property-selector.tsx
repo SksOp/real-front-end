@@ -28,17 +28,17 @@ function CalculatorPropertySelector() {
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex flex-col items-start justify-center gap-2 w-full">
         <h3 className="text-muted-foreground text-sm font-normal">
           Want to calculate the ROI of the property you listed already?{" "}
           <DrawerTrigger>
-            <span className="text-primary font-semibold xs">
+            <span className="text-primary font-semibold xs ">
               Click to Select
             </span>
           </DrawerTrigger>
         </h3>
         {selectedProperty && (
-          <div className="relative">
+          <div className="relative w-full px-2">
             <button
               className="absolute -top-4 -right-2 bg-background rounded-full p-1 z-50 text-red-500 border"
               onClick={() => setSelectedProperty(null)}
