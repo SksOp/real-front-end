@@ -25,9 +25,15 @@ function PropertiesCard({
   bathrooms,
   area,
   price,
+  className,
 }: PropertiescardProps) {
   return (
-    <Card className="flex justify-start relative gap-3 border rounded-2xl bg-background w-full p-3">
+    <Card
+      className={cn(
+        "flex justify-start relative gap-3 border rounded-2xl bg-background w-full p-3",
+        className
+      )}
+    >
       <CardHeader className="p-0">
         <img
           src={imageUrl}

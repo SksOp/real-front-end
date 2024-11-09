@@ -11,7 +11,7 @@ function CalculatorSelector() {
     string | null
   >(Calculators.find((calculator) => calculator.key === type)?.key || null);
 
-  const createLink = (calculator: Calculator, isPending: boolean = false) => (
+  const createLink = (calculator: Calculator) => (
     <Link
       key={calculator.key}
       href={`/app/calculator/${calculator.key}`}

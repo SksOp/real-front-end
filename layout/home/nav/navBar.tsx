@@ -55,6 +55,14 @@ function Navbar({
               >
                 Dashboards
               </TabsTrigger>
+
+              <TabsTrigger
+                value="calculators"
+                className="text-sm"
+                onClick={() => router.push("/app/calculator")}
+              >
+                Calculators
+              </TabsTrigger>
               <TabsTrigger
                 value="transactions"
                 className="text-sm"
@@ -63,11 +71,11 @@ function Navbar({
                 Transactions
               </TabsTrigger>
               <TabsTrigger
-                value="calculators"
+                value="my-listings"
                 className="text-sm"
-                onClick={() => router.push("/app/calculator")}
+                onClick={() => router.push("/app/listings")}
               >
-                Calculators
+                My Listings
               </TabsTrigger>
             </TabsList>
           </Tabs>

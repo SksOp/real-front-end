@@ -91,7 +91,7 @@ function TransactionTabs({ tabs }: { tabs: string[] }) {
           value={tab}
           className="w-full mt-0  flex flex-col gap-2 overflow-x-scroll"
         >
-          <div className="grid grid-cols-2 gap-3 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
             {matrixData.map((item, index) => (
               <MatrixCard
                 key={index}

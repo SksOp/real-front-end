@@ -1,3 +1,5 @@
+import { ClassValue } from "clsx";
+
 export interface PropertiescardProps {
   imageUrl: string;
   name: string;
@@ -6,4 +8,5 @@ export interface PropertiescardProps {
   bathrooms: number;
   area: number;
   price: number;
+  className?: ClassValue;
 }

@@ -1,4 +1,5 @@
 export interface ListingDataType {
+  key: number;
   imageURLs: string[];
   price: string;
   title: string;

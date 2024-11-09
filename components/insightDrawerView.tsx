@@ -5,7 +5,7 @@ import TransactionTable from "./transactionTable";
 
 function InsightDrawerView() {
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col gap-5">
       <div className="flex items-center justify-start gap-2 ">
         <LightBulbIcon className="w-8 h-8" />
         <h3 className="text-secondary text-lg font-semibold">
@@ -16,7 +16,6 @@ function InsightDrawerView() {
         title="Chart"
         description="chart-description"
       ></ChartWrapper>
-      <TransactionTable />
     </div>
   );
 }

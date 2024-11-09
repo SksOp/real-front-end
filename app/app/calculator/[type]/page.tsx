@@ -238,10 +238,10 @@ function CalculatorPage() {
 
       <div className="md:flex w-full justify-between hidden ">
         <div className="flex gap-5 w-full mt-16 md:mt-20">
-          <div className="md:w-1/3 md:max-w-md w-full md:max-h-screen md:overflow-y-auto">
+          <div className="md:w-1/4 md:max-w-md w-full md:max-h-screen md:overflow-y-auto">
             <CalculatorSelector />
           </div>
-          <div className="md:flex md:flex-col md:w-2/3 hidden flex-grow items-center justify-start gap-3 md:max-h-screen md:overflow-y-auto">
+          <div className="md:flex md:flex-col md:w-2/4 hidden flex-grow items-center justify-start gap-3 md:max-h-screen md:overflow-y-auto">
             <Accordion
               type="single"
               defaultValue="input"
@@ -343,7 +343,7 @@ function CalculatorPage() {
               )}
             </Accordion>
           </div>
-          <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-screen md:overflow-y-auto">
+          <div className="lg:flex md:w-1/4 hidden md:bg-primary/5 max-w-md justify-center md:max-h-screen md:overflow-y-auto">
             insights
           </div>
         </div>

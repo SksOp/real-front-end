@@ -10,7 +10,7 @@ function SecondaryChartWrapper({
 }: {
   title: string;
   children: React.ReactNode;
-  className: ClassValue;
+  className?: ClassValue;
 }) {
   return (
     <Card

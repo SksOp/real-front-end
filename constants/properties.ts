@@ -60,6 +60,7 @@ export const PropertiesList: PropertiescardProps[] = [
 
 export const properties1: ListingDataType[] = [
   {
+    key: 1,
     price: "3,750,000 AED",
     title: "High Floor | Large Size | Ready To Move",
     location: "Claren Tower 2, Claren Towers, Downtown Dubai, Dubai",
@@ -138,6 +139,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-48131",
   },
   {
+    key: 2,
     price: "3,200,000 AED",
     title: "High Floor | Burj Khalifa View | Vacant",
     location: "Forte 2, Forte, Downtown Dubai, Dubai",
@@ -215,6 +217,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-48702",
   },
   {
+    key: 3,
     price: "3,800,000 AED",
     title: "Genuine Resale | Park View | Spacious Balcony",
     location: "Myrtle, Central Park at City Walk, City Walk, Dubai",
@@ -264,6 +267,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-49182",
   },
   {
+    key: 4,
     price: "4,000,000 AED",
     title: "High Floor | Burj Khalifa View | Payment Plan",
     location: "Burj Crown, Downtown Dubai, Dubai",
@@ -339,6 +343,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-47831",
   },
   {
+    key: 5,
     price: "2,950,000 AED",
     title: "Ready To Move | Payment Plan | High Floor",
     location: "Burj Crown, Downtown Dubai, Dubai",
@@ -411,6 +416,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-47830",
   },
   {
+    key: 6,
     price: "5,500,000 AED",
     title: "Burj Khalifa View | Largest 2 Bed | Payment Plan",
     location:
@@ -472,6 +478,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-48155",
   },
   {
+    key: 7,
     price: "2,960,000 AED",
     title: "High Floor | Ready To Move | Payment Plan",
     location: "Burj Crown, Downtown Dubai, Dubai",
@@ -544,6 +551,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-47883",
   },
   {
+    key: 8,
     price: "4,241,000 AED",
     title: "High Floor | Payment Plan | Burj Khalifa View",
     location: "Burj Crown, Downtown Dubai, Dubai",
@@ -617,6 +625,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-47791",
   },
   {
+    key: 9,
     price: "3,197,000 AED",
     title: "Ready To Move | High Floor | Payment Plan",
     location: "Burj Crown, Downtown Dubai, Dubai",
@@ -675,6 +684,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-46462",
   },
   {
+    key: 10,
     price: "2,100,000 AED",
     title: "Burj View | Vacant Soon | Closed Kitchen",
     location: "Bellevue Tower 2, Bellevue Towers, Downtown Dubai, Dubai",
@@ -745,6 +755,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-47005",
   },
   {
+    key: 11,
     price: "1,600,000 AED",
     title: "Studio | Burj Khalifa View | Payment Plan",
     location: "25Hours Heimat, Downtown Dubai, Dubai",
@@ -801,6 +812,7 @@ export const properties1: ListingDataType[] = [
     referenceNumber: "DB-S-48349",
   },
   {
+    key: 12,
     imageURLs: [
       "https://images.bayut.com/thumbnails/730904136-800x600.jpeg",
       "https://images.bayut.com/thumbnails/730904137-800x600.jpeg",
@@ -846,6 +858,7 @@ export const properties1: ListingDataType[] = [
     },
   },
   {
+    key: 13,
     imageURLs: [
       "https://images.bayut.com/thumbnails/730900447-800x600.jpeg",
       "https://images.bayut.com/thumbnails/730900615-800x600.jpeg",
@@ -888,6 +901,7 @@ export const properties1: ListingDataType[] = [
     },
   },
   {
+    key: 14,
     imageURLs: [
       "https://images.bayut.com/thumbnails/731777170-800x600.jpeg",
       "https://images.bayut.com/thumbnails/731777171-800x600.jpeg",

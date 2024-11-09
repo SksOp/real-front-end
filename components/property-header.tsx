@@ -33,13 +33,11 @@ function PropertyHeader({
 }: PropertyHeaderProps) {
   return (
     <Card className="border-0 shadow-none p-0 mt-4 w-full bg-background flex flex-col gap-3">
-      <CardHeader className="relative p-0 ">
+      <CardHeader className="relative p-0  ">
         <div className="relative w-full ">
-          <Image
+          <img
             src={imageURL}
-            className="object-cover w-full  rounded-t-xl"
-            height={200}
-            width={400}
+            className="object-cover max-h-[400px] w-full rounded-t-xl"
             alt=""
           />
           <div className="absolute inset-0 p-4 flex flex-col gap-1 justify-end bg-gradient-to-t from-black/60 to-transparent ">
@@ -53,7 +51,7 @@ function PropertyHeader({
           </div>
         </div>
       </CardHeader>
-      <CardFooter className="flex flex-col gap-3 border-0 p-0 justify-center items-start">
+      <CardFooter className="flex flex-col gap-3 border-0 p-0 justify-center  items-start">
         <div className="flex justify-between items-center w-full">
           <div className="flex justify-center items-center gap-1">
             <BedIcon className="w-4 h-4" />
