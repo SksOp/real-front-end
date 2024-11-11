@@ -9,13 +9,17 @@ import DashboardSelector from "@/components/dashboard-selector";
 import DashboardData from "@/components/all-dashboard-data";
 import SecondaryNavbar from "@/layout/secondary/nav/navbar";
 import Layout from "@/layout/secondary";
+import ChartException from "@/components/chartException";
 
 function DashboardPage() {
   const router = useRouter();
   return (
     <Layout page="dashboards" title="Dashboards">
       <div className="flex w-full justify-center ">
-        <Tabs defaultValue={"all-dashboards"} className="flex flex-col w-full ">
+        <Tabs
+          defaultValue={"all-dashboards"}
+          className="flex flex-col w-full px-2"
+        >
           <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
             <DashboardSelector />
           </div>
@@ -23,8 +27,8 @@ function DashboardPage() {
             <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-10rem)] md:overflow-y-auto ">
               <DashboardData />
             </div>
-            <div className="md:flex md:flex-col hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              No Dashboard Selected
+            <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+              <ChartException />
             </div>
             <div className="lg:flex hidden  max-w-md justify-center "></div>
           </div>

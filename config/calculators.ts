@@ -128,7 +128,7 @@ export const Calculators: Calculator[] = [
 
         //step 2: calculate the average value based on the above filter [per sqft value]
         const transactions = response.data.data.data;
-        if (transactions.length === 0) {
+        if (transactions?.length === 0) {
           throw new Error("No transactions found for the specified filters.");
         }
         console.log("transactions: ", transactions);
@@ -418,22 +418,22 @@ investment will yield a total of 24% return, which is well above the market aver
           "Total Interest": { color: "#EFEEFC" },
         },
       },
-      {
-        key: "amortization_stacked_bar_chart",
-        label: "Amortization Stacked Bar Chart",
-        type: "stacked_bar_chart",
-        chartConfig: {
-          principal: { color: "#F0FCF3" },
-          interest: { color: "#FFEDED" },
-        },
-        subChart: [
-          {
-            key: "amortization_table",
-            label: "Amortization Table",
-            type: "table",
-          },
-        ],
-      },
+      // {
+      //   key: "amortization_stacked_bar_chart",
+      //   label: "Amortization Stacked Bar Chart",
+      //   type: "stacked_bar_chart",
+      //   chartConfig: {
+      //     principal: { color: "#F0FCF3" },
+      //     interest: { color: "#FFEDED" },
+      //   },
+      //   subChart: [
+      //     {
+      //       key: "amortization_table",
+      //       label: "Amortization Table",
+      //       type: "table",
+      //     },
+      //   ],
+      // },
       {
         key: "amortization_table",
         label: "Amortization Table",
@@ -590,7 +590,6 @@ investment will yield a total of 24% return, which is well above the market aver
           {
             key: "total_service_charge",
             label: "Total Service Charge",
-            // rule: "read_only_auto_compute",
             type: "currency_text",
             is_mandatory: true,
           },
@@ -803,15 +802,15 @@ investment will yield a total of 24% return, which is well above the market aver
       },
     ],
     outputs: [
-      {
-        key: "rent_vs_buy_chart",
-        label: "Rent vs Buy Chart",
-        type: "stacked_bar_chart",
-        chartConfig: {
-          principal: { color: "#F0FCF3" },
-          interest: { color: "#FFEDED" },
-        },
-      },
+      // {
+      //   key: "rent_vs_buy_chart",
+      //   label: "Rent vs Buy Chart",
+      //   type: "stacked_bar_chart",
+      //   chartConfig: {
+      //     principal: { color: "#F0FCF3" },
+      //     interest: { color: "#FFEDED" },
+      //   },
+      // },
       {
         key: "monthly_payment_comparison_chart",
         label: "Monthly Payment Comparison Chart",

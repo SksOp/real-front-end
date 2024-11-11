@@ -1,8 +1,15 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 import { ChevronDownCircle } from "lucide-react";
 import { ChartConfig } from "./ui/chart";
 import { cn } from "@/lib/utils";
+import InsightCard from "./insightCard";
 
 const chartConfig = {
   desktop: {
@@ -29,7 +36,7 @@ interface HorizontalBarChartProps {
 export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
   const maxValue = Math.max(...data.map((item) => item.value));
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 md:gap-11">
       {data.map((item, idx) => (
         <div className="flex flex-col gap-0.5" key={idx}>
           <h3 className="font-semibold text-secondary text-xs mb-1">
@@ -83,7 +90,7 @@ function HomeTotalAds() {
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>
-      <CardContent className="flex flex-col gap-2 p-0">
+      <CardContent className=" p-0">
         {/* <div className="flex justify-between items-center w-full gap-4 p-0"><ChevronDownCircle size={24} /></div> */}
         {/* <VerticalBarChartComponent
           data={data}
@@ -93,6 +100,12 @@ function HomeTotalAds() {
         /> */}
         <HorizontalBarChart data={data} />
       </CardContent>
+      <CardFooter className=" p-0 mt-3">
+        <InsightCard linkText="Explore full market index here.">
+          Dubai has seen commendable growth in sales value and sales volume over
+          time, remarkable growth in 2024.
+        </InsightCard>
+      </CardFooter>
     </Card>
   );
 }

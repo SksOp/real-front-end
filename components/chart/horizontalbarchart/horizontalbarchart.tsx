@@ -73,14 +73,14 @@ const HorizontalBarChartComponent: React.FC<
   }));
 
   const maxValue = Math.max(
-    ...modifiedData.map((item) => item[`${yAxisDataKey}_scaled`])
+    ...modifiedData?.map((item) => item[`${yAxisDataKey}_scaled`])
   );
   const yAxisDomain = [0, maxValue * 1.1]; // Add padding for visual clarity
 
   // Dynamically calculate chart height based on the number of data items
-  const minHeight = data.length * 50; // 50px per item, minimum 150px
+  const minHeight = data?.length * 50; // 50px per item, minimum 150px
 
-  console.log(data.length);
+  console.log(data?.length);
   return (
     <ChartContainer
       config={chartConfig}

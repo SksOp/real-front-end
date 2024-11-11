@@ -91,7 +91,7 @@ function ChartWrapper({
         <CardDescription className="text-sm text-accent font-normal">
           {description}
         </CardDescription>
-        {filters.length > 0 && (
+        {filters?.length > 0 && (
           <Tabs defaultValue={filters[0]}>
             <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-4">
               {filters.map((filter) => (

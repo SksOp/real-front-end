@@ -89,7 +89,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
     return result !== undefined ? result.toString() : "";
   };
 
-  const chartWidth = Math.max(data.length * (30 + 40), 400);
+  const chartWidth = Math.max(data?.length * (30 + 40), 400);
   return (
     <ChartContainer
       config={chartConfig}

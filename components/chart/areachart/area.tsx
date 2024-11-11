@@ -75,7 +75,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   };
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} className="max-h-[380px] w-full">
       <ResponsiveContainer width={chartWidth} height={chartHeight}>
         <AreaChart
           data={data}

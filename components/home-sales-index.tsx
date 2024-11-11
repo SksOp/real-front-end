@@ -61,10 +61,12 @@ function HomeSalesIndex() {
             <CardTitle className="text-sm font-semibold text-secondary">
               Dubai Sales Price Index
             </CardTitle>
-            <CardDescription className="text-sm text-accent font-normal truncate">
-              explore various Dubai price index here.
-            </CardDescription>
-          </CardHeader> */}
+           
+          </CardHeader> */}{" "}
+          <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
+            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
+            morbi eu elit. Neque Average price: 750000. View more insights
+          </CardDescription>
           <CardContent className="p-0 w-full ">
             <Tabs defaultValue="residential">
               <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
@@ -91,7 +93,7 @@ function HomeSalesIndex() {
                 />
               </TabsContent>
             </Tabs>
-            <CardFooter className=" p-0 mt-3">
+            <CardFooter className=" p-0 mt-4">
               <InsightCard linkText="Explore full market index here.">
                 Dubai has seen commendable growth in sales value and sales
                 volume over time, remarkable growth in 2024.

@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 function HomePriceIndex() {
   return (
-    <UnderlineTabs defaultValue="sales">
+    <UnderlineTabs defaultValue="sales" className="md:row-span-2">
       <UnderlineTabsList className="w-full border border-border items-center justify-center rounded-t-xl gap-3 px-3">
         <UnderlineTabsTrigger
           value="sales"
@@ -86,6 +86,36 @@ function HomePriceIndex() {
                     },
                     {
                       name: "Jumeirah Beach",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Burj Khalifa",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Palm Jumeirah",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Dubai Mall",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Jumeirah Beach",
+                      avgPrice: "900K",
+                      pricePerSqFt: "900K",
+                      transactions: "1546",
+                    },
+                    {
+                      name: "Dubai Mall",
                       avgPrice: "900K",
                       pricePerSqFt: "900K",
                       transactions: "1546",

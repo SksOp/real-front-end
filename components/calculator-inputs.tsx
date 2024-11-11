@@ -99,7 +99,7 @@ function CalculatorInputs({
     const fetchOptions = async () => {
       if (source) {
         const data = await fetchAndStoreOptions(uniqueKey, source);
-        if (Array.isArray(data) && data.length > 0) setFetchedOptions(data);
+        if (Array.isArray(data) && data?.length > 0) setFetchedOptions(data);
       }
     };
     fetchOptions();
@@ -312,6 +312,7 @@ function CalculatorInputs({
       );
 
     case "switch":
+      console.log(value);
       return (
         <CalculatorSwitchCard title={title}>
           {Array.isArray(options) &&
@@ -326,7 +327,7 @@ function CalculatorInputs({
                 default_value={input?.default_value}
                 additionalTexts={input?.helper_text}
                 placeholder={input?.placeholder ?? "enter value"}
-                value={value[input?.key]}
+                value={value?.input?.key}
                 onChange={(newValue) =>
                   onChange({
                     ...value,

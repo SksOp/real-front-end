@@ -70,13 +70,13 @@ function SimilarTransaction({
         <Table className="w-full">
           <TableHeader className="">
             <TableRow className="bg-card w-full rounded-t-xl">
-              {columns.map((column, idx) => (
+              {columns?.map((column, idx) => (
                 <TableHead
                   key={idx}
                   className={cn(
                     "",
                     idx === 0 && "rounded-tl-xl",
-                    idx === columns.length - 1 && "rounded-tr-xl",
+                    idx === columns?.length - 1 && "rounded-tr-xl",
                     "text-secondary"
                   )}
                 >
@@ -86,11 +86,11 @@ function SimilarTransaction({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((row, rowIndex) => (
+            {data?.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
                 className={cn(
-                  rowIndex === data.length - 1 && "rounded-b-xl",
+                  rowIndex === data?.length - 1 && "rounded-b-xl",
                   rowIndex % 2 === 1 ? "bg-card" : "bg-background"
                 )}
               >

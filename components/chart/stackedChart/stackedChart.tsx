@@ -78,12 +78,12 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   lineKey,
 }) => {
   const maxValue = Math.max(
-    ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
+    ...data?.flatMap((item) => yAxisDataKeys?.map((key) => item[key]))
   );
 
   // Add some padding to the top of the chart
   const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
-  const chartWidth = Math.max(data.length * 80, 400);
+  const chartWidth = Math.max(data?.length * 80, 400);
   return (
     <ChartContainer
       config={chartConfig}

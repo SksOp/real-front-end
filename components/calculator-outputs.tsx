@@ -73,12 +73,13 @@ function CalculatorOutputs({
           confidenceLevel={output?.confidenceLevel}
         />
       );
+
     case "pie_chart":
       console.log("output", value);
 
       return (
         <ChartWrapper title={title}>
-          {value.length === 0 ? (
+          {value?.length === 0 ? (
             <ChartException />
           ) : (
             <PieChartComponent
@@ -115,7 +116,7 @@ function CalculatorOutputs({
       console.log(chartConfig);
       return (
         <ChartWrapper title={title}>
-          {value.length === 0 ? (
+          {value?.length === 0 ? (
             <ChartException />
           ) : (
             <Barchart
@@ -133,7 +134,7 @@ function CalculatorOutputs({
       console.log("line_chart", value);
       return (
         <ChartWrapper title={title}>
-          {value.length === 0 ? (
+          {value?.length === 0 ? (
             <ChartException />
           ) : (
             <AreaChartComponent

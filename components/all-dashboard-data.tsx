@@ -20,7 +20,7 @@ function DashboardData() {
       className={
         selectedDashboard === dashboard.key
           ? "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
-          : ""
+          : "md:bg-background"
       }
     >
       <DataCards>
@@ -38,16 +38,16 @@ function DashboardData() {
   const yourDashboards = dashboards.map((dashboard) => createLink(dashboard));
 
   return (
-    <div className="w-full">
+    <div className="w-full border rounded-xl p-2">
       <TabsContent
         value="all-dashboards"
-        className="md:flex md:flex-col grid grid-cols-2 gap-3 px-2"
+        className="md:flex md:flex-col grid grid-cols-2 gap-3   mt-0"
       >
         {allDashboards}
       </TabsContent>
       <TabsContent
         value="your-dashboards"
-        className="md:flex md:flex-col grid grid-cols-2 gap-3 px-2"
+        className="md:flex md:flex-col grid grid-cols-2 gap-3  mt-0"
       >
         {yourDashboards}
       </TabsContent>

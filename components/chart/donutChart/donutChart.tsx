@@ -111,9 +111,12 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
           </PieChart>
         </ResponsiveContainer>
       </ChartContainer>
-      <div className="w-full grid grid-cols-2 gap-x-8 gap-4 ">
+      <div className="w-full grid grid-cols-2 md:grid-cols-3  justify-items-center gap-x-8 gap-4 ">
         {data.map((item) => (
-          <div key={item.name} className="flex items-start w-full gap-2">
+          <div
+            key={item.name}
+            className="flex items-start justify-center w-full gap-2"
+          >
             <span
               className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}
             />

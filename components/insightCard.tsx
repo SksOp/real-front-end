@@ -23,9 +23,11 @@ function InsightCard({
           className
         )}
       >
-        <div className="text-muted-foreground text-base flex justify-between gap-2 items-center w-full">
-          <InsightsGradientIcon className="object-cover " />
-          <div className="w-[90%]">
+        <div className="text-muted-foreground text-base flex justify-between gap-3 items-center w-full">
+          <div className="h-4 w-4">
+            <InsightsGradientIcon className="object-cover " />
+          </div>
+          <div className="">
             <CardDescription className="flex-1">{children}</CardDescription>
             <span className="text-primary text-sm font-semibold mt-2">
               {linkText}

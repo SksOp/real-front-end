@@ -21,7 +21,7 @@ function SharingCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 flex flex-col gap-5">
-        <div className="flex gap-5 justify-around items-center">
+        <div className="flex gap-5 justify-around md:justify-start md:gap-12 items-center">
           <img src="/imgs/sharing/whatsapp.svg" alt="whatsApp" />
           <img src="/imgs/sharing/insta.svg" alt="instagram" />
           <img src="/imgs/sharing/facebook.svg" alt="facebook" />
@@ -33,7 +33,8 @@ function SharingCard() {
           <h3 className="truncate rounded-lg text-sm border px-3 py-4 bg-card">
             https://keypilot/Property_10435903?page=1&position=9&term=copy&origin=search&related_id=10435903
           </h3>
-          <div className="rounded-lg border p-4">
+          <div className="rounded-lg flex items-center justify-center gap-4 border p-4">
+            <span className="hidden md:block text-secondary">Copy</span>{" "}
             <CopyIcon />
           </div>
         </div>

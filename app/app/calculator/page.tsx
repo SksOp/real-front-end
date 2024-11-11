@@ -1,5 +1,6 @@
 "use client";
 import CalculatorSelector from "@/components/calculator-selector";
+import ChartException from "@/components/chartException";
 import DataCards from "@/components/data-cards";
 import SecondaryNavbar from "@/components/secondaryNavbar";
 import { Tabs } from "@/components/ui/tabs";
@@ -19,8 +20,8 @@ function CalculatorPage() {
             <div className="md:w-1/3 md:max-w-md w-full md:max-h-screen md:overflow-y-auto ">
               <CalculatorSelector />
             </div>
-            <div className="md:flex md:flex-col hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              No Dashboard Selected
+            <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+              <ChartException />
             </div>
             <div className="lg:flex hidden  max-w-md justify-center "></div>
           </div>

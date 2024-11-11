@@ -51,7 +51,7 @@ function Feedback() {
             className="w-12 h-12"
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col md:flex-row gap-2">
           <AutosizeTextarea
             placeholder="Enter your Feedback"
             className="w-full bg-card h-14 rounded-xl border"
@@ -59,7 +59,7 @@ function Feedback() {
           />
           <Button
             variant={"ghost"}
-            className="w-full  text-secondary hover:bg-primary/10 h-14 rounded-xl border"
+            className="w-full md:w-fit  text-secondary hover:bg-primary/10 h-14 rounded-xl border"
           >
             Send feedback
           </Button>

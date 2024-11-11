@@ -19,14 +19,14 @@ function HomePage() {
         <HomeTransactionCard />
         <HomeInsights />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <HomeTotalAds />
           <HomeSalesIndex />
-          <HomePriceIndex />
+          <HomeTotalAds />
           <HomeTopAreas />
+          <HomePriceIndex />
           <HomeListing />
           <FrequentQuestions />
+          <SharingCard />
         </div>
-        <SharingCard />
 
         <Footer />
       </div>

@@ -50,7 +50,7 @@ function CalculatorCompareCard({
           <h3 className="text-muted-foreground text-sm font-normal">
             {title1}
           </h3>
-          <h3 className="text-secondary font-semibold text-lg truncate">
+          <h3 className="text-secondary font-semibold text-lg ">
             {formatValue(value1)} AED
           </h3>
         </div>
@@ -62,7 +62,7 @@ function CalculatorCompareCard({
           <h3 className="text-muted-foreground text-sm font-normal">
             {title2}
           </h3>
-          <h3 className="text-secondary font-semibold text-lg truncate">
+          <h3 className="text-secondary font-semibold text-lg ">
             {formatValue(value2)} AED
           </h3>
         </div>

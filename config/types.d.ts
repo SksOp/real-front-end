@@ -72,7 +72,9 @@ export interface Calculator {
   description: string;
   inputs: InputField[];
   outputs: OutputField[];
-  calculate: (inputs: Record<string, any>) => Record<string, any>;
+  calculate: (
+    inputs: Record<string, any>
+  ) => Record<string, any> | Promise<Record<string, any>>;
 }
 
 // Type for filters (dashboard or metric level)

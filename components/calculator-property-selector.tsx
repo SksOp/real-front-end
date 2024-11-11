@@ -92,7 +92,7 @@ function CalculatorPropertySelector() {
                 />
               </div>
             ))}
-            {filteredProperties.length === 0 && (
+            {filteredProperties?.length === 0 && (
               <p className="text-center text-muted-foreground">
                 No properties found
               </p>

@@ -14,6 +14,7 @@ import { Tabs } from "@/components/ui/tabs";
 import DashboardSelector from "@/components/dashboard-selector";
 import DashboardData from "@/components/all-dashboard-data";
 import Layout from "@/layout/secondary";
+import SharingCard from "@/components/sharingCard";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
@@ -119,7 +120,10 @@ function DashboardDetailPage() {
       </div>
 
       <div className="md:flex w-full justify-between hidden ">
-        <Tabs defaultValue={"all-dashboards"} className="flex flex-col w-full ">
+        <Tabs
+          defaultValue={"all-dashboards"}
+          className="flex flex-col w-full px-2"
+        >
           <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
             <DashboardSelector />
           </div>
@@ -134,7 +138,7 @@ function DashboardDetailPage() {
                 onChange={handleFilterChange}
               />
 
-              <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
+              <div className="px-1 mb-4 flex flex-col gap-4 w-full">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
                   {matrixData?.map((item, index) => (
                     <MatrixCard
@@ -159,7 +163,7 @@ function DashboardDetailPage() {
                   />
                 )}
 
-                <div className="grid grid-cols-2 gap-2 items-stretch">
+                <div className="grid grid-cols-2 gap-4 items-stretch w-full">
                   {charts?.slice(1, -1).map((chart, index, arr) => (
                     <DashboardCharts
                       key={index + 1}
@@ -173,9 +177,7 @@ function DashboardDetailPage() {
                       subCharts={chart.sub_charts}
                       description={chart.description}
                       className={
-                        arr.length % 2 !== 0 && index === arr.length - 1
-                          ? "col-span-2"
-                          : ""
+                        arr.length % 2 !== 0 && index === 2 ? "col-span-2" : ""
                       }
                     />
                   ))}
@@ -195,6 +197,7 @@ function DashboardDetailPage() {
                   />
                 )}
                 <Feedback />
+                <SharingCard />
               </div>
             </div>
             <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">

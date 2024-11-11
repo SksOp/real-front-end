@@ -44,13 +44,13 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   padAngle = 0,
 }) => {
   // Calculate total properties count for the label in the middle of the Pie chart
-  const totalProperties = data.reduce(
+  const totalProperties = data?.reduce(
     (acc, item) => acc + parseFloat(item[dataKey]),
     0
   );
 
   // Map the data to include the fill color from the chartConfig
-  const updatedData = data.map((d) => ({
+  const updatedData = data?.map((d) => ({
     ...d,
     fill: chartConfig[d[nameKey]]?.color || "#ccc", // Fallback color
     percentage: `${((parseFloat(d[dataKey]) / totalProperties) * 100).toFixed(
@@ -86,7 +86,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
         </PieChart>
       </ChartContainer>
       <div className="w-full grid grid-cols-2 gap-x-8 gap-4 ">
-        {data.map((item) => (
+        {data?.map((item) => (
           <div key={item.name} className="flex items-start w-full gap-2">
             <span
               className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}
