@@ -1,5 +1,6 @@
 import Progressbar from "@/components/progressbar";
 import SidebarContent from "@/components/sidebarContent";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/underline-tabs";
 import { cn } from "@/lib/utils";
@@ -72,6 +73,7 @@ function Navbar({
             </TabsList>
           </Tabs>
         </div>
+
         <div className="flex justify-end gap-2">
           <SettingIcon />
         </div>

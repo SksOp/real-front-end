@@ -1,7 +1,9 @@
 import Progressbar from "@/components/progressbar";
 import SidebarContent from "@/components/sidebarContent";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/underline-tabs";
+import { logOut } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { HamburgerIcon } from "@/public/svg/icons";
 import { CompassIcon, SettingIcon } from "@/public/svg/navIcons";
@@ -17,6 +19,16 @@ function Navbar({
   className?: ClassValue;
 }) {
   const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const res = await logOut();
+      console.log({ res });
+      router.push("/auth/login");
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <nav
@@ -80,7 +92,14 @@ function Navbar({
             </TabsList>
           </Tabs>
         </div>
-        <div className="flex justify-end gap-2">
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            variant={"ghost"}
+            className="bg-red-400"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
           <SettingIcon />
         </div>
       </div>

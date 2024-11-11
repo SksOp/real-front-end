@@ -45,6 +45,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.7",
+    "firebase": "^11.0.1",
     "input-otp": "^1.2.4",
     "jspdf": "^2.5.1",
     "lightbox.js-react": "^1.1.1",
