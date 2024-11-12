@@ -87,10 +87,10 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[250px]  overflow-x-scroll"
+      className="min-h-[250px] w-full overflow-x-scroll"
     >
       <ResponsiveContainer width={chartWidth} height={300}>
-        <ComposedChart data={data} margin={{ left: -15 }}>
+        <ComposedChart data={data} margin={{ left: -15 }} barGap={30}>
           <XAxis
             dataKey={xAxisDataKey}
             tickLine={false}
@@ -103,7 +103,6 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
             tickMargin={tickMargin}
             tickFormatter={formatYAxisTick}
             axisLine={axisLine}
-            domain={yAxisDomain}
           />
           {line && (
             <YAxis
@@ -143,27 +142,7 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
               strokeWidth={2} // You can adjust the stroke width as needed
             />
           )}
-          <ChartTooltip
-            content={
-              <ChartTooltipContent
-                hideLabel
-                formatter={(value, name) => (
-                  <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
-                    {chartConfig[name as keyof typeof chartConfig]?.label ||
-                      name}
-                    <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                      {formatYAxisTick(Number(value))}
-                      <span className="font-normal text-muted-foreground">
-                        AED
-                      </span>
-                    </div>
-                  </div>
-                )}
-              />
-            }
-            cursor={false}
-            defaultIndex={1}
-          />
+          <ChartTooltip content={<ChartTooltipContent />} />
         </ComposedChart>
       </ResponsiveContainer>
     </ChartContainer>

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import CalculatorResultCard from "./calculator-resultCard";
 import CalculatorCompareCard from "./calculator-compareCard";

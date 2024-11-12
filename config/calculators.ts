@@ -418,22 +418,22 @@ investment will yield a total of 24% return, which is well above the market aver
           "Total Interest": { color: "#EFEEFC" },
         },
       },
-      // {
-      //   key: "amortization_stacked_bar_chart",
-      //   label: "Amortization Stacked Bar Chart",
-      //   type: "stacked_bar_chart",
-      //   chartConfig: {
-      //     principal: { color: "#F0FCF3" },
-      //     interest: { color: "#FFEDED" },
-      //   },
-      //   subChart: [
-      //     {
-      //       key: "amortization_table",
-      //       label: "Amortization Table",
-      //       type: "table",
-      //     },
-      //   ],
-      // },
+      {
+        key: "amortization_stacked_bar_chart",
+        label: "Amortization Stacked Bar Chart",
+        type: "stacked_bar_chart",
+        chartConfig: {
+          principal: { color: "#F0FCF3" },
+          interest: { color: "#FFEDED" },
+        },
+        subChart: [
+          {
+            key: "amortization_table",
+            label: "Amortization Table",
+            type: "table",
+          },
+        ],
+      },
       {
         key: "amortization_table",
         label: "Amortization Table",
@@ -802,15 +802,15 @@ investment will yield a total of 24% return, which is well above the market aver
       },
     ],
     outputs: [
-      // {
-      //   key: "rent_vs_buy_chart",
-      //   label: "Rent vs Buy Chart",
-      //   type: "stacked_bar_chart",
-      //   chartConfig: {
-      //     principal: { color: "#F0FCF3" },
-      //     interest: { color: "#FFEDED" },
-      //   },
-      // },
+      {
+        key: "rent_vs_buy_chart",
+        label: "Rent vs Buy Chart",
+        type: "stacked_bar_chart",
+        chartConfig: {
+          principal: { color: "#F0FCF3" },
+          interest: { color: "#FFEDED" },
+        },
+      },
       {
         key: "monthly_payment_comparison_chart",
         label: "Monthly Payment Comparison Chart",
@@ -1031,6 +1031,53 @@ investment will yield a total of 24% return, which is well above the market aver
         mortgage_rate,
         available_monthly_savings,
       };
+    },
+  },
+  {
+    key: "incenstive_calculator",
+    name: "Incentive Calculator",
+    description:
+      "Calculate agent incentives based on sales performance and targets.",
+    inputs: [],
+    outputs: [],
+    tag: "upcoming",
+    calculate: async () => {
+      // Calculate agent incentives based on sales performance and targets
+    },
+  },
+  {
+    key: "commission_goal_planner",
+    name: "Commission Goal Planner",
+    description: "Set and plan commission goals to achieve earnings targets.",
+    inputs: [],
+    outputs: [],
+    tag: "upcoming",
+    calculate: async () => {
+      // Calculate agent incentives based on sales performance and targets
+    },
+  },
+  {
+    key: "service_charges_estimator",
+    name: "Service Charges Estimator",
+    description:
+      "Estimate service charges for different property types and locations.",
+    inputs: [],
+    outputs: [],
+    tag: "upcoming",
+    calculate: async () => {
+      // Calculate agent incentives based on sales performance and targets
+    },
+  },
+  {
+    key: "investment_evaluation_report",
+    name: "Investment Evaluation Report",
+    description:
+      "Assess potential ROI and evaluate long-term investment value.",
+    inputs: [],
+    outputs: [],
+    tag: "upcoming",
+    calculate: async () => {
+      // Calculate agent incentives based on sales performance and targets
     },
   },
 ];

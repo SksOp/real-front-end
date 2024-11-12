@@ -11,18 +11,9 @@ function CalculatorSelector() {
     string | null
   >(Calculators.find((calculator) => calculator.key === type)?.key || null);
 
-  const createLink = (calculator: Calculator) => (
-    <Link
-      key={calculator.key}
-      href={`/app/calculator/${calculator.key}`}
-      onClick={() => setSelectedCalculator(calculator.key)}
-      className={
-        selectedCalculator === calculator.key
-          ? "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
-          : ""
-      }
-    >
-      <DataCards>
+  const createLink = (calculator: Calculator) =>
+    calculator.tag === "upcoming" ? (
+      <DataCards tag={calculator.tag} bgColor="bg-[#FFF0B296]">
         <h3 className="text-secondary font-semibold text-sm">
           {calculator.name}
         </h3>
@@ -30,8 +21,27 @@ function CalculatorSelector() {
           {calculator.description}
         </p>
       </DataCards>
-    </Link>
-  );
+    ) : (
+      <Link
+        key={calculator.key}
+        href={`/app/calculator/${calculator.key}`}
+        onClick={() => setSelectedCalculator(calculator.key)}
+        className={
+          selectedCalculator === calculator.key
+            ? "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
+            : ""
+        }
+      >
+        <DataCards>
+          <h3 className="text-secondary font-semibold text-sm">
+            {calculator.name}
+          </h3>
+          <p className="text-base text-muted-foreground font-normal leading-6">
+            {calculator.description}
+          </p>
+        </DataCards>
+      </Link>
+    );
 
   const allCalculators = Calculators.map((calculator) =>
     createLink(calculator)

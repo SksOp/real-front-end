@@ -10,12 +10,12 @@ function DashboardSelector() {
       >
         All Dashboards
       </TabsTrigger>
-      <TabsTrigger
+      {/* <TabsTrigger
         value="your-dashboards"
         className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
       >
         Your Dashboards
-      </TabsTrigger>
+      </TabsTrigger> */}
     </TabsList>
   );
 }

@@ -72,6 +72,7 @@ export interface Calculator {
   description: string;
   inputs: InputField[];
   outputs: OutputField[];
+  tag?: string;
   calculate: (
     inputs: Record<string, any>
   ) => Record<string, any> | Promise<Record<string, any>>;
@@ -148,6 +149,7 @@ export interface Dashboard {
   key: string;
   name: string;
   description: string;
+  tag?: string;
   type: "standard" | "custom";
   label?: string;
   dashboard_filters?: DashboardFilters;
