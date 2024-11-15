@@ -102,8 +102,8 @@ function HomeTotalAds() {
       </CardContent>
       <CardFooter className=" p-0 mt-3">
         <InsightCard linkText="Explore full market index here.">
-          Dubai has seen commendable growth in sales value and sales volume over
-          time, remarkable growth in 2024.
+          Dubai’s top 10 areas account for 30% of total sales transactions in
+          the market.
         </InsightCard>
       </CardFooter>
     </Card>

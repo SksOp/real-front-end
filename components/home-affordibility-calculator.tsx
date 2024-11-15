@@ -7,6 +7,8 @@ import CalculatorCompareCard from "./calculator-compareCard";
 import CalculatorResultCard from "./calculator-resultCard";
 import { Home, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
+import InsightCard from "./insightCard";
+import { FormatValue } from "@/utils/formatNumbers";
 
 function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
   const [scrollValue, setScrollValue] = useState(50);
@@ -45,6 +47,12 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
     const savingAfterMortgage =
       available_monthly_savings - affordable_price * monthlyRate;
 
+    const insights = `Based on your income and expenses, you can afford a property worth up to AED ${FormatValue(
+      affordable_price.toFixed(2)
+    )}, with a down payment of AED ${FormatValue(
+      parseFloat(down_payment).toFixed(2)
+    )} and an estimated monthly payment of AED 5,000. Note: This estimation is based on your current income and expenses, excluding other personal factors.`;
+
     return {
       affordable_price: affordable_price.toFixed(2),
       loanAmount: loanAmount.toFixed(2),
@@ -53,6 +61,7 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
       currentSavings: currentSavings.toFixed(2),
       down_payment: parseFloat(down_payment).toFixed(2),
       savingAfterMortgage: savingAfterMortgage.toFixed(2),
+      insights: insights,
     };
   };
 
@@ -127,6 +136,7 @@ function HomeAffordibilityCalculator({ inputs }: { inputs: any }) {
         title={"Savings after Mortgage (Monthly)"}
         value={result?.savingAfterMortgage}
       />
+      <InsightCard>{result?.insights}</InsightCard>
     </div>
   );
 }

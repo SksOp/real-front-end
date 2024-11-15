@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
@@ -16,6 +17,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { ChartConfig } from "./ui/chart";
 import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
+import InsightCard from "./insightCard";
 
 const chartConfig = {
   desktop: {
@@ -98,6 +100,12 @@ function HomeTopAreas() {
               </TabsContent>
             </Tabs>
           </CardContent>
+          <CardFooter className="p-0 mt-3">
+            <InsightCard>
+              Top 10 rental areas in Dubai represent 30% of the total rental
+              transactions, highlighting key demand zones.
+            </InsightCard>
+          </CardFooter>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
           {/* <CardHeader className="w-full p-0">
@@ -137,6 +145,12 @@ function HomeTopAreas() {
               </TabsContent>
             </Tabs>
           </CardContent>
+          <CardFooter className="p-0 mt-3">
+            <InsightCard>
+              Top 10 rental areas in Dubai represent 30% of the total rental
+              transactions, highlighting key demand zones.
+            </InsightCard>
+          </CardFooter>
         </UnderlineTabsContent>
       </Card>
     </UnderlineTabs>

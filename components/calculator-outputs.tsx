@@ -156,6 +156,7 @@ function CalculatorOutputs({
       );
 
     case "insights":
+      console.log(value);
       return <InsightCard>{value}</InsightCard>;
   }
 }

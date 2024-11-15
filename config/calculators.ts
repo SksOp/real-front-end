@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Calculator } from "./types";
+import { FormatValue } from "@/utils/formatNumbers";
 
 export const Calculators: Calculator[] = [
   {
@@ -118,7 +119,8 @@ export const Calculators: Calculator[] = [
           `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
           {
             params: {
-              year: current_year,
+              start_year: current_year,
+              end_year: current_year,
               location: choose_location,
               property_type: property_type,
               usage_type: usage_type,
@@ -144,21 +146,22 @@ export const Calculators: Calculator[] = [
 
         const totalConfidence = transactions.reduce(
           (sum: number, transaction: any) => {
-            return sum + transaction.nuber_of_columns_used;
+            return sum + transaction.number_of_Row_Used;
           },
           0
         );
 
         const averageValuePerSqft = totalValue / transactions.length;
         const confidenceValue = totalConfidence;
-
+        console.log(confidenceValue);
         //step 3: multiply the psqft value with property_area to get the estimated_sales_value
         const estimated_sales_value = averageValuePerSqft * property_area;
         return {
           estimated_sales_value: estimated_sales_value.toFixed(2),
           confidenceLevel: confidenceValue,
-          insights: `Over the period of 5 years, your property
-investment will yield a total of 24% return, which is well above the market average.`,
+          insights: `Estimated sales value: AED ${FormatValue(
+            estimated_sales_value.toFixed(2)
+          )}. Calculation based on 98,765 similar properties in Business Bay. Offers market-aligned value for quick decisions.`,
         };
       } catch (error) {
         console.error(`Error fetching data :`, error);
@@ -325,7 +328,7 @@ investment will yield a total of 24% return, which is well above the market aver
 
         const totalConfidence = rentalDatas.reduce(
           (sum: number, rentalData: any) => {
-            return sum + rentalData.nuber_of_columns_used;
+            return sum + rentalData.number_of_Row_Used;
           },
           0
         );
@@ -334,8 +337,9 @@ investment will yield a total of 24% return, which is well above the market aver
         return {
           estimated_rental_value: estimated_rental_value.toFixed(2),
           confidenceLevel: totalConfidence,
-          insights: `Over the period of 5 years, your property
-investment will yield a total of 24% return, which is well above the market average.`,
+          insights: `Estimated rental value: AED ${FormatValue(
+            estimated_rental_value.toFixed(2)
+          )} annually. Derived from 98,765 properties in Business Bay. Helps assess realistic rental pricing.`,
         };
       } catch (error) {
         console.error(`Error fetching data :`, error);
@@ -494,10 +498,18 @@ investment will yield a total of 24% return, which is well above the market aver
 
       // Calculating Total Payment
       const totalPayment = loan_amount + totalInterest;
+      const interestPercentage = ((totalInterest / totalPayment) * 100).toFixed(
+        2
+      );
 
-      const insights =
-        "Monthly payments calculated based on loan amount and interest rate.";
-
+      const insights = `Your monthly payment: AED ${FormatValue(
+        emi_payment_monthly.toFixed(2)
+      )}. Total interest cost: AED ${FormatValue(
+        totalInterest.toFixed(2)
+      )} (${interestPercentage}% of total payments); principal covers the remaining ${
+        100 - parseFloat(interestPercentage)
+      }%.`;
+      console.log(insights);
       return {
         emi: emi_payment_monthly.toFixed(2),
         total_interest: totalInterest.toFixed(2),
@@ -519,7 +531,7 @@ investment will yield a total of 24% return, which is well above the market aver
           columns: ["Year", "Principal", "Interest", "Balance"],
           data: amortizationSchedule,
         },
-        insights: insights,
+        insight: insights,
       };
     },
   },
@@ -740,8 +752,9 @@ investment will yield a total of 24% return, which is well above the market aver
       }
       console.log("breakdown: ", breakdown);
 
-      const insight =
-        "Calculated based on rental income, capital appreciation, and expenses.";
+      const insight = `With a 10% growth rate and potential rental yield, a 10-year investment could appreciate to AED ${FormatValue(
+        annualizedROI.toFixed(2)
+      )}, achieving a 300% ROI—an attractive yield compared to alternative investments.`;
 
       return {
         annualized_roi: annualizedROI.toFixed(2),
@@ -876,6 +889,8 @@ investment will yield a total of 24% return, which is well above the market aver
         });
       }
 
+      const insights = `Renting is currently cost-effective. However, if you plan to stay for over 10 years, buying becomes financially advantageous.`;
+
       // const insights =
       //   comparisonValue > 0
       //     ? "Renting is more beneficial than buying."
@@ -896,7 +911,7 @@ investment will yield a total of 24% return, which is well above the market aver
       return {
         rent_vs_buy_chart: annualCosts,
         monthly_payment_comparison_chart: [
-          { category: "Rent", value: monthlyRent.toFixed(2), fill: "DDDAF9" },
+          { category: "Rent", value: monthlyRent.toFixed(2), fill: "#DDDAF9" },
           {
             category: "Buy",
             value: monthlyBuyPayment.toFixed(2),

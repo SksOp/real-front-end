@@ -95,8 +95,9 @@ function HomeSalesIndex() {
             </Tabs>
             <CardFooter className=" p-0 mt-4">
               <InsightCard linkText="Explore full market index here.">
-                Dubai has seen commendable growth in sales value and sales
-                volume over time, remarkable growth in 2024.
+                Dubai’s real estate market has shown impressive growth since
+                2014, with 2024 seeing the highest appreciation in property
+                value.
               </InsightCard>
             </CardFooter>
           </CardContent>
@@ -138,8 +139,9 @@ function HomeSalesIndex() {
             </Tabs>
             <CardFooter className=" p-0 mt-3">
               <InsightCard linkText="Explore full market index here.">
-                Dubai has seen commendable growth in sales value and sales
-                volume over time, remarkable growth in 2024.
+                Dubai’s real estate market has shown impressive growth since
+                2014, with 2024 seeing the highest appreciation in property
+                value.
               </InsightCard>
             </CardFooter>
           </CardContent>

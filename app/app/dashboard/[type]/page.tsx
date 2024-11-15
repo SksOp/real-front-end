@@ -110,6 +110,7 @@ function DashboardDetailPage() {
                 columns={chart?.columns}
                 otherInfo={chart.otherInfo}
                 subCharts={chart.sub_charts}
+                insights={chart.insights}
                 description={chart.description}
               />
             ))}
@@ -159,6 +160,7 @@ function DashboardDetailPage() {
                     columns={charts[0]?.columns}
                     otherInfo={charts[0].otherInfo}
                     subCharts={charts[0].sub_charts}
+                    insights={charts[0]?.insights}
                     description={charts[0].description}
                   />
                 )}
@@ -176,6 +178,7 @@ function DashboardDetailPage() {
                       otherInfo={chart.otherInfo}
                       subCharts={chart.sub_charts}
                       description={chart.description}
+                      insights={chart?.insights}
                       className={
                         arr.length % 2 !== 0 && index === 2 ? "col-span-2" : ""
                       }
@@ -194,6 +197,7 @@ function DashboardDetailPage() {
                     otherInfo={charts[charts.length - 1].otherInfo}
                     subCharts={charts[charts.length - 1].sub_charts}
                     description={charts[charts.length - 1].description}
+                    insights={charts[charts.length - 1]?.insights}
                   />
                 )}
                 <Feedback />

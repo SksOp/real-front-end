@@ -15,6 +15,7 @@ import PriceChangesTable from "./price-changes-table";
 import { ClassValue } from "clsx";
 import HomeTotalAds, { HorizontalBarChart } from "./home-total-ads";
 import { cn } from "@/lib/utils";
+import InsightCard from "./insightCard";
 
 interface DashboardChartsProps {
   type: string;
@@ -27,6 +28,7 @@ interface DashboardChartsProps {
   filters?: any[];
   otherInfo?: { name: string; value: string }[];
   subCharts?: any[];
+  insights?: string;
   className?: ClassValue;
 }
 
@@ -41,6 +43,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
   filters,
   otherInfo,
   subCharts,
+  insights,
   className,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
@@ -193,7 +196,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           </Tabs>
         )}
 
-      <div className="flex flex-col md:grid md:grid-cols-2 gap-3 mt-4">
+      <div className="flex flex-col md:grid md:grid-cols-2 gap-3 mt-4 mb-2">
         {subCharts?.map((chart, idx, arr) => {
           const filterData = chart.filters?.find(
             (f: any) => f.key === subChartFilter
@@ -228,6 +231,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           );
         })}
       </div>
+      <InsightCard>{insights}</InsightCard>
     </ChartWrapper>
   );
 };

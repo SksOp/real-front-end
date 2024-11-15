@@ -296,7 +296,7 @@ function CalculatorPage() {
 
           {/* Output Section */}
           {showOutput && (
-            <div className="lg:flex md:w-1/4 hidden md:bg-primary/5 max-w-md flex-col p-4 relative shadow-lg rounded-lg ">
+            <div className="lg:flex md:w-1/3 hidden max-w-md justify-center md:max-h-screen md:overflow-y-auto  ">
               {/* Close Button */}
               <XIcon
                 className="absolute top-2 right-2 border-0 cursor-pointer"

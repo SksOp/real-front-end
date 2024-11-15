@@ -171,7 +171,7 @@ function CalculatorInputs({
       const [open, setOpen] = useState(false);
       return (
         <div className="w-full flex flex-col gap-0.5 px-1">
-          <Label className="text-sm font-semibold text-secondary">
+          <Label className="text-sm font-medium text-secondary">
             {title}
             {renderOptionalLabel()}
           </Label>

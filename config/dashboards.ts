@@ -3,6 +3,48 @@ import { Dashboard } from "./types";
 
 export const dashboards: Dashboard[] = [
   {
+    key: "explore",
+    name: "Explore",
+    description:
+      "Explore dubai from your own perspective, sales? rental? we have it all covered.",
+    type: "custom",
+    page_filters: [
+      {
+        key: "transaction_type",
+        label: "Transaction Type",
+        options: ["Sales", "Rental"],
+      },
+      {
+        key: "usage",
+        label: "Usage",
+        options: ["Residential", "Commercial", "All"],
+      },
+      {
+        key: "location",
+        label: "Location",
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+        options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
+        searchable: true,
+      },
+      {
+        key: "property_type",
+        label: "Property Type",
+        options: ["Ready", "Offplan"],
+      },
+      {
+        key: "sales_type",
+        label: "Sale Type",
+        options: ["First Sale", "Resale"],
+      },
+      {
+        key: "rental_type",
+        label: "Rental Type",
+        options: ["New", "Renew"],
+      },
+    ],
+  },
+  {
     key: "sales_transactions_overview",
     name: "Sales Transactions Overview",
     description:
@@ -191,6 +233,8 @@ export const dashboards: Dashboard[] = [
               styles: "min-h-[100px]",
               sub_charts: [],
               data: chartData, // Calculated data will be here
+              insights:
+                "Cash transactions dominate Dubai’s market, attracting global investors, while mortgages contribute a growing 10%.",
             };
           } catch (error) {
             console.error("Error calculating transactions type chart:", error);
@@ -1237,6 +1281,8 @@ export const dashboards: Dashboard[] = [
               styles: "min-h-[100px]",
               sub_charts: [],
               data: chartData, // Calculated data will be here
+              insights:
+                "Cash transactions dominate Dubai’s market, attracting global investors, while mortgages contribute a growing 10%.",
             };
           } catch (error) {
             console.error("Error calculating transactions type chart:", error);
@@ -2282,6 +2328,8 @@ export const dashboards: Dashboard[] = [
               styles: "min-h-[100px]",
               sub_charts: [],
               data: chartData, // Calculated data will be here
+              insights:
+                "Cash transactions dominate Dubai’s market, attracting global investors, while mortgages contribute a growing 10%.",
             };
           } catch (error) {
             console.error("Error calculating transactions type chart:", error);

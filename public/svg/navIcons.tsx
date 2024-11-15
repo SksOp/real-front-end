@@ -182,25 +182,23 @@ export function CompassIcon({ className }: Props) {
   return (
     <svg
       className={cn("", className)}
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M16 29.3307C23.3638 29.3307 29.3333 23.3612 29.3333 15.9974C29.3333 8.6336 23.3638 2.66406 16 2.66406C8.63619 2.66406 2.66666 8.6336 2.66666 15.9974C2.66666 23.3612 8.63619 29.3307 16 29.3307Z"
-        stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        d="M12 0C5.4 0 0 5.4 0 12C0 18.6 5.4 24 12 24C18.6 24 24 18.6 24 12C24 5.4 18.5999 0 12 0ZM12 21.7499C6.6 21.7499 2.25006 17.3999 2.25006 12C2.25006 6.60008 6.6 2.24998 12 2.24998C17.4 2.24998 21.7499 6.6 21.7499 12C21.7499 17.4 17.3999 21.7499 12 21.7499Z"
+        fill="#6155DF"
       />
       <path
-        d="M21.6533 10.3438L18.8267 18.8237L10.3467 21.6504L13.1733 13.1704L21.6533 10.3438Z"
-        stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        d="M18.2248 5.77515L13.5748 13.5751L10.4248 10.4251L18.2248 5.77515Z"
+        fill="#E2574C"
+      />
+      <path
+        d="M5.77515 18.2248L13.5751 13.5748L10.4251 10.4248L5.77515 18.2248Z"
+        fill="#6155DF"
       />
     </svg>
   );
