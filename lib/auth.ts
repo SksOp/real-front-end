@@ -1,12 +1,11 @@
-// lib/auth.ts
 import { AuthContext } from "@/auth/context/auth-context";
 import { auth } from "@/firebase/config";
 import {
   signOut,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useContext } from "react";
 
