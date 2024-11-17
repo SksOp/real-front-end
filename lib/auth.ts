@@ -6,6 +6,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
+  getAuth,
+  sendEmailVerification,
 } from "firebase/auth";
 import { useContext } from "react";
 
@@ -58,6 +60,19 @@ export const signInWithGoogle = async () => {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+export const sendVerificationEmail = async () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      await sendEmailVerification(user);
+      console.log("Verification email sent!");
+    } catch (error) {
+      console.error("Error sending email verification:", error);
+    }
   }
 };
 

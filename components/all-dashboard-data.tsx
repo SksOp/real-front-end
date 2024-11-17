@@ -1,21 +1,26 @@
 import { Dashboard } from "@/config/types";
 import Link from "next/link";
-import React from "react";
+import React, { use, useEffect } from "react";
 import DataCards from "./data-cards";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { dashboards } from "@/config/dashboards";
 import { TabsContent } from "./ui/tabs";
 import { CompassIcon } from "@/public/svg/navIcons";
 
 function DashboardData() {
   const { type } = useParams<{ type: string }>();
+  const pathname = usePathname();
   const [selectedDashboard, setSelectedDashboard] = React.useState<
     string | null
-  >(
-    dashboards.find((dashboard) =>
-      type ? dashboard.key === type : dashboard.key === "explore"
-    )?.key || null
-  );
+  >(dashboards.find((dashboard) => dashboard.key === type)?.key || null);
+
+  useEffect(() => {
+    const url = pathname.split("/").findLast((url) => url !== "");
+    console.log(url);
+    if (url === "explore") {
+      setSelectedDashboard("explore");
+    }
+  }, [pathname]);
 
   const createLink = (dashboard: Dashboard) =>
     dashboard.tag === "upcoming" ? (

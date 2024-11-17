@@ -16,6 +16,7 @@ import {
   TransactionIcon,
 } from "@/public/svg/sidebarIcons";
 import { useRouter } from "next/navigation";
+import { KeyMatricIcon } from "@/public/svg/navIcons";
 
 function SidebarContent() {
   const router = useRouter();
@@ -72,6 +73,14 @@ function SidebarContent() {
         >
           <MyPropertiesIcon />
           My Properties
+        </Button>
+        <Button
+          variant="ghost"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/keyMatrics")}
+        >
+          <KeyMatricIcon />
+          Key Matrices
         </Button>
       </div>
       <Separator />

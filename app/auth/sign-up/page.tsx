@@ -4,7 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { signInWithGoogle, signUpWithEmail } from "@/lib/auth";
+import {
+  sendVerificationEmail,
+  signInWithGoogle,
+  signUpWithEmail,
+} from "@/lib/auth";
 import { GoogleIcon, SplashIcon } from "@/public/svg/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -42,7 +46,7 @@ const SignUp = () => {
     try {
       const user = await signUpWithEmail(email, password);
       console.log("User signed up:", user);
-
+      await sendVerificationEmail();
       // Clear form fields
       setEmail("");
       setPassword("");
@@ -51,8 +55,8 @@ const SignUp = () => {
       setPhoneNumber("");
       setBrn("");
 
-      // Navigate to the home page
-      router.push("/app/home");
+      // Navigate to the verify page
+      router.push("/auth/sign-up/verify");
     } catch (e: any) {
       toast({
         title: "Uh oh! Something went wrong.",
@@ -195,8 +199,13 @@ const SignUp = () => {
           Continue with Google
         </Button>
         <h3 className="text-accent font-normal text-sm">
-          Don’t have an account?{" "}
-          <span className="text-primary font-semibold">Create One</span>
+          Already have an account?{" "}
+          <span
+            className="text-primary font-semibold"
+            onClick={() => router.push("/auth/login")}
+          >
+            Login
+          </span>
         </h3>
       </div>
     </div>

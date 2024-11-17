@@ -8,30 +8,12 @@ import Feedback from "@/components/feedback";
 import Filters from "@/components/filters";
 import MatrixCard from "@/components/matrix-card";
 import SharingCard from "@/components/sharingCard";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
 import { dashboards } from "@/config/dashboards";
 import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
-import {
-  CalculateCharts,
-  CalculateMatrix,
-  SalesIndex,
-  SalesPriceComparison,
-  SalesSegmentation,
-  SalesSimilarData,
-  SalesTrend,
-  SalesTypeChart,
-  SalesValueTrend,
-} from "@/config/utility";
+import { CalculateCharts, CalculateMatrix } from "@/config/utility";
 import Layout from "@/layout/secondary";
-import axios from "axios";
-import { Building } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 function ExplorePage() {
@@ -56,15 +38,18 @@ function ExplorePage() {
       ...prev,
       [key]: value,
     }));
+    handleFilterChange(key, value);
   };
 
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
+    console.log("filters", filters);
   };
 
   const calculateMatrix = async (
     transaction_type: "sales" | "rental",
-    subPath: string
+    subPath: string,
+    params?: { [key: string]: string | number }
   ) => {
     const date = new Date();
     const presentYear = date.getFullYear();
@@ -73,22 +58,46 @@ function ExplorePage() {
       presentYear - 1
     }&end_year=${presentYear}`;
 
-    const matrixOutput = await CalculateMatrix(sourceURL, transaction_type);
+    const matrixOutput = await CalculateMatrix(
+      sourceURL,
+      transaction_type,
+      params
+    );
     if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
       setMatrixData(matrixOutput);
     }
+    console.log("maaatrrr ", matrixOutput);
   };
 
-  const handleCalculate = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const transaction_type =
+        inputValues.transaction_type === "Sales" ? "sales" : "rental";
+      const subPath =
+        inputValues.transaction_type === "Sales" ? "trends" : "average";
+
+      await calculateMatrix(transaction_type, subPath, filters);
+
+      const allCharts = await CalculateCharts(transaction_type, filters);
+      setCharts(allCharts);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [filters]);
+
+  const handleCalculate = async (params?: {
+    [key: string]: string | number;
+  }) => {
     console.log(inputValues);
     const transaction_type =
       inputValues.transaction_type === "Sales" ? "sales" : "rental";
     const subPath =
       inputValues.transaction_type === "Sales" ? "trends" : "average";
     await calculateMatrix(transaction_type, subPath);
-    const allCharts = await CalculateCharts(transaction_type);
+    const allCharts = await CalculateCharts(transaction_type, params);
     setCharts(allCharts);
-
     setShowOutput(true);
     setActiveAccordion("output");
   };
@@ -169,7 +178,7 @@ function ExplorePage() {
               <Button
                 variant={"secondary"}
                 className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
-                onClick={handleCalculate}
+                onClick={() => handleCalculate(filters)}
               >
                 Explore
               </Button>
@@ -305,7 +314,7 @@ function ExplorePage() {
                     <Button
                       variant={"secondary"}
                       className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
-                      onClick={handleCalculate}
+                      onClick={() => handleCalculate(filters)}
                     >
                       Explore
                     </Button>

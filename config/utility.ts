@@ -1,6 +1,31 @@
 import axios from "axios";
 import { ChartDescription } from "./types";
 
+export const ConvertedParams = (params: { [key: string]: string | number }) => {
+  const convertedParams: { [key: string]: string } = {};
+  Object.keys(params).forEach((key) => {
+    switch (key) {
+      case "location":
+        convertedParams["location"] = String(params[key]);
+        break;
+      case "start_year":
+        convertedParams["start_year"] = String(params[key]);
+        break;
+      case "end_year":
+        convertedParams["end_year"] = String(params[key]);
+        break;
+      case "usage":
+        convertedParams["usage_en"] = String(params[key]);
+        break;
+      case "property_type":
+        convertedParams["prop_type_en"] = String(params[key]);
+        break;
+    }
+    convertedParams[key] = String(params[key]);
+  });
+  return convertedParams;
+};
+
 export const CalculateMatrix = async (
   url: string,
   type: string,
@@ -9,7 +34,9 @@ export const CalculateMatrix = async (
   }
 ) => {
   try {
-    const response = await axios.get(url, { params: params });
+    const response = await axios.get(url, {
+      params: params,
+    });
 
     console.log("response", response.data);
     const transactions = response.data.data.data;
@@ -152,7 +179,7 @@ export const CalculateCharts = async (
   }
 ) => {
   const allCharts: ChartDescription[] = [];
-
+  console.log(params);
   if (type === "sales") {
     const charts = await Promise.all([
       SalesTypeChart(params),
@@ -457,16 +484,10 @@ export const SalesTrend = async (params?: {
   }
 };
 
-export const SalesIndex = async (params?: {
+export const SalesPriceRanges = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
-      {
-        params: params,
-      }
-    );
     const date = new Date();
     const end_year = date.getFullYear();
     const responseRange = await axios.get(
@@ -475,15 +496,9 @@ export const SalesIndex = async (params?: {
         params: params,
       }
     );
-
-    // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.quartiles;
-    console.log("percentile25", data);
-    const percentile25 = data[0].max;
-    const percentile75 = data[3].min;
-
     const rangeData = responseRange.data.data.data[0];
     console.log("rangeData", rangeData);
+
     const chartData = [
       {
         name: "<500K",
@@ -528,29 +543,66 @@ export const SalesIndex = async (params?: {
     ];
 
     return {
+      key: "price_range",
+      name: "Price Range",
+      chart_type: "donut",
+      chartConfig: {
+        "<500K": { color: "#FFDBDB" },
+        "500K to 1M": { color: "#EFEEFC" },
+        "1M to 2M": { color: "#DDF8E4" },
+        "2M to 3M": { color: "#FCF8D1" },
+        "3M to 4M": { color: "#FFC8C8" },
+        "4M to 5M": { color: "#FFC8C8" },
+        "5M to 10M": { color: "#FFC8C8" },
+        ">10M": { color: "#FFC8C8" },
+      },
+      data: chartData, // Calculated data will be here
+    };
+  } catch (error) {
+    console.error("Error calculating price range chart:", error);
+    return {
+      key: "price_range",
+      name: "Price Range",
+      chart_type: "donut",
+      chartConfig: {
+        "<500K": { color: "#FFDBDB" },
+        "500K to 1M": { color: "#EFEEFC" },
+        "1M to 2M": { color: "#DDF8E4" },
+        "2M to 3M": { color: "#FCF8D1" },
+        "3M to 4M": { color: "#FFC8C8" },
+        "4M to 5M": { color: "#FFC8C8" },
+        "5M to 10M": { color: "#FFC8C8" },
+        ">10M": { color: "#FFC8C8" },
+      },
+      data: [], // Calculated data will be here
+    };
+  }
+};
+
+export const SalesIndex = async (params?: {
+  [key: string]: string | number;
+}) => {
+  try {
+    const response = await axios.get(
+      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
+      {
+        params: params,
+      }
+    );
+
+    // Will do the required calculation here and return the data to build graph
+    const data = response.data.data.quartiles;
+    console.log("percentile25", data);
+    const percentile25 = data[0].max;
+    const percentile75 = data[3].min;
+    const priceRangeData = await SalesPriceRanges(params);
+    return {
       name: "Sales Index",
       description: "This is overall sales value index in Dubai.",
       chart_type: "percentile_bar",
       filters: [],
       chartConfig: {},
-      sub_charts: [
-        {
-          key: "price_range",
-          name: "Price Range",
-          chart_type: "donut",
-          chartConfig: {
-            "<500K": { color: "#FFDBDB" },
-            "500K to 1M": { color: "#EFEEFC" },
-            "1M to 2M": { color: "#DDF8E4" },
-            "2M to 3M": { color: "#FCF8D1" },
-            "3M to 4M": { color: "#FFC8C8" },
-            "4M to 5M": { color: "#FFC8C8" },
-            "5M to 10M": { color: "#FFC8C8" },
-            ">10M": { color: "#FFC8C8" },
-          },
-          data: chartData, // Calculated data will be here
-        },
-      ],
+      sub_charts: [priceRangeData],
       insights:
         "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
       data: [percentile25, percentile75], // Calculated data will be here
@@ -910,6 +962,7 @@ export const SalesSegmentation = async (params?: {
         fill: colors.count_5_B_R,
       },
     ];
+
     commercialData["rooms_en"] = [
       {
         name: "Industrial",

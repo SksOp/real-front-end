@@ -89,6 +89,13 @@ function Navbar({
               >
                 My Listings
               </TabsTrigger>
+              <TabsTrigger
+                value="key-matrices"
+                className="text-sm"
+                onClick={() => router.push("/app/key-matrices")}
+              >
+                Key Matrices
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>

@@ -118,7 +118,12 @@ const SignIn = () => {
         </Button>
         <h3 className="text-accent font-normal text-sm">
           Don’t have an account?{" "}
-          <span className="text-primary font-semibold">Create One</span>
+          <span
+            className="text-primary font-semibold cursor-pointer"
+            onClick={() => router.push("/auth/sign-up")}
+          >
+            Create One
+          </span>
         </h3>
       </div>
     </div>

@@ -53,6 +53,11 @@ function Filters({
     selectOptions.forEach((filter) => {
       if (!filterOptions[filter.key] && filter.source) {
         fetchOptions(filter);
+      } else if (filter.options && !filterOptions[filter.key]) {
+        setFilterOptions((prev) => ({
+          ...prev,
+          [filter.key]: filter.options ?? [],
+        }));
       }
     });
   }, [selectOptions, filterOptions]);
