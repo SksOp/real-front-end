@@ -105,6 +105,9 @@ export interface ChartDescription {
   chart_type:
     | "horizontal_bar"
     | "bar"
+    | "dual_bar"
+    | "pie"
+    | "stacked_bar"
     | "line"
     | "area"
     | "donut"

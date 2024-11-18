@@ -16,6 +16,7 @@ import { ClassValue } from "clsx";
 import HomeTotalAds, { HorizontalBarChart } from "./home-total-ads";
 import { cn } from "@/lib/utils";
 import InsightCard from "./insightCard";
+import StackedBarchart from "./chart/stackedChart/stackedChart";
 
 interface DashboardChartsProps {
   type: string;
@@ -85,7 +86,6 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             data={data}
             xAxisDataKey={"name"}
             yAxisDataKey={"value"}
-            className={"min-h"}
           />
         );
       case "bar":
@@ -97,6 +97,27 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             yAxisDataKeys={["value"]}
           />
         );
+
+      case "dual_bar":
+        return (
+          <Barchart
+            chartConfig={chartConfig}
+            data={selectedFilter?.data ?? data}
+            xAxisDataKey={"year"}
+            yAxisDataKeys={["value1", "value2"]}
+          />
+        );
+
+      case "stacked_bar":
+        return (
+          <StackedBarchart
+            chartConfig={chartConfig}
+            data={selectedFilter?.data ?? data}
+            xAxisDataKey={"month"}
+            yAxisDataKeys={["offplan", "ready"]}
+          />
+        );
+
       case "line":
         return (
           <AreaChartComponent

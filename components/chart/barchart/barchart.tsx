@@ -89,11 +89,11 @@ const Barchart: React.FC<BarChartComponentProps> = ({
     return result !== undefined ? result.toString() : "";
   };
 
-  const chartWidth = Math.max(data?.length * (30 + 40), 400);
+  const chartWidth = Math.max(data?.length * 100, 400);
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[250px] w-full overflow-x-auto"
+      className="min-h-[250px] w-full overflow-x-scroll"
     >
       <ResponsiveContainer width={chartWidth} height={maxValue}>
         <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={20}>
@@ -129,7 +129,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               fill={barColors[index % barColors.length]} // Cycle through colors
               radius={barRadius}
               stroke={"#121212"}
-              spacing={20}
+              barSize={30}
               overflow={"scroll"}
               {...customBarProps}
             >
