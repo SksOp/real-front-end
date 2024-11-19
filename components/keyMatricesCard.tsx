@@ -1,17 +1,21 @@
 import React from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 
 function KeyMatricesCard({
   title,
   description,
   tag,
+  className,
 }: {
   title: string;
   description: string;
   tag?: string;
+  className?: ClassValue;
 }) {
   return (
-    <Card className="w-full rounded-xl p-4">
+    <Card className={cn("w-full rounded-xl p-4", className)}>
       <CardHeader className="p-0 flex flex-col gap-2 ">
         <div className="relative">
           <CardTitle className="text-secondary font-semibold text-base">

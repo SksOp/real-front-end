@@ -842,6 +842,10 @@ export const SalesSegmentation = async (params?: {
         { key: "building", name: "Building", color: colors.building },
         { key: "villa", name: "Villa", color: colors.villa },
       ],
+      resale_vs_first_sale: [
+        { key: "first_sale", name: "First Sale", color: colors.lease },
+        { key: "resale", name: "Resale", color: colors.free_hold },
+      ],
     };
 
     const calculateCategoryData = (sourceData: any[], categoryKey: string) => {
@@ -1084,6 +1088,26 @@ export const SalesSegmentation = async (params?: {
             },
           ],
           data: allData?.prop_type_en, // Calculated data will be here
+        },
+        {
+          key: "resale_vs_first_sale",
+          name: "Resale vs First Sale",
+          chart_type: "horizontal_bar",
+          chartConfig: {},
+          filters: [
+            { key: "all", label: "All", data: allData.resale_vs_first_sale },
+            {
+              key: "residential",
+              label: "Residential",
+              data: residentialData.resale_vs_first_sale,
+            },
+            {
+              key: "commercial",
+              label: "Commercial",
+              data: commercialData.resale_vs_first_sale,
+            },
+          ],
+          data: allData?.resale_vs_first_sale, // Calculated data will be here
         },
         {
           key: "rooms",

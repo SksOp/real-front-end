@@ -16,12 +16,13 @@ import {
   RentalValueTrend,
 } from "./rental";
 import axios from "axios";
-import { Value } from "@radix-ui/react-select";
+import { SupplyFilter } from "./filters";
 
-export interface Matrices {
+export interface Matrix {
   key: string;
   title: string;
   description: string;
+  type: "sales" | "rentals" | "supply" | "offplan" | "sales_index";
   tag?: string;
   filters?: PageFilter[];
   calculate_charts?: {
@@ -32,12 +33,13 @@ export interface Matrices {
   };
 }
 
-export const KeyMatrices: Matrices[] = [
+export const KeyMatrices: Matrix[] = [
   {
     key: "total_sales_value",
     title: "Total Sales Value",
     description:
       "Total market value of sales transactions, with growth compared to the previous period.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -103,6 +105,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Average Sales Value",
     description:
       "Average property sale price, including growth trends from the last period.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -168,6 +171,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Average Price per Sqft",
     description:
       "Average property price per square foot, compared to previous periods.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -233,6 +237,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Number of Transactions",
     description:
       "Total sales transactions completed, with a growth indicator from prior periods.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -298,6 +303,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Transaction Type",
     description:
       "Bar chart showing the distribution of transactions by payment method.  (Cash/Mortgage/Gifts)",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -356,6 +362,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Transaction Value Trend",
     description:
       "Column chart comparing yearly transaction values, with drilldown options to months.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -414,6 +421,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Number of Transactions Trend",
     description:
       "Column chart displaying yearly transaction trends, supporting drilldown to monthly data.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -472,6 +480,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Sales Price Index",
     description:
       "Index chart showing price quartiles for affordable, medium, and luxury property segments.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -532,6 +541,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Sales Price Range Distribution.",
     description:
       "Doughnut chart displaying the distribution of properties across different price ranges.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -590,6 +600,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Residential vs Commercial.",
     description:
       "Distribution of properties between residential and commercial segments.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -650,6 +661,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Sale Type (Freehold vs Leasehold)",
     description:
       "Proportion of freehold vs leasehold properties in the market.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -700,7 +712,7 @@ export const KeyMatrices: Matrices[] = [
       key: "freehold_vs_leasehold",
       calculate: async (params) => {
         const data = await SalesSegmentation(params);
-        const extractChart = data.sub_charts[0];
+        const extractChart = data.sub_charts[3];
         return extractChart;
       },
     },
@@ -709,12 +721,22 @@ export const KeyMatrices: Matrices[] = [
     key: "first_sale_vs_resale",
     title: "First Sale vs Resale.",
     description: "Distribution of properties sold as new or resold.",
+    type: "sales",
+    calculate_charts: {
+      key: "first_sale_vs_resale",
+      calculate: async (params) => {
+        const data = await SalesSegmentation(params);
+        const extractChart = data.sub_charts[1];
+        return extractChart;
+      },
+    },
   },
   {
     key: "property_type",
     title: "Property Type.",
     description:
       "Distribution of sales by property type (villa, apartment, land, etc.).",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -775,6 +797,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Property Subtype (Commercial)",
     description:
       "Distribution of property subtypes or number of bedrooms for commercial units..",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -825,7 +848,7 @@ export const KeyMatrices: Matrices[] = [
       key: "property_type",
       calculate: async (params) => {
         const data = await SalesSegmentation(params);
-        const extractChart = data.sub_charts[3];
+        const extractChart = data.sub_charts[4];
         return extractChart;
       },
     },
@@ -835,6 +858,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Property Subtype (Residential)",
     description:
       "Distribution of property subtypes or number of bedrooms for residential units.",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -885,7 +909,7 @@ export const KeyMatrices: Matrices[] = [
       key: "property_type",
       calculate: async (params) => {
         const data = await SalesSegmentation(params);
-        const extractChart = data.sub_charts[3];
+        const extractChart = data.sub_charts[4];
         return extractChart;
       },
     },
@@ -894,6 +918,7 @@ export const KeyMatrices: Matrices[] = [
     key: "volume_of_mortgage_transactions",
     title: "Volume of mortgage transactions",
     description: "Total number of mortgage sale registrations",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -958,6 +983,7 @@ export const KeyMatrices: Matrices[] = [
     key: "value_of_mortgage_transactions",
     title: "Value of mortgage transactions",
     description: "Total value of mortgage sale registrations",
+    type: "sales",
     filters: [
       {
         key: "group_en",
@@ -1023,6 +1049,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Total Rental Value",
     description:
       "Total market value of rental transactions, with growth compared to the previous period.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1072,6 +1099,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Average Rent Value",
     description:
       "Average rental price across all properties, with a comparison to prior periods.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1129,6 +1157,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Number of Rental Transactions",
     description:
       "Total number of rental agreements signed, with growth trends from previous periods.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1177,6 +1206,7 @@ export const KeyMatrices: Matrices[] = [
     key: "renewal_ratio",
     title: "Renewal Ratio",
     description: "Percentage of leases renewed compared to new agreements.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1226,6 +1256,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Rental Value Trend",
     description:
       "Column chart comparing yearly rental values, with drilldown to monthly data.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1268,6 +1299,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Rental Transactions Trend",
     description:
       "Yearly trend of rental transactions, with detailed monthly breakdown.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1310,6 +1342,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Rental Price Range Distribution",
     description:
       "Doughnut chart displaying rental price segmentation across various ranges.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1354,6 +1387,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Residential vs Commercial Rental",
     description:
       "Proportion of rental transactions in residential vs commercial sectors.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1398,6 +1432,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Residential vs Commercial Rental",
     description:
       "Proportion of rental transactions in residential vs commercial sectors.",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1442,6 +1477,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Property Type Rentals",
     description:
       "Rental transactions categorized by property type (villa, apartment, etc.).",
+    type: "rentals",
     filters: [
       {
         key: "version_en",
@@ -1485,6 +1521,7 @@ export const KeyMatrices: Matrices[] = [
     key: "property_subtype_rental",
     title: "Property Subtype Rentals",
     description: "Rental segmentation by property subtypes.",
+    type: "rentals",
     calculate_charts: {
       key: "property_subtype_rental",
       calculate: async (params) => {
@@ -1498,19 +1535,14 @@ export const KeyMatrices: Matrices[] = [
     key: "number_of_bedrooms_rental",
     title: "Number of Bedrooms Rentals",
     description: "Rental segmentation by number of bedrooms.",
+    type: "rentals",
   },
   {
     key: "number_of_projects_overall",
     title: "Number of Projects (Overall)",
     description: "Total number of projects in the market.",
-    filters: [
-      {
-        key: "area",
-        label: "Area",
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
-      },
-    ],
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "number_of_projects_overall",
       calculate: async (params) => {
@@ -1541,14 +1573,8 @@ export const KeyMatrices: Matrices[] = [
     key: "number_of_projects_supply",
     title: "Number of Projects (Supply)",
     description: "Total number of projects in the market.",
-    filters: [
-      {
-        key: "area",
-        label: "Area",
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
-      },
-    ],
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "number_of_projects_overall",
       calculate: async (params) => {
@@ -1581,6 +1607,8 @@ export const KeyMatrices: Matrices[] = [
     key: "number_of_villas",
     title: "Number of Villas",
     description: "Total number of villa properties available.",
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "number_of_villas",
       calculate: async (params) => {
@@ -1613,6 +1641,8 @@ export const KeyMatrices: Matrices[] = [
     key: "number_of_apartments",
     title: "Number of Apartments/Units",
     description: "Total number of apartment units available in the market.",
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "number_of_apartments",
       calculate: async (params) => {
@@ -1645,6 +1675,8 @@ export const KeyMatrices: Matrices[] = [
     key: "total_units",
     title: "Total Units",
     description: "Aggregate number of all property types in the supply.",
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "total_units",
       calculate: async (params) => {
@@ -1679,6 +1711,8 @@ export const KeyMatrices: Matrices[] = [
     key: "properties_completion_rate",
     title: "Properties Completion Rate (2024)",
     description: "Percentage of properties completed in 2024.",
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "properties_completion_rate",
       calculate: async (params) => {
@@ -1713,6 +1747,8 @@ export const KeyMatrices: Matrices[] = [
     key: "number_of_yearly_completed_units",
     title: "Number of Yearly Completed Units",
     description: "Total number of units completed each year.",
+    type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "number_of_yearly_completed_units",
       calculate: async (params) => {
@@ -1769,6 +1805,8 @@ export const KeyMatrices: Matrices[] = [
     key: "future_planned_supply",
     title: "Future Planned Supply",
     description: "Planned property supply starting from 2024 onwards.",
+    type: "supply",
+    filters: SupplyFilter,
     // calculate_charts: {
     //   key: "Future Planned Supply",
     // calculate: async (params) => {
@@ -1793,6 +1831,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Monthly Property Sales Volume ",
     description:
       "Monthly comparison of sales volumes for offplan vs ready properties.",
+    type: "offplan",
     calculate_charts: {
       key: "monthly_properties",
       calculate: async (params) => {
@@ -1862,6 +1901,7 @@ export const KeyMatrices: Matrices[] = [
     key: "annual_properties_sales_volume",
     title: "Annual Property Sales Volume ",
     description: "Annual comparison of sales volumes for all areas.",
+    type: "offplan",
     calculate_charts: {
       key: "annual_properties_in_all areas",
       calculate: async (params) => {
@@ -1918,6 +1958,7 @@ export const KeyMatrices: Matrices[] = [
     key: "annual_properties_sales_value",
     title: "Annual Property Sales Value ",
     description: "Annual comparison of sales volumes for all areas.",
+    type: "offplan",
     calculate_charts: {
       key: "annual_properties_in_all areas",
       calculate: async (params) => {
@@ -1974,6 +2015,7 @@ export const KeyMatrices: Matrices[] = [
     key: "sales_volume_proportion",
     title: "Sales volume proportion",
     description: "Proportion of total sales volume by area.",
+    type: "offplan",
     calculate_charts: {
       key: "sales_volume_proportion",
       calculate: async (params) => {
@@ -2048,6 +2090,7 @@ export const KeyMatrices: Matrices[] = [
     key: "sales_value_proportion",
     title: "Sales Value proportion",
     description: "Proportion of total sales volume by area.",
+    type: "offplan",
     calculate_charts: {
       key: "sales_volume_proportion",
       calculate: async (params) => {
@@ -2123,6 +2166,7 @@ export const KeyMatrices: Matrices[] = [
     title: "Offplan Price per Sqft",
     description:
       "Average price per square foot for offplan vs ready properties.",
+    type: "offplan",
     calculate_charts: {
       key: "offplan_price_per_sqft",
       calculate: async (params) => {

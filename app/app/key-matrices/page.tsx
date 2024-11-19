@@ -1,9 +1,13 @@
 "use client";
 import ChartWrapper from "@/components/chart/chartWrapper";
+import ChartException from "@/components/chartException";
 import DashboardCharts from "@/components/dashboard-charts";
 import KeyMatricesCard from "@/components/keyMatricesCard";
+import MatricesData from "@/components/matrices-data";
+import MatricesSelector from "@/components/matrices-selector";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { KeyMatrices, Matrices } from "@/config/matrices";
+import { Tabs } from "@/components/ui/tabs";
+import { KeyMatrices, Matrix } from "@/config/matrices";
 import { ChartDescription, MatrixData } from "@/config/types";
 import Layout from "@/layout/secondary";
 import Link from "next/link";
@@ -14,26 +18,23 @@ function KeyMatricesPage() {
     ChartDescription | MatrixData | null
   >(null);
 
-  const handleChartSelection = async (chart: Matrices) => {
-    if (chart.calculate_charts) {
-      const chartData = await chart.calculate_charts.calculate();
-      setSelectedChart(chartData);
-    }
-  };
-
   return (
     <Layout page="key-matrices" title="Key Matrices">
-      <div className="flex flex-col gap-3 px-4 pt-16 md:pt-20 pb-8">
-        {KeyMatrices.map((matrix) => (
-          <Link href={`/app/key-matrices/${matrix.key}`}>
-            <KeyMatricesCard
-              key={matrix.key}
-              title={matrix.title}
-              description={matrix.description}
-              tag={matrix.tag}
-            />
-          </Link>
-        ))}
+      <div className="flex w-full justify-center ">
+        <Tabs defaultValue={"all"} className="flex flex-col w-full px-2">
+          <div className="flex w-full items-center justify-center gap-5 mt-14 md:mt-20">
+            <MatricesSelector />
+          </div>
+          <div className="flex gap-5 w-full">
+            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-10rem)] md:overflow-y-auto ">
+              <MatricesData />
+            </div>
+            <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+              <ChartException />
+            </div>
+            <div className="lg:flex hidden  max-w-md justify-center "></div>
+          </div>
+        </Tabs>
       </div>
     </Layout>
   );
