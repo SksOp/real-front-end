@@ -8,7 +8,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { KeyMatrices, Matrix } from "@/config/matrices";
 import { ChartDescription, MatrixData } from "@/config/types";
 import Layout from "@/layout/secondary";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function MatrixDataPage() {
@@ -22,6 +22,8 @@ function MatrixDataPage() {
   const [filters, setFilters] = useState<{ [key: string]: string | number }>(
     {}
   );
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") || "all";
 
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => {
@@ -83,8 +85,8 @@ function MatrixDataPage() {
       </div>
 
       <div className="md:flex w-full justify-between hidden ">
-        <Tabs defaultValue={"all"} className="flex flex-col w-full px-2">
-          <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
+        <Tabs defaultValue={tab} className="flex flex-col w-full px-2">
+          <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20 md:mb-2">
             <MatricesSelector />
           </div>
           <div className="flex gap-5 w-full">

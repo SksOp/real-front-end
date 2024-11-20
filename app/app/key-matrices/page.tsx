@@ -1,28 +1,22 @@
 "use client";
-import ChartWrapper from "@/components/chart/chartWrapper";
 import ChartException from "@/components/chartException";
-import DashboardCharts from "@/components/dashboard-charts";
-import KeyMatricesCard from "@/components/keyMatricesCard";
 import MatricesData from "@/components/matrices-data";
 import MatricesSelector from "@/components/matrices-selector";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs } from "@/components/ui/tabs";
-import { KeyMatrices, Matrix } from "@/config/matrices";
-import { ChartDescription, MatrixData } from "@/config/types";
 import Layout from "@/layout/secondary";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 function KeyMatricesPage() {
-  const [selectedChart, setSelectedChart] = useState<
-    ChartDescription | MatrixData | null
-  >(null);
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") || "all";
 
   return (
     <Layout page="key-matrices" title="Key Matrices">
       <div className="flex w-full justify-center ">
-        <Tabs defaultValue={"all"} className="flex flex-col w-full px-2">
-          <div className="flex w-full items-center justify-center gap-5 mt-14 md:mt-20">
+        <Tabs defaultValue={tab} className="flex flex-col w-full px-2">
+          <div className="flex w-full items-center justify-center gap-5 mt-14 md:mt-20 md:mb-2">
             <MatricesSelector />
           </div>
           <div className="flex gap-5 w-full">

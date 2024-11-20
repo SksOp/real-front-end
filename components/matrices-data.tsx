@@ -1,6 +1,6 @@
 "use client";
 import { KeyMatrices, Matrix } from "@/config/matrices";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React from "react";
 import KeyMatricesCard from "./keyMatricesCard";
 import Link from "next/link";
@@ -11,10 +11,13 @@ function MatricesData() {
   const [selectedMatrix, setSelectedMatrix] = React.useState<Matrix | null>(
     KeyMatrices.find((m) => m.key === matrix) || null
   );
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab") ?? "all";
 
   const createLink = (matrix: Matrix) => (
     <Link
-      href={`/app/key-matrices/${matrix.key}`}
+      href={`/app/key-matrices/${matrix.key}?tab=${tab}`}
       onClick={() => setSelectedMatrix(matrix)}
     >
       <KeyMatricesCard
