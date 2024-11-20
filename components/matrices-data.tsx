@@ -55,27 +55,47 @@ function MatricesData() {
     (matrix) => matrix.type === "sales_index"
   ).map((matrix) => createLink(matrix));
 
-  return (
-    <div className="w-full md:border rounded-xl p-2">
-      <TabsContent value="all" className="flex flex-col  gap-3   mt-0">
-        {allMatrices}
-      </TabsContent>
-      <TabsContent value="sales" className="flex flex-col  gap-3  mt-0">
-        {salesMatrices}
-      </TabsContent>
+  const filterMatrices = (type: string) => {
+    if (type === "all") return KeyMatrices;
+    return KeyMatrices.filter((matrix) => matrix.type === type);
+  };
 
-      <TabsContent value="rentals" className="flex flex-col  gap-3  mt-0">
-        {rentalsMatrices}
-      </TabsContent>
-      <TabsContent value="supply" className="flex flex-col  gap-3   mt-0">
-        {supplyMatrices}
-      </TabsContent>
-      <TabsContent value="offplan" className="flex flex-col  gap-3  mt-0">
-        {offplanMatrices}
-      </TabsContent>
-      <TabsContent value="sales_index" className="flex flex-col  gap-3  mt-0">
-        {salesIndexMatrices}
-      </TabsContent>
+  const filteredMatrices = filterMatrices(tab);
+  const tabNames: Record<string, string> = {
+    all: "All Listings",
+    sales: "Sales Listings",
+    rentals: "Rentals Listings",
+    supply: "Supply Listings",
+    offplan: "OffPlan Listings",
+    sales_index: "Sales Index Listings",
+  };
+
+  return (
+    <div className="w-full p-2">
+      <h3 className="text-secondary font-semibold text-base pl-2 mb-2">
+        {tabNames[tab]} ({filteredMatrices.length})
+      </h3>
+      <div className="w-full md:border rounded-xl p-2">
+        <TabsContent value="all" className="flex flex-col  gap-3   mt-0">
+          {allMatrices}
+        </TabsContent>
+        <TabsContent value="sales" className="flex flex-col  gap-3  mt-0">
+          {salesMatrices}
+        </TabsContent>
+
+        <TabsContent value="rentals" className="flex flex-col  gap-3  mt-0">
+          {rentalsMatrices}
+        </TabsContent>
+        <TabsContent value="supply" className="flex flex-col  gap-3   mt-0">
+          {supplyMatrices}
+        </TabsContent>
+        <TabsContent value="offplan" className="flex flex-col  gap-3  mt-0">
+          {offplanMatrices}
+        </TabsContent>
+        <TabsContent value="sales_index" className="flex flex-col  gap-3  mt-0">
+          {salesIndexMatrices}
+        </TabsContent>
+      </div>
     </div>
   );
 }

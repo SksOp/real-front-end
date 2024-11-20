@@ -10,7 +10,6 @@ function MatricesSelector() {
   const updateQueryParams = (value: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.set("tab", value);
-    console.log(`Updating query to: ${currentParams.toString()}`);
     router.push(`?${currentParams.toString()}`);
   };
 

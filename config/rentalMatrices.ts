@@ -162,22 +162,6 @@ export const RentalMatrices: Matrix[] = [
     },
   },
   {
-    key: "residential_vs_commercial_rental",
-    title: "Residential vs Commercial Rental",
-    description:
-      "Proportion of rental transactions in residential vs commercial sectors.",
-    type: "rentals",
-    filters: RentalFilter,
-    calculate_charts: {
-      key: "residential_vs_commercial_rental",
-      calculate: async (params) => {
-        const data = await RentalSegmentation(params);
-        data.sub_charts = [];
-        return data;
-      },
-    },
-  },
-  {
     key: "property_type_rental",
     title: "Property Type Rentals",
     description:
@@ -207,12 +191,5 @@ export const RentalMatrices: Matrix[] = [
         return extractChart;
       },
     },
-  },
-  {
-    key: "number_of_bedrooms_rental",
-    title: "Number of Bedrooms Rentals",
-    description: "Rental segmentation by number of bedrooms.",
-    type: "rentals",
-    filters: RentalFilter,
   },
 ];

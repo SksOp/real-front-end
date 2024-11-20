@@ -118,7 +118,6 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             tickFormatter={formatYAxisTick}
             tickMargin={0}
             axisLine={axisLine}
-            domain={yAxisDomain}
           />
           <Tooltip cursor={false} content={<ChartTooltipContent />} />
 

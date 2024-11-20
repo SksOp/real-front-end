@@ -401,4 +401,22 @@ export const OffPlanMatrices: Matrix[] = [
       },
     },
   },
+  {
+    key: "total_units_available",
+    title: "Total Units Available",
+    description: "Total number of units currently available in the market.",
+    type: "offplan",
+  },
+  {
+    key: "total_offplan_units_planned_2024",
+    title: "Total Offplan Units Planned (in 2024)",
+    description: "Number of offplan units planned for 2024 completion.",
+    type: "offplan",
+  },
+  {
+    key: "total_offplan_units_planned_2024",
+    title: "Total Offplan Units Planned (after 2024)",
+    description: "Number of offplan units planned for future completion.",
+    type: "offplan",
+  },
 ];

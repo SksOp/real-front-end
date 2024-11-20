@@ -2,30 +2,30 @@ import { PageFilter } from "./types";
 
 export const SalesFilter: PageFilter[] = [
   {
-    key: "group_en",
+    key: "group_en", //not on backend
     label: "Transaction Type",
     options: ["Sales", "Mortgage", "Gifts"],
   },
   {
-    key: "usage_en",
+    key: "usage_en", //fixed modified backend
     label: "Usage",
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage",
   },
   {
-    key: "location",
+    key: "location", //check
     label: "Area",
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
   },
   {
-    key: "property_type",
+    key: "property_type", //modified backend
     label: "Property Type",
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
   },
   {
-    key: "property_subtype",
+    key: "property_subtype", // added route ON BACKEND
     label: "Property Subtype",
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_subtype",
@@ -54,27 +54,27 @@ export const SalesFilter: PageFilter[] = [
 
 export const RentalFilter: PageFilter[] = [
   {
-    key: "version_en",
+    key: "version_en", // Check only api/rental/ route
     label: "Rental Type",
     options: ["New", "Renew"],
   },
   {
-    key: "usage_en",
+    key: "usage_en", // check
     label: "Usage",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage",
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage_rental", //modified route call on backend changes usage_en to usage_rental
   },
   {
-    key: "location",
+    key: "location", // check
     label: "Area",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental", //check
   },
   {
     key: "property_type",
     label: "Property Type",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type_rental", // modified route call on backend changes property_type to property_type_rental
   },
   {
     key: "year",
