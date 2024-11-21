@@ -117,7 +117,7 @@ function Filters({
                       filterOptions[select.key]
                         .filter((option) =>
                           option
-                            .toLowerCase()
+                            ?.toLowerCase()
                             .includes(
                               (searchQueries[select.key] || "").toLowerCase()
                             )

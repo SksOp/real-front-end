@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Matrix } from "./matrices";
+import { MatrixData } from "./types";
 
 export const OffPlanMatrices: Matrix[] = [
   {
@@ -406,6 +407,35 @@ export const OffPlanMatrices: Matrix[] = [
     title: "Total Units Available",
     description: "Total number of units currently available in the market.",
     type: "offplan",
+    calculate_charts: {
+      key: "total_units_available",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            { params: params }
+          );
+
+          const data =
+            response.data.data[0]?.total_units_overall +
+            response.data.data[0]?.total_villas_overall;
+
+          const result: MatrixData = {
+            key: "total_units",
+            title: "Total Units",
+            value: data,
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "total_units",
+            title: "Total Units",
+            value: "N/A",
+          };
+        }
+      },
+    },
   },
   {
     key: "total_offplan_units_planned_2024",
@@ -414,7 +444,7 @@ export const OffPlanMatrices: Matrix[] = [
     type: "offplan",
   },
   {
-    key: "total_offplan_units_planned_2024",
+    key: "total_offplan_units_planned_after2024",
     title: "Total Offplan Units Planned (after 2024)",
     description: "Number of offplan units planned for future completion.",
     type: "offplan",

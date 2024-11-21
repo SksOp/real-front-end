@@ -227,11 +227,11 @@ export const SupplyMatrices: Matrix[] = [
           );
 
           const data = response.data.data[0]?.breakdown;
-
+          console.log(data);
           const chartData = data.map((item: any) => {
             return {
               year: item.year,
-              completed_units: item.completed_projects,
+              value: item.completed_projects,
             };
           });
 
@@ -289,7 +289,7 @@ export const SupplyMatrices: Matrix[] = [
           const chartData = data.map((item: any) => {
             return {
               year: item.year,
-              launched_properties: item.total_projects,
+              value: item.total_projects,
             };
           });
 
@@ -333,24 +333,57 @@ export const SupplyMatrices: Matrix[] = [
     description: "Planned property supply starting from 2024 onwards.",
     type: "supply",
     filters: SupplyFilter,
-    // calculate_charts: {
-    //   key: "Future Planned Supply",
-    // calculate: async (params) => {
-    //   try {
-    //     const response = await axios.get(
-    //       `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=100000`,
-    //       { params: params }
-    //     );
+    calculate_charts: {
+      key: "Future Planned Supply",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=100000`,
+            { params: params }
+          );
 
-    //   } catch (error) {
-    //     console.error(error);
-    //     return {
-    //       key: "Future Planned Supply",
-    //       title: "Future Planned Supply",
-    //       value: "N/A",
-    //     };
-    //   }
-    // },
+          const data = response.data.data[0]?.breakdown;
+          const chartData = data.map((item: any) => {
+            return {
+              year: item.year,
+              value: item.total_projects_new_supply,
+            };
+          });
+          return {
+            name: "Number of Yearly Launched Properties",
+            description: "Total properties launched annually.",
+            chart_type: "bar",
+            chartConfig: {
+              desktop: {
+                label: "Desktop",
+                color: "hsl(var(--chart-1))",
+              },
+            },
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: chartData, // Calculated data will be here
+          };
+        } catch (error) {
+          console.error(error);
+          return {
+            name: "Number of Yearly Launched Properties",
+            description: "Total properties launched annually.",
+            chart_type: "bar",
+            chartConfig: {
+              desktop: {
+                label: "Desktop",
+                color: "hsl(var(--chart-1))",
+              },
+            },
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: [], // Calculated data will be here
+          };
+        }
+      },
+    },
   },
   {
     key: "supply_by_price_range",
@@ -447,6 +480,32 @@ export const SupplyMatrices: Matrix[] = [
     title: "Total Developers",
     description: "Total number of active developers in the market.",
     type: "supply",
+    calculate_charts: {
+      key: "total_developers",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/developers/total`,
+            { params: params }
+          );
+          const data = response.data.data[0].developer_count;
+          console.log(data);
+          const result: MatrixData = {
+            key: "total_developers",
+            title: "Total Developers",
+            value: data,
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "total_developers",
+            title: "Total Developers",
+            value: "N/A",
+          };
+        }
+      },
+    },
   },
   {
     key: "planed_properties_by_completion_percentage",

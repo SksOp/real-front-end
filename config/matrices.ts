@@ -3,6 +3,7 @@ import { SalesMatrices } from "./salesMatrices";
 import { RentalMatrices } from "./rentalMatrices";
 import { OffPlanMatrices } from "./offplanMatrices";
 import { SupplyMatrices } from "./supplyMatrices";
+import { SalesIndexMatrices } from "./sales_index";
 
 export interface Matrix {
   key: string;
@@ -24,4 +25,5 @@ export const KeyMatrices: Matrix[] = [
   ...RentalMatrices,
   ...SupplyMatrices,
   ...OffPlanMatrices,
+  ...SalesIndexMatrices,
 ];
