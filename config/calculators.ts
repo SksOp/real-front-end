@@ -166,7 +166,7 @@ export const Calculators: Calculator[] = [
       } catch (error) {
         console.error(`Error fetching data :`, error);
         return {
-          estimated_sales_value: "N/A",
+          estimated_sales_value: "Data not found for the specified filters.",
           insights: `Cannot calculate the estimated sales value.`,
         };
       }
@@ -346,7 +346,7 @@ export const Calculators: Calculator[] = [
       } catch (error) {
         console.error(`Error fetching data :`, error);
         return {
-          estimated_sales_value: "N/A",
+          estimated_rental_value: "Data not found for the specified filters.",
           insights: `Cannot calculate the estimated sales value.`,
         };
       }

@@ -66,7 +66,7 @@ function CalculatorOutputs({
       return <HomeAffordibilityCalculator inputs={output} />;
 
     case "estimationCard":
-      console.log(output.confidenceLevel);
+      console.log(value);
       return (
         <EstimationCard
           title={title}

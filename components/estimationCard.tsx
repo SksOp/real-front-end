@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface CalculatorResultHeaderProps {
   title: string;
-  value: number;
+  value: number | string;
   confidenceLevel?: number;
 }
 
@@ -13,12 +13,14 @@ function EstimationCard({
   value,
   confidenceLevel = 0,
 }: CalculatorResultHeaderProps) {
-  console.log(confidenceLevel);
+  console.log(value);
   return (
     <Card className="border rounded-lg p-4 flex flex-col gap-3 w-full">
       <h3 className="text-muted-foreground text-sm font-normal">{title}</h3>
       <div className="flex gap-1">
-        <h3 className="text-secondary font-bold text-[1.6rem]">{value} AED</h3>
+        <h3 className="text-secondary font-bold text-[1.6rem]">
+          {typeof value === "number" ? `${value} AED` : value}
+        </h3>
       </div>
       <div className="w-full flex justify-center items-center gap-1">
         <div className={cn("h-0.5 w-full bg-[#E0E0E0]", "bg-[#FF7171]")} />
