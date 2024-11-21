@@ -512,9 +512,298 @@ export const OffPlanMatrices: Matrix[] = [
     calculate_charts: {
       key: "offplan_price_index",
       calculate: async (params) => {
+        params = params || {};
+
+        params["IS_OFFPLAN_EN"] = "Off-Plan";
         const data = await SalesIndex(params);
         data.sub_charts = [];
         return data;
+      },
+    },
+  },
+  {
+    key: "avg_value_villa",
+    title: "Average Value (Villa)",
+    description: "Average value per villa offplan units.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_value_villa",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+
+          const result: MatrixData = {
+            key: "avg_value_villa",
+            title: "Average Value (Villa)",
+            value: data.avg_worth_offplan_villa.toFixed(2),
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "avg_value_villa",
+            title: "Average Value (Villa)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "avg_value_units",
+    title: "Average Value (Unit)",
+    description: "Average value per apartment offplan units.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_value_units",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+
+          const result: MatrixData = {
+            key: "avg_value_units",
+            title: "Average Value (Unit)",
+            value: data.avg_worth_offplan_villa.toFixed(2),
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "avg_value_units",
+            title: "Average Value (Unit)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "avg_price_per_sqft_villa",
+    title: "Average Price per Sqft (Villa)",
+    description: "Average price per square foot for offplan villa properties.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_price_per_sqft_villa",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+
+          const result: MatrixData = {
+            key: "avg_price_per_sqft_villa",
+            title: "Average Price per Sqft (Villa)",
+            value: data.avg_price_per_sqft_offplan_villa.toFixed(2),
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "avg_price_per_sqft_villa",
+            title: "Average Price per Sqft (Villa)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "avg_price_per_sqft_units",
+    title: "Average Price per Sqft (Unit)",
+    description:
+      "Average price per square foot for offplan apartment properties.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_price_per_sqft_units",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+
+          const result: MatrixData = {
+            key: "avg_price_per_sqft_units",
+            title: "Average Price per Sqft (Unit)",
+            value: data.avg_price_per_sqft_offplan_unit.toFixed(2),
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "avg_price_per_sqft_units",
+            title: "Average Price per Sqft (Unit)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "avg_price_overall",
+    title: "Average Price (Overall)",
+    description: "Average price for offplan properties.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_price_overall",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+
+          const result: MatrixData = {
+            key: "avg_price_overall",
+            title: "Average Price (Overall)",
+            value: data.total_worth_offplan.toFixed(2),
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "avg_price_overall",
+            title: "Average Price (Overall)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "avg_price_per_sqft_overall",
+    title: "Average Price per Sqft (Overall)",
+    description: "Average price per square foot for offplan properties.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_price_per_sqft_overall",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+
+          const result: MatrixData = {
+            key: "avg_price_per_sqft_overall",
+            title: "Average Price per Sqft (Overall)",
+            value: data.avg_price_per_sqft_offplan.toFixed(2),
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "avg_price_per_sqft_overall",
+            title: "Average Price per Sqft (Overall)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "avg_value_rooms",
+    title: "Average value by No. of rooms",
+    description: "Average value of the property by no of bedrooms.",
+    type: "offplan",
+    calculate_charts: {
+      key: "avg_value_rooms",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            { params: params }
+          );
+          const data = response.data.data.data[0];
+          const chartsData = [
+            {
+              name: "Studio",
+              value: data.avg_trans_value_studio,
+              colorClass: "bg-[#FFC8C8]",
+            },
+            {
+              name: "1 BHK",
+              value: data.avg_trans_value_1bhk,
+              colorClass: "bg-[#E2FFEB]",
+            },
+            {
+              name: "2 BHK",
+              value: data.avg_trans_value_2bhk,
+              colorClass: "bg-[#FFE2E2]",
+            },
+            {
+              name: "3 BHK",
+              value: data.avg_trans_value_3bhk,
+              colorClass: "bg-[#FFF3E0]",
+            },
+            {
+              name: "4 BHK",
+              value: data.avg_trans_value_4bhk,
+              colorClass: "bg-[#E5F2FF]",
+            },
+            {
+              name: "5 BHK+",
+              value: data.avg_trans_value_5bhk_plus,
+              colorClass: "bg-[#FFDBDB]",
+            },
+            {
+              name: "Penthouse",
+              value: data.avg_trans_value_penthouse,
+              colorClass: "bg-[#FCF8D1]",
+            },
+          ];
+          return {
+            name: "Average value by No. of rooms",
+            description: "Average value of the property by no of bedrooms.",
+            chart_type: "donut",
+            chartConfig: {
+              Studio: { color: "#FFC8C8" },
+              "1 BHK": { color: "#E2FFEB" },
+              "2 BHK": { color: "#FFE2E2" },
+              "3 BHK": { color: "#FFF3E0" },
+              "4 BHK": { color: "#E5F2FF" },
+              "5 BHK+": { color: "#FFDBDB" },
+              Penthouse: { color: "#FCF8D1" },
+            },
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: chartsData, // Calculated data will be here
+          };
+        } catch (error) {
+          console.error(error);
+          return {
+            name: "Average value by No. of rooms",
+            description: "Average value of the property by no of bedrooms.",
+            chart_type: "donut",
+            chartConfig: {
+              Studio: { color: "#FFC8C8" },
+              "1 BHK": { color: "#E2FFEB" },
+              "2 BHK": { color: "#FFE2E2" },
+              "3 BHK": { color: "#FFF3E0" },
+              "4 BHK": { color: "#E5F2FF" },
+              "5 BHK+": { color: "#FFDBDB" },
+              Penthouse: { color: "#FCF8D1" },
+            },
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: [], // Calculated data will be here
+          };
+        }
       },
     },
   },
