@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Matrix } from "./matrices";
 import { MatrixData } from "./types";
+import { SalesIndex } from "./utility";
 
 export const OffPlanMatrices: Matrix[] = [
   {
@@ -442,11 +443,79 @@ export const OffPlanMatrices: Matrix[] = [
     title: "Total Offplan Units Planned (in 2024)",
     description: "Number of offplan units planned for 2024 completion.",
     type: "offplan",
+    calculate_charts: {
+      key: "total_offplan_units_planned_2024",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=2024`,
+            { params: params }
+          );
+
+          const data = response.data.data[0].total_projects_new_supply_overall;
+
+          const result: MatrixData = {
+            key: "total_offplan_units_planned_2024",
+            title: "Total Offplan Units Planned (in 2024)",
+            value: data,
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "total_offplan_units_planned_2024",
+            title: "Total Offplan Units Planned (in 2024)",
+            value: "N/A",
+          };
+        }
+      },
+    },
   },
   {
     key: "total_offplan_units_planned_after2024",
     title: "Total Offplan Units Planned (after 2024)",
     description: "Number of offplan units planned for future completion.",
     type: "offplan",
+    calculate_charts: {
+      key: "total_offplan_units_planned_2024",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=10000`,
+            { params: params }
+          );
+
+          const data = response.data.data[0].total_projects_new_supply_overall;
+
+          const result: MatrixData = {
+            key: "total_offplan_units_planned_2024",
+            title: "Total Offplan Units Planned (in 2024)",
+            value: data,
+          };
+          return result;
+        } catch (error) {
+          console.error(error);
+          return {
+            key: "total_offplan_units_planned_2024",
+            title: "Total Offplan Units Planned (in 2024)",
+            value: "N/A",
+          };
+        }
+      },
+    },
+  },
+  {
+    key: "offplan_price_index",
+    title: "Offplan Price Index",
+    description: "Price index and benchmark for offplan properties",
+    type: "offplan",
+    calculate_charts: {
+      key: "offplan_price_index",
+      calculate: async (params) => {
+        const data = await SalesIndex(params);
+        data.sub_charts = [];
+        return data;
+      },
+    },
   },
 ];

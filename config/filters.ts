@@ -38,7 +38,7 @@ export const SalesFilter: PageFilter[] = [
   {
     key: "IS_OFFPLAN_EN",
     label: "Ready v/s Offplan",
-    options: ["Ready", "Offplan"],
+    options: ["Ready", "Off-plan"],
   },
   {
     key: "IS_FREE_HOLD_EN",

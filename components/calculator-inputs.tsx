@@ -99,6 +99,7 @@ function CalculatorInputs({
     const fetchOptions = async () => {
       if (source) {
         const data = await fetchAndStoreOptions(uniqueKey, source);
+        console.log(data);
         if (Array.isArray(data) && data?.length > 0) setFetchedOptions(data);
       }
     };

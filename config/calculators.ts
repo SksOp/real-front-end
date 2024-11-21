@@ -42,18 +42,18 @@ export const Calculators: Calculator[] = [
         searchable: true,
         is_mandatory: true,
       },
-      {
-        key: "select_developer",
-        label: "Select Developer",
-        type: "dropdown",
-        options: ["A", "B", "C", "D"],
-        //all the unique developers from transactions should be listed here;
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer_en",
-        placeholder: "select developer",
-        searchable: true,
-        is_mandatory: false,
-      },
+      // {
+      //   key: "select_developer",
+      //   label: "Select Developer",
+      //   type: "dropdown",
+      //   options: ["A", "B", "C", "D"],
+      //   //all the unique developers from transactions should be listed here;
+      //   source:
+      //     "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer_en",
+      //   placeholder: "select developer",
+      //   searchable: true,
+      //   is_mandatory: false,
+      // },
       {
         key: "choose_project",
         label: "Choose Project",
@@ -79,8 +79,7 @@ export const Calculators: Calculator[] = [
         type: "dropdown",
         options: ["Villa", "Unit", "Building", "Land"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
-        //options will change based on the usage type if its residential/commercial; also this list might be incomplete!
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type",
         placeholder: "select type",
         is_mandatory: true,
       },
@@ -97,7 +96,8 @@ export const Calculators: Calculator[] = [
         type: "dropdown",
         options: [1, 2, 3, 4, 5, "6+"],
         //all the unique values from relevent column from transactions should be listed here;
-
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
         is_mandatory: true,
       },
     ],
@@ -215,18 +215,18 @@ export const Calculators: Calculator[] = [
         searchable: true,
         is_mandatory: true,
       },
-      {
-        key: "select_developer",
-        label: "Select Developer",
-        type: "dropdown",
-        options: ["A", "B", "C", "D"],
-        //all the unique developers from transactions should be listed here;
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer_en",
-        placeholder: "select developer",
-        searchable: true,
-        is_mandatory: false,
-      },
+      // {
+      //   key: "select_developer",
+      //   label: "Select Developer",
+      //   type: "dropdown",
+      //   options: ["A", "B", "C", "D"],
+      //   //all the unique developers from transactions should be listed here;
+      //   source:
+      //     "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer_en",
+      //   placeholder: "select developer",
+      //   searchable: true,
+      //   is_mandatory: false,
+      // },
       {
         key: "choose_project",
         label: "Choose Project",
@@ -252,7 +252,7 @@ export const Calculators: Calculator[] = [
         type: "dropdown",
         options: ["Villa", "Unit", "Building", "Land"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type",
         //options will change based on the usage type if its residential/commercial; also this list might be incomplete!
         placeholder: "select type",
         is_mandatory: true,
@@ -272,6 +272,8 @@ export const Calculators: Calculator[] = [
         label: "No. of Bedrooms",
         type: "dropdown",
         options: [1, 2, 3, 4, 5, "6+"],
+        source:
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
         is_mandatory: true,
       },
     ],
