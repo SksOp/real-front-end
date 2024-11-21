@@ -36,6 +36,7 @@ function MatrixDataPage() {
     const fetchMatrixData = async () => {
       const matrixData = KeyMatrices.find((m) => m.key === matrix);
       setSelectedMatrix(matrixData || null);
+      filters["year"] = new Date().getFullYear();
       const chartData = await matrixData?.calculate_charts?.calculate(filters);
       setSelectedChart(chartData || null);
     };

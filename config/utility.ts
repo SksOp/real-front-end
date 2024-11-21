@@ -298,6 +298,7 @@ export const SalesValueTrend = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
+    params = {};
     const date = new Date();
     const end_year = date.getFullYear();
     const start_year = end_year - 9;
@@ -372,6 +373,7 @@ export const SalesTrend = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
+    params = {};
     const date = new Date();
     const end_year = date.getFullYear();
     const start_year = end_year - 9;
@@ -496,6 +498,7 @@ export const SalesPriceRanges = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
+    params = {};
     const date = new Date();
     const end_year = date.getFullYear();
     const responseRange = await axios.get(

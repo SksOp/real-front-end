@@ -21,12 +21,12 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "total_sales_value",
       calculate: async (params) => {
+        params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
         const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
           presentYear - 1
         }&end_year=${presentYear}`;
-
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[2];
       },
@@ -42,6 +42,7 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "average_sales_value",
       calculate: async (params) => {
+        params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
         const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
@@ -63,6 +64,7 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "average_price_per_sqft",
       calculate: async (params) => {
+        params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
         const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
@@ -84,6 +86,7 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "total_sales_value",
       calculate: async (params) => {
+        params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
         const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
