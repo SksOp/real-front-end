@@ -1,8 +1,13 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
-import { AreaSizeIcon, BathIcon, BedIcon } from "@/public/svg/icons";
+import {
+  AreaSizeIcon,
+  BathIcon,
+  BedIcon,
+  FilterIcon,
+} from "@/public/svg/icons";
 import {
   Pagination,
   PaginationContent,
@@ -12,6 +17,15 @@ import {
 } from "./ui/pagination";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight, MoveLeft, MoveRight } from "lucide-react";
+import { FormatValue } from "@/utils/formatNumbers";
+import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import TransactionFilter from "./transaction-filter";
 
 interface TransactionTableRowProps {
   areaName: string;
@@ -56,21 +70,22 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
           isSelected && "rounded-xl border border-primary"
         )}
       >
-        <div className="flex flex-col justify-start gap-1 items-start">
+        <div className="flex flex-col justify-start gap-2 w-1/5 items-start">
           <Badge
             variant="outline"
-            className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1"
+            className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1 truncate max-w-[150px]"
           >
             {areaName}
           </Badge>
-          <div className="flex gap-1">
+          <div className="flex gap-1 ml-2">
             <h3 className="text-secondary text-sm font-semibold">
-              {transactionAmount}
+              {FormatValue(transactionAmount)}
             </h3>
             <span className="text-red-600 font-medium">21%</span>
           </div>
         </div>
-        <div className="flex flex-col justify-start gap-1 items-start">
+
+        <div className="flex flex-col justify-start gap-1 w-1/8  items-start">
           <h3 className="text-muted-foreground font-medium text-[11px]">
             Date
           </h3>
@@ -82,7 +97,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             })}
           </h3>
         </div>
-        <div className="flex flex-col justify-start gap-1 items-start">
+        <div className="flex flex-col justify-start gap-1 w-1/8 items-start">
           <h3 className="text-muted-foreground font-medium text-[11px]">
             Price Per sq. ft
           </h3>
@@ -90,7 +105,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             {pricePerSqFt}
           </h3>
         </div>
-        <div className="flex flex-col justify-start gap-1 items-start">
+        <div className="flex flex-col justify-start gap-2 w-1/4 items-start">
           <div className="flex justify-start gap-1 items-center w-full">
             {badges.map((badge, index) => (
               <Badge
@@ -103,7 +118,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             ))}
           </div>
           <div>
-            <div className="flex w-full justify-start items-center gap-6 ">
+            <div className="flex w-full justify-start items-center gap-6 pl-2">
               <div className="flex gap-1 justify-start items-center">
                 <BedIcon className="w-4 h-4" />
                 <p className="text-muted-foreground font-normal text-xs">
@@ -129,7 +144,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
           variant="outline"
           className={cn(
             "text-white font-medium text-[11px] py-1",
-            tag === "Sale" ? "bg-[#8177E5]" : "bg-[#509BDC]"
+            tag === "First" ? "bg-[#8177E5]" : "bg-[#509BDC]"
           )}
         >
           {tag}
@@ -139,26 +154,53 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
   );
 };
 
-interface PriceChangesTableProps {
+interface TransactionTableProps {
   data: TransactionTableRowProps[];
+  totalPages: number;
+  selectedTab: string;
   selectedRow?: number | null;
   onRowSelect?: (index: number) => void;
 }
 
-const TransactionTable: React.FC<PriceChangesTableProps> = ({
+const TransactionTable: React.FC<TransactionTableProps> = ({
   data,
+  selectedTab,
   selectedRow,
+  totalPages,
   onRowSelect,
 }) => {
-  const [pageIndex, setPageIndex] = React.useState(0);
-  const pageSize = 10;
+  const [pageIndex, setPageIndex] = React.useState(1);
+  const [transactions, setTransactions] =
+    React.useState<TransactionTableRowProps[]>(data);
+
+  const fetchTransactions = async (page: number) => {
+    if (selectedTab === "sales") {
+      const response = await SalesTransactionApi(page);
+      console.log(response);
+      setTransactions(response.transactions);
+    } else {
+      const response = await RentalTransactionApi(page);
+      console.log(response);
+      setTransactions(response.transactions);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions(pageIndex);
+  }, [pageIndex, selectedTab]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPageIndex(newPage);
+    }
+  };
 
   return (
-    <>
+    <div className="flex flex-col gap-3 w-full">
       <div className="border rounded-xl w-full overflow-hidden">
         <Table>
           <TableBody>
-            {data?.map((row, index) => (
+            {transactions?.map((row, index) => (
               <TransactionTableRow
                 key={index}
                 {...row}
@@ -170,38 +212,84 @@ const TransactionTable: React.FC<PriceChangesTableProps> = ({
           </TableBody>
         </Table>
       </div>
-      <Pagination className="flex items-center justify-end  bg-background px-6 py-3.5">
+      <Pagination className="flex items-center justify-end bg-background px-6 py-3.5">
         <PaginationContent>
-          <PaginationItem>
+          {/* Previous Button */}
+          <PaginationItem
+            onClick={() => handlePageChange(pageIndex - 1)}
+            className="cursor-pointer"
+          >
             <ChevronLeft />
           </PaginationItem>
 
+          {/* First Page */}
           <PaginationItem>
-            <PaginationLink href="#" isActive>
+            <PaginationLink
+              href="#"
+              isActive={pageIndex === 1}
+              onClick={() => handlePageChange(1)}
+            >
               1
             </PaginationLink>
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">4</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">16</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
+
+          {/* Ellipsis Before Current Page */}
+          {pageIndex > 3 && (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          )}
+
+          {/* Middle Pages */}
+          {Array.from({ length: totalPages }, (_, index) => index + 1)
+            .filter(
+              (page) =>
+                page !== 1 && // First Page
+                (page === pageIndex ||
+                  (page >= pageIndex - 1 && page <= pageIndex + 1)) // Pages around current
+            )
+            .map((page) => (
+              <PaginationItem key={page} className="cursor-pointer">
+                <PaginationLink
+                  href="#"
+                  isActive={pageIndex === page}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+          {/* Ellipsis After Current Page */}
+          {pageIndex < totalPages - 2 && (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          )}
+
+          {/* Last Page */}
+          {totalPages > 1 && (
+            <PaginationItem className="cursor-pointer">
+              <PaginationLink
+                href="#"
+                isActive={pageIndex === totalPages}
+                onClick={() => handlePageChange(totalPages)}
+              >
+                {totalPages}
+              </PaginationLink>
+            </PaginationItem>
+          )}
+
+          {/* Next Button */}
+          <PaginationItem
+            onClick={() => handlePageChange(pageIndex + 1)}
+            className="cursor-pointer"
+          >
             <ChevronRight />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </>
+    </div>
   );
 };
 

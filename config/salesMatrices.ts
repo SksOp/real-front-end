@@ -1,14 +1,14 @@
 import { SalesFilter } from "./filters";
 import { Matrix } from "./matrices";
+import { CalculateMatrix } from "./utility";
 import {
-  CalculateMatrix,
   SalesIndex,
   SalesPriceRanges,
   SalesSegmentation,
   SalesTrend,
   SalesTypeChart,
   SalesValueTrend,
-} from "./utility";
+} from "./sales";
 
 export const SalesMatrices: Matrix[] = [
   {

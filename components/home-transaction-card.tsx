@@ -4,14 +4,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Info } from "lucide-react";
 import MatrixCard from "./matrix-card";
 
-function HomeTransactionCard() {
-  const data = [
-    { title: "Average Rental Value", value: "120 K", growth: -21 },
-    { title: "Sales per SQFT", value: "$3.5 M", growth: 21 },
-    { title: "Total Value", value: "165 K", growth: 21 },
-    { title: "No of Transactions", value: "20", growth: -21 },
-  ];
+interface MatrixCardProps {
+  title: string;
+  value: string;
+  growth?: number;
+}
 
+interface HomeTransactionCardProps {
+  cardItems: MatrixCardProps[];
+}
+
+function HomeTransactionCard({ cardItems }: HomeTransactionCardProps) {
   return (
     <Card className="border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-3">
       <CardHeader className="flex flex-row justify-between items-center text-center p-0 w-full ">
@@ -44,7 +47,7 @@ function HomeTransactionCard() {
           </TabsList>
           <TabsContent value="sales" className="w-full flex  ">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
-              {data.map((item, index) => (
+              {cardItems.map((item, index) => (
                 <MatrixCard
                   key={index}
                   title={item.title}

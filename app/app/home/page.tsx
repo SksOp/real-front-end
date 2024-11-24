@@ -16,7 +16,14 @@ function HomePage() {
   return (
     <Layout page="home">
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA]  mt-20 px-3 flex flex-col gap-3">
-        <HomeTransactionCard />
+        <HomeTransactionCard
+          cardItems={[
+            { title: "Average Rental Value", value: "120 K", growth: -21 },
+            { title: "Sales per SQFT", value: "$3.5 M", growth: 21 },
+            { title: "Total Value", value: "165 K", growth: 21 },
+            { title: "No of Transactions", value: "20", growth: -21 },
+          ]}
+        />
         <HomeInsights />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <HomeSalesIndex />

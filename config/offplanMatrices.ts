@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Matrix } from "./matrices";
 import { MatrixData } from "./types";
-import { SalesIndex } from "./utility";
+import { SalesIndex } from "./sales";
 
 export const OffPlanMatrices: Matrix[] = [
   {

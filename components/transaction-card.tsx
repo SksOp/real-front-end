@@ -9,6 +9,7 @@ import {
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
 import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
+import { FormatValue } from "@/utils/formatNumbers";
 // import { LastFiveTransactionprops } from "@/types/transactionCard";
 
 // function formatNumber(value: number): number {
@@ -42,15 +43,14 @@ import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 // }
 
 interface TransactionCardProps {
+  areaName: string;
+  transactionAmount: string;
   date: Date;
-  formattedValue: string;
-  formattedPerSqFtWithUnits: string;
+  pricePerSqFt: string;
   badges: string[];
-  AREA_EN: string;
-  ROOMS_EN: string;
-  ACTUAL_AREA: number;
-  TRANS_VALUE: number;
-  growth: number;
+  bathrooms: number;
+  bedrooms: number;
+  area: number;
   tag: string;
 }
 
@@ -90,7 +90,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
           <div
             className={cn(
               "px-2  h-5 text-xs absolute pt-[0.1rem] font-normal right-0 text-white rounded-l-full",
-              props.tag === "Renew" || props.tag === "Resale"
+              props.tag === "First" || props.tag === "New"
                 ? "bg-[#8177E5]"
                 : "bg-[#509BDC]"
             )}
@@ -99,38 +99,26 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
           </div>
         </div>
         <h1 className="text-secondary text-sm font-semibold flex gap-1 items-center justify-start">
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "AED",
-          }).format(Number(props.formattedValue))}
-          {Number(props.TRANS_VALUE) > 1_000_000_000
-            ? "B"
-            : Number(props.TRANS_VALUE) > 1_000_000
-            ? "M"
-            : "K"}
+          {FormatValue(props.transactionAmount)}
           <span className="text-muted-foreground text-sm font-medium ">
-            ({props.formattedPerSqFtWithUnits} per sq. ft)
+            ({props.pricePerSqFt} per sq. ft)
           </span>
-          {props.growth > 0 ? (
+          {/* {22 > 0 ? (
             <div className="flex items-center justify-start gap-0.5">
               <CircularUpIcon className="h-4 w-4" />
-              <p className="text-green-600 font-medium text-xs">
-                {props.growth}%
-              </p>
+              <p className="text-green-600 font-medium text-xs">{22}%</p>
             </div>
           ) : (
             <div className="flex items-center justify-start gap-0.5">
               <CircularDownIcon className="h-4 w-4" />
-              <p className="text-red-600 font-medium text-xs">
-                {-props.growth}%
-              </p>
+              <p className="text-red-600 font-medium text-xs">{-22}%</p>
             </div>
-          )}
+          )} */}
         </h1>
         <div className="flex justify-start gap-2 items-center">
           <LocationIcon />
           <p className="text-muted-foreground text-xs font-normal">
-            {props.AREA_EN}
+            {props.areaName}
           </p>
         </div>
       </CardHeader>
@@ -150,20 +138,20 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
           <div className="flex gap-1 justify-start items-center">
             <BedIcon className="w-4 h-4" />
             <p className="text-muted-foreground font-normal text-xs">
-              {props.ROOMS_EN}{" "}
+              {props.bedrooms}{" "}
             </p>
           </div>
           <div className="flex gap-1 justify-start items-center">
             <BathIcon className="w-4 h-4" />
             <p className="text-muted-foreground font-normal text-xs">
-              {props.ROOMS_EN}{" "}
+              {props.bathrooms}{" "}
             </p>
           </div>
 
           <div className="flex gap-1 justify-start items-center">
             <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />
             <p className="text-muted-foreground font-normal text-xs">
-              {1456} sqft
+              {props.pricePerSqFt} sqft
             </p>
           </div>
         </div>
