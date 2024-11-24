@@ -78,7 +78,7 @@ function Navbar({
               <TabsTrigger
                 value="transactions"
                 className="text-sm"
-                onClick={() => router.push("/app/sales-transactions")}
+                onClick={() => router.push("/app/transactions")}
               >
                 Transactions
               </TabsTrigger>

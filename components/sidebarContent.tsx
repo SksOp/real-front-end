@@ -53,7 +53,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/sales-transactions")}
+          onClick={() => router.push("/app/transactions?type=sales")}
         >
           <TransactionIcon />
           Sales Transactions
@@ -61,7 +61,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/rental-transactions")}
+          onClick={() => router.push("/app/transactions?type=rental")}
         >
           <TransactionIcon />
           Rental Transactions
