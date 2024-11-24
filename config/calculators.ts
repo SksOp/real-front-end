@@ -161,7 +161,9 @@ export const Calculators: Calculator[] = [
           confidenceLevel: confidenceValue,
           insights: `Estimated sales value: AED ${FormatValue(
             estimated_sales_value.toFixed(2)
-          )}. Calculation based on 98,765 similar properties in Business Bay. Offers market-aligned value for quick decisions.`,
+          )}. Calculation based on ${FormatValue(
+            confidenceValue
+          )} similar properties in ${choose_location}. Offers market-aligned value for quick decisions.`,
         };
       } catch (error) {
         console.error(`Error fetching data :`, error);
@@ -341,7 +343,9 @@ export const Calculators: Calculator[] = [
           confidenceLevel: totalConfidence,
           insights: `Estimated rental value: AED ${FormatValue(
             estimated_rental_value.toFixed(2)
-          )} annually. Derived from 98,765 properties in Business Bay. Helps assess realistic rental pricing.`,
+          )} annually. Derived from ${FormatValue(
+            totalConfidence
+          )} properties in ${choose_location}. Helps assess realistic rental pricing.`,
         };
       } catch (error) {
         console.error(`Error fetching data :`, error);
@@ -753,10 +757,18 @@ export const Calculators: Calculator[] = [
         });
       }
       console.log("breakdown: ", breakdown);
+      const totalProfitPercentage = (
+        (totalReturn / purchasePrice) *
+        100
+      ).toFixed(2);
 
-      const insight = `With a 10% growth rate and potential rental yield, a 10-year investment could appreciate to AED ${FormatValue(
+      const insight = `With an annual growth rate of ${(
+        annualAppreciationRate * 100
+      ).toFixed(
+        2
+      )}% and potential rental yield, a ${holdingPeriod}-year investment could appreciate to AED ${FormatValue(
         annualizedROI.toFixed(2)
-      )}, achieving a 300% ROI—an attractive yield compared to alternative investments.`;
+      )}, achieving a ${totalProfitPercentage}% return compared to the original investment—an attractive yield compared to alternative investments.`;
 
       return {
         annualized_roi: annualizedROI.toFixed(2),
@@ -844,11 +856,6 @@ export const Calculators: Calculator[] = [
           Buy: { color: "#EFEEFC" },
         },
       },
-      {
-        key: "insight",
-        label: "Insight",
-        type: "insights",
-      },
     ],
     calculate: (inputs) => {
       let {
@@ -865,7 +872,11 @@ export const Calculators: Calculator[] = [
       const mortgageRate = parseFloat(mortgage_rate);
       const holdingPeriod = parseInt(rent_duration);
 
-      const totalRentPaid = monthlyRent * 12 * holdingPeriod;
+      const annualAppreciationRate = 0.05;
+      let totalRentPaid = 0;
+      let mortgagePayment = ((home_price - down_payment) * mortgage_rate) / 12;
+      let totalMortgagePaid = 0;
+      let propertyValue = homePrice;
       const loanAmount = homePrice - downPayment;
       const monthlyRate = mortgageRate / 100 / 12;
       const loanTermYears = holdingPeriod;
@@ -891,8 +902,44 @@ export const Calculators: Calculator[] = [
         });
       }
 
-      const insights = `Renting is currently cost-effective. However, if you plan to stay for over 10 years, buying becomes financially advantageous.`;
+      let breakevenYear = null;
+      for (let year = 1; year <= rent_duration; year++) {
+        totalRentPaid += monthly_rent * 12;
+        totalMortgagePaid += mortgagePayment * 12;
+        propertyValue *= 1 + annualAppreciationRate;
 
+        // Adjust rent and mortgage as needed
+        if (totalMortgagePaid >= totalRentPaid && !breakevenYear) {
+          breakevenYear = year;
+        }
+      }
+
+      const totalCostOfBuying = down_payment + totalMortgagePaid;
+      const comparisonValue = totalCostOfBuying - totalRentPaid;
+
+      let insights = [];
+      if (comparisonValue > 0) {
+        insights.push(
+          "Renting is currently cost-effective. However, if you plan to stay for over 10 years, buying becomes financially advantageous."
+        );
+      } else {
+        insights.push(
+          "Given the projected rent, buying surpasses renting in long-term financial benefits."
+        );
+      }
+
+      if (breakevenYear) {
+        insights.push(
+          `Buying becomes advantageous after ${breakevenYear} years of ownership.`
+        );
+      }
+
+      if (monthly_rent > mortgagePayment) {
+        insights.push(
+          "Buying a property may provide greater stability and investment benefits than renting, especially in high-demand areas."
+        );
+      }
+      const insightsString = insights.join("\n");
       // const insights =
       //   comparisonValue > 0
       //     ? "Renting is more beneficial than buying."
@@ -932,7 +979,7 @@ export const Calculators: Calculator[] = [
             fill: "#F0FCF3",
           },
         ],
-        insights: "insights",
+        insights: insightsString,
       };
     },
   },

@@ -1,5 +1,8 @@
 import axios, { all } from "axios";
 import { Dashboard } from "./types";
+import { SalesFilter } from "./filters";
+import { CalculateMatrix } from "./utility";
+import { SalesTypeChart, SalesValueTrend } from "./sales";
 
 export const dashboards: Dashboard[] = [
   {
@@ -55,286 +58,30 @@ export const dashboards: Dashboard[] = [
       usage: null,
       mode: "sales",
     },
-    page_filters: [
-      {
-        key: "bedroom",
-        label: "Bedroom",
-        options: ["1", "2", "3", "4", "5", "6"],
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
-      },
-      {
-        key: "developer",
-        label: "Developer",
-        options: ["A", "B", "C", "D"],
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
-      },
-      {
-        key: "location",
-        label: "Location",
-        source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
-        options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
-        searchable: true,
-      },
-      {
-        key: "freehold",
-        label: "Freehold",
-        options: ["Yes", "No"],
-      },
-    ],
+    page_filters: SalesFilter,
 
     calculate_matrics: async (params) => {
       console.log("params", params);
-      try {
-        const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
-          {
-            params: params,
-          }
-        );
-
-        console.log("response", response.data);
-        const transactions = response.data.data.data;
-
-        if (transactions.length === 0) {
-          throw new Error("No transactions found for the specified filters.");
-        }
-
-        const growthCalculator = (current: number, previous: number) =>
-          ((current - previous) / previous) * 100;
-
-        const avgSalesValue = transactions[1].average_value_of_transactions;
-        const avgSalesValueGrowth = growthCalculator(
-          parseFloat(avgSalesValue),
-          parseFloat(transactions[0].average_value_of_transactions)
-        );
-        const avgPricePerSqft = transactions[1].average_Price_per_sqft;
-        const salesPerSqftGrowth = growthCalculator(
-          parseFloat(avgPricePerSqft),
-          parseFloat(transactions[0].average_Price_per_sqft)
-        );
-        const totalValue = transactions[1].Total_Value_of_Transaction;
-        const totalValueGrowth = growthCalculator(
-          parseFloat(totalValue),
-          parseFloat(transactions[0].Total_Value_of_Transaction)
-        );
-        const noOfTransactions = transactions[1].number_of_Row_Used;
-        const noOfTransactionsGrowth = growthCalculator(
-          parseFloat(noOfTransactions),
-          parseFloat(transactions[0].number_of_Row_Used)
-        );
-
-        return [
-          {
-            key: "avg_sales_value",
-            title: "Average Sales Value",
-            value: avgSalesValue.toFixed(2),
-            growth: avgSalesValueGrowth.toFixed(2),
-          },
-          {
-            key: "avg_price_per_sqft",
-            title: "Avg. Price per SQFT",
-            value: avgPricePerSqft.toFixed(2),
-            growth: salesPerSqftGrowth.toFixed(2),
-          },
-          {
-            key: "total_value",
-            title: "Total Value",
-            value: totalValue.toFixed(2),
-            growth: totalValueGrowth.toFixed(2),
-          },
-          {
-            key: "no_of_transactions",
-            title: "No of Transactions",
-            value: noOfTransactions,
-            growth: noOfTransactionsGrowth.toFixed(2),
-          },
-        ];
-      } catch (error) {
-        console.error("Error calculating metrics:", error);
-        return [
-          {
-            key: "avg_sales_value",
-            title: "Average Sales Value",
-            value: "N/A",
-          },
-          {
-            key: "sales_per_sqft",
-            title: "Sales Per Sqft",
-            value: "N/A",
-          },
-          {
-            key: "total_value",
-            title: "Total Value",
-            value: "N/A",
-          },
-          {
-            key: "no_of_transactions",
-            title: "No of Transactions",
-            value: "N/A",
-          },
-        ];
-      }
+      const date = new Date();
+      const presentYear = date.getFullYear();
+      const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
+        presentYear - 1
+      }&end_year=${presentYear}`;
+      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
         calculate: async (params) => {
-          try {
-            const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
-              {
-                params: params,
-              }
-            );
-            // Will do the required calculation here and return the data to build graph
-            const data = response.data.data.data;
-            console.log("data Transs", data);
-            const totalSalesSum = data.reduce(
-              (acc: number, curr: any) => acc + curr.types.group_en.total_sales,
-              0
-            );
-
-            const totalMortageSum = data.reduce(
-              (acc: number, curr: any) =>
-                acc + curr.types.group_en.total_mortgage,
-              0
-            );
-
-            const totalGiftSum = data.reduce(
-              (acc: number, curr: any) => acc + curr.types.group_en.total_gift,
-              0
-            );
-
-            const chartData = [
-              { name: "Cash", value: totalSalesSum, fill: "#DDF8E4" },
-              { name: "Mortgage", value: totalMortageSum, fill: "#EFEEFC" },
-              { name: "Gifts", value: totalGiftSum, fill: "#FFDBDB" },
-            ];
-
-            return {
-              name: "Transactions Type",
-              filters: [],
-              chart_type: "horizontal_bar",
-              chartConfig: {
-                Cash: {
-                  color: "#DDF8E4",
-                },
-                Mortgage: {
-                  color: "#EFEEFC",
-                },
-                Gifts: {
-                  color: "#FFDBDB",
-                },
-              },
-              styles: "min-h-[100px]",
-              sub_charts: [],
-              data: chartData, // Calculated data will be here
-              insights:
-                "Cash transactions dominate Dubai’s market, attracting global investors, while mortgages contribute a growing 10%.",
-            };
-          } catch (error) {
-            console.error("Error calculating transactions type chart:", error);
-            return {
-              name: "Transactions Type",
-              filters: [],
-              chart_type: "horizontal_bar",
-              chartConfig: {
-                Cash: {
-                  color: "#DDF8E4",
-                },
-                Mortgage: {
-                  color: "#EFEEFC",
-                },
-                Gifts: {
-                  color: "#FFDBDB",
-                },
-              },
-              sub_charts: [],
-              data: [], // Calculated data will be here
-            };
-          }
+          return await SalesTypeChart(params);
         },
       },
       {
         key: "transactions_value_trend",
         calculate: async (params) => {
-          try {
-            params = {};
-            const date = new Date();
-            const end_year = date.getFullYear();
-            const start_year = end_year - 9;
-            const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
-              {
-                params: params,
-              }
-            );
-            console.log("response barrr", response.data);
-            const data = response.data.data.data;
-            console.log("data Transs", data);
-
-            const totalValue = data.map((item: any) => ({
-              year: item.Year,
-              value: item.Total_Value_of_Transaction.toFixed(2),
-            }));
-
-            const pricePerSqft = data.map((item: any) => ({
-              year: item.Year,
-              value: item.average_Price_per_sqft.toFixed(2),
-            }));
-            console.log("totalValue", totalValue);
-            // Will do the required calculation here and return the data to build graph
-            return {
-              name: "Transactions Value Trend",
-              description:
-                "Compare transactional total value and value per sqft over time.",
-              filters: [
-                { key: "total_value", label: "Total Value", data: totalValue },
-                {
-                  key: "price_per_sqft",
-                  label: "Value per SQFT",
-                  data: pricePerSqft,
-                },
-              ],
-              chart_type: "bar",
-              chartConfig: {
-                desktop: {
-                  label: "Desktop",
-                  color: "hsl(var(--chart-1))",
-                },
-              },
-              sub_charts: [],
-              insights:
-                "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
-              data: totalValue, // Calculated data will be here
-            };
-          } catch (error) {
-            console.error(
-              "Error calculating transactions value trend chart:",
-              error
-            );
-            return {
-              name: "Transactions Value Trend",
-              description:
-                "Compare transactional total value and value per sqft over time.",
-              filters: ["Total Value", "Value per SQFT"],
-              chart_type: "bar",
-              chartConfig: {
-                desktop: {
-                  label: "Desktop",
-                  color: "hsl(var(--chart-1))",
-                },
-              },
-              sub_charts: [],
-              insights:
-                "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
-              data: [], // Calculated data will be here
-            };
-          }
+          return SalesValueTrend(params);
         },
       },
       {

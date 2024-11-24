@@ -128,7 +128,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               fill={barColors[index % barColors.length]} // Cycle through colors
               radius={barRadius}
               stroke={"#121212"}
-              barSize={30}
+              // barSize={30}
               overflow={"scroll"}
               {...customBarProps}
             >
