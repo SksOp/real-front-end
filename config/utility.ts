@@ -330,3 +330,37 @@ export const RentalTransactionApi = async (
     };
   }
 };
+
+export const MarketPulseApi = async (pageNo?: number) => {
+  try {
+    pageNo = pageNo || 1;
+    const response = await axios.get(
+      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/marketPulse/pages/${pageNo}`
+    );
+
+    console.log("response", response.data.data);
+
+    const cardData = response.data.data.data.map((transaction: any) => {
+      return {
+        area_name: transaction?.area_name || "N/A",
+        total_supply: transaction?.total_projects_new_supply,
+        avg_price: transaction?.overall_avg_price.toFixed(2) || 0,
+        avg_price_per_sqft: transaction?.avg_price_per_sqft.toFixed(2) || 0,
+        no_of_transactions: transaction?.no_of_sales_transactions || 0,
+        monthly_transactions: transaction?.timeseries_sales_last_12_months.map(
+          (item: any) => {
+            return {
+              year: item.month,
+              value1: item.transactions,
+            };
+          }
+        ),
+      };
+    });
+    console.log(cardData);
+    return cardData;
+  } catch (error) {
+    console.error("Error fetching sales transactions:", error);
+    return [];
+  }
+};

@@ -96,6 +96,13 @@ function Navbar({
               >
                 Key Matrices
               </TabsTrigger>
+              <TabsTrigger
+                value="market-pulse"
+                className="text-sm"
+                onClick={() => router.push("/app/market-pulse")}
+              >
+                Market Pulse
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>

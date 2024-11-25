@@ -2,7 +2,13 @@ import axios, { all } from "axios";
 import { Dashboard } from "./types";
 import { SalesFilter } from "./filters";
 import { CalculateMatrix } from "./utility";
-import { SalesTypeChart, SalesValueTrend } from "./sales";
+import {
+  SalesIndex,
+  SalesSimilarData,
+  SalesTrend,
+  SalesTypeChart,
+  SalesValueTrend,
+} from "./sales";
 
 export const dashboards: Dashboard[] = [
   {
@@ -62,6 +68,7 @@ export const dashboards: Dashboard[] = [
 
     calculate_matrics: async (params) => {
       console.log("params", params);
+      params = {};
       const date = new Date();
       const presentYear = date.getFullYear();
       const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
@@ -87,334 +94,20 @@ export const dashboards: Dashboard[] = [
       {
         key: "sales_transactions_trend",
         calculate: async (params) => {
-          try {
-            params = {};
-            const date = new Date();
-            const end_year = date.getFullYear();
-            const start_year = end_year - 9;
-            const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
-              {
-                params: params,
-              }
-            );
-            const data = response.data.data.data;
-            console.log("chddd", data);
-
-            // Process yearly data
-            const yearlyData = data.map((item: any) => ({
-              year: item.Year,
-              value1: item.number_of_Row_Used,
-            }));
-
-            // Process monthly data for the current year
-            const months = [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ];
-            const currentYearData = data[data.length - 1];
-            const monthlyData = currentYearData.month_data.map((item: any) => ({
-              year: months[parseInt(item.Month) - 1],
-              value1: item.number_of_Row_Used,
-            }));
-
-            // Ensure monthly data has 12 months (by adding data from the previous year if necessary)
-            let i = 11;
-            while (monthlyData.length !== 12) {
-              const prevYearData = data[data.length - 2];
-              monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
-                value1: prevYearData.month_data[i].number_of_Row_Used,
-              });
-              i--;
-            }
-
-            // Process quarterly data for the last 3 years
-            const quarterlyData = [];
-            for (let j = data.length - 3; j < data.length; j++) {
-              const yearData = data[j].month_data;
-              for (let q = 0; q < 4; q++) {
-                const startMonth = q * 3;
-                const endMonth = startMonth + 3;
-                const quarterMonths = yearData.slice(startMonth, endMonth);
-
-                const quarterValue = quarterMonths.reduce(
-                  (sum: number, item: any) => sum + item.number_of_Row_Used,
-                  0
-                );
-
-                quarterlyData.push({
-                  year: `Q${q + 1} ${data[j].Year}`,
-                  value1: quarterValue,
-                });
-              }
-            }
-
-            console.log(yearlyData, monthlyData, quarterlyData);
-            // Will do the required calculation here and return the data to build graph
-            return {
-              name: "Sales Transactions Trend",
-              description: "Compare number of transactions over time!",
-              filters: [
-                { key: "monthly", label: "Monthly", data: monthlyData },
-                {
-                  key: "quarterly",
-                  label: "Quarterly",
-                  data: quarterlyData,
-                },
-                { key: "yearly", label: "Yearly", data: yearlyData },
-              ],
-              chart_type: "line",
-              chartConfig: {
-                desktop: {
-                  label: "Desktop",
-                  color: "hsl(var(--chart-1))",
-                },
-              },
-              sub_charts: [],
-              insights:
-                "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-              data: monthlyData, // Calculated data will be here
-            };
-          } catch (error) {
-            console.error(
-              "Error calculating sales transactions trend chart:",
-              error
-            );
-            return {
-              name: "Sales Transactions Trend",
-              description: "Compare number of transactions over time!",
-              filters: [],
-              chart_type: "line",
-              chartConfig: {
-                desktop: {
-                  label: "Desktop",
-                  color: "hsl(var(--chart-1))",
-                },
-              },
-              sub_charts: [],
-              insights:
-                "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-              data: [], // Calculated data will be here
-            };
-          }
+          return await SalesTrend(params);
         },
       },
       {
         key: "sales_index",
         calculate: async (params) => {
           params = {};
-          try {
-            const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
-              {
-                params: params,
-              }
-            );
-            const date = new Date();
-            const end_year = date.getFullYear();
-            const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
-              {
-                params: params,
-              }
-            );
-
-            // Will do the required calculation here and return the data to build graph
-            const data = response.data.data.quartiles;
-            console.log("percentile25", data);
-            const percentile25 = data[0].max;
-            const percentile75 = data[3].min;
-
-            const rangeData = responseRange.data.data.data[0];
-            console.log("rangeData", rangeData);
-            const chartData = [
-              {
-                name: "<500K",
-                value: rangeData.total_sales_under_500k,
-                colorClass: "bg-[#FFDBDB]",
-              },
-              {
-                name: "500K to 1M",
-                value: rangeData.total_sales_500k_to_1M,
-                colorClass: "bg-[#EFEEFC]",
-              },
-              {
-                name: "1M to 2M",
-                value: rangeData.total_sales_1M_to_2M,
-                colorClass: "bg-[#DDF8E4]",
-              },
-              {
-                name: "2M to 3M",
-                value: rangeData.total_sales_2M_to_3M,
-                colorClass: "bg-[#FCF8D1]",
-              },
-              {
-                name: "3M to 4M",
-                value: rangeData.total_sales_3M_to_4M,
-                colorClass: "bg-[#FFC8C8]",
-              },
-              {
-                name: "4M to 5M",
-                value: rangeData.total_sales_4M_to_5M,
-                colorClass: "bg-[#FFC8C8]",
-              },
-              {
-                name: "5M to 10M",
-                value: rangeData.total_sales_5M_to_10M,
-                colorClass: "bg-[#FFC8C8]",
-              },
-              {
-                name: ">10M",
-                value: rangeData.total_sales_over_10M,
-                colorClass: "bg-[#FFC8C8]",
-              },
-            ];
-
-            return {
-              name: "Sales Index",
-              description: "This is overall sales value index in Dubai.",
-              chart_type: "percentile_bar",
-              filters: [],
-              chartConfig: {},
-              sub_charts: [
-                {
-                  key: "price_range",
-                  name: "Price Range",
-                  chart_type: "donut",
-                  chartConfig: {
-                    "<500K": { color: "#FFDBDB" },
-                    "500K to 1M": { color: "#EFEEFC" },
-                    "1M to 2M": { color: "#DDF8E4" },
-                    "2M to 3M": { color: "#FCF8D1" },
-                    "3M to 4M": { color: "#FFC8C8" },
-                    "4M to 5M": { color: "#FFC8C8" },
-                    "5M to 10M": { color: "#FFC8C8" },
-                    ">10M": { color: "#FFC8C8" },
-                  },
-                  data: chartData, // Calculated data will be here
-                },
-              ],
-              insights:
-                "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
-              data: [percentile25, percentile75], // Calculated data will be here
-            };
-          } catch (error) {
-            console.error("Error calculating sales index chart:", error);
-            return {
-              name: "Sales Index",
-              description: "This is overall sales value index in Dubai.",
-              chart_type: "percentile_bar",
-              filters: [],
-              chartConfig: {},
-              sub_charts: [
-                {
-                  key: "price_range",
-                  name: "Price Range",
-                  chart_type: "donut",
-                  chartConfig: {
-                    "<500K": { color: "#FFDBDB" },
-                    "500K to 1M": { color: "#EFEEFC" },
-                    "1M to 2M": { color: "#DDF8E4" },
-                    "2M to 3M": { color: "#FCF8D1" },
-                    "3M to 4M": { color: "#FFC8C8" },
-                    "4M to 5M": { color: "#FFC8C8" },
-                    "5M to 10M": { color: "#FFC8C8" },
-                    ">10M": { color: "#FFC8C8" },
-                  },
-                  data: [], // Calculated data will be here
-                },
-              ],
-              insights:
-                "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
-              data: [], // Calculated data will be here
-            };
-          }
+          return await SalesIndex(params);
         },
       },
       {
         key: "similar_transactions",
         calculate: async (params) => {
-          try {
-            const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`,
-              { params: params }
-            );
-
-            // Will do the required calculation here and return the data to build graph
-            const data = response.data.data.data;
-            const chartcolumns = ["Date", "Sell Price", "Area (ft)"];
-            let totalValue = 0;
-            const chartData = data.map((item: any) => {
-              // Inline date formatting
-              const months = [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-              ];
-              const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
-              totalValue += item.value;
-              return {
-                Date: formattedDate, // Use the formatted date
-                "Sell Price": item.value,
-                "Area (ft)": item.price_per_sqft.toFixed(2),
-              };
-            });
-
-            const avgValue = data[0].avg_value_per_year.toFixed(2);
-
-            return {
-              name: "Similar Transactions",
-              chart_type: "table",
-              chartConfig: {},
-              filters: [],
-              sub_metrics: [],
-              view_more: true,
-              otherInfo: [{ name: "Average Sales Value", value: avgValue }],
-              columns: chartcolumns,
-              data: chartData, // Calculated data will be here
-            };
-          } catch (error) {
-            console.error(
-              "Error calculating similar transactions chart:",
-              error
-            );
-            return {
-              name: "Similar Transactions",
-              chart_type: "table",
-              chartConfig: {},
-              filters: [],
-              sub_metrics: [],
-              view_more: true,
-              additionalInfo: "N/A",
-              columns: [],
-              data: [], // Calculated data will be here
-            };
-          }
+          return await SalesSimilarData(params);
         },
       },
       {

@@ -82,6 +82,14 @@ function SidebarContent() {
           <KeyMatricIcon />
           Key Matrices
         </Button>
+        <Button
+          variant="ghost"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/app/market-pulse")}
+        >
+          <KeyMatricIcon />
+          Market Pulse
+        </Button>
       </div>
       <Separator />
       <div className="flex flex-col gap-1 justify-start items-start w-full">
