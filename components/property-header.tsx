@@ -8,9 +8,10 @@ import {
   RedirectIcon,
 } from "@/public/svg/icons";
 import Image from "next/image";
-import { InsightsGradientIcon, UpIcon } from "@/public/svg/Indicator";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { InsightsGradientIcon } from "@/public/svg/navIcons";
+import { UpIcon } from "@/public/svg/Indicator";
 
 interface PropertyHeaderProps {
   imageURL: string;
