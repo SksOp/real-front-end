@@ -141,12 +141,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
               {props.bedrooms}{" "}
             </p>
           </div>
-          <div className="flex gap-1 justify-start items-center">
+          {/* <div className="flex gap-1 justify-start items-center">
             <BathIcon className="w-4 h-4" />
             <p className="text-muted-foreground font-normal text-xs">
               {props.bathrooms}{" "}
             </p>
-          </div>
+          </div> */}
 
           <div className="flex gap-1 justify-start items-center">
             <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />

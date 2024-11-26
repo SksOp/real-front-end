@@ -6,6 +6,7 @@ import ChartException from "@/components/chartException";
 import Feedback from "@/components/feedback";
 import Footer from "@/components/footer";
 import FrequentQuestions from "@/components/frequent-questions";
+import HomeClaimCard from "@/components/home-claim-card";
 import HomeInsights from "@/components/home-insights";
 import HomeIntro from "@/components/home-intro";
 import HomeListing from "@/components/home-listing";
@@ -22,11 +23,21 @@ import SharingCard from "@/components/sharingCard";
 import { SalesIndex, SalesPriceRanges } from "@/config/sales";
 import { ChartDescription } from "@/config/types";
 import Layout from "@/layout/home";
-import React, { useEffect } from "react";
+import { useAuth } from "@/lib/auth";
+import React, { useEffect, useState } from "react";
 
 function HomePage() {
+  const auth = useAuth();
+  const [name, setName] = useState<string | null>(null);
   const [salesIndex, setSalesIndex] = React.useState<any[]>([]);
   const [priceRange, setPriceRange] = React.useState<ChartDescription>();
+
+  useEffect(() => {
+    if (auth?.user) {
+      const displayName = auth.user.displayName?.split(" ")[0];
+      setName(displayName || "Name");
+    }
+  }, [auth]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +52,14 @@ function HomePage() {
   return (
     <Layout page="home">
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-[1.564rem] bg-gradient-to-r from-[#6351E9] to-[#121114] text-transparent bg-clip-text font-bold">
+            <span className="">Hello {name}</span>{" "}
+            <span className="inline-block text-black">👋</span>,
+            <br />
+            Good Morning!
+          </h1>
+        </div>
         <HomeTransactionCard />
         <HomeInsights />
         <HomeSalesIndex />
@@ -50,12 +69,12 @@ function HomePage() {
         <HomeListing />
         <FrequentQuestions />
         <SharingCard />
-        <Footer />
       </div>
       <div className="hidden mt-20 md:flex gap-3 w-full px-4 mb-4">
-        <div className="w-1/4 border rounded-xl p-2 max-h-screen overflow-y-auto flex flex-col gap-3">
+        <div className="w-1/4 min-w-md hidden border rounded-xl p-2 max-h-screen overflow-y-auto lg:flex flex-col gap-3">
           <HomeIntro />
           <FrequentQuestions />
+          <HomeClaimCard />
           <Feedback />
           <SharingCard />
         </div>
@@ -65,28 +84,30 @@ function HomePage() {
             <HomeInsights />
             <HomeListing />
           </div>
-          <div className="grid grid-cols-2 items-start auto-rows-min gap-3 gap-x-4">
-            <HomeSalesIndex />
-            <HomeVolumeIndex />
-            <HomeTopAreas />
-            <HomeTotalAds />
-            <HomePriceIndex />
-            <HomeTransactionList />
+          <div className="grid grid-cols-2 w-full items-start  gap-3 gap-x-4">
+            <div className="flex flex-col gap-3">
+              <HomeSalesIndex />
+              <HomeTopAreas />
+              <HomePriceIndex />
+            </div>
+            <div className="flex flex-col gap-3">
+              <HomeVolumeIndex />
+              <HomeTotalAds />
+              <HomeTransactionList />
+            </div>
           </div>
           <ChartWrapper title="Transactions Value Index">
-            <div className="flex justify-center items-center gap-3">
-              <SecondaryChartWrapper className="">
-                <div className="flex flex-col gap-3">
-                  <SalesIndexCardComponent
-                    percentile25={salesIndex[0]}
-                    percentile75={salesIndex[1]}
-                    knob={(salesIndex[1] + salesIndex[0]) / 2}
-                  />
-                  <InsightCard>
-                    Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam
-                    interdum morbi eu elit. Neque Average price: 750000.{" "}
-                  </InsightCard>
-                </div>
+            <div className="flex justify-center items-stretch  gap-3">
+              <SecondaryChartWrapper className=" flex flex-col gap-3 justify-center items-center">
+                <SalesIndexCardComponent
+                  percentile25={salesIndex[0]}
+                  percentile75={salesIndex[1]}
+                  knob={(salesIndex[1] + salesIndex[0]) / 2}
+                />
+                <InsightCard>
+                  Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam
+                  interdum morbi eu elit. Neque Average price: 750000.{" "}
+                </InsightCard>
               </SecondaryChartWrapper>
               <SecondaryChartWrapper>
                 {priceRange ? (
@@ -104,6 +125,7 @@ function HomePage() {
           </ChartWrapper>
         </div>
       </div>
+      <Footer />
     </Layout>
   );
 }

@@ -50,7 +50,7 @@ function HomeTransactionList() {
 
   return (
     <UnderlineTabs defaultValue="sales">
-      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3">
+      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3 ">
         <UnderlineTabsList className=" flex  items-center justify-center md:justify-start  gap-3 ">
           <UnderlineTabsTrigger
             value="sales"
@@ -74,7 +74,7 @@ function HomeTransactionList() {
           </h3>
         </div>
       </div>
-      <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
+      <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col overflow-y-auto shrink gap-3">
         <UnderlineTabsContent value="sales">
           <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
             Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum

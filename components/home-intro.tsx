@@ -1,16 +1,20 @@
 "use client";
-import React, { useEffect } from "react";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
-import { Card, CardContent } from "./ui/card";
+import React, { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+} from "./ui/carousel";
 import { Button } from "./ui/button";
-import { Heart } from "lucide-react";
 import HomeCarousalItem from "./home-Carousal-item";
 import { useAuth } from "@/lib/auth";
 import { carouslItems } from "@/constants/carousal";
 
 function HomeIntro() {
   const auth = useAuth();
-  const [name, setName] = React.useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0); // Track active slide
 
   useEffect(() => {
     if (auth?.user) {
@@ -18,6 +22,12 @@ function HomeIntro() {
       setName(displayName || "Name");
     }
   }, [auth]);
+
+  // Function to handle slide change
+  const handleSlideChange = (event: any) => {
+    const index = event.detail.index; // Example: adjust based on the library's API
+    setActiveSlide(index);
+  };
 
   return (
     <div className="w-full p-4">
@@ -36,7 +46,9 @@ function HomeIntro() {
         </div>
 
         <Carousel className="w-full">
-          <CarouselContent>
+          <CarouselContent
+            onChange={(index) => handleSlideChange(index)} // Pass handler to Carousel
+          >
             {carouslItems.map((item, idx) => (
               <CarouselItem key={item.id}>
                 <HomeCarousalItem
@@ -49,18 +61,7 @@ function HomeIntro() {
           </CarouselContent>
 
           {/* Dynamic Dots */}
-          <div className="flex justify-center mt-4">
-            <div className="flex gap-2">
-              {carouslItems.map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-2 w-2 rounded-full ${
-                    i === 0 ? "bg-[#C2C2C2] w-4" : "bg-[#E0E0E0]"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+          <CarouselDots />
         </Carousel>
       </div>
     </div>
