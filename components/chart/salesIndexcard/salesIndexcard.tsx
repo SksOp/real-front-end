@@ -47,7 +47,7 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
   }, [knob, percentile25, percentile75]);
 
   return (
-    <div className="w-full flex flex-col items-center gap-2">
+    <div className="w-full flex flex-col  items-center gap-2">
       {knob && (
         <div className="flex justify-center items-center rounded-full py-2 px-3 bg-muted-foreground text-white w-fit">
           AED 1.356M is Avg.
@@ -55,9 +55,9 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
       )}
       <div className="relative h-6 flex gap-1 w-full">
         {/* Background bars */}
-        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#D1F6DB]"></div>
-        <div className="w-1/2 h-6 border border-secondary rounded-sm bg-[#FCF8D1]"></div>
-        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#FFC8C8]"></div>
+        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#9BEBB1]"></div>
+        <div className="w-1/2 h-6 border border-secondary rounded-sm bg-[#F9F09D]"></div>
+        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#FF8888]"></div>
 
         {/* Knob */}
         {knob !== undefined && (

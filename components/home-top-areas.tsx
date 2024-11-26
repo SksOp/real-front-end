@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -18,6 +18,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { ChartConfig } from "./ui/chart";
 import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 import InsightCard from "./insightCard";
+import ChartWrapper from "./chart/chartWrapper";
+import { MarketPulseApi } from "@/config/utility";
 
 const chartConfig = {
   desktop: {
@@ -30,130 +32,57 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const sampleData = [
-  { month: "Al Warsan 1", value: 100, fill: "#FCF8D1" },
-  { month: "Jabal Ali 1", value: 80, fill: "#CBE5FB" },
-  { month: "Business Bay", value: 75, fill: "#FFDBDB" },
-  { month: "Marsa Dubai", value: 63, fill: "#EFEEFC" },
-  { month: "Al Barsha South 4", value: 60, fill: "#DDF8E4" },
-  { month: "The palm jumeirah", value: 57, fill: "#FCF8D1" },
-  { month: "Dubai Creek Harbour", value: 55, fill: "#CBE5FB" },
-  { month: "Shobha Heartland", value: 50, fill: "#FFDBDB" },
-  { month: "Marsa Dubai", value: 45, fill: "#EFEEFC" },
-  { month: "Dubai Marina", value: 43, fill: "#DDF8E4" },
+const chartColor = [
+  "#FCF8D1",
+  "#CBE5FB",
+  "#E5F0FF",
+  "#E5FFE5",
+  "#F0E5FF",
+  "#FFEDE5",
+  "#FFE5F0",
+  "#E5FFF5",
+  "#F5F5F5",
+  "#EFEEFC",
 ];
 
 function HomeTopAreas() {
+  const [data, setData] = React.useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await MarketPulseApi();
+
+      const chartData = response.map((item: any, idx: number) => {
+        return {
+          area: item.area_name,
+          value: item.no_of_transactions,
+          fill: chartColor[idx],
+        };
+      });
+      setData(chartData);
+      console.log("top: ", response);
+    };
+    fetchData();
+  }, []);
+
   return (
-    <UnderlineTabs defaultValue="sales">
-      <UnderlineTabsList className="w-full border border-border items-center justify-center rounded-t-xl gap-3 px-3">
-        <UnderlineTabsTrigger
-          value="sales"
-          className="flex justify-center items-center gap-2 w-1/2"
-        >
-          Top Sales Area
-        </UnderlineTabsTrigger>
-        <UnderlineTabsTrigger
-          value="rental"
-          className="flex justify-center items-center gap-2 w-1/2"
-        >
-          Top Rental Area
-        </UnderlineTabsTrigger>
-      </UnderlineTabsList>
-      <Card className="rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-4">
-        <UnderlineTabsContent value="sales">
-          {" "}
-          {/* <CardHeader className="w-full p-0">
-            <CardTitle className="text-base font-semibold text-secondary">
-              Top Areas (Sales)
-            </CardTitle>
-          </CardHeader> */}
-          <CardContent className="p-0 w-full mt-2">
-            <Tabs defaultValue="volume">
-              <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
-                <TabsTrigger
-                  value="volume"
-                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-                >
-                  Volume
-                </TabsTrigger>
-                <TabsTrigger
-                  value="price"
-                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-                >
-                  price per SQFT
-                </TabsTrigger>
-              </TabsList>
-              <CardDescription className="truncate text-accent font-normal text-sm mb-4 mt-2">
-                Compare top areas by their performances using various metrics.
-                Number of transactions or price per square feet or expected
-                return, we have it all covered.
-              </CardDescription>
-              <TabsContent value="volume" className="p-0">
-                <HorizontalBarChartComponent
-                  chartConfig={chartConfig}
-                  data={sampleData}
-                  xAxisDataKey={"month"}
-                  yAxisDataKey={"value"}
-                  className="min-h-[450px]"
-                />
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-          <CardFooter className="p-0 mt-3">
-            <InsightCard>
-              Top 10 rental areas in Dubai represent 30% of the total rental
-              transactions, highlighting key demand zones.
-            </InsightCard>
-          </CardFooter>
-        </UnderlineTabsContent>
-        <UnderlineTabsContent value="rental">
-          {/* <CardHeader className="w-full p-0">
-            <CardTitle className="text-base font-semibold text-secondary">
-              Top Areas (Rental)
-            </CardTitle>
-          </CardHeader> */}
-          <CardContent className="p-0 w-full mt-2">
-            <Tabs defaultValue="volume">
-              <TabsList className="w-full gap-3 items-center justify-start bg-background p-0">
-                <TabsTrigger
-                  value="volume"
-                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-                >
-                  Volume
-                </TabsTrigger>
-                <TabsTrigger
-                  value="rent"
-                  className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-                >
-                  Unit Rent
-                </TabsTrigger>
-              </TabsList>
-              <CardDescription className="truncate text-accent font-normal text-sm mb-4 mt-2">
-                Compare top areas by their performances using various metrics.
-                Number of transactions or price per square feet or expected
-                return, we have it all covered.
-              </CardDescription>
-              <TabsContent value="volume" className="p-0">
-                <HorizontalBarChartComponent
-                  chartConfig={chartConfig}
-                  data={sampleData}
-                  xAxisDataKey={"month"}
-                  yAxisDataKey={"value"}
-                  className="min-h-[450px]"
-                />
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-          <CardFooter className="p-0 mt-3">
-            <InsightCard>
-              Top 10 rental areas in Dubai represent 30% of the total rental
-              transactions, highlighting key demand zones.
-            </InsightCard>
-          </CardFooter>
-        </UnderlineTabsContent>
-      </Card>
-    </UnderlineTabs>
+    <ChartWrapper
+      title="Top Areas"
+      description="Get a holistic view listings and property ads in the region.Get a holistic view listings and property ads in the region."
+    >
+      <div className="flex flex-col gap-3">
+        <HorizontalBarChartComponent
+          chartConfig={chartConfig}
+          data={data}
+          xAxisDataKey={"area"}
+          yAxisDataKey={"value"}
+        />
+        <InsightCard>
+          Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
+          morbi eu elit. Neque Average price: 750000.{" "}
+        </InsightCard>
+      </div>
+    </ChartWrapper>
   );
 }
 

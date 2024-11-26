@@ -50,7 +50,7 @@ function ChartWrapper({
     >
       <CardHeader className="p-0">
         <div className="flex justify-between items-center ">
-          <CardTitle className="text-base font-semibold text-secondary">
+          <CardTitle className="text-sm font-semibold text-secondary">
             {title}
           </CardTitle>
           <div className="flex justify-end items-center gap-2">
@@ -88,7 +88,7 @@ function ChartWrapper({
             </span>
           </div>
         </div>
-        <CardDescription className="text-sm text-accent font-normal">
+        <CardDescription className="text-[0.813rem] text-accent font-normal">
           {description}
         </CardDescription>
         {filters?.length > 0 && (

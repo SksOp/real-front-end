@@ -21,7 +21,7 @@ function SharingCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 flex flex-col gap-5">
-        <div className="flex gap-5 justify-around md:justify-start md:gap-12 items-center">
+        <div className="flex gap-5 justify-around md:justify-start md:gap-8 items-center">
           <img src="/imgs/sharing/whatsapp.svg" alt="whatsApp" />
           <img src="/imgs/sharing/insta.svg" alt="instagram" />
           <img src="/imgs/sharing/facebook.svg" alt="facebook" />

@@ -93,7 +93,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[250px] w-full overflow-x-scroll"
+      className="max-h-[280px] w-full overflow-x-scroll"
     >
       <ResponsiveContainer width={chartWidth} height={maxValue}>
         <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={20}>

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardDescription } from "./ui/card";
 import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
-import { InsightsGradientIcon } from "@/public/svg/Indicator";
+import { InsightsGradientIcon } from "@/public/svg/navIcons";
 
 function InsightCard({
   children,
@@ -23,15 +23,21 @@ function InsightCard({
           className
         )}
       >
-        <div className="text-muted-foreground text-base flex justify-start gap-3 items-center w-full">
-          <div className="h-4 w-4">
-            <InsightsGradientIcon className="object-cover " />
+        <div className="text-muted-foreground text-base flex gap-3 items-center w-full">
+          {/* Icon Container */}
+          <div className="flex items-center justify-center h-10 w-10">
+            <img
+              src="/svg/Vector.svg"
+              alt="insights"
+              className="object-cover"
+            />
           </div>
-          <div className="">
-            <CardDescription className="">{children}</CardDescription>
+          {/* Text Content */}
+          <div className="flex">
+            <CardDescription>{children}</CardDescription>
           </div>
         </div>
-        <span className="text-primary text-sm pl-8 font-semibold ">
+        <span className="text-[#8177E5] text-sm pl-8 font-semibold ">
           {linkText}
         </span>
       </Card>

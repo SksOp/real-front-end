@@ -38,41 +38,45 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
       >
         <Badge
           variant="outline"
-          className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1"
+          className="bg-[#CBE5FB] text-[#353535] font-normal text-[0.813rem] py-1"
         >
           {name}
         </Badge>
         <div className="flex items-center justify-between w-full">
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold max-w-14 break-words">
+            <h3 className="text-[0.688rem] text-muted-foreground font-medium max-w-14 md:max-w-full break-words">
               {"Average price"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
-              <h2 className="text-base text-secondary font-medium">
+              <h2 className="text-[0.813rem] text-secondary/90 font-semibold">
                 {FormatValue(avgPrice)}
               </h2>
-              <span className="text-red-600 font-medium">21%</span>
+              <span className="text-red-600 text-[0.813rem] font-medium">
+                21%
+              </span>
               <CircularDownIcon />
             </div>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 ml-4 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold max-w-20  break-words">
+            <h3 className="text-[0.688rem] text-muted-foreground font-medium max-w-20 md:max-w-full break-words">
               {"Price Per sq. ft"}
             </h3>
-            <h2 className="text-base text-secondary font-medium">
+            <h2 className="text-[0.813rem] text-secondary/90 font-semibold">
               {FormatValue(pricePerSqFt)}
             </h2>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
-            <h3 className="text-sm text-muted-foreground font-semibold max-w-24  break-words">
+            <h3 className="text-[0.688rem] text-muted-foreground font-medium max-w-24 md:max-w-full break-words">
               {"No. of transactions"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
-              <h2 className="text-base text-secondary font-medium">
+              <h2 className="text-[0.813rem] text-secondary/90 font-semibold">
                 {FormatValue(transactions)}
               </h2>
-              <span className="text-green-600 font-medium">21%</span>
-              <CircularUpIcon />
+              <span className="text-green-600 text-[0.813rem] font-medium">
+                21%
+              </span>
+              <CircularUpIcon className="w-4 h-4" />
             </div>
           </div>
         </div>

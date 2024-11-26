@@ -75,11 +75,14 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   };
 
   return (
-    <ChartContainer config={chartConfig} className="max-h-[380px] w-full">
-      <ResponsiveContainer width={chartWidth} height={chartHeight}>
+    <ChartContainer
+      config={chartConfig}
+      className="max-h-[280px] overflow-x-scroll w-full"
+    >
+      <ResponsiveContainer width={chartWidth} height={"100%"}>
         <AreaChart
           data={data}
-          margin={{ left: -10, top: 10, right: 10, bottom: 4 }}
+          margin={{ left: -8, top: 35, right: 10, bottom: 4 }}
         >
           <CartesianGrid
             vertical={false}
@@ -118,7 +121,6 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
             tickCount={data.length}
-            interval="preserveStart"
           />
           <YAxis
             tickLine={tickLine}

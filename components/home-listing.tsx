@@ -24,12 +24,12 @@ function HomeListing() {
   return (
     <>
       <Card
-        className="border rounded-xl w-full p-3 bg-[#FCFBEE] flex flex-col gap-1 md:hidden"
-        onClick={() => router.push("/insights")}
+        className="border rounded-xl w-full p-3 bg-[#FCFBEE] flex flex-col gap-1 "
+        onClick={() => router.push("/app/listings")}
       >
-        <CardHeader className="w-full flex flex-col gap-1 p-0">
-          <CardTitle className="text-base font-semibold text-secondary">
-            Your listings (24)
+        <CardHeader className="w-full flex flex-col gap-1 md:gap-3 p-0">
+          <CardTitle className="text-sm font-semibold text-secondary">
+            My Properties
           </CardTitle>
           <div className="flex items-center">
             {images.map((src, index) => (
@@ -54,7 +54,7 @@ function HomeListing() {
         </CardHeader>
       </Card>
 
-      <Card className="border rounded-xl w-full p-3 bg-background hidden md:flex flex-col gap-2 ">
+      {/* <Card className="border rounded-xl w-full p-3 bg-background hidden md:flex flex-col gap-2 ">
         <CardHeader className="p-0 w-full">
           <div className="flex justify-between items-center">
             <CardTitle className="text-sm font-semibold text-secondary">
@@ -106,7 +106,7 @@ function HomeListing() {
             price={3800000}
           />
         </CardContent>
-      </Card>
+      </Card> */}
     </>
   );
 }

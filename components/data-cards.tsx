@@ -33,7 +33,7 @@ function DataCards({
         </Badge>
       )}
 
-      <CardHeader className="w-full p-0">
+      <CardHeader className="w-full flex flex-col md:gap-3 p-0">
         {children}
         <CardDescription>{description}</CardDescription>
       </CardHeader>

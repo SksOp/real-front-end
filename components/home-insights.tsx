@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 function HomeInsights() {
   const router = useRouter();
   return (
-    <div className="w-full flex justify-center items-stretch gap-2 md:gap-4">
+    <div className="w-full flex justify-center items-stretch gap-2 md:gap-3">
       <DataCards
         bgColor="bg-[#EEFBFC]"
         onClick={() => router.push("/app/dashboard")}
       >
         <DashboardIcon />
-        <h3 className="text-secondary font-semibold text-base ">Dashboards</h3>
+        <h3 className="text-secondary font-semibold text-sm ">Dashboards</h3>
         <p className="text-sm text-muted-foreground font-normal">
           <span className="font-semibold">15+</span> dashboards for sales,
           rentals, commercial etc.

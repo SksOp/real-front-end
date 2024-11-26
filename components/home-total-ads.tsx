@@ -36,13 +36,13 @@ interface HorizontalBarChartProps {
 export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
   const maxValue = Math.max(...data.map((item) => item.value));
   return (
-    <div className="flex flex-col gap-3 md:gap-11">
+    <div className="flex flex-col gap-3 md:gap-6">
       {data.map((item, idx) => (
         <div className="flex flex-col gap-0.5" key={idx}>
-          <h3 className="font-semibold text-secondary text-xs mb-1">
+          <h3 className="font-medium text-secondary text-[0.688rem] mb-1">
             {item.name}
           </h3>
-          <div className="flex justify-start items-center gap-1">
+          <div className="flex justify-start items-center gap-2">
             <div
               className={cn(
                 `h-6 border border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
@@ -58,7 +58,7 @@ export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
                 className="w-6 h-6 object-cover"
               />
             )}
-            <h3 className="text-muted-foreground font-semibold text-[0.8rem]">
+            <h3 className="text-muted-foreground font-semibold text-xs">
               {item.value}
             </h3>
           </div>
@@ -83,10 +83,10 @@ function HomeTotalAds() {
   return (
     <Card className=" border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-7">
       <CardHeader className="w-full p-0 flex flex-col gap-1">
-        <CardTitle className="text-base font-semibold text-secondary">
+        <CardTitle className="text-sm font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
-        <h3 className="text-[0.8rem] font-normal truncate text-accent">
+        <h3 className="text-[0.813rem] font-normal truncate text-accent">
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>

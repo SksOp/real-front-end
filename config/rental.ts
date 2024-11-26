@@ -419,7 +419,10 @@ export const RentalComparison = async (params?: {
     return {
       name: "Rent Comparison",
       chart_type: "comparison_table",
-      filters: [],
+      filters: [
+        { key: "area", label: "By Area", data: chartData },
+        { key: "property_type", label: "By Property Type", data: chartData },
+      ],
       chartConfig: {},
       sub_metrics: [],
       view_more: true,

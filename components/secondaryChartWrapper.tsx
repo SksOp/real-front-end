@@ -8,8 +8,8 @@ function SecondaryChartWrapper({
   children,
   className,
 }: {
-  title: string;
   children: React.ReactNode;
+  title?: string;
   className?: ClassValue;
 }) {
   return (

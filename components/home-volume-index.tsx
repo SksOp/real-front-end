@@ -23,20 +23,21 @@ import {
   HorizontalDotsIcon,
   VerticalThreeDots,
 } from "@/public/svg/icons";
-import { SalesValueTrend } from "@/config/sales";
-import { RentalValueTrend } from "@/config/rental";
+import { SalesTrend, SalesValueTrend } from "@/config/sales";
+import { RentalTrend, RentalValueTrend } from "@/config/rental";
 import { ChartDescription } from "@/config/types";
 import ChartException from "./chartException";
+import Barchart from "./chart/barchart/barchart";
 
-function HomeSalesIndex() {
+function HomeVolumeIndex() {
   const [salesData, setSalesData] = React.useState<ChartDescription>();
   const [rentalData, setRentalData] = React.useState<ChartDescription>();
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await SalesValueTrend();
-      const response2 = await RentalValueTrend();
+      const response = await SalesTrend();
+      const response2 = await RentalTrend();
       setSalesData(response);
       setRentalData(response2);
       console.log(salesData);
@@ -46,21 +47,21 @@ function HomeSalesIndex() {
   }, []);
 
   return (
-    <UnderlineTabs defaultValue="sales">
+    <UnderlineTabs defaultValue="volume">
       <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3">
-        <UnderlineTabsList className=" flex  items-center justify-center md:justify-start  gap-3 ">
+        <UnderlineTabsList className="  items-center justify-center md:justify-start  gap-3 ">
           <UnderlineTabsTrigger
-            value="sales"
+            value="volume"
             className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
-            Sales Price Index
+            Transaction (Volume)
           </UnderlineTabsTrigger>
-          <UnderlineTabsTrigger
+          {/* <UnderlineTabsTrigger
             value="rental"
-            className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
+            className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit"
           >
             Rental Price Index
-          </UnderlineTabsTrigger>
+          </UnderlineTabsTrigger> */}
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
           <h3
@@ -73,7 +74,7 @@ function HomeSalesIndex() {
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
-        <UnderlineTabsContent value="sales">
+        <UnderlineTabsContent value="volume">
           <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
             Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
             morbi eu elit. Neque Average price: 750000. View more insights
@@ -97,12 +98,12 @@ function HomeSalesIndex() {
                 </TabsList>
                 {salesData.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
-                    <AreaChartComponent
+                    <Barchart
                       chartConfig={salesData.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
-                      areas={[{ yAxisDataKey: "value" }]}
                       tickFormatter={(value) => value.toString()}
+                      yAxisDataKeys={["value1"]}
                     />
                   </TabsContent>
                 ))}
@@ -111,7 +112,7 @@ function HomeSalesIndex() {
               <ChartException />
             )}
             <CardFooter className=" p-0 mt-3">
-              <InsightCard>
+              <InsightCard linkText="Explore full market index here.">
                 Dubai’s real estate market has shown impressive growth since
                 2014, with 2024 seeing the highest appreciation in property
                 value.
@@ -119,7 +120,7 @@ function HomeSalesIndex() {
             </CardFooter>
           </CardContent>
         </UnderlineTabsContent>
-        <UnderlineTabsContent value="rental">
+        {/* <UnderlineTabsContent value="rental">
           <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
             Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
             morbi eu elit. Neque Average price: 750000. View more insights
@@ -135,7 +136,7 @@ function HomeSalesIndex() {
                   {rentalData.filters?.map((filter) => (
                     <TabsTrigger
                       value={filter.key}
-                      className="rounded-full border border-muted text-sm text-center font-normal text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                      className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                     >
                       {filter.label}
                     </TabsTrigger>
@@ -143,11 +144,11 @@ function HomeSalesIndex() {
                 </TabsList>
                 {rentalData.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
-                    <AreaChartComponent
+                    <Barchart
                       chartConfig={rentalData.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
-                      areas={[{ yAxisDataKey: "value" }]}
+                      yAxisDataKeys={["value1"]}
                       tickFormatter={(value) => value.toString()}
                     />
                   </TabsContent>
@@ -157,17 +158,17 @@ function HomeSalesIndex() {
               <ChartException />
             )}
             <CardFooter className=" p-0 mt-3">
-              <InsightCard>
+              <InsightCard linkText="Explore full market index here.">
                 Dubai’s real estate market has shown impressive growth since
                 2014, with 2024 seeing the highest appreciation in property
                 value.
               </InsightCard>
             </CardFooter>
           </CardContent>
-        </UnderlineTabsContent>
+        </UnderlineTabsContent> */}
       </Card>
     </UnderlineTabs>
   );
 }
 
-export default HomeSalesIndex;
+export default HomeVolumeIndex;
