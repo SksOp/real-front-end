@@ -123,7 +123,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
         </div>
       </CardHeader>
       <CardFooter className="flex flex-col gap-2 p-0 w-full">
-        <div className="flex justify-start gap-1 items-center w-full">
+        <div className="flex justify-start gap-1 items-center overflow-x-auto w-full">
           {props.badges.map((badge, index) => (
             <Badge
               key={index}

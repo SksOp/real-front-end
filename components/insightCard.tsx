@@ -25,11 +25,11 @@ function InsightCard({
       >
         <div className="text-muted-foreground text-base flex gap-3 items-center w-full">
           {/* Icon Container */}
-          <div className="flex items-center justify-center h-10 w-10">
+          <div className="flex items-center justify-center flex-shrink-0 h-10 w-10">
             <img
               src="/svg/Vector.svg"
               alt="insights"
-              className="object-cover"
+              className="object-cover  shrink-0"
             />
           </div>
           {/* Text Content */}

@@ -47,9 +47,9 @@ function HomeTransactionCard() {
   return (
     <Card className="border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-3">
       <CardHeader className="flex flex-row justify-between items-center text-center p-0 w-full ">
-        <h3 className="text-sm font-semibold text-secondary">Transactions</h3>
+        <h3 className="text-lg font-semibold text-secondary">Transactions</h3>
         <h3
-          className="text-xs font-semibold text-primary cursor-pointer"
+          className="text-sm font-semibold text-primary cursor-pointer"
           onClick={() => router.push("/app/transactions")}
         >
           Go to transactions
@@ -60,13 +60,13 @@ function HomeTransactionCard() {
           <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll ">
             <TabsTrigger
               value="sales"
-              className="rounded-full border border-muted text-sm text-center font-normal text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Sales
             </TabsTrigger>
             <TabsTrigger
               value="rental"
-              className="rounded-full border border-muted text-sm text-center font-normal text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Rental
             </TabsTrigger>
@@ -104,7 +104,7 @@ function HomeTransactionCard() {
         </Tabs>
         <CardFooter className="flex gap-1 justify-start items-center p-0">
           <Info size={16} className="stroke-accent" />
-          <h3 className="text-[0.8rem] font-medium truncate text-accent">
+          <h3 className="text-sm font-normal truncate text-accent">
             2024 data in comparison with previous year is shown.
           </h3>
         </CardFooter>

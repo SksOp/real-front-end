@@ -78,7 +78,7 @@ const HorizontalBarChartComponent: React.FC<
   const yAxisDomain = [0, maxValue * 1.1]; // Add padding for visual clarity
 
   // Dynamically calculate chart height based on the number of data items
-  const minHeight = data?.length * 60; // 50px per item, minimum 150px
+  const minHeight = data?.length * 70; // 50px per item, minimum 150px
 
   console.log(data?.length);
   return (
@@ -95,8 +95,8 @@ const HorizontalBarChartComponent: React.FC<
           right: 45,
           left: 10,
         }}
-        barCategoryGap={10} // Adjust gap between bar categories
-        barGap={20} // Adjust gap between bars within a category
+        barCategoryGap={10}
+        barGap={20}
       >
         <YAxis
           dataKey={xAxisDataKey}
@@ -118,7 +118,7 @@ const HorizontalBarChartComponent: React.FC<
           stroke="#121212"
           radius={barRadius}
           barSize={30}
-          {...customBarProps}
+          // {...customBarProps}
         >
           {/* label for category */}
           <LabelList
@@ -127,6 +127,7 @@ const HorizontalBarChartComponent: React.FC<
             offset={8}
             className="fill-[--color-label]"
             fontSize={14}
+            textBreakAll={false}
             formatter={(value: string) => value}
           />
           {/* Custom label for zero values */}

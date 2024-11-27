@@ -48,7 +48,7 @@ function HomeVolumeIndex() {
 
   return (
     <UnderlineTabs defaultValue="volume">
-      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3">
+      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3 overflow-hidden">
         <UnderlineTabsList className="  items-center justify-center md:justify-start  gap-3 ">
           <UnderlineTabsTrigger
             value="volume"
@@ -68,7 +68,7 @@ function HomeVolumeIndex() {
             className="text-xs font-semibold text-primary cursor-pointer "
             onClick={() => router.push("/app/dashboard")}
           >
-            View full list
+            View All
           </h3>
           <HorizontalDotsIcon />
         </div>
@@ -89,6 +89,7 @@ function HomeVolumeIndex() {
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                   {salesData.filters?.map((filter) => (
                     <TabsTrigger
+                      key={filter.key}
                       value={filter.key}
                       className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                     >
@@ -97,7 +98,7 @@ function HomeVolumeIndex() {
                   ))}
                 </TabsList>
                 {salesData.filters?.map((filter) => (
-                  <TabsContent value={filter.key}>
+                  <TabsContent key={filter.key} value={filter.key}>
                     <Barchart
                       chartConfig={salesData.chartConfig}
                       data={filter.data}

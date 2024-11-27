@@ -28,7 +28,7 @@ function HomeListing() {
         onClick={() => router.push("/app/listings")}
       >
         <CardHeader className="w-full flex flex-col gap-1 md:gap-3 p-0">
-          <CardTitle className="text-sm font-semibold text-secondary">
+          <CardTitle className="text-lg font-semibold text-secondary">
             My Properties
           </CardTitle>
           <div className="flex items-center">
@@ -47,7 +47,7 @@ function HomeListing() {
               +56
             </div>
           </div>
-          <h3 className="text-sm text-muted-foreground font-normal ">
+          <h3 className="text-base text-muted-foreground font-normal ">
             Get detailed insights about the properties that you have listed
             online. AI driven insights!
           </h3>

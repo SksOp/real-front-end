@@ -12,9 +12,9 @@ interface MatrixCardProp {
 function MatrixCard({ title, value, growth }: MatrixCardProp) {
   console.log(value);
   return (
-    <Card className=" rounded-xl flex w-full flex-col py-3 px-3 gap-4">
+    <Card className=" rounded-xl flex w-full flex-col py-5 px-4 gap-4">
       <CardHeader className="p-0 w-full">
-        <CardTitle className="text-xs w-full font-semibold text-muted-foreground truncate">
+        <CardTitle className="text-[0.813rem] w-full font-semibold text-muted-foreground truncate">
           {title}
         </CardTitle>
       </CardHeader>

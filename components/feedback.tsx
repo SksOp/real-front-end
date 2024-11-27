@@ -24,22 +24,22 @@ function Feedback() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <div className="flex flex-wrap justify-around shrink  mb-2">
+        <div className="flex flex-wrap justify-around  mb-2">
           <img src="/imgs/feedback/star1.png" alt="happy" className="" />
           <img src="/imgs/feedback/star2.png" alt="happy" className="" />
           <img src="/imgs/feedback/star3.png" alt="happy" className="" />
           <img src="/imgs/feedback/star4.png" alt="happy" className="" />
           <img src="/imgs/feedback/star5.png" alt="happy" className="" />
         </div>
-        <div className="flex flex-col md:flex-row gap-2">
+        <div className="flex flex-col  gap-2">
           <AutosizeTextarea
             placeholder="Enter your Feedback"
-            className="w-3/4 bg-card  h-14 rounded-xl border"
+            className=" bg-card h-fit rounded-xl border"
             maxHeight={200}
           />
           <Button
             variant={"ghost"}
-            className="w-1/4 min-w-fit px-2   text-secondary hover:bg-primary/10 h-12 rounded-xl border"
+            className=" min-w-fit px-2   text-secondary hover:bg-primary/10 h-12 rounded-xl border"
           >
             Send feedback
           </Button>

@@ -30,7 +30,7 @@ function HomeIntro() {
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4 ">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-[2.062rem] bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
@@ -48,6 +48,7 @@ function HomeIntro() {
         <Carousel className="w-full">
           <CarouselContent
             onChange={(index) => handleSlideChange(index)} // Pass handler to Carousel
+            className=""
           >
             {carouslItems.map((item, idx) => (
               <CarouselItem key={item.id}>

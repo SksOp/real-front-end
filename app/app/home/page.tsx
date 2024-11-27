@@ -71,7 +71,7 @@ function HomePage() {
         <SharingCard />
       </div>
       <div className="hidden mt-20 md:flex gap-3 w-full px-4 mb-4">
-        <div className="w-1/4 min-w-md hidden border rounded-xl p-2 max-h-screen overflow-y-auto lg:flex flex-col gap-3">
+        <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-screen overflow-y-auto md:flex flex-col gap-3">
           <HomeIntro />
           <FrequentQuestions />
           <HomeClaimCard />

@@ -20,14 +20,14 @@ function HomeCarousalItem({
   image,
 }: HomeCarousalItemProps) {
   return (
-    <Card className="bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between overflow-hidden">
+    <Card className="bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between  overflow-hidden">
       {/* Text Section */}
       <div className="flex flex-col gap-3 max-w-[60%]">
         <CardHeader className="p-0">
           <CardTitle className="text-black text-base font-semibold truncate">
             {title}
           </CardTitle>
-          <CardDescription className="text-[#7A7A7A] font-normal text-sm">
+          <CardDescription className="text-[#7A7A7A] font-normal text-sm ">
             {description}
           </CardDescription>
         </CardHeader>

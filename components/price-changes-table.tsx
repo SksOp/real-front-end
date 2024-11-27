@@ -26,7 +26,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
   return (
     <TableRow
       className={cn(
-        "rounded-tl-xl cursor-pointer w-full",
+        "rounded-tl-xl cursor-pointer w-full ",
         isMuted ? "bg-card" : "bg-background"
       )}
     >
@@ -38,7 +38,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
       >
         <Badge
           variant="outline"
-          className="bg-[#CBE5FB] text-muted-foreground font-semibold text-[0.813rem] py-1"
+          className="bg-[#CBE5FB] max-w-[ truncate text-muted-foreground font-semibold text-[0.813rem] py-1"
         >
           {name}
         </Badge>

@@ -47,8 +47,8 @@ function HomeSalesIndex() {
 
   return (
     <UnderlineTabs defaultValue="sales">
-      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3">
-        <UnderlineTabsList className=" flex  items-center justify-center md:justify-start  gap-3 ">
+      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3 overflow-hidden">
+        <UnderlineTabsList className=" flex  items-center justify-center md:justify-start gap-3 ">
           <UnderlineTabsTrigger
             value="sales"
             className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
@@ -64,10 +64,10 @@ function HomeSalesIndex() {
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
           <h3
-            className="text-xs font-semibold text-primary cursor-pointer "
+            className="text-xs font-semibold text-primary cursor-pointer truncate"
             onClick={() => router.push("/app/dashboard")}
           >
-            View full list
+            View All
           </h3>
           <HorizontalDotsIcon />
         </div>
@@ -88,6 +88,7 @@ function HomeSalesIndex() {
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                   {salesData.filters?.map((filter) => (
                     <TabsTrigger
+                      key={filter.key}
                       value={filter.key}
                       className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                     >
@@ -98,6 +99,7 @@ function HomeSalesIndex() {
                 {salesData.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
                     <AreaChartComponent
+                      key={filter.key}
                       chartConfig={salesData.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
@@ -134,6 +136,7 @@ function HomeSalesIndex() {
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                   {rentalData.filters?.map((filter) => (
                     <TabsTrigger
+                      key={filter.key}
                       value={filter.key}
                       className="rounded-full border border-muted text-sm text-center font-normal text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                     >
@@ -144,6 +147,7 @@ function HomeSalesIndex() {
                 {rentalData.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
                     <AreaChartComponent
+                      key={filter.key}
                       chartConfig={rentalData.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}

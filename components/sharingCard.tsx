@@ -7,6 +7,13 @@ import {
   CardTitle,
 } from "./ui/card";
 import { CopyIcon } from "@/public/svg/icons";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkdinIcon,
+  TiktokIcon,
+  WhatsAppIcon,
+} from "@/public/svg/social";
 
 function SharingCard() {
   return (
@@ -21,20 +28,22 @@ function SharingCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 flex flex-col gap-5">
-        <div className="flex  justify-around  items-center">
-          <img src="/imgs/sharing/whatsapp.svg" alt="whatsApp" />
-          <img src="/imgs/sharing/insta.svg" alt="instagram" />
-          <img src="/imgs/sharing/facebook.svg" alt="facebook" />
-          <img src="/imgs/sharing/linkdin.svg" alt="linkdin" />
-          <img src="/imgs/sharing/tiktok.svg" alt="tiktok" />
-          <img src="/imgs/sharing/telegram.svg" alt="telegram" />
+        <div className="flex  justify-around gap-2 items-center">
+          <FacebookIcon />
+          <LinkdinIcon />
+          <WhatsAppIcon />
+          <img
+            src="/imgs/sharing/insta.svg"
+            alt="insights"
+            className="object-cover"
+          />
+          <TiktokIcon />
         </div>
         <div className="flex gap-3 items-center justify-start">
           <h3 className="truncate rounded-lg text-sm border px-3 py-4 bg-card">
             https://keypilot/Property_10435903?page=1&position=9&term=copy&origin=search&related_id=10435903
           </h3>
           <div className="rounded-lg flex items-center justify-center gap-4 border p-4">
-            <span className="hidden md:block text-secondary">Copy</span>{" "}
             <CopyIcon />
           </div>
         </div>

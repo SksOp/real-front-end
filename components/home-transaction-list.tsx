@@ -50,8 +50,8 @@ function HomeTransactionList() {
 
   return (
     <UnderlineTabs defaultValue="sales">
-      <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3 ">
-        <UnderlineTabsList className=" flex  items-center justify-center md:justify-start  gap-3 ">
+      <div className="flex w-full items-center border border-border justify-between rounded-t-xl overflow-hidden px-3 ">
+        <UnderlineTabsList className=" flex  items-center justify-center md:justify-start   gap-3 ">
           <UnderlineTabsTrigger
             value="sales"
             className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
@@ -67,10 +67,10 @@ function HomeTransactionList() {
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
           <h3
-            className="text-xs font-semibold text-primary cursor-pointer "
+            className="text-xs font-semibold text-primary cursor-pointer truncate"
             onClick={() => router.push("/app/dashboard")}
           >
-            View full list
+            View All
           </h3>
         </div>
       </div>

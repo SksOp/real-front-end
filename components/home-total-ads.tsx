@@ -36,7 +36,7 @@ interface HorizontalBarChartProps {
 export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
   const maxValue = Math.max(...data.map((item) => item.value));
   return (
-    <div className="flex flex-col gap-3 md:gap-6">
+    <div className="flex flex-col gap-6">
       {data.map((item, idx) => (
         <div className="flex flex-col gap-0.5" key={idx}>
           <h3 className="font-medium text-secondary text-[0.688rem] mb-1">

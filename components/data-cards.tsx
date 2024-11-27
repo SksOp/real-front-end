@@ -10,18 +10,19 @@ interface DataCardsProps {
   bgColor?: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   tag?: string;
+  className?: string;
 }
 
 function DataCards({
   children,
   description,
-  bgColor = "bg-card",
   onClick,
   tag,
+  className,
 }: DataCardsProps) {
   return (
     <Card
-      className={cn("border rounded-xl w-full p-3 ", bgColor)}
+      className={cn("border rounded-xl w-full p-4 ", className)}
       onClick={onClick}
     >
       {tag === "upcoming" && (
