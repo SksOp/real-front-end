@@ -40,8 +40,11 @@ function HomeTransactionList() {
     const fetchData = async () => {
       const response = await SalesTransactionApi();
       const response2 = await RentalTransactionApi();
+      response.transactions.pop();
+      response2.transactions.pop();
       setSalesData(response.transactions);
       setRentalData(response2.transactions);
+
       console.log(salesData);
     };
     fetchData();

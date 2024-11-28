@@ -102,16 +102,18 @@ function HomePage() {
           </div>
           <ChartWrapper title="Transactions Value Index">
             <div className="flex justify-center items-stretch  gap-3">
-              <SecondaryChartWrapper className=" flex flex-col gap-3 justify-center items-center">
-                <SalesIndexCardComponent
-                  percentile25={salesIndex[0]}
-                  percentile75={salesIndex[1]}
-                  knob={(salesIndex[1] + salesIndex[0]) / 2}
-                />
-                <InsightCard>
-                  Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam
-                  interdum morbi eu elit. Neque Average price: 750000.{" "}
-                </InsightCard>
+              <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
+                <div className="flex flex-col justify-between items-center gap-10 ">
+                  <SalesIndexCardComponent
+                    percentile25={salesIndex[0]}
+                    percentile75={salesIndex[1]}
+                    knob={(salesIndex[1] + salesIndex[0]) / 2}
+                  />
+                  <InsightCard>
+                    Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam
+                    interdum morbi eu elit. Neque Average price: 750000.{" "}
+                  </InsightCard>
+                </div>
               </SecondaryChartWrapper>
               <SecondaryChartWrapper>
                 {priceRange ? (
