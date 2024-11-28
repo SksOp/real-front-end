@@ -55,7 +55,7 @@ function Navbar({
             <TabsList>
               <TabsTrigger
                 value="home"
-                className="text-sm"
+                className="text-sm "
                 onClick={() => router.push("/app/home")}
               >
                 Home

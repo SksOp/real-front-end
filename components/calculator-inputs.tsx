@@ -20,6 +20,7 @@ import { InputField } from "@/config/types";
 import CalculatorSwitchCard from "./calculator-switch-card";
 import { Card } from "./ui/card";
 import axios from "axios";
+import { FetchAndStoreOptions } from "@/utils/fetchOptions";
 
 interface CalculatorInputsProps {
   uniqueKey: string;
@@ -38,41 +39,6 @@ interface CalculatorInputsProps {
   max?: number;
   step?: number;
 }
-
-const fetchAndStoreOptions = async (
-  key: string,
-  apiUrl: string,
-  expirationTime: number = 24 * 60 * 60 * 1000
-) => {
-  const now = new Date().getTime();
-  const storedData = localStorage.getItem(key);
-  const storedTimestamp = localStorage.getItem(`${key}_timestamp`);
-
-  if (
-    storedData &&
-    storedTimestamp &&
-    now - parseInt(storedTimestamp) < expirationTime
-  ) {
-    return JSON.parse(storedData);
-  }
-
-  try {
-    const response = await axios.get(apiUrl);
-    const data = response.data;
-    const uniqueData = data.data;
-
-    if (Array.isArray(uniqueData)) {
-      localStorage.setItem(key, JSON.stringify(uniqueData));
-      localStorage.setItem(`${key}_timestamp`, now.toString());
-      return uniqueData;
-    } else {
-      throw new Error("Invalid data format");
-    }
-  } catch (error) {
-    console.error(`Error fetching data from ${apiUrl}:`, error);
-    return [];
-  }
-};
 
 function CalculatorInputs({
   uniqueKey,
@@ -98,7 +64,7 @@ function CalculatorInputs({
   useEffect(() => {
     const fetchOptions = async () => {
       if (source) {
-        const data = await fetchAndStoreOptions(uniqueKey, source);
+        const data = await FetchAndStoreOptions(uniqueKey, source);
         if (Array.isArray(data) && data?.length > 0) setFetchedOptions(data);
       }
     };

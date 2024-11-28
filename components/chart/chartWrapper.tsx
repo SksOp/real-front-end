@@ -88,7 +88,7 @@ function ChartWrapper({
             </span>
           </div>
         </div>
-        <CardDescription className="text-[0.813rem] text-accent font-normal">
+        <CardDescription className="text-base text-accent font-normal">
           {description}
         </CardDescription>
         {filters?.length > 0 && (

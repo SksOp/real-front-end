@@ -159,12 +159,12 @@ export interface Dashboard {
   page_filters: PageFilter[];
 
   matrics?: MatrixData[];
-  calculate_matrics?: (params?: {
+  calculate_matrics?: (params: {
     [key: string]: string | number;
   }) => Promise<MatrixData[]>;
   calculate_charts?: {
     key: string;
-    calculate: (params?: {
+    calculate: (params: {
       [key: string]: string | number;
     }) => Promise<ChartDescription>;
   }[];

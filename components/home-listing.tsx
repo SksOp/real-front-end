@@ -24,11 +24,11 @@ function HomeListing() {
   return (
     <>
       <Card
-        className="border rounded-xl w-full p-3 bg-[#FCFBEE] flex flex-col gap-1 "
+        className="border rounded-xl w-full h-full p-3 bg-[#FCFBEE] flex flex-col gap-1 "
         onClick={() => router.push("/app/listings")}
       >
-        <CardHeader className="w-full flex flex-col gap-1 md:gap-3 p-0">
-          <CardTitle className="text-lg font-semibold text-secondary">
+        <CardHeader className="w-full flex flex-col gap-3 md:gap-3 p-0">
+          <CardTitle className="text-sm font-semibold text-secondary">
             My Properties
           </CardTitle>
           <div className="flex items-center">

@@ -35,7 +35,11 @@ function HomeSalesIndex() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await SalesValueTrend();
+      const presentYear = new Date().getFullYear();
+      const params = {
+        end_year: presentYear,
+      };
+      const response = await SalesValueTrend(params);
       const response2 = await RentalValueTrend();
       setSalesData(response);
       setRentalData(response2);
@@ -74,7 +78,7 @@ function HomeSalesIndex() {
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
         <UnderlineTabsContent value="sales">
-          <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
+          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
             Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
             morbi eu elit. Neque Average price: 750000. View more insights
           </CardDescription>
@@ -122,7 +126,7 @@ function HomeSalesIndex() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
+          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
             Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
             morbi eu elit. Neque Average price: 750000. View more insights
           </CardDescription>

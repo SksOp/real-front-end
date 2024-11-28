@@ -68,12 +68,11 @@ export const dashboards: Dashboard[] = [
 
     calculate_matrics: async (params) => {
       console.log("params", params);
-      params = {};
       const date = new Date();
-      const presentYear = date.getFullYear();
-      const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}`;
+      const presentYear = params?.end_year;
+      params.start_year = Number(presentYear) - 1;
+      params.group_en = "Sales";
+      const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`;
       const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
       return matrixOutput;
     },
@@ -82,12 +81,14 @@ export const dashboards: Dashboard[] = [
       {
         key: "transactions_type",
         calculate: async (params) => {
+          params.group_en = "Sales";
           return await SalesTypeChart(params);
         },
       },
       {
         key: "transactions_value_trend",
         calculate: async (params) => {
+          params.group_en = "Sales";
           return SalesValueTrend(params);
         },
       },

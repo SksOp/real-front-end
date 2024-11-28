@@ -18,6 +18,7 @@ import { PageFilter } from "@/config/types";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { FetchAndStoreOptions } from "@/utils/fetchOptions";
 
 function Filters({
   selectOptions,
@@ -39,10 +40,13 @@ function Filters({
     const fetchOptions = async (filter: PageFilter) => {
       if (filter.source) {
         try {
-          const response = await axios.get(filter.source);
+          const response = await FetchAndStoreOptions(
+            filter.key,
+            filter.source
+          );
           setFilterOptions((prev) => ({
             ...prev,
-            [filter.key]: response.data.data,
+            [filter.key]: response,
           }));
         } catch (error) {
           console.error(`Failed to fetch options for ${filter.key}`, error);

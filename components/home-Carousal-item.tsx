@@ -27,7 +27,7 @@ function HomeCarousalItem({
           <CardTitle className="text-black text-base font-semibold truncate">
             {title}
           </CardTitle>
-          <CardDescription className="text-[#7A7A7A] font-normal text-sm ">
+          <CardDescription className="text-[#7A7A7A]  text-base font-normal">
             {description}
           </CardDescription>
         </CardHeader>

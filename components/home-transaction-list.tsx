@@ -76,7 +76,7 @@ function HomeTransactionList() {
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col overflow-y-auto shrink gap-3">
         <UnderlineTabsContent value="sales">
-          <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
+          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
             Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
             morbi eu elit. Neque Average price: 750000. View more insights
           </CardDescription>

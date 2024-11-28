@@ -41,9 +41,8 @@ function DashboardDetailPage() {
     const fetchMatrixData = async () => {
       setLoading(true); // Start loading
       const date = new Date();
-      const presentYear = date.getFullYear();
-      filters.start_year = presentYear - 1;
-      filters.end_year = presentYear;
+      if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
+
       const matrixOutput = await dashboard?.calculate_matrics?.(filters);
       if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
         setMatrixData(matrixOutput);
@@ -60,8 +59,7 @@ function DashboardDetailPage() {
     const fetchChartsData = async () => {
       setLoading(true); // Start loading
       const date = new Date();
-      const presentYear = date.getFullYear();
-      filters.year = presentYear;
+      if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
       if (dashboard?.calculate_charts) {
         const allCharts = await Promise.all(
           dashboard.calculate_charts.map(async (chart) => {
@@ -204,9 +202,9 @@ function DashboardDetailPage() {
                 <SharingCard />
               </div>
             </div>
-            <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+            {/* <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
               insights
-            </div>
+            </div> */}
           </div>
         </Tabs>
       </div>

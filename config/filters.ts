@@ -10,7 +10,7 @@ export const SalesFilter: PageFilter[] = [
     key: "usage_en", //fixed modified backend
     label: "Usage",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage",
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage_en",
   },
   {
     key: "location", //check
@@ -22,7 +22,7 @@ export const SalesFilter: PageFilter[] = [
     key: "property_type", //modified backend
     label: "Property Type",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type",
   },
   {
     key: "property_subtype", // added route ON BACKEND
@@ -46,7 +46,7 @@ export const SalesFilter: PageFilter[] = [
     options: ["Freehold", "Non Free Hold"],
   },
   {
-    key: "year",
+    key: "end_year",
     label: "Year",
     options: ["2024", "2023", "2022", "2021", "2020"],
   },
@@ -77,7 +77,7 @@ export const RentalFilter: PageFilter[] = [
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type_rental", // modified route call on backend changes property_type to property_type_rental
   },
   {
-    key: "year",
+    key: "end_year",
     label: "Year",
     options: ["2024", "2023", "2022", "2021", "2020"],
   },

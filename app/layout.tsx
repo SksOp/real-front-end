@@ -3,8 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import RootProvider from "./root-provider";
 import Head from "next/head";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["greek"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +23,7 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#ff0000" />
       </Head>
-      <body className="select-none">
+      <body className={cn(inter.className, "select-none")}>
         <RootProvider>{children}</RootProvider>
       </body>
     </html>

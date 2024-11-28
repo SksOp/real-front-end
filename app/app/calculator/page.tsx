@@ -1,14 +1,7 @@
 "use client";
 import CalculatorSelector from "@/components/calculator-selector";
 import ChartException from "@/components/chartException";
-import DataCards from "@/components/data-cards";
-import SecondaryNavbar from "@/components/secondaryNavbar";
-import { Tabs } from "@/components/ui/tabs";
-import { Calculators } from "@/config/calculators";
-import { Calculator } from "@/config/types";
 import Layout from "@/layout/secondary";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 function CalculatorPage() {

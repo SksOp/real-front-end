@@ -34,6 +34,24 @@ export const SalesTypeChart = async (params?: {
       { name: "Gifts", value: totalGiftSum, fill: "#FFDBDB" },
     ];
 
+    const totalValue = (totalGiftSum + totalMortageSum + totalSalesSum).toFixed(
+      2
+    );
+
+    const insight = `
+        Cash sales dominate at ${((totalSalesSum / totalValue) * 100).toFixed(
+          2
+        )}%, attracting global investors seeking liquidity.
+        Mortgage transactions have grown to ${(
+          (totalMortageSum / totalValue) *
+          100
+        ).toFixed(2)}%, reflecting favorable financing options.
+        Gift transactions remain minimal, accounting for less than ${(
+          (totalGiftSum / totalValue) *
+          100
+        ).toFixed(2)}% of the market.
+    `;
+
     return {
       name: "Transactions Type",
       filters: [],
@@ -52,8 +70,7 @@ export const SalesTypeChart = async (params?: {
       styles: "min-h-[100px]",
       sub_charts: [],
       data: chartData, // Calculated data will be here
-      insights:
-        "Cash transactions dominate Dubai’s market, attracting global investors, while mortgages contribute a growing 10%.",
+      insights: insight,
     };
   } catch (error) {
     console.error("Error calculating transactions type chart:", error);
@@ -78,16 +95,13 @@ export const SalesTypeChart = async (params?: {
   }
 };
 
-export const SalesValueTrend = async (params?: {
+export const SalesValueTrend = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    params = {};
-    const date = new Date();
-    const end_year = date.getFullYear();
-    const start_year = end_year - 9;
+    params.start_year = Number(params?.end_year) - 9;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
       {
         params: params,
       }
@@ -106,7 +120,13 @@ export const SalesValueTrend = async (params?: {
       value: item.average_Price_per_sqft.toFixed(2),
     }));
     console.log("totalValue", totalValue);
-    // Will do the required calculation here and return the data to build graph
+
+    const insight = `
+          Dubai’s GMV grew by 18% this year, reaching new highs in luxury transactions.
+          Off-plan properties show the fastest growth in transaction value.
+          The total market value crossed AED 350B, up from AED 295B last year.
+      `;
+
     return {
       name: "Transactions Value Trend",
       description:

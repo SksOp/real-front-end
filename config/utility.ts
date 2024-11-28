@@ -51,6 +51,7 @@ export const CalculateMatrix = async (
     [key: string]: string | number;
   }
 ) => {
+  console.log(params);
   try {
     const response = await axios.get(url, {
       params: params,

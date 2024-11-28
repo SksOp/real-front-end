@@ -66,7 +66,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   customXAxisProps = {},
   customGridProps = {},
 }) => {
-  const chartWidth = Math.max(data.length * 30, 500);
+  const chartWidth = Math.max(data?.length * 30, 500);
   const chartHeight = 350;
 
   const customTickFormatter = (value: any): string => {
@@ -102,12 +102,12 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
                 <stop
                   offset="5%"
                   stopColor={area.areaColor || "#B6B1F0"}
-                  stopOpacity={area.areaOpacity || 0.4}
+                  stopOpacity={area.areaOpacity || 0.8}
                 />
                 <stop
                   offset="95%"
                   stopColor={area.areaColor || "#B6B1F0"}
-                  stopOpacity={0}
+                  stopOpacity={0.1}
                 />
               </linearGradient>
             ))}
@@ -120,7 +120,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             axisLine={axisLine}
             stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
-            tickCount={data.length}
+            tickCount={data?.length}
           />
           <YAxis
             tickLine={tickLine}
@@ -140,7 +140,6 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
               fill={`url(#areaGradient-${index})`}
               stroke={area.areaColor || "#B6B1F0"}
               strokeWidth={2}
-              dot={true}
               activeDot={{
                 fill: area.areaColor || "var(--color-default)",
                 r: 4,

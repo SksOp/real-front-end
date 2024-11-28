@@ -52,8 +52,8 @@ function HomePage() {
   return (
     <Layout page="home">
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-3">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-[1.564rem] bg-gradient-to-r from-[#6351E9] to-[#121114] text-transparent bg-clip-text font-bold">
+        <div className="flex flex-col gap-4 px-2">
+          <h1 className="text-2xl bg-gradient-to-r from-[#6351E9] to-[#121114] text-transparent bg-clip-text font-bold">
             <span className="">Hello {name}</span>{" "}
             <span className="inline-block text-black">👋</span>,
             <br />
@@ -74,15 +74,19 @@ function HomePage() {
         <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-screen overflow-y-auto md:flex flex-col gap-3">
           <HomeIntro />
           <FrequentQuestions />
-          <HomeClaimCard />
+          {/* <HomeClaimCard /> */}
           <Feedback />
           <SharingCard />
         </div>
         <div className="w-3/4  max-h-screen overflow-y-auto flex flex-col gap-3">
           <HomeTransactionCard />
-          <div className="flex gap-3 ">
-            <HomeInsights />
-            <HomeListing />
+          <div className="grid grid-cols-2 w-full gap-3 gap-x-4">
+            <div className="flex flex-col gap-3">
+              <HomeInsights />
+            </div>
+            <div className="flex flex-col gap-3">
+              <HomeListing />
+            </div>
           </div>
           <div className="grid grid-cols-2 w-full items-start  gap-3 gap-x-4">
             <div className="flex flex-col gap-3">

@@ -33,7 +33,7 @@ function HomeIntro() {
     <div className="w-full p-4 ">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          <h1 className="text-[2.062rem] bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
+          <h1 className="text-2xl bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
             <span className="">Hello {name}</span>{" "}
             <span className="inline-block text-black">👋</span>,
             <br />

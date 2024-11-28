@@ -6,6 +6,7 @@ import { useParams, usePathname } from "next/navigation";
 import { dashboards } from "@/config/dashboards";
 import { TabsContent } from "./ui/tabs";
 import { CompassIcon } from "@/public/svg/navIcons";
+import { cn } from "@/lib/utils";
 
 function DashboardData() {
   const { type } = useParams<{ type: string }>();
@@ -24,7 +25,7 @@ function DashboardData() {
 
   const createLink = (dashboard: Dashboard) =>
     dashboard.tag === "upcoming" ? (
-      <DataCards tag={dashboard.tag} bgColor="bg-[#FFF0B296]">
+      <DataCards tag={dashboard.tag} className="bg-[#FFF0B296]">
         <h3 className="text-secondary font-semibold text-sm">
           {dashboard.name}
         </h3>
@@ -37,22 +38,24 @@ function DashboardData() {
         key={dashboard.key}
         href={`/app/dashboard/explore`}
         onClick={() => setSelectedDashboard(dashboard.key)}
-        className={
-          selectedDashboard === dashboard.key
-            ? "border-2 border-primary rounded-lg bg-[#FEF8F5]"
-            : "md:bg-background"
-        }
+        className={cn(
+          "col-span-2 bg-background",
+          selectedDashboard === dashboard.key &&
+            "border-2 border-primary rounded-lg  "
+        )}
       >
-        <DataCards bgColor="bg-[#F7F7FF]">
+        <DataCards className="bg-background">
           <div className="flex justify-between items-center">
-            <h3 className="text-secondary font-semibold text-sm">
-              {dashboard.name}
+            <h3 className="text-secondary font-semibold text-base">
+              {"Explore dubai from your own perspective"}
             </h3>
-            <CompassIcon />
           </div>
           <p className="text-base text-muted-foreground font-normal leading-6">
-            {dashboard.description}
+            {"Sales? rental? we have it all covered."}
           </p>
+          <span className="text-[#8177E5] text-base font-semibold">
+            Explore now
+          </span>
         </DataCards>
       </Link>
     ) : (
@@ -62,7 +65,7 @@ function DashboardData() {
         onClick={() => setSelectedDashboard(dashboard.key)}
         className={
           selectedDashboard === dashboard.key
-            ? "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
+            ? "border-2 border-secondary rounded-lg bg-background"
             : "md:bg-background"
         }
       >
@@ -84,7 +87,7 @@ function DashboardData() {
     <div className="w-full md:border rounded-xl p-2">
       <TabsContent
         value="all-dashboards"
-        className="md:flex md:flex-col grid grid-cols-2 gap-3   mt-0"
+        className="md:flex md:flex-col grid grid-cols-2 gap-3 mt-0"
       >
         {allDashboards}
       </TabsContent>
