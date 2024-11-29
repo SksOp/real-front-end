@@ -26,13 +26,13 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
   return (
     <TableRow
       className={cn(
-        "rounded-tl-xl cursor-pointer w-full ",
+        "rounded-tl-xl cursor-pointer w-full hover:bg-none",
         isMuted ? "bg-card" : "bg-background"
       )}
     >
       <TableCell
         className={cn(
-          "flex flex-col justify-center items-start gap-2 w-full px-3",
+          "flex flex-col justify-center items-start gap-2 w-full px-3 hover:bg-none",
           isSelected && "rounded-xl border border-primary"
         )}
       >
@@ -98,7 +98,7 @@ const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
   return (
     <div className="border rounded-xl w-full overflow-hidden">
       <Table>
-        <TableBody>
+        <TableBody className="hover:bg-none">
           {data.map((row, index) => (
             <PriceTableRow
               key={index}

@@ -24,26 +24,29 @@ import {
   VerticalThreeDots,
 } from "@/public/svg/icons";
 import { SalesTrend, SalesValueTrend } from "@/config/sales";
-import { RentalTrend, RentalValueTrend } from "@/config/rental";
 import { ChartDescription } from "@/config/types";
 import ChartException from "./chartException";
 import Barchart from "./chart/barchart/barchart";
 
 function HomeVolumeIndex() {
-  const [salesData, setSalesData] = React.useState<ChartDescription>();
-  const [rentalData, setRentalData] = React.useState<ChartDescription>();
+  const [volume, setVolume] = React.useState<ChartDescription>();
+  const [value, setValue] = React.useState<ChartDescription>();
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await SalesTrend();
-      const response2 = await RentalTrend();
-      setSalesData(response);
-      setRentalData(response2);
-      console.log(salesData);
+      const presentYear = new Date().getFullYear();
+      const params = {
+        end_year: presentYear,
+      };
+      const response = await SalesTrend(params);
+      const response2 = await SalesValueTrend(params);
+      setVolume(response);
+      setValue(response2);
+      console.log(volume);
     };
     fetchData();
-    console.log(salesData);
+    console.log(volume);
   }, []);
 
   return (
@@ -52,20 +55,20 @@ function HomeVolumeIndex() {
         <UnderlineTabsList className="  items-center justify-center md:justify-start  gap-3 ">
           <UnderlineTabsTrigger
             value="volume"
-            className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
+            className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
             Transaction (Volume)
           </UnderlineTabsTrigger>
-          {/* <UnderlineTabsTrigger
-            value="rental"
-            className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit"
+          <UnderlineTabsTrigger
+            value="value"
+            className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit"
           >
-            Rental Price Index
-          </UnderlineTabsTrigger> */}
+            Transaction (Value)
+          </UnderlineTabsTrigger>
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
           <h3
-            className="text-xs font-semibold text-primary cursor-pointer "
+            className="text-sm font-semibold text-primary cursor-pointer"
             onClick={() => router.push("/app/dashboard")}
           >
             View All
@@ -75,36 +78,36 @@ function HomeVolumeIndex() {
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
         <UnderlineTabsContent value="volume">
-          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Track the trends in transaction value and volume over time. Analyze
+            market growth and activity patterns with year-on-year comparisons.
           </CardDescription>
           <CardContent className="p-0 w-full ">
-            {salesData ? (
+            {volume ? (
               <Tabs
                 defaultValue={
-                  salesData.filters ? salesData?.filters[0].key : "total_value"
+                  volume.filters ? volume?.filters[0].key : "total_value"
                 }
               >
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
-                  {salesData.filters?.map((filter) => (
+                  {volume.filters?.map((volume) => (
                     <TabsTrigger
-                      key={filter.key}
-                      value={filter.key}
+                      key={volume.key}
+                      value={volume.key}
                       className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
                     >
-                      {filter.label}
+                      {volume.label}
                     </TabsTrigger>
                   ))}
                 </TabsList>
-                {salesData.filters?.map((filter) => (
+                {volume.filters?.map((filter) => (
                   <TabsContent key={filter.key} value={filter.key}>
-                    <Barchart
-                      chartConfig={salesData.chartConfig}
+                    <AreaChartComponent
+                      chartConfig={volume.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
                       tickFormatter={(value) => value.toString()}
-                      yAxisDataKeys={["value1"]}
+                      areas={[{ yAxisDataKey: "value1" }]}
                     />
                   </TabsContent>
                 ))}
@@ -121,20 +124,16 @@ function HomeVolumeIndex() {
             </CardFooter>
           </CardContent>
         </UnderlineTabsContent>
-        {/* <UnderlineTabsContent value="rental">
-          <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+        <UnderlineTabsContent value="value">
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Track the trends in transaction value and volume over time. Analyze
+            market growth and activity patterns with year-on-year comparisons.
           </CardDescription>
           <CardContent className="p-0 w-full">
-            {rentalData ? (
-              <Tabs
-                defaultValue={
-                  rentalData.filters ? rentalData.filters[0].key : "all"
-                }
-              >
+            {value ? (
+              <Tabs defaultValue={value.filters ? value.filters[0].key : "all"}>
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
-                  {rentalData.filters?.map((filter) => (
+                  {value.filters?.map((filter) => (
                     <TabsTrigger
                       value={filter.key}
                       className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
@@ -143,13 +142,13 @@ function HomeVolumeIndex() {
                     </TabsTrigger>
                   ))}
                 </TabsList>
-                {rentalData.filters?.map((filter) => (
+                {value.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
                     <Barchart
-                      chartConfig={rentalData.chartConfig}
+                      chartConfig={value.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
-                      yAxisDataKeys={["value1"]}
+                      yAxisDataKeys={["value"]}
                       tickFormatter={(value) => value.toString()}
                     />
                   </TabsContent>
@@ -166,7 +165,7 @@ function HomeVolumeIndex() {
               </InsightCard>
             </CardFooter>
           </CardContent>
-        </UnderlineTabsContent> */}
+        </UnderlineTabsContent>
       </Card>
     </UnderlineTabs>
   );

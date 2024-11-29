@@ -33,7 +33,10 @@ function Progressbar({
 
   return (
     <div
-      className={cn("w-full fixed top-[3.7rem] z-50 left-0 right-0", className)}
+      className={cn(
+        "w-full fixed top-[3.7rem] z-50 left-0 right-0 md:hidden",
+        className
+      )}
     >
       <div
         className="h-1 bg-gradient-to-r from-[rgba(86,129,235,1)] to-[rgba(211,103,116,1)]"

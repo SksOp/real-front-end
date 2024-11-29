@@ -12,12 +12,14 @@ interface HomeCarousalItemProps {
   title: string;
   description: string;
   image: string;
+  btn?: boolean;
 }
 
 function HomeCarousalItem({
   title,
   description,
   image,
+  btn = false,
 }: HomeCarousalItemProps) {
   return (
     <Card className="bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between  overflow-hidden">
@@ -27,17 +29,19 @@ function HomeCarousalItem({
           <CardTitle className="text-black text-base font-semibold truncate">
             {title}
           </CardTitle>
-          <CardDescription className="text-[#7A7A7A]  text-base font-normal">
+          <CardDescription className="text-[#7A7A7A] line-clamp-3 text-base font-normal">
             {description}
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
-          <Button
-            variant={"secondary"}
-            className="px-4 py-2 w-fit rounded-md text-base font-semibold text-white"
-          >
-            Join Now
-          </Button>
+          {btn && (
+            <Button
+              variant={"secondary"}
+              className="px-4 py-2 w-fit rounded-md text-base font-semibold text-white"
+            >
+              Join Now
+            </Button>
+          )}
         </CardContent>
       </div>
       {/* Image Section */}

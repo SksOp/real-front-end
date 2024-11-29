@@ -68,7 +68,7 @@ function HomeTopAreas() {
   return (
     <ChartWrapper
       title="Top Areas"
-      description="Get a holistic view listings and property ads in the region.Get a holistic view listings and property ads in the region."
+      description="Discover the top-performing areas with rich insights on sales, rentals, supply, and unit availability. Click 'View All' to explore detailed market dynamics for each location."
     >
       <div className="flex flex-col gap-3">
         <HorizontalBarChartComponent

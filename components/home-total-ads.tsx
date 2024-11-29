@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -45,7 +46,7 @@ export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
           <div className="flex justify-start items-center gap-2">
             <div
               className={cn(
-                `h-6 border border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
+                `h-[1.52rem] border-[1.9px] border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
               )}
               style={{
                 width: `${(item.value / maxValue) * 100}%`,
@@ -77,7 +78,7 @@ function HomeTotalAds() {
       imgUrl: "/pf.png",
     },
     { name: "Bayut (50%)", value: 100, fill: "#CBE5FB", imgUrl: "/bayut.png" },
-    { name: "Dubizzle (50%)", value: 75, fill: "#FFC8C8", imgUrl: "/pf.png" },
+    { name: "Dubizzle (50%)", value: 75, fill: "#FFC8C8", imgUrl: "/dub.svg" },
     { name: "Others (50%)", value: 50, fill: "#EFEEFC" },
   ];
   return (
@@ -86,7 +87,7 @@ function HomeTotalAds() {
         <CardTitle className="text-sm font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
-        <h3 className="text-base text-accent font-normal truncate">
+        <h3 className="text-base text-accent font-normal line-clamp-2">
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>

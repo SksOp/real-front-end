@@ -20,6 +20,7 @@ interface HomeTransactionCardProps {
 function HomeTransactionCard() {
   const [salesMatrix, setSalesMatrix] = React.useState<MatrixData[]>([]);
   const [rentalMatrix, setRentalMatrix] = React.useState<MatrixData[]>([]);
+  const [mortageMatrix, setMortageMatrix] = React.useState<MatrixData[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +32,14 @@ function HomeTransactionCard() {
       }&end_year=${presentYear}`;
       const matrixOutputSales = await CalculateMatrix(sourceURLSales, "sales");
       setSalesMatrix(matrixOutputSales);
+      const sourceURLMortgage = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
+        presentYear - 1
+      }&end_year=${presentYear}&group_en=Mortgage`;
+      const matrixOutputMortgage = await CalculateMatrix(
+        sourceURLMortgage,
+        "sales"
+      );
+      setMortageMatrix(matrixOutputMortgage);
       const sourceURLRental = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
         presentYear - 1
       }&end_year=${presentYear}`;
@@ -92,6 +101,18 @@ function HomeTransactionCard() {
           <TabsContent value="rental" className="w-full flex  mt-0">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
               {rentalMatrix.map((item, index) => (
+                <MatrixCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  growth={item.growth}
+                />
+              ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="mortage" className="w-full flex  mt-0">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+              {mortageMatrix.map((item, index) => (
                 <MatrixCard
                   key={index}
                   title={item.title}

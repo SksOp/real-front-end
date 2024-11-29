@@ -222,9 +222,7 @@ export const SalesTrend = async (params?: {
     while (monthlyData.length !== 12) {
       const prevYearData = data[data.length - 2];
       monthlyData.unshift({
-        year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]}_${
-          prevYearData.Year
-        }`,
+        year: months[parseInt(prevYearData.month_data[i].Month) - 1],
         value1: prevYearData.month_data[i].number_of_Row_Used,
       });
       i--;

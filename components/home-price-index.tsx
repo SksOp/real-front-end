@@ -66,7 +66,7 @@ function HomePriceIndex() {
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
           <h3
-            className="text-xs font-semibold text-primary cursor-pointer truncate"
+            className="text-sm font-semibold text-primary cursor-pointer"
             onClick={() => router.push("/app/dashboard")}
           >
             View All
@@ -75,9 +75,10 @@ function HomePriceIndex() {
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
         <UnderlineTabsContent value="sales">
-          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Explore average prices, price per sqft, and transaction volumes for
+            sales and rentals. Track growth trends to stay ahead of market
+            shifts and identify lucrative opportunities.
           </CardDescription>
           <CardContent className="p-0 w-full ">
             {salesData ? (

@@ -14,11 +14,11 @@ function InsightCard({
   className?: ClassValue;
 }) {
   return (
-    <div className="bg-gradient-to-r w-full from-[rgba(86,129,235,1)] to-[rgba(211,103,116,1)] p-[1px] rounded-xl">
+    <div className="bg-gradient-to-r w-full from-[#5681EB] to-[#D36774] p-[1px] rounded-xl">
       <Card
         className={cn(
           "w-full p-4 bg-gradient-to-br rounded-xl flex flex-col gap-2",
-          "from-[rgba(84,131,237,0.11)] to-[rgba(217,100,109,0.11)]",
+          "from-[#5483ED1C] to-[#D9646D1C]",
           "border border-transparent",
           className
         )}
@@ -37,7 +37,7 @@ function InsightCard({
             <CardDescription>{children}</CardDescription>
           </div>
         </div>
-        <span className="text-[#8177E5] text-sm pl-8 font-semibold ">
+        <span className="text-sm font-semibold text-primary cursor-pointer">
           {linkText}
         </span>
       </Card>

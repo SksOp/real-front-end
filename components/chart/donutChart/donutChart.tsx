@@ -9,6 +9,8 @@ import {
 } from "recharts";
 import {
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -41,14 +43,6 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   cornerRadius = 5,
   padAngle = 4,
 }) => {
-  // Helper function to format numbers with suffixes
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
-    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
-    return num.toString();
-  };
-
   // Calculate total properties count for the label in the middle of the Pie chart
   const totalProperties = data.reduce((acc, item) => acc + item[dataKey], 0);
 
@@ -59,7 +53,7 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   }));
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center gap-6">
       <ChartContainer config={chartConfig} className={className}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -93,7 +87,7 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
                           y={viewBox.cy}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {formatNumber(totalProperties)}
+                          {FormatValue(totalProperties)}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -111,11 +105,11 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
           </PieChart>
         </ResponsiveContainer>
       </ChartContainer>
-      <div className="w-full grid grid-cols-2 md:grid-cols-3  justify-items-center gap-x-8 gap-4 ">
+      <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-start gap-x-8 gap-6 ">
         {data.map((item) => (
           <div
             key={item.name}
-            className="flex items-start justify-center w-full gap-2"
+            className="flex items-start justify-center  gap-2"
           >
             <span
               className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}

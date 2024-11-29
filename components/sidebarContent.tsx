@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -17,19 +17,34 @@ import {
 } from "@/public/svg/sidebarIcons";
 import { useRouter } from "next/navigation";
 import { KeyMatricIcon } from "@/public/svg/navIcons";
+import { User } from "firebase/auth";
+import { useAuth } from "@/lib/auth";
 
 function SidebarContent() {
   const router = useRouter();
+  const auth = useAuth();
+  const [user, setUser] = React.useState<User | null>(null);
+
+  useEffect(() => {
+    const user = auth.user;
+    if (user) {
+      setUser(user);
+    }
+    console.log(user);
+  }, [user]);
+
   return (
     <div className="flex flex-col justify-start items-start gap-5 h-full w-full px-5 pt-9">
       <div className="flex items-center justify-start gap-2">
         <Avatar>
-          <AvatarImage src="/placeholder.svg" alt="User" />
-          <AvatarFallback>UN</AvatarFallback>
+          <AvatarImage src={user?.photoURL || ""} alt="User" />
+          <AvatarFallback className="text-xs">
+            {user?.displayName && user?.displayName[0]}
+          </AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-lg font-semibold">User Name</h2>
-          <p className="text-sm text-muted-foreground">user@example.com</p>
+          <h2 className="text-lg font-semibold">{user?.displayName}</h2>
+          <p className="text-sm text-muted-foreground">{user?.email}</p>
         </div>
       </div>
       <Separator />
@@ -77,10 +92,10 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/key-matrices")}
+          onClick={() => router.push("/app/key-matrics")}
         >
           <KeyMatricIcon />
-          Key Matrices
+          Key Matrics
         </Button>
         <Button
           variant="ghost"

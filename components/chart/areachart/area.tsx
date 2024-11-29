@@ -82,7 +82,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
       <ResponsiveContainer width={chartWidth} height={"100%"}>
         <AreaChart
           data={data}
-          margin={{ left: -8, top: 35, right: 10, bottom: 4 }}
+          margin={{ left: 0, top: 35, right: 10, bottom: 4 }}
         >
           <CartesianGrid
             vertical={false}

@@ -1,15 +1,29 @@
-import Progressbar from "@/components/progressbar";
+"use client";
 import SidebarContent from "@/components/sidebarContent";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/underline-tabs";
-import { logOut } from "@/lib/auth";
+import { logOut, useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { HamburgerIcon } from "@/public/svg/icons";
 import { CompassIcon, SettingIcon } from "@/public/svg/navIcons";
 import { ClassValue } from "clsx";
+import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 function Navbar({
   page,
@@ -19,6 +33,16 @@ function Navbar({
   className?: ClassValue;
 }) {
   const router = useRouter();
+  const auth = useAuth();
+  const [user, setUser] = React.useState<User | null>(null);
+
+  useEffect(() => {
+    const user = auth.user;
+    if (user) {
+      setUser(user);
+    }
+    console.log(user);
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -33,7 +57,7 @@ function Navbar({
   return (
     <nav
       className={cn(
-        "w-full bg-background fixed flex justify-between items-center z-50 px-5 py-4 top-0 ",
+        "w-full bg-background fixed flex justify-between shadow-[0px_4px_4px_0px_rgba(0,0,0,0.03)] items-center z-50 px-5 py-4 top-0 ",
         className
       )}
     >
@@ -87,14 +111,14 @@ function Navbar({
                 className="text-sm"
                 onClick={() => router.push("/app/listings")}
               >
-                My Listings
+                My Properties
               </TabsTrigger>
               <TabsTrigger
                 value="key-matrices"
                 className="text-sm"
-                onClick={() => router.push("/app/key-matrices")}
+                onClick={() => router.push("/app/key-matrics")}
               >
-                Key Matrices
+                Key Metrics
               </TabsTrigger>
               <TabsTrigger
                 value="market-pulse"
@@ -106,14 +130,57 @@ function Navbar({
             </TabsList>
           </Tabs>
         </div>
-        <div className="flex items-center justify-end gap-2">
-          <Button
-            variant={"ghost"}
-            className="bg-red-400"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+        <div className="flex items-center justify-end gap-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar className="w-6 h-6">
+                <AvatarImage src={user?.photoURL || ""} alt="User" />
+                <AvatarFallback className="text-xs">
+                  {user?.displayName && user?.displayName[0]}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="rounded-lg p-0 border-0"
+            >
+              <Card className="bg-white px-6 border-0 py-4 flex flex-col gap-4">
+                <CardHeader className="p-0 flex flex-col items-center justify-center gap-2">
+                  <Avatar>
+                    <AvatarImage src={user?.photoURL || ""} alt="User" />
+                    <AvatarFallback className="text-xs">
+                      {user?.displayName && user?.displayName[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                  <CardTitle className="font-semibold text-sm text-secondary">
+                    {user?.displayName}
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground text-sm font-normal">
+                    {user?.email}
+                  </CardDescription>
+                  <h3 className="text-muted-foreground text-sm font-normal">
+                    BRN:{" "}
+                    <span className="text-red-200 font-bold">Not Verified</span>
+                  </h3>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-3">
+                  <Button
+                    variant={"ghost"}
+                    className="text-secondary-500 text-sm font-normal"
+                  >
+                    Change Profile picture
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    onClick={handleLogout}
+                    className="text-red-500 hover:bg-red-100 text-sm font-normal"
+                  >
+                    Sign Out
+                  </Button>
+                </CardContent>
+              </Card>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <SettingIcon />
         </div>
       </div>

@@ -55,20 +55,20 @@ function HomeSalesIndex() {
         <UnderlineTabsList className=" flex  items-center justify-center md:justify-start gap-3 ">
           <UnderlineTabsTrigger
             value="sales"
-            className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
+            className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
             Sales Price Index
           </UnderlineTabsTrigger>
           <UnderlineTabsTrigger
             value="rental"
-            className="flex text-secondary text-sm font-semibold justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
+            className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
             Rental Price Index
           </UnderlineTabsTrigger>
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
           <h3
-            className="text-xs font-semibold text-primary cursor-pointer truncate"
+            className="text-sm font-semibold text-primary cursor-pointer"
             onClick={() => router.push("/app/dashboard")}
           >
             View All
@@ -78,9 +78,10 @@ function HomeSalesIndex() {
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
         <UnderlineTabsContent value="sales">
-          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Explore the official sales index and value trends, developed by DLD
+            and PropertyFinder. Base year 2012, powered by advanced statistical
+            and ML methodologies.
           </CardDescription>
           <CardContent className="p-0 w-full ">
             {salesData ? (
@@ -126,9 +127,10 @@ function HomeSalesIndex() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Explore the official sales index and value trends, developed by DLD
+            and PropertyFinder. Base year 2012, powered by advanced statistical
+            and ML methodologies.
           </CardDescription>
           <CardContent className="p-0 w-full">
             {rentalData ? (

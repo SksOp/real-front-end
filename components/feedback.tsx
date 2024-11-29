@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,40 +6,66 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
 import { AutosizeTextarea } from "./ui/auto-scale-textarea";
+import {
+  Feedback1,
+  Feedback2,
+  Feedback3,
+  Feedback4,
+  Feedback5,
+} from "@/public/svg/feedback";
 
 function Feedback() {
+  const [selectedFeedback, setSelectedFeedback] = useState<number | null>(null);
+
+  const handleFeedbackClick = (index: number) => {
+    setSelectedFeedback(index);
+  };
+
   return (
     <Card className="border rounded-xl w-full bg-background">
-      <CardHeader className="">
+      <CardHeader>
         <CardTitle className="text-base font-semibold text-secondary">
           Is this dashboard helpful?
         </CardTitle>
-        <CardDescription className="text-sm text-accent">
+        <CardDescription className="text-base text-muted-foreground font-normal">
           Got all the information that you wanted? We are all ears for what you
           have to say! Click on your expression and type your feedback.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <div className="flex flex-wrap justify-around  mb-2">
-          <img src="/imgs/feedback/star1.png" alt="happy" className="" />
-          <img src="/imgs/feedback/star2.png" alt="happy" className="" />
-          <img src="/imgs/feedback/star3.png" alt="happy" className="" />
-          <img src="/imgs/feedback/star4.png" alt="happy" className="" />
-          <img src="/imgs/feedback/star5.png" alt="happy" className="" />
+        <div className="flex justify-around mb-2">
+          <Feedback1
+            isClicked={selectedFeedback !== null && 1 <= selectedFeedback}
+            onClick={() => handleFeedbackClick(1)}
+          />
+          <Feedback2
+            isClicked={selectedFeedback !== null && 2 <= selectedFeedback}
+            onClick={() => handleFeedbackClick(2)}
+          />
+          <Feedback3
+            isClicked={selectedFeedback !== null && 3 <= selectedFeedback}
+            onClick={() => handleFeedbackClick(3)}
+          />
+          <Feedback4
+            isClicked={selectedFeedback !== null && 4 <= selectedFeedback}
+            onClick={() => handleFeedbackClick(4)}
+          />
+          <Feedback5
+            isClicked={selectedFeedback !== null && 5 <= selectedFeedback}
+            onClick={() => handleFeedbackClick(5)}
+          />
         </div>
-        <div className="flex flex-col  gap-2">
+        <div className="flex flex-col gap-2">
           <AutosizeTextarea
             placeholder="Enter your Feedback"
-            className=" bg-card h-fit rounded-xl border"
+            className="bg-card h-fit rounded-xl border"
             maxHeight={200}
           />
           <Button
-            variant={"ghost"}
-            className=" min-w-fit px-2   text-secondary hover:bg-primary/10 h-12 rounded-xl border"
+            variant="ghost"
+            className="min-w-fit px-2 text-secondary hover:bg-primary/10 h-12 rounded-xl border"
           >
             Send feedback
           </Button>

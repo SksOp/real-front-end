@@ -79,9 +79,10 @@ function HomeTransactionList() {
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col overflow-y-auto shrink gap-3">
         <UnderlineTabsContent value="sales">
-          <CardDescription className="text-base text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Explore the latest real-time sales and rental transactions with
+            unparalleled accuracy. Gain valuable insights and uncover market
+            trends at a glance.
           </CardDescription>
           <CardContent className="p-0 w-full flex flex-col gap-3">
             {salesData?.map((transaction, index) => (
@@ -90,9 +91,10 @@ function HomeTransactionList() {
           </CardContent>
         </UnderlineTabsContent>
         <UnderlineTabsContent value="rental">
-          <CardDescription className="text-sm text-accent my-2 hidden md:block font-normal ">
-            Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-            morbi eu elit. Neque Average price: 750000. View more insights
+          <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
+            Explore the latest real-time sales and rental transactions with
+            unparalleled accuracy. Gain valuable insights and uncover market
+            trends at a glance.
           </CardDescription>
           <CardContent className="p-0 w-full flex flex-col gap-3">
             {rentalData?.map((transaction, index) => (
