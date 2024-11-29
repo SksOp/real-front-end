@@ -87,7 +87,7 @@ function ExplorePage() {
     fetchData();
   }, [filters]);
 
-  const handleCalculate = async (params?: {
+  const handleCalculate = async (params: {
     [key: string]: string | number;
   }) => {
     console.log(inputValues);

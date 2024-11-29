@@ -193,7 +193,7 @@ export const CalculateMatrix = async (
 
 export const CalculateCharts = async (
   type: "sales" | "rental",
-  params?: {
+  params: {
     [key: string]: string | number;
   }
 ) => {

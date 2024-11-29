@@ -14,7 +14,7 @@ export interface Matrix {
   filters?: PageFilter[];
   calculate_charts?: {
     key: string;
-    calculate: (params?: {
+    calculate: (params: {
       [key: string]: string | number;
     }) => Promise<ChartDescription> | Promise<MatrixData>;
   };
