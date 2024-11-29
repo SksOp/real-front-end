@@ -2,6 +2,8 @@ import axios from "axios";
 import { Matrix } from "./matrices";
 import { SupplyFilter } from "./filters";
 import { MatrixData } from "./types";
+import { BASE_URL } from "@/firebase/api-config";
+
 
 export const SupplyMatrices: Matrix[] = [
   {
@@ -15,7 +17,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
           const data = response.data.data[0]?.total_projects_overall;
@@ -48,7 +50,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
 
@@ -82,7 +84,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
 
@@ -116,7 +118,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
 
@@ -150,7 +152,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
 
@@ -186,7 +188,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=2024`,
+            `${BASE_URL}projects/details?start_year=2024&end_year=2024`,
             { params: params }
           );
 
@@ -222,7 +224,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
 
@@ -280,7 +282,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
+            `${BASE_URL}projects/details`,
             { params: params }
           );
 
@@ -338,7 +340,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=100000`,
+            `${BASE_URL}projects/details?start_year=2024&end_year=100000`,
             { params: params }
           );
 
@@ -396,7 +398,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           // const response = await axios.get(
-          //   `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/price-range`,
+          //   `${BASE_URL}projects/price-range`,
           //   { params: params }
           // );
 
@@ -485,7 +487,7 @@ export const SupplyMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/developers/total`,
+            `${BASE_URL}developers/total`,
             { params: params }
           );
           const data = response.data.data[0].developer_count;

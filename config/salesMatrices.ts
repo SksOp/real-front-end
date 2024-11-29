@@ -9,6 +9,7 @@ import {
   SalesTypeChart,
   SalesValueTrend,
 } from "./sales";
+import { BASE_URL } from "@/firebase/api-config";
 
 export const SalesMatrices: Matrix[] = [
   {
@@ -24,9 +25,8 @@ export const SalesMatrices: Matrix[] = [
         params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/transaction/trends?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[2];
       },
@@ -45,9 +45,8 @@ export const SalesMatrices: Matrix[] = [
         params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/transaction/trends?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[0];
@@ -67,9 +66,8 @@ export const SalesMatrices: Matrix[] = [
         params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/transaction/trends?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[1];
@@ -89,9 +87,8 @@ export const SalesMatrices: Matrix[] = [
         params = {};
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/transaction/trends?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[3];
@@ -276,9 +273,8 @@ export const SalesMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}&group_en=Mortgage`;
+        const sourceURL = `${BASE_URL}/transaction/trends?start_year=${presentYear - 1
+          }&end_year=${presentYear}&group_en=Mortgage`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[3];
@@ -296,9 +292,8 @@ export const SalesMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}&group_en=Mortgage`;
+        const sourceURL = `${BASE_URL}/transaction/trends?start_year=${presentYear - 1
+          }&end_year=${presentYear}&group_en=Mortgage`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[2];

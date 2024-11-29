@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ChartDescription } from "./types";
+import { BASE_URL } from "@/firebase/api-config";
 
 export const RentalValueTrend = async (params?: {
   [key: string]: string | number;
@@ -12,7 +13,7 @@ export const RentalValueTrend = async (params?: {
     const start_year = end_year - 9;
     console.log("params", params);
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year${start_year}&end_year=${end_year}`,
+      `${BASE_URL}/rental/average?start_year${start_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -97,7 +98,7 @@ export const RentalTrend = async (params?: {
     const end_year = date.getFullYear();
     const start_year = end_year - 1;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${start_year}&end_year=${end_year}`,
+      `${BASE_URL}/rental/average?start_year=${start_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -206,7 +207,7 @@ export const RentalIndex = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/index`,
+      `${BASE_URL}/rental/index`,
       {
         params: params,
       }
@@ -214,7 +215,7 @@ export const RentalIndex = async (params?: {
     const date = new Date();
     const end_year = date.getFullYear();
     const responseRange = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/rentIndex?start_year=${end_year}&end_year=${end_year}`,
+      `${BASE_URL}/rental/rentIndex?start_year=${end_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -325,7 +326,7 @@ export const RentalSimilarData = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/last`,
+      `${BASE_URL}/rental/last`,
       { params: params }
     );
 
@@ -350,9 +351,8 @@ export const RentalSimilarData = async (params?: {
       ];
 
       const date = new Date(item.registration_date.value);
-      const formattedDate = `${date.getDate()}/${
-        months[date.getMonth()]
-      }/${date.getFullYear()}`;
+      const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+        }/${date.getFullYear()}`;
       return {
         Date: formattedDate, // Use the formatted date
         "Rent Price": item.annual_amount,
@@ -400,7 +400,7 @@ export const RentalComparison = async (params?: {
     const end_year = date.getFullYear();
     const start_year = end_year - 1;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/comp?start_year=${end_year}&end_year=${end_year}`,
+      `${BASE_URL}/rental/comp?start_year=${end_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -447,7 +447,7 @@ export const RentalSegmentation = async (params?: {
     const end_year = date.getFullYear();
     params = {};
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/segment?start_year=${end_year}&end_year=${end_year}`,
+      `${BASE_URL}/rental/segment?start_year=${end_year}&end_year=${end_year}`,
       {
         params: params,
       }

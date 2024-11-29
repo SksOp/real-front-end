@@ -9,6 +9,7 @@ import {
 } from "./rental";
 import { MatrixData } from "./types";
 import { CalculateMatrix } from "./utility";
+import { BASE_URL } from "@/firebase/api-config";
 
 export const RentalMatrices: Matrix[] = [
   {
@@ -25,8 +26,7 @@ export const RentalMatrices: Matrix[] = [
           const date = new Date();
           const presentYear = date.getFullYear();
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
-              presentYear - 1
+            `${BASE_URL}/rental/average?start_year=${presentYear - 1
             }&end_year=${presentYear}`
           );
           console.log("response", response.data);
@@ -73,9 +73,8 @@ export const RentalMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/rental/average?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
 
@@ -102,9 +101,8 @@ export const RentalMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/rental/average?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
         return matrixOutput[2];
@@ -122,9 +120,8 @@ export const RentalMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        const sourceURL = `${BASE_URL}/rental/average?start_year=${presentYear - 1
+          }&end_year=${presentYear}`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
         return matrixOutput[3];

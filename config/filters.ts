@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/firebase/api-config";
 import { PageFilter } from "./types";
 
 export const SalesFilter: PageFilter[] = [
@@ -10,25 +11,25 @@ export const SalesFilter: PageFilter[] = [
     key: "usage_en", //fixed modified backend
     label: "Usage",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage",
+      `${BASE_URL}/constants?type=usage`,
   },
   {
     key: "location", //check
     label: "Area",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+      `${BASE_URL}/constants?type=location`,
   },
   {
     key: "property_type", //modified backend
     label: "Property Type",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property-type",
+      `${BASE_URL}/constants?type=property-type`,
   },
   {
     key: "property_subtype", // added route ON BACKEND
     label: "Property Subtype",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_subtype",
+      `${BASE_URL}/constants?type=property_subtype`,
   },
   {
     key: "resale_vs_first_sale",
@@ -62,19 +63,19 @@ export const RentalFilter: PageFilter[] = [
     key: "usage_en", // check
     label: "Usage",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage_rental", //modified route call on backend changes usage_en to usage_rental
+      `${BASE_URL}/constants?type=usage_rental`, //modified route call on backend changes usage_en to usage_rental
   },
   {
     key: "location", // check
     label: "Area",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental", //check
+      `${BASE_URL}/constants?type=location_rental`, //check
   },
   {
     key: "property_type",
     label: "Property Type",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type_rental", // modified route call on backend changes property_type to property_type_rental
+      `${BASE_URL}/constants?type=property_type_rental`, // modified route call on backend changes property_type to property_type_rental
   },
   {
     key: "year",
@@ -88,7 +89,7 @@ export const SupplyFilter: PageFilter[] = [
     key: "location",
     label: "Area",
     source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+      `${BASE_URL}/constants?type=location_rental`,
   },
   {
     key: "start_date",

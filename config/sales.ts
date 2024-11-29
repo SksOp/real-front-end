@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/firebase/api-config";
 import axios from "axios";
 
 export const SalesTypeChart = async (params?: {
@@ -5,7 +6,7 @@ export const SalesTypeChart = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+      `${BASE_URL}/transaction/types`,
       {
         params: params,
       }
@@ -87,7 +88,7 @@ export const SalesValueTrend = async (params?: {
     const end_year = date.getFullYear();
     const start_year = end_year - 9;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+      `${BASE_URL}/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -162,7 +163,7 @@ export const SalesTrend = async (params?: {
     const end_year = date.getFullYear();
     const start_year = end_year - 9;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+      `${BASE_URL}/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -202,9 +203,8 @@ export const SalesTrend = async (params?: {
     while (monthlyData.length !== 12) {
       const prevYearData = data[data.length - 2];
       monthlyData.unshift({
-        year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]}_${
-          prevYearData.Year
-        }`,
+        year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]}_${prevYearData.Year
+          }`,
         value1: prevYearData.month_data[i].number_of_Row_Used,
       });
       i--;
@@ -286,7 +286,7 @@ export const SalesPriceRanges = async (params?: {
     const date = new Date();
     const end_year = date.getFullYear();
     const responseRange = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
+      `${BASE_URL}/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -379,7 +379,7 @@ export const SalesIndex = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
+      `${BASE_URL}/transaction/index`,
       {
         params: params,
       }
@@ -440,7 +440,7 @@ export const SalesSimilarData = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`,
+      `${BASE_URL}/transaction/last`,
       { params: params }
     );
 
@@ -465,9 +465,8 @@ export const SalesSimilarData = async (params?: {
         "Dec",
       ];
       const date = new Date(item.dates.value);
-      const formattedDate = `${date.getDate()}/${
-        months[date.getMonth()]
-      }/${date.getFullYear()}`;
+      const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+        }/${date.getFullYear()}`;
       totalValue += item.value;
       return {
         Date: formattedDate, // Use the formatted date
@@ -510,7 +509,7 @@ export const SalesPriceComparison = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?location=Business%20Bay`,
+      `${BASE_URL}/transaction/comp?location=Business%20Bay`,
       {
         params: params,
       }
@@ -554,7 +553,7 @@ export const SalesSegmentation = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+      `${BASE_URL}/transaction/types`,
       {
         params: params,
       }

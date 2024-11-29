@@ -1,5 +1,6 @@
 import axios, { all } from "axios";
 import { Dashboard } from "./types";
+import { BASE_URL } from "@/firebase/api-config";
 
 export const dashboards: Dashboard[] = [
   {
@@ -23,7 +24,7 @@ export const dashboards: Dashboard[] = [
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -61,20 +62,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -89,7 +90,7 @@ export const dashboards: Dashboard[] = [
       console.log("params", params);
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
+          `${BASE_URL}/transaction/trends`,
           {
             params: params,
           }
@@ -185,7 +186,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+              `${BASE_URL}/transaction/types`,
               {
                 params: params,
               }
@@ -268,7 +269,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -346,7 +347,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -386,9 +387,8 @@ export const dashboards: Dashboard[] = [
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
+                year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]
+                  }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
@@ -471,7 +471,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
+              `${BASE_URL}/transaction/index`,
               {
                 params: params,
               }
@@ -479,7 +479,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -602,7 +602,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`,
+              `${BASE_URL}/transaction/last`,
               { params: params }
             );
 
@@ -627,9 +627,8 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
               const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
@@ -675,7 +674,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?location=Business%20Bay`,
+              `${BASE_URL}/transaction/comp?location=Business%20Bay`,
               {
                 params: params,
               }
@@ -719,7 +718,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+              `${BASE_URL}/transaction/types`,
               {
                 params: params,
               }
@@ -1111,20 +1110,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -1138,7 +1137,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=mortgage`,
+          `${BASE_URL}/transaction/trends?group_en=mortgage`,
           {
             params: params,
           }
@@ -1233,7 +1232,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?group_en=mortgage`,
+              `${BASE_URL}/transaction/types?group_en=mortgage`,
               {
                 params: params,
               }
@@ -1316,7 +1315,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=mortgage&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?group_en=mortgage&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -1394,7 +1393,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=mortgage&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?group_en=mortgage&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -1434,9 +1433,8 @@ export const dashboards: Dashboard[] = [
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
+                year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]
+                  }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
@@ -1519,7 +1517,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index?group_en=mortgage`,
+              `${BASE_URL}/transaction/index?group_en=mortgage`,
               {
                 params: params,
               }
@@ -1527,7 +1525,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?group_en=mortgage&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/salesIndex?group_en=mortgage&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -1650,7 +1648,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last?group_en=mortgage`,
+              `${BASE_URL}/transaction/last?group_en=mortgage`,
               { params: params }
             );
 
@@ -1675,9 +1673,8 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
               const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
@@ -1722,7 +1719,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?group_en=mortgage&location=Business%20Bay`,
+              `${BASE_URL}/transaction/comp?group_en=mortgage&location=Business%20Bay`,
               {
                 params: params,
               }
@@ -1766,7 +1763,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?group_en=mortgage`,
+              `${BASE_URL}/transaction/types?group_en=mortgage`,
               {
                 params: params,
               }
@@ -2158,20 +2155,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -2185,7 +2182,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=gift`,
+          `${BASE_URL}/transaction/trends?group_en=gift`,
           {
             params: params,
           }
@@ -2280,7 +2277,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?group_en=gift`,
+              `${BASE_URL}/transaction/types?group_en=gift`,
               {
                 params: params,
               }
@@ -2363,7 +2360,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=gift&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?group_en=gift&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -2441,7 +2438,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?group_en=gift&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?group_en=gift&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -2481,9 +2478,8 @@ export const dashboards: Dashboard[] = [
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
+                year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]
+                  }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
@@ -2566,7 +2562,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index?group_en=gift`,
+              `${BASE_URL}/transaction/index?group_en=gift`,
               {
                 params: params,
               }
@@ -2574,7 +2570,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?group_en=gift&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/salesIndex?group_en=gift&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -2697,7 +2693,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last?group_en=gift`,
+              `${BASE_URL}/transaction/last?group_en=gift`,
               { params: params }
             );
 
@@ -2722,9 +2718,8 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
               const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
@@ -2769,7 +2764,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?group_en=gift&location=Business%20Bay`,
+              `${BASE_URL}/transaction/comp?group_en=gift&location=Business%20Bay`,
               {
                 params: params,
               }
@@ -2813,7 +2808,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?group_en=gift`,
+              `${BASE_URL}/transaction/types?group_en=gift`,
               {
                 params: params,
               }
@@ -3205,20 +3200,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -3232,7 +3227,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
+          `${BASE_URL}/transaction/trends`,
           {
             params: params,
           }
@@ -3328,7 +3323,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+              `${BASE_URL}/transaction/types`,
               {
                 params: params,
               }
@@ -3409,7 +3404,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -3487,7 +3482,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -3527,9 +3522,8 @@ export const dashboards: Dashboard[] = [
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
+                year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]
+                  }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
@@ -3612,7 +3606,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
+              `${BASE_URL}/transaction/index`,
               {
                 params: params,
               }
@@ -3620,7 +3614,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -3743,7 +3737,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`,
+              `${BASE_URL}/transaction/last`,
               { params: params }
             );
 
@@ -3768,9 +3762,8 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
               const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
@@ -3816,7 +3809,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?location=Business%20Bay`,
+              `${BASE_URL}/transaction/comp?location=Business%20Bay`,
               {
                 params: params,
               }
@@ -3860,7 +3853,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
+              `${BASE_URL}/transaction/types`,
               {
                 params: params,
               }
@@ -4252,20 +4245,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -4279,7 +4272,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?usage_en=Residential`,
+          `${BASE_URL}/transaction/trends?usage_en=Residential`,
           {
             params: params,
           }
@@ -4375,7 +4368,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?usage_en=Residential`,
+              `${BASE_URL}/transaction/types?usage_en=Residential`,
               {
                 params: params,
               }
@@ -4456,7 +4449,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?usage_en=Residential&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?usage_en=Residential&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -4534,7 +4527,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?usage_en=Residential&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?usage_en=Residential&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -4574,9 +4567,8 @@ export const dashboards: Dashboard[] = [
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
+                year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]
+                  }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
@@ -4659,7 +4651,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index?usage_en=Residential`,
+              `${BASE_URL}/transaction/index?usage_en=Residential`,
               {
                 params: params,
               }
@@ -4667,7 +4659,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/salesIndex?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -4790,7 +4782,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last?usage_en=Residential`,
+              `${BASE_URL}/transaction/last?usage_en=Residential`,
               { params: params }
             );
 
@@ -4815,9 +4807,8 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
               const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
@@ -4863,7 +4854,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?usage_en=Residential&location=Business%20Bay`,
+              `${BASE_URL}/transaction/comp?usage_en=Residential&location=Business%20Bay`,
               {
                 params: params,
               }
@@ -4907,7 +4898,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?usage_en=Residential`,
+              `${BASE_URL}/transaction/types?usage_en=Residential`,
               {
                 params: params,
               }
@@ -5299,20 +5290,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+          `${BASE_URL}/constants?type=location`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -5326,7 +5317,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?usage_en=Commercial`,
+          `${BASE_URL}/transaction/trends?usage_en=Commercial`,
           {
             params: params,
           }
@@ -5422,7 +5413,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?usage_en=Commercial`,
+              `${BASE_URL}/transaction/types?usage_en=Commercial`,
               {
                 params: params,
               }
@@ -5503,7 +5494,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?usage_en=Commercial&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?usage_en=Commercial&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -5581,7 +5572,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 9;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?usage_en=Commercial&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/trends?usage_en=Commercial&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -5621,9 +5612,8 @@ export const dashboards: Dashboard[] = [
             while (monthlyData.length !== 12) {
               const prevYearData = data[data.length - 2];
               monthlyData.unshift({
-                year: `${
-                  months[parseInt(prevYearData.month_data[i].Month) - 1]
-                }_${prevYearData.Year}`,
+                year: `${months[parseInt(prevYearData.month_data[i].Month) - 1]
+                  }_${prevYearData.Year}`,
                 value1: prevYearData.month_data[i].number_of_Row_Used,
               });
               i--;
@@ -5706,7 +5696,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index?usage_en=Commercial`,
+              `${BASE_URL}/transaction/index?usage_en=Commercial`,
               {
                 params: params,
               }
@@ -5714,7 +5704,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?usage_en=Commercial&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/transaction/salesIndex?usage_en=Commercial&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -5837,7 +5827,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last?usage_en=Commercial`,
+              `${BASE_URL}/transaction/last?usage_en=Commercial`,
               { params: params }
             );
 
@@ -5862,9 +5852,8 @@ export const dashboards: Dashboard[] = [
                 "Dec",
               ];
               const date = new Date(item.dates.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               totalValue += item.value;
               return {
                 Date: formattedDate, // Use the formatted date
@@ -5910,7 +5899,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?usage_en=Commercial&location=Business%20Bay`,
+              `${BASE_URL}/transaction/comp?usage_en=Commercial&location=Business%20Bay`,
               {
                 params: params,
               }
@@ -5954,7 +5943,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types?usage_en=Commercial`,
+              `${BASE_URL}/transaction/types?usage_en=Commercial`,
               {
                 params: params,
               }
@@ -6346,20 +6335,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+          `${BASE_URL}/constants?type=location_rental`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -6372,7 +6361,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=2023&end_year=2024`,
+          `${BASE_URL}/rental/average?start_year=2023&end_year=2024`,
           {
             params: params,
           }
@@ -6472,7 +6461,7 @@ export const dashboards: Dashboard[] = [
             const start_year = end_year - 9;
             console.log("params", params);
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/average?start_year${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -6561,7 +6550,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/average?start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -6680,7 +6669,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/index`,
+              `${BASE_URL}/rental/index`,
               {
                 params: params,
               }
@@ -6688,7 +6677,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/rentIndex?start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/rentIndex?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -6799,7 +6788,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/last`,
+              `${BASE_URL}/rental/last`,
               { params: params }
             );
 
@@ -6824,9 +6813,8 @@ export const dashboards: Dashboard[] = [
               ];
 
               const date = new Date(item.registration_date.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               return {
                 Date: formattedDate, // Use the formatted date
                 "Rent Price": item.annual_amount,
@@ -6877,7 +6865,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/comp?start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/comp?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -6924,7 +6912,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             params = {};
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/segment?start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/segment?start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -7188,20 +7176,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+          `${BASE_URL}/constants?type=location_rental`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -7214,7 +7202,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?usage_en=Residential&start_year=2023&end_year=2024`,
+          `${BASE_URL}/rental/average?usage_en=Residential&start_year=2023&end_year=2024`,
           {
             params: params,
           }
@@ -7314,7 +7302,7 @@ export const dashboards: Dashboard[] = [
             const start_year = end_year - 9;
             console.log("params", params);
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?usage_en=Residential&start_year${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/average?usage_en=Residential&start_year${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -7403,7 +7391,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?usage_en=Residential&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/average?usage_en=Residential&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -7522,7 +7510,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/index?usage_en=Residential`,
+              `${BASE_URL}/rental/index?usage_en=Residential`,
               {
                 params: params,
               }
@@ -7530,7 +7518,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/rentIndex?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/rentIndex?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -7641,7 +7629,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/last?usage_en=Residential`,
+              `${BASE_URL}/rental/last?usage_en=Residential`,
               { params: params }
             );
 
@@ -7666,9 +7654,8 @@ export const dashboards: Dashboard[] = [
               ];
 
               const date = new Date(item.registration_date.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               return {
                 Date: formattedDate, // Use the formatted date
                 "Rent Price": item.annual_amount,
@@ -7719,7 +7706,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/comp?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/comp?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -7766,7 +7753,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             params = {};
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/segment?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/segment?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -8030,20 +8017,20 @@ export const dashboards: Dashboard[] = [
         label: "Bedroom",
         options: ["1", "2", "3", "4", "5", "6"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          `${BASE_URL}/constants?type=rooms`,
       },
       {
         key: "developer",
         label: "Developer",
         options: ["A", "B", "C", "D"],
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=developer",
+          `${BASE_URL}/constants?type=developer`,
       },
       {
         key: "location",
         label: "Location",
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+          `${BASE_URL}/constants?type=location_rental`,
         options: ["Dubai Marina", "Dubai Central", "Dubai East", "Dubai West"],
         searchable: true,
       },
@@ -8056,7 +8043,7 @@ export const dashboards: Dashboard[] = [
     calculate_matrics: async (params) => {
       try {
         const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?usage_en=Commercial&start_year=2023&end_year=2024`,
+          `${BASE_URL}/rental/average?usage_en=Commercial&start_year=2023&end_year=2024`,
           {
             params: params,
           }
@@ -8156,7 +8143,7 @@ export const dashboards: Dashboard[] = [
             const start_year = end_year - 9;
             console.log("params", params);
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?usage_en=Commercial&start_year${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/average?usage_en=Commercial&start_year${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -8245,7 +8232,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?usage_en=Commercial&start_year=${start_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/average?usage_en=Commercial&start_year=${start_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -8364,7 +8351,7 @@ export const dashboards: Dashboard[] = [
           params = {};
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/index?usage_en=Commercial`,
+              `${BASE_URL}/rental/index?usage_en=Commercial`,
               {
                 params: params,
               }
@@ -8372,7 +8359,7 @@ export const dashboards: Dashboard[] = [
             const date = new Date();
             const end_year = date.getFullYear();
             const responseRange = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/rentIndex?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/rentIndex?usage_en=Residential&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -8483,7 +8470,7 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           try {
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/last?usage_en=Commercial`,
+              `${BASE_URL}/rental/last?usage_en=Commercial`,
               { params: params }
             );
 
@@ -8508,9 +8495,8 @@ export const dashboards: Dashboard[] = [
               ];
 
               const date = new Date(item.registration_date.value);
-              const formattedDate = `${date.getDate()}/${
-                months[date.getMonth()]
-              }/${date.getFullYear()}`;
+              const formattedDate = `${date.getDate()}/${months[date.getMonth()]
+                }/${date.getFullYear()}`;
               return {
                 Date: formattedDate, // Use the formatted date
                 "Rent Price": item.annual_amount,
@@ -8561,7 +8547,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             const start_year = end_year - 1;
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/comp?usage_en=Commercial&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/comp?usage_en=Commercial&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
@@ -8608,7 +8594,7 @@ export const dashboards: Dashboard[] = [
             const end_year = date.getFullYear();
             params = {};
             const response = await axios.get(
-              `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/segment?usage_en=Commercial&start_year=${end_year}&end_year=${end_year}`,
+              `${BASE_URL}/rental/segment?usage_en=Commercial&start_year=${end_year}&end_year=${end_year}`,
               {
                 params: params,
               }
