@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Calculator } from "./types";
 import { FormatValue } from "@/utils/formatNumbers";
+import { BASE_URL } from "./constant";
 
 export const Calculators: Calculator[] = [
   {
@@ -115,18 +116,15 @@ export const Calculators: Calculator[] = [
       const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
-        const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
-          {
-            params: {
-              start_year: current_year,
-              end_year: current_year,
-              location: choose_location,
-              property_type: property_type,
-              usage_type: usage_type,
-            },
-          }
-        );
+        const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
+          params: {
+            start_year: current_year,
+            end_year: current_year,
+            location: choose_location,
+            property_type: property_type,
+            usage_type: usage_type,
+          },
+        });
 
         //step 2: calculate the average value based on the above filter [per sqft value]
         const transactions = response.data.data.data;
@@ -299,17 +297,14 @@ export const Calculators: Calculator[] = [
       const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
-        const response = await axios.get(
-          `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental`,
-          {
-            params: {
-              year: current_year,
-              area_en: choose_location,
-              property_type: property_type,
-              usage_type: usage_type,
-            },
-          }
-        );
+        const response = await axios.get(`${BASE_URL}/api/rental`, {
+          params: {
+            year: current_year,
+            area_en: choose_location,
+            property_type: property_type,
+            usage_type: usage_type,
+          },
+        });
         console.log("response: ", response);
         //step 2: calculate the average value based on the above filter [per sqft value]
         const rentalDatas = response.data.data.data;

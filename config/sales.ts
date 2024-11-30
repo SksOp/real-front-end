@@ -1,15 +1,13 @@
 import axios from "axios";
+import { BASE_URL } from "./constant";
 
 export const SalesTypeChart = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
-      {
-        params: params,
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/api/transaction/types`, {
+      params: params,
+    });
     // Will do the required calculation here and return the data to build graph
     const data = response.data.data.data;
     console.log("data Transs", data);
@@ -100,12 +98,9 @@ export const SalesValueTrend = async (params: {
 }) => {
   try {
     params.start_year = Number(params?.end_year) - 9;
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends`,
-      {
-        params: params,
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
+      params: params,
+    });
     console.log("response barrr", response.data);
     const data = response.data.data.data;
     console.log("data Transs", data);
@@ -182,7 +177,7 @@ export const SalesTrend = async (params?: {
     const end_year = date.getFullYear();
     const start_year = end_year - 9;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
+      `${BASE_URL}/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -304,7 +299,7 @@ export const SalesPriceRanges = async (params?: {
     const date = new Date();
     const end_year = date.getFullYear();
     const responseRange = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
+      `${BASE_URL}/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
       {
         params: params,
       }
@@ -396,12 +391,9 @@ export const SalesIndex = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/index`,
-      {
-        params: params,
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/api/transaction/index`, {
+      params: params,
+    });
 
     // Will do the required calculation here and return the data to build graph
     const data = response.data.data.quartiles;
@@ -457,10 +449,9 @@ export const SalesSimilarData = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/last`,
-      { params: params }
-    );
+    const response = await axios.get(`${BASE_URL}/api/transaction/last`, {
+      params: params,
+    });
 
     // Will do the required calculation here and return the data to build graph
     const data = response.data.data.data;
@@ -528,7 +519,7 @@ export const SalesPriceComparison = async (params?: {
 }) => {
   try {
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/comp?location=Business%20Bay`,
+      `${BASE_URL}/api/transaction/comp?location=Business%20Bay`,
       {
         params: params,
       }
@@ -574,12 +565,9 @@ export const SalesSegmentation = async (params?: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/types`,
-      {
-        params: params,
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/api/transaction/types`, {
+      params: params,
+    });
     // // Will do the required calculation here and return the data to build graph
 
     const data = response.data.data.data;

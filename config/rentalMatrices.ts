@@ -9,6 +9,7 @@ import {
 } from "./rental";
 import { MatrixData } from "./types";
 import { CalculateMatrix } from "./utility";
+import { BASE_URL } from "./constant";
 
 export const RentalMatrices: Matrix[] = [
   {
@@ -25,7 +26,7 @@ export const RentalMatrices: Matrix[] = [
           const date = new Date();
           const presentYear = date.getFullYear();
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
+            `${BASE_URL}/api/rental/average?start_year=${
               presentYear - 1
             }&end_year=${presentYear}`
           );
@@ -73,7 +74,7 @@ export const RentalMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
+        const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
           presentYear - 1
         }&end_year=${presentYear}`;
 
@@ -102,7 +103,7 @@ export const RentalMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
+        const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
           presentYear - 1
         }&end_year=${presentYear}`;
 
@@ -122,7 +123,7 @@ export const RentalMatrices: Matrix[] = [
       calculate: async (params) => {
         const date = new Date();
         const presentYear = date.getFullYear();
-        const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
+        const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
           presentYear - 1
         }&end_year=${presentYear}`;
 

@@ -18,6 +18,7 @@ import {
   SalesTypeChart,
   SalesValueTrend,
 } from "./sales";
+import { BASE_URL } from "./constant";
 
 export const ConvertedParams = (params: { [key: string]: string | number }) => {
   const convertedParams: { [key: string]: string } = {};
@@ -234,7 +235,7 @@ export const SalesTransactionApi = async (
   try {
     pageNo = pageNo || 1;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/pages/${pageNo}`,
+      `${BASE_URL}/api/transaction/pages/${pageNo}`,
       {
         params: params,
       }
@@ -286,12 +287,9 @@ export const RentalTransactionApi = async (
 ) => {
   try {
     pageNo = pageNo || 1;
-    const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/pages/${pageNo}`,
-      {
-        params: params,
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/api/rental/pages/${pageNo}`, {
+      params: params,
+    });
 
     console.log("response", response.data.data);
 
@@ -336,7 +334,7 @@ export const MarketPulseApi = async (pageNo?: number) => {
   try {
     pageNo = pageNo || 1;
     const response = await axios.get(
-      `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/marketPulse/pages/${pageNo}`
+      `${BASE_URL}/api/transaction/marketPulse/pages/${pageNo}`
     );
 
     console.log("response", response.data.data);

@@ -2,6 +2,7 @@ import axios from "axios";
 import { Matrix } from "./matrices";
 import { MatrixData } from "./types";
 import { SalesIndex } from "./sales";
+import { BASE_URL } from "./constant";
 
 export const OffPlanMatrices: Matrix[] = [
   {
@@ -15,7 +16,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_year=2024&end_year=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_year=2024&end_year=2024`,
             { params: params }
           );
 
@@ -85,7 +86,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_year=2010&end_year=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_year=2010&end_year=2024`,
             { params: params }
           );
 
@@ -142,7 +143,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_year=2010&end_year=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_year=2010&end_year=2024`,
             { params: params }
           );
 
@@ -199,7 +200,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_year=2023&end_year=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_year=2023&end_year=2024`,
             { params: params }
           );
 
@@ -274,7 +275,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_year=2023&end_year=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_year=2023&end_year=2024`,
             { params: params }
           );
 
@@ -350,7 +351,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_year=2024&end_year=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_year=2024&end_year=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -412,10 +413,9 @@ export const OffPlanMatrices: Matrix[] = [
       key: "total_units_available",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details`,
-            { params: params }
-          );
+          const response = await axios.get(`${BASE_URL}/api/projects/details`, {
+            params: params,
+          });
 
           const data =
             response.data.data[0]?.total_units_overall +
@@ -448,7 +448,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=2024`,
+            `${BASE_URL}/api/projects/details?start_year=2024&end_year=2024`,
             { params: params }
           );
 
@@ -481,7 +481,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/projects/details?start_year=2024&end_year=10000`,
+            `${BASE_URL}/api/projects/details?start_year=2024&end_year=10000`,
             { params: params }
           );
 
@@ -531,7 +531,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -563,7 +563,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -595,7 +595,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -628,7 +628,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -660,7 +660,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -692,7 +692,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];
@@ -724,7 +724,7 @@ export const OffPlanMatrices: Matrix[] = [
       calculate: async (params) => {
         try {
           const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/offplan?start_date=2024&end_date=2024`,
+            `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`,
             { params: params }
           );
           const data = response.data.data.data[0];

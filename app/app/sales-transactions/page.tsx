@@ -21,7 +21,7 @@ function SalesTransactionPage() {
       const response = await SalesTransactionApi(1);
       const date = new Date();
       const presentYear = date.getFullYear();
-      const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
+      const sourceURL = `${BASE_URL}/api/transaction/trends?start_year=${
         presentYear - 1
       }&end_year=${presentYear}`;
       const matrixOutput = await CalculateMatrix(sourceURL, "sales");

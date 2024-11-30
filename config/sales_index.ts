@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Matrix } from "./matrices";
+import { BASE_URL } from "./constant";
 
 export const SalesIndexMatrices: Matrix[] = [
   {
@@ -12,9 +13,7 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "overall_sales_index",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/index?type=all`
-          );
+          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {
@@ -114,9 +113,7 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "overall_sales_value",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/index?type=all`
-          );
+          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {
@@ -216,9 +213,7 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "villa_sales_index",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/index?type=all`
-          );
+          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {
@@ -318,9 +313,7 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "villa_sales_value",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/index?type=all`
-          );
+          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {
@@ -420,9 +413,7 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "flat_sales_index",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/index?type=all`
-          );
+          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {
@@ -522,9 +513,7 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "flat_sales_value",
       calculate: async (params) => {
         try {
-          const response = await axios.get(
-            `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/index?type=all`
-          );
+          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {

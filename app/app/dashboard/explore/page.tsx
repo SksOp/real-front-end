@@ -54,7 +54,7 @@ function ExplorePage() {
     const date = new Date();
     const presentYear = date.getFullYear();
     const type = transaction_type === "sales" ? "transaction" : "rental";
-    const sourceURL = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/${type}/${subPath}?start_year=${
+    const sourceURL = `${BASE_URL}/api/${type}/${subPath}?start_year=${
       presentYear - 1
     }&end_year=${presentYear}`;
 

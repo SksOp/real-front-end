@@ -27,12 +27,12 @@ function HomeTransactionCard() {
     const fetchTransactions = async () => {
       const date = new Date();
       const presentYear = date.getFullYear();
-      const sourceURLSales = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
+      const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
         presentYear - 1
       }&end_year=${presentYear}`;
       const matrixOutputSales = await CalculateMatrix(sourceURLSales, "sales");
       setSalesMatrix(matrixOutputSales);
-      const sourceURLMortgage = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/transaction/trends?start_year=${
+      const sourceURLMortgage = `${BASE_URL}/api/transaction/trends?start_year=${
         presentYear - 1
       }&end_year=${presentYear}&group_en=Mortgage`;
       const matrixOutputMortgage = await CalculateMatrix(
@@ -40,7 +40,7 @@ function HomeTransactionCard() {
         "sales"
       );
       setMortageMatrix(matrixOutputMortgage);
-      const sourceURLRental = `https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/rental/average?start_year=${
+      const sourceURLRental = `${BASE_URL}/api/rental/average?start_year=${
         presentYear - 1
       }&end_year=${presentYear}`;
       const matrixOutputRental = await CalculateMatrix(
