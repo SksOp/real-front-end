@@ -6,6 +6,7 @@ import MatrixCard from "./matrix-card";
 import { CalculateMatrix, SalesTransactionApi } from "@/config/utility";
 import { MatrixData } from "@/config/types";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/config/constant";
 
 interface MatrixCardProps {
   title: string;
