@@ -113,7 +113,7 @@ const HorizontalBarChartComponent: React.FC<
           content={<ChartTooltipContent indicator="line" />}
         />
         <Bar
-          dataKey={`${yAxisDataKey}_scaled`}
+          dataKey={`${yAxisDataKey}`}
           layout="vertical"
           stroke="#121212"
           radius={barRadius}

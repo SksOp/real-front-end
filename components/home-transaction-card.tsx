@@ -14,9 +14,9 @@ interface MatrixCardProps {
   growth?: number;
 }
 
-interface HomeTransactionCardProps {
-  cardItems: MatrixCardProps[];
-}
+// interface HomeTransactionCardProps {
+//   cardItems: MatrixCardProps[];
+// }
 
 function HomeTransactionCard() {
   const [salesMatrix, setSalesMatrix] = React.useState<MatrixData[]>([]);

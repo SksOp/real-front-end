@@ -6,6 +6,7 @@ import TransactionCard from "@/components/transaction-card";
 import TransactionsList from "@/components/transaction-list";
 import TransactionTabs from "@/components/transaction-tabs";
 import TransactionTable from "@/components/transactionTable";
+import { BASE_URL } from "@/config/constant";
 import { CalculateMatrix, SalesTransactionApi } from "@/config/utility";
 import Layout from "@/layout/secondary";
 import React, { useEffect } from "react";

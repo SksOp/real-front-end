@@ -4,6 +4,7 @@ import InsightDrawerView from "@/components/insightDrawerView";
 import TransactionsList from "@/components/transaction-list";
 import TransactionTabs from "@/components/transaction-tabs";
 import TransactionTable from "@/components/transactionTable";
+import { BASE_URL } from "@/config/constant";
 import {
   CalculateMatrix,
   RentalTransactionApi,
