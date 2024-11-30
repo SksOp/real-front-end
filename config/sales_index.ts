@@ -13,7 +13,10 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "overall_sales_index",
       calculate: async (params) => {
         try {
-          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
+          const response = await axios.get(
+            `${BASE_URL}/api/index?type=all`,
+            params
+          );
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {
@@ -113,7 +116,10 @@ export const SalesIndexMatrices: Matrix[] = [
       key: "overall_sales_value",
       calculate: async (params) => {
         try {
-          const response = await axios.get(`${BASE_URL}/api/index?type=all`);
+          const response = await axios.get(
+            `${BASE_URL}/api/index?type=all`,
+            params
+          );
           const data = response.data;
           console.log("data", data);
           const yearlyData = data.yearly.map((year: any) => {

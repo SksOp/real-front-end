@@ -15,7 +15,7 @@ function Layout({
     <main ref={mainRef}>
       <Navbar page={page} />
       <Progressbar target={mainRef} className="" />
-      <div className="min-h-screen bg-gradient-to-b from-backgrounds to-[#FAFAFA] max-w-screen overflow-y-auto ">
+      <div className="min-h-screen bg-gradient-to-b from-backgrounds to-[#FAFAFA] max-w-screen overflow-y-auto mt-4">
         {children}
       </div>
       {/* <NavBottom selected={page} /> */}

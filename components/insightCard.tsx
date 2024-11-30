@@ -18,7 +18,7 @@ function InsightCard({
       <Card
         className={cn(
           "w-full p-4 bg-gradient-to-br rounded-xl flex flex-col gap-2",
-          "from-[#5483ED1C] to-[#D9646D1C]",
+          "from-[#5483ED1C] to-[#FFFFFF1C]",
           "border border-transparent",
           className
         )}

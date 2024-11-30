@@ -17,7 +17,7 @@ function MatricesData() {
 
   const createLink = (matrix: Matrix) => (
     <Link
-      href={`/app/key-matrices/${matrix.key}?tab=${tab}`}
+      href={`/app/key-matrics/${matrix.key}?tab=${tab}`}
       onClick={() => setSelectedMatrix(matrix)}
     >
       <KeyMatricesCard

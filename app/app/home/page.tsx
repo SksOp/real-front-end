@@ -45,6 +45,7 @@ function HomePage() {
       const response2 = await SalesPriceRanges();
       setPriceRange(response2);
       setSalesIndex(response.data);
+      console.log(response2);
     };
     fetchData();
   }, []);
@@ -69,16 +70,17 @@ function HomePage() {
         <HomeListing />
         <FrequentQuestions />
         <SharingCard />
+        <Footer />
       </div>
       <div className="hidden mt-20 md:flex gap-3 w-full px-4 mb-4">
-        <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-screen overflow-y-auto md:flex flex-col gap-3">
+        <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-[calc(100vh-5rem)] overflow-y-auto md:flex flex-col gap-3 pb-6">
           <HomeIntro />
           <FrequentQuestions />
           {/* <HomeClaimCard /> */}
           <Feedback />
           <SharingCard />
         </div>
-        <div className="w-3/4  max-h-screen overflow-y-auto flex flex-col gap-3">
+        <div className="w-3/4  max-h-[calc(100vh-5rem)] overflow-y-auto flex flex-col gap-3">
           <HomeTransactionCard />
           <div className="grid grid-cols-2 w-full gap-3 gap-x-4">
             <div className="flex flex-col gap-3">
@@ -132,9 +134,9 @@ function HomePage() {
               </SecondaryChartWrapper>
             </div>
           </ChartWrapper>
+          <Footer />
         </div>
       </div>
-      <Footer />
     </Layout>
   );
 }

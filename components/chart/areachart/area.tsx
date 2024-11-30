@@ -102,12 +102,12 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
                 <stop
                   offset="5%"
                   stopColor={area.areaColor || "#B6B1F0"}
-                  stopOpacity={area.areaOpacity || 0.8}
+                  stopOpacity={area.areaOpacity || 0.4}
                 />
                 <stop
                   offset="95%"
                   stopColor={area.areaColor || "#B6B1F0"}
-                  stopOpacity={0.1}
+                  stopOpacity={0}
                 />
               </linearGradient>
             ))}

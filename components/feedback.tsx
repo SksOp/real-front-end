@@ -37,23 +37,23 @@ function Feedback() {
       <CardContent className="flex flex-col gap-3">
         <div className="flex justify-around mb-2">
           <Feedback1
-            isClicked={selectedFeedback !== null && 1 <= selectedFeedback}
+            isClicked={selectedFeedback === 1}
             onClick={() => handleFeedbackClick(1)}
           />
           <Feedback2
-            isClicked={selectedFeedback !== null && 2 <= selectedFeedback}
+            isClicked={selectedFeedback === 2}
             onClick={() => handleFeedbackClick(2)}
           />
           <Feedback3
-            isClicked={selectedFeedback !== null && 3 <= selectedFeedback}
+            isClicked={selectedFeedback === 3}
             onClick={() => handleFeedbackClick(3)}
           />
           <Feedback4
-            isClicked={selectedFeedback !== null && 4 <= selectedFeedback}
+            isClicked={selectedFeedback === 4}
             onClick={() => handleFeedbackClick(4)}
           />
           <Feedback5
-            isClicked={selectedFeedback !== null && 5 <= selectedFeedback}
+            isClicked={selectedFeedback === 5}
             onClick={() => handleFeedbackClick(5)}
           />
         </div>

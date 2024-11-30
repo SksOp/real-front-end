@@ -57,7 +57,7 @@ export default function FrequentQuestions() {
   return (
     <Card className="bg-background flex flex-col gap-1 border rounded-xl  w-full px-3 py-4">
       <CardHeader className="p-0">
-        <CardTitle className="text-secondary font-semibold text-base">
+        <CardTitle className="text-secondary font-semibold text-lg">
           Frequent Questions
         </CardTitle>
       </CardHeader>
@@ -65,7 +65,7 @@ export default function FrequentQuestions() {
         <Accordion type="single" collapsible className="w-full">
           {faqData.map((item) => (
             <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger className="font-semibold text-secondary text-base text-start">
+              <AccordionTrigger className="font-medium text-secondary text-base text-start">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="font-normal text-muted-foreground text-base">

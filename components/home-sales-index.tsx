@@ -25,45 +25,49 @@ import {
 } from "@/public/svg/icons";
 import { SalesValueTrend } from "@/config/sales";
 import { RentalValueTrend } from "@/config/rental";
-import { ChartDescription } from "@/config/types";
+import { ChartDescription, MatrixData } from "@/config/types";
 import ChartException from "./chartException";
+import { SalesIndexMatrices } from "@/config/sales_index";
 
 function HomeSalesIndex() {
-  const [salesData, setSalesData] = React.useState<ChartDescription>();
-  const [rentalData, setRentalData] = React.useState<ChartDescription>();
+  const [salesIndex, setSalesIndex] = React.useState<ChartDescription>();
+  const [salesValue, setSalesValue] = React.useState<ChartDescription>();
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
-      const presentYear = new Date().getFullYear();
-      const params = {
-        end_year: presentYear,
-      };
-      const response = await SalesValueTrend(params);
-      const response2 = await RentalValueTrend();
-      setSalesData(response);
-      setRentalData(response2);
-      console.log(salesData);
+      const params = {};
+      const response = (await SalesIndexMatrices[0].calculate_charts?.calculate(
+        params
+      )) as ChartDescription;
+      const response2 =
+        (await SalesIndexMatrices[1].calculate_charts?.calculate(
+          params
+        )) as ChartDescription;
+      console.log(response);
+      setSalesIndex(response);
+      setSalesValue(response2);
+      console.log(salesIndex);
     };
     fetchData();
-    console.log(salesData);
+    console.log(salesIndex);
   }, []);
 
   return (
-    <UnderlineTabs defaultValue="sales">
+    <UnderlineTabs defaultValue="index">
       <div className="flex w-full items-center border border-border justify-between rounded-t-xl px-3 overflow-hidden">
         <UnderlineTabsList className=" flex  items-center justify-center md:justify-start gap-3 ">
           <UnderlineTabsTrigger
-            value="sales"
+            value="index"
             className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
-            Sales Price Index
+            Sales Index
           </UnderlineTabsTrigger>
           <UnderlineTabsTrigger
-            value="rental"
+            value="value"
             className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
-            Rental Price Index
+            Sales Value
           </UnderlineTabsTrigger>
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
@@ -77,21 +81,23 @@ function HomeSalesIndex() {
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">
-        <UnderlineTabsContent value="sales">
+        <UnderlineTabsContent value="index">
           <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
             Explore the official sales index and value trends, developed by DLD
             and PropertyFinder. Base year 2012, powered by advanced statistical
             and ML methodologies.
           </CardDescription>
           <CardContent className="p-0 w-full ">
-            {salesData ? (
+            {salesIndex ? (
               <Tabs
                 defaultValue={
-                  salesData.filters ? salesData?.filters[0].key : "total_value"
+                  salesIndex.filters
+                    ? salesIndex?.filters[0].key
+                    : "total_value"
                 }
               >
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
-                  {salesData.filters?.map((filter) => (
+                  {salesIndex.filters?.map((filter) => (
                     <TabsTrigger
                       key={filter.key}
                       value={filter.key}
@@ -101,14 +107,14 @@ function HomeSalesIndex() {
                     </TabsTrigger>
                   ))}
                 </TabsList>
-                {salesData.filters?.map((filter) => (
+                {salesIndex.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
                     <AreaChartComponent
                       key={filter.key}
-                      chartConfig={salesData.chartConfig}
+                      chartConfig={salesIndex.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
-                      areas={[{ yAxisDataKey: "value" }]}
+                      areas={[{ yAxisDataKey: "value1" }]}
                       tickFormatter={(value) => value.toString()}
                     />
                   </TabsContent>
@@ -126,21 +132,21 @@ function HomeSalesIndex() {
             </CardFooter>
           </CardContent>
         </UnderlineTabsContent>
-        <UnderlineTabsContent value="rental">
+        <UnderlineTabsContent value="value">
           <CardDescription className="text-base text-accent my-2  font-normal line-clamp-2">
             Explore the official sales index and value trends, developed by DLD
             and PropertyFinder. Base year 2012, powered by advanced statistical
             and ML methodologies.
           </CardDescription>
           <CardContent className="p-0 w-full">
-            {rentalData ? (
+            {salesValue ? (
               <Tabs
                 defaultValue={
-                  rentalData.filters ? rentalData.filters[0].key : "all"
+                  salesValue.filters ? salesValue.filters[0].key : "all"
                 }
               >
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
-                  {rentalData.filters?.map((filter) => (
+                  {salesValue.filters?.map((filter) => (
                     <TabsTrigger
                       key={filter.key}
                       value={filter.key}
@@ -150,14 +156,14 @@ function HomeSalesIndex() {
                     </TabsTrigger>
                   ))}
                 </TabsList>
-                {rentalData.filters?.map((filter) => (
+                {salesValue.filters?.map((filter) => (
                   <TabsContent value={filter.key}>
                     <AreaChartComponent
                       key={filter.key}
-                      chartConfig={rentalData.chartConfig}
+                      chartConfig={salesValue.chartConfig}
                       data={filter.data}
                       xAxisDataKey={"year"}
-                      areas={[{ yAxisDataKey: "value" }]}
+                      areas={[{ yAxisDataKey: "value1" }]}
                       tickFormatter={(value) => value.toString()}
                     />
                   </TabsContent>

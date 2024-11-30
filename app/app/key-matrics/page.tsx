@@ -4,9 +4,8 @@ import MatricesData from "@/components/matrices-data";
 import MatricesSelector from "@/components/matrices-selector";
 import { Tabs } from "@/components/ui/tabs";
 import Layout from "@/layout/secondary";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 function KeyMatricesPage() {
   const searchParams = useSearchParams();

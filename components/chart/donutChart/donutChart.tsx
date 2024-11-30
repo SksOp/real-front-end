@@ -53,7 +53,7 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6">
+    <div>
       <ChartContainer config={chartConfig} className={className}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -105,25 +105,27 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
           </PieChart>
         </ResponsiveContainer>
       </ChartContainer>
-      <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-start gap-x-8 gap-6 ">
-        {data.map((item) => (
-          <div
-            key={item.name}
-            className="flex items-start justify-center  gap-2"
-          >
-            <span
-              className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}
-            />
-            <div className="flex flex-col gap-1 ">
-              <div className="flex  gap-2 justify-center items-center">
-                <span className="text-sm truncate">{item.name}</span>
+      <div className="flex flex-col items-center justify-center mt-4">
+        <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-start gap-x-8 gap-6 ">
+          {data.map((item) => (
+            <div
+              key={item.name}
+              className="flex items-start justify-center  gap-2"
+            >
+              <span
+                className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}
+              />
+              <div className="flex flex-col gap-1 ">
+                <div className="flex  gap-2 justify-center items-center">
+                  <span className="text-sm truncate">{item.name}</span>
+                </div>
+                <span className="text-secondary text-sm font-semibold">
+                  {FormatValue(item.value)}
+                </span>
               </div>
-              <span className="text-secondary text-sm font-semibold">
-                {FormatValue(item.value)}
-              </span>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -142,9 +142,9 @@ function Navbar({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="rounded-lg p-0 border-0"
+              className="rounded-2xl p-0 border-0"
             >
-              <Card className="bg-white px-6 border-0 py-4 flex flex-col gap-4">
+              <Card className="bg-white rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4">
                 <CardHeader className="p-0 flex flex-col items-center justify-center gap-2">
                   <Avatar>
                     <AvatarImage src={user?.photoURL || ""} alt="User" />
@@ -152,18 +152,22 @@ function Navbar({
                       {user?.displayName && user?.displayName[0]}
                     </AvatarFallback>
                   </Avatar>
-                  <CardTitle className="font-semibold text-sm text-secondary">
-                    {user?.displayName}
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground text-sm font-normal">
-                    {user?.email}
-                  </CardDescription>
-                  <h3 className="text-muted-foreground text-sm font-normal">
-                    BRN:{" "}
-                    <span className="text-red-200 font-bold">Not Verified</span>
-                  </h3>
+                  <div className="flex flex-col gap-1 justify-center items-center">
+                    <CardTitle className="font-semibold text-sm text-secondary">
+                      {user?.displayName}
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground text-sm font-normal">
+                      {user?.email}
+                    </CardDescription>
+                    <h3 className="text-muted-foreground text-sm font-normal">
+                      BRN:{" "}
+                      <span className="text-red-200 font-bold">
+                        Not Verified
+                      </span>
+                    </h3>
+                  </div>
                 </CardHeader>
-                <CardContent className="flex flex-col gap-3">
+                <CardContent className="flex flex-col gap-4">
                   <Button
                     variant={"ghost"}
                     className="text-secondary-500 text-sm font-normal"
