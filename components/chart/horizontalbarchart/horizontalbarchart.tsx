@@ -92,7 +92,7 @@ const HorizontalBarChartComponent: React.FC<
         layout="vertical"
         margin={{
           top: 5,
-          right: 0,
+          right: 12,
           left: 10,
         }}
         barCategoryGap={10}

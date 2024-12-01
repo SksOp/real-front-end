@@ -11,6 +11,7 @@ import { ChevronDownCircle } from "lucide-react";
 import { ChartConfig } from "./ui/chart";
 import { cn } from "@/lib/utils";
 import InsightCard from "./insightCard";
+import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 
 const chartConfig = {
   desktop: {
@@ -23,52 +24,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface DataItem {
-  name: string;
-  value: number;
-  fill: string;
-  imgUrl?: string;
-}
-
-interface HorizontalBarChartProps {
-  data: DataItem[];
-}
-
-export function HorizontalBarChart({ data }: HorizontalBarChartProps) {
-  const maxValue = Math.max(...data.map((item) => item.value));
-  return (
-    <div className="flex flex-col gap-6">
-      {data.map((item, idx) => (
-        <div className="flex flex-col gap-0.5" key={idx}>
-          <h3 className="font-medium text-secondary text-[0.688rem] mb-1">
-            {item.name}
-          </h3>
-          <div className="flex justify-start items-center gap-2">
-            <div
-              className={cn(
-                `h-[1.52rem] border-[1.9px] border-secondary rounded-sm max-w-[85%] bg-[${item.fill}]`
-              )}
-              style={{
-                width: `${(item.value / maxValue) * 100}%`,
-              }}
-            />
-            {item.imgUrl && (
-              <img
-                src={item.imgUrl}
-                alt="logo"
-                className="w-6 h-6 object-cover"
-              />
-            )}
-            <h3 className="text-muted-foreground font-semibold text-xs">
-              {item.value}
-            </h3>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function HomeTotalAds() {
   const data = [
     {
@@ -77,7 +32,7 @@ function HomeTotalAds() {
       fill: "#FCF8D1",
       imgUrl: "/pf.png",
     },
-    { name: "Bayut (50%)", value: 100, fill: "#CBE5FB", imgUrl: "/bayut.png" },
+    { name: "Bayut (50%)", value: 90, fill: "#CBE5FB", imgUrl: "/bayut.png" },
     { name: "Dubizzle (50%)", value: 75, fill: "#FFC8C8", imgUrl: "/dub.svg" },
     { name: "Others (50%)", value: 50, fill: "#EFEEFC" },
   ];
@@ -93,15 +48,14 @@ function HomeTotalAds() {
       </CardHeader>
       <CardContent className=" p-0">
         {/* <div className="flex justify-between items-center w-full gap-4 p-0"><ChevronDownCircle size={24} /></div> */}
-        {/* <VerticalBarChartComponent
+        <HorizontalBarChartComponent
           data={data}
           xAxisDataKey={"name"}
           yAxisDataKey={"value"}
           chartConfig={chartConfig}
-        /> */}
-        <HorizontalBarChart data={data} />
+        />
       </CardContent>
-      <CardFooter className=" p-0 mt-3">
+      <CardFooter className=" p-0 mt-2">
         <InsightCard linkText="Explore full market index here.">
           Dubai’s top 10 areas account for 30% of total sales transactions in
           the market.

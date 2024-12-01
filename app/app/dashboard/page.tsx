@@ -10,6 +10,8 @@ import DashboardData from "@/components/all-dashboard-data";
 import SecondaryNavbar from "@/layout/secondary/nav/navbar";
 import Layout from "@/layout/secondary";
 import ChartException from "@/components/chartException";
+import Exceptions from "@/components/exceptions";
+import { SelectDataException } from "@/public/svg/exceptions";
 
 function DashboardPage() {
   const router = useRouter();
@@ -20,7 +22,7 @@ function DashboardPage() {
           defaultValue={"all-dashboards"}
           className="flex flex-col w-full px-2"
         >
-          <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
+          <div className="flex w-full gap-5 pt-12 md:pt-20">
             <DashboardSelector />
           </div>
           <div className="flex gap-5 w-full">
@@ -28,9 +30,12 @@ function DashboardPage() {
               <DashboardData />
             </div>
             <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              <ChartException />
+              <Exceptions
+                svg={<SelectDataException />}
+                title="Selected details will showup here."
+                description="any drill down insights / selection will be shown here."
+              />
             </div>
-            <div className="lg:flex hidden  max-w-md justify-center "></div>
           </div>
         </Tabs>
         {/* <div className="grid grid-cols-2 md:grid-cols-1 md:w-[30%] gap-3 px-3 pt-16 mb-4">

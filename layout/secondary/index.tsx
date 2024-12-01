@@ -27,7 +27,7 @@ function Layout({
 
       <SecondaryNavbar title={title} className={cn("md:hidden", className)} />
       <Progressbar target={mainRef} className="top-11 md:top-16" />
-      <div className=" ">{children}</div>
+      <div className="pt-4">{children}</div>
       {/* <NavBottom selected={page} /> */}
     </main>
   );

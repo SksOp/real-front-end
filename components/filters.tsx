@@ -76,7 +76,7 @@ function Filters({
 
   return (
     <nav className="w-full bg-background sticky z-20 top-0">
-      <ScrollArea className="w-full rounded-md overflow-scroll">
+      <div className="w-full rounded-md overflow-scroll">
         <div className="flex items-center justify-start space-x-2 py-2 px-2">
           {selectOptions.map((select, index) => (
             <Drawer key={index}>
@@ -154,8 +154,8 @@ function Filters({
             </Drawer>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+        {/* <ScrollBar orientation="horizontal" /> */}
+      </div>
     </nav>
   );
 }

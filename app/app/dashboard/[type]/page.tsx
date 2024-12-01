@@ -123,7 +123,7 @@ function DashboardDetailPage() {
           defaultValue={"all-dashboards"}
           className="flex flex-col w-full px-2"
         >
-          <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
+          <div className="flex w-full items-center justify-center gap-5 mt-16 pb-2 md:mt-20">
             <DashboardSelector />
           </div>
           <div className="flex gap-5 w-full">

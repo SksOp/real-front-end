@@ -175,7 +175,14 @@ function ExplorePage() {
               onChange={(value) => handleInputChange("property_type", value)}
             />
 
-            <div className="w-full mt-4">
+            <div className="w-full flex justify-end items-center pt-4">
+              <Button
+                variant={"outline"}
+                className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-full h-14 rounded-xl border"
+                // onClick={}
+              >
+                Clear All
+              </Button>
               <Button
                 variant={"secondary"}
                 className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
@@ -227,7 +234,7 @@ function ExplorePage() {
           defaultValue={"all-dashboards"}
           className="flex flex-col w-full px-2"
         >
-          <div className="flex w-full items-center justify-center gap-5 mt-16 md:mt-20">
+          <div className="flex w-full items-center justify-center gap-5 pt-20 pb-2">
             <DashboardSelector />
           </div>
           <div className="flex gap-5 w-full">
@@ -311,10 +318,17 @@ function ExplorePage() {
                     }
                   />
 
-                  <div className="w-full mt-4">
+                  <div className="w-full flex justify-end items-center gap-4 pt-4">
+                    <Button
+                      variant={"outline"}
+                      className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/6 h-14 rounded-xl border"
+                      // onClick={}
+                    >
+                      Clear All
+                    </Button>
                     <Button
                       variant={"secondary"}
-                      className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
+                      className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/6 h-14 rounded-xl border"
                       onClick={() => handleCalculate(filters)}
                     >
                       Explore
@@ -397,9 +411,9 @@ function ExplorePage() {
                 </div>
               )}
             </div>
-            <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+            {/* <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
               insights
-            </div>
+            </div> */}
           </div>
         </Tabs>
       </div>

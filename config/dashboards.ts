@@ -17,7 +17,7 @@ export const dashboards: Dashboard[] = [
     name: "Explore",
     description:
       "Explore dubai from your own perspective, sales? rental? we have it all covered.",
-    type: "custom",
+    type: "standard",
     page_filters: [
       {
         key: "transaction_type",
@@ -8370,17 +8370,17 @@ export const dashboards: Dashboard[] = [
     page_filters: [],
     tag: "upcoming",
   },
-  {
-    key: "custom_dashboard_builder",
-    name: "Custom Dashboard Builder",
-    description: "Create dashboards tailored to your unique insights needs.",
-    type: "custom",
-    label: "new",
-    dashboard_filters: {
-      usage: null,
-      mode: "sales",
-    },
-    page_filters: [],
-    tag: "upcoming",
-  },
+  // {
+  //   key: "custom_dashboard_builder",
+  //   name: "Custom Dashboard Builder",
+  //   description: "Create dashboards tailored to your unique insights needs.",
+  //   type: "custom",
+  //   label: "new",
+  //   dashboard_filters: {
+  //     usage: null,
+  //     mode: "sales",
+  //   },
+  //   page_filters: [],
+  //   tag: "upcoming",
+  // },
 ];

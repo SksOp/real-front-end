@@ -28,9 +28,9 @@ function DataCards({
       {tag === "upcoming" && (
         <Badge
           variant={"outline"}
-          className="bg-[#584DCB] text-white px-2 py-1 mb-1"
+          className="bg-[#58AAF2] text-white text-sm font-medium px-3 py-[0.313rem] mb-1"
         >
-          Coming Soon!
+          Soon
         </Badge>
       )}
 
