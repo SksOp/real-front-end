@@ -143,7 +143,7 @@ function HomeVolumeIndex() {
                   ))}
                 </TabsList>
                 {value.filters?.map((filter) => (
-                  <TabsContent value={filter.key}>
+                  <TabsContent value={filter.key} className="overflow-x-scroll">
                     <Barchart
                       chartConfig={value.chartConfig}
                       data={filter.data}

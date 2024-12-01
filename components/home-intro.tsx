@@ -14,12 +14,22 @@ import { carouslItems } from "@/constants/carousal";
 function HomeIntro() {
   const auth = useAuth();
   const [name, setName] = useState<string | null>(null);
-  const [activeSlide, setActiveSlide] = useState(0); // Track active slide
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [greeting, setGreeting] = useState<string>("Good Morning");
 
   useEffect(() => {
     if (auth?.user) {
       const displayName = auth.user.displayName?.split(" ")[0];
       setName(displayName || "Name");
+    }
+    const currentHour = new Date().getHours();
+    console.log(currentHour);
+    if (currentHour < 12) {
+      setGreeting("Good Morning");
+    } else if (currentHour < 18) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
     }
   }, [auth]);
 
@@ -37,7 +47,7 @@ function HomeIntro() {
             <span className="">Hello {name}</span>{" "}
             <span className="inline-block text-black">👋</span>,
             <br />
-            Good Morning!
+            {greeting}!
           </h1>
           <p className="text-muted-foreground text-base font-normal">
             Every real estate insights you need in one place. We have put

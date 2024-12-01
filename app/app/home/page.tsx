@@ -31,11 +31,21 @@ function HomePage() {
   const [name, setName] = useState<string | null>(null);
   const [salesIndex, setSalesIndex] = React.useState<any[]>([]);
   const [priceRange, setPriceRange] = React.useState<ChartDescription>();
+  const [greeting, setGreeting] = useState<string>("Good Morning");
 
   useEffect(() => {
     if (auth?.user) {
       const displayName = auth.user.displayName?.split(" ")[0];
       setName(displayName || "Name");
+    }
+
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      setGreeting("Good Morning");
+    } else if (currentHour < 18) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
     }
   }, [auth]);
 
@@ -58,7 +68,7 @@ function HomePage() {
             <span className="">Hello {name}</span>{" "}
             <span className="inline-block text-black">👋</span>,
             <br />
-            Good Morning!
+            {greeting}!
           </h1>
         </div>
         <HomeTransactionCard />

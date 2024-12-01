@@ -55,9 +55,9 @@ const SalesIndexCardComponent: React.FC<SalesIndexCardComponentProps> = ({
       )}
       <div className="relative h-6 flex gap-1 w-full">
         {/* Background bars */}
-        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#9BEBB1]"></div>
-        <div className="w-1/2 h-6 border border-secondary rounded-sm bg-[#F9F09D]"></div>
-        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#FF8888]"></div>
+        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#DDF8E4]"></div>
+        <div className="w-1/2 h-6 border border-secondary rounded-sm bg-[#FCF8D1]"></div>
+        <div className="w-1/4 h-6 border border-secondary rounded-sm bg-[#FFDBDB]"></div>
 
         {/* Knob */}
         {knob !== undefined && (

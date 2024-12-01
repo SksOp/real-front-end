@@ -93,10 +93,10 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="max-h-[280px] w-full overflow-x-scroll"
+      className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
     >
-      <ResponsiveContainer width={chartWidth} height={maxValue}>
-        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={20}>
+      <ResponsiveContainer height={maxValue}>
+        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={30}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -118,6 +118,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             tickFormatter={formatYAxisTick}
             tickMargin={0}
             axisLine={axisLine}
+            domain={yAxisDomain}
           />
           <Tooltip cursor={false} content={<ChartTooltipContent />} />
 
@@ -128,8 +129,8 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               fill={barColors[index % barColors.length]} // Cycle through colors
               radius={barRadius}
               stroke={"#121212"}
-              // barSize={30}
               overflow={"scroll"}
+              barSize={50}
               {...customBarProps}
             >
               {!showXAxis && (
