@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
 import { Tooltip } from "@/components/ui/tooltip";
 import { FormatValue } from "@/utils/formatNumbers";
+import { Label } from "@/components/ui/label";
 
 interface HorizontalBarChartComponentProps {
   chartConfig: ChartConfig;
@@ -84,7 +85,7 @@ const HorizontalBarChartComponent: React.FC<
   return (
     <ChartContainer
       config={chartConfig}
-      className={cn("w-full", "")}
+      className={cn("w-full", className)}
       style={{ height: `${minHeight}px` }}
     >
       <BarChart
@@ -92,7 +93,7 @@ const HorizontalBarChartComponent: React.FC<
         layout="vertical"
         margin={{
           top: 5,
-          right: 12,
+          right: 50,
           left: 10,
         }}
         barCategoryGap={10}
@@ -128,18 +129,23 @@ const HorizontalBarChartComponent: React.FC<
             className="fill-[--color-label]"
             fontSize={14}
             textBreakAll={false}
-            formatter={(value: string) => value}
+            formatter={(value: string) =>
+              value.length > 20 ? `${value.slice(0, 20)}...` : value
+            }
           />
-          {/* Custom label for zero values */}
+          {/* Value labels */}
           <LabelList
             dataKey={yAxisDataKey}
-            position="right"
-            offset={8}
-            className="fill-foreground"
+            position="right" // Positions to the right of the bar
+            offset={8} // Adjust spacing from the bar
+            className={cn("fill-foreground")}
             fontSize={16}
-            formatter={(value: number) =>
-              value === 0 ? `(0)` : FormatValue(value)
-            }
+            formatter={(value: number) => {
+              if (value === 0) {
+                return `(0)`;
+              }
+              return FormatValue(value);
+            }}
           />
         </Bar>
       </BarChart>

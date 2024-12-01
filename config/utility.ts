@@ -95,25 +95,25 @@ export const CalculateMatrix = async (
           key: "avg_sales_value",
           title: "Average Sales Value",
           value: avgSalesValue.toFixed(2),
-          growth: avgSalesValueGrowth.toFixed(2),
+          growth: avgSalesValueGrowth.toFixed(1),
         },
         {
           key: "avg_price_per_sqft",
           title: "Avg. Price per SQFT",
           value: avgPricePerSqft.toFixed(2),
-          growth: salesPerSqftGrowth.toFixed(2),
+          growth: salesPerSqftGrowth.toFixed(1),
         },
         {
           key: "total_value",
           title: "Total Value",
           value: totalValue.toFixed(2),
-          growth: totalValueGrowth.toFixed(2),
+          growth: totalValueGrowth.toFixed(1),
         },
         {
           key: "no_of_transactions",
           title: "No of Transactions",
           value: noOfTransactions,
-          growth: noOfTransactionsGrowth.toFixed(2),
+          growth: noOfTransactionsGrowth.toFixed(1),
         },
       ];
     } else {
@@ -143,25 +143,25 @@ export const CalculateMatrix = async (
           key: "avg_rent_new",
           title: "Average Rent (New)",
           value: avgRentNew.toFixed(2),
-          growth: avgRentNewGrowth.toFixed(2),
+          growth: avgRentNewGrowth.toFixed(1),
         },
         {
           key: "sales_per_sqft",
           title: "Average Rent (Renewal)",
           value: avgRentRenewal.toFixed(2),
-          growth: avgRentRenewalGrowth.toFixed(2),
+          growth: avgRentRenewalGrowth.toFixed(1),
         },
         {
           key: "total_transactions",
           title: "Total Transactions",
           value: totalTransaction,
-          growth: totalTransactionGrowth.toFixed(2),
+          growth: totalTransactionGrowth.toFixed(1),
         },
         {
           key: "renewal_ratio",
           title: "Renewal Ratio",
           value: String((renewalRatio * 100).toFixed(2)) + "%",
-          growth: renewalRatioGrowth.toFixed(2),
+          growth: renewalRatioGrowth.toFixed(1),
         },
       ];
     }

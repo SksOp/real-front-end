@@ -13,7 +13,6 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import SecondaryChartWrapper from "./secondaryChartWrapper";
 import PriceChangesTable from "./price-changes-table";
 import { ClassValue } from "clsx";
-import HomeTotalAds, { HorizontalBarChart } from "./home-total-ads";
 import { cn } from "@/lib/utils";
 import InsightCard from "./insightCard";
 import StackedBarchart from "./chart/stackedChart/stackedChart";
