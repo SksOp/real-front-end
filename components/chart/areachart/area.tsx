@@ -77,9 +77,9 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="max-h-[300px] overflow-x-scroll w-full"
+      className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
     >
-      <ResponsiveContainer width={chartWidth} height={"100%"}>
+      <ResponsiveContainer height={"100%"}>
         <AreaChart
           data={data}
           margin={{ left: 0, top: 35, right: 10, bottom: 4 }}

@@ -148,23 +148,9 @@ function DashboardDetailPage() {
                     />
                   ))}
                 </div>
-                {charts && (
-                  <DashboardCharts
-                    type={charts[0].chart_type}
-                    data={charts[0].data}
-                    chartConfig={charts[0].chartConfig}
-                    title={charts[0].name}
-                    filters={charts[0].filters}
-                    columns={charts[0]?.columns}
-                    otherInfo={charts[0].otherInfo}
-                    subCharts={charts[0].sub_charts}
-                    insights={charts[0]?.insights}
-                    description={charts[0].description}
-                  />
-                )}
 
                 <div className="grid grid-cols-2 gap-4 items-stretch w-full">
-                  {charts?.slice(1, -1).map((chart, index, arr) => (
+                  {charts?.map((chart, index) => (
                     <DashboardCharts
                       key={index + 1}
                       type={chart.chart_type}
@@ -178,28 +164,15 @@ function DashboardDetailPage() {
                       description={chart.description}
                       insights={chart?.insights}
                       className={
-                        arr.length % 2 !== 0 && index === 2 ? "col-span-2" : ""
+                        index === 0 || index === 3 || index === 6
+                          ? "col-span-2"
+                          : ""
                       }
                     />
-                  ))}
+                  ))}{" "}
+                  <Feedback />
+                  <SharingCard />
                 </div>
-
-                {charts && (
-                  <DashboardCharts
-                    type={charts[charts.length - 1].chart_type}
-                    data={charts[charts.length - 1].data}
-                    chartConfig={charts[charts.length - 1].chartConfig}
-                    title={charts[charts.length - 1].name}
-                    filters={charts[charts.length - 1].filters}
-                    columns={charts[charts.length - 1]?.columns}
-                    otherInfo={charts[charts.length - 1].otherInfo}
-                    subCharts={charts[charts.length - 1].sub_charts}
-                    description={charts[charts.length - 1].description}
-                    insights={charts[charts.length - 1]?.insights}
-                  />
-                )}
-                <Feedback />
-                <SharingCard />
               </div>
             </div>
             {/* <div className="lg:flex md:w-1/3 hidden md:bg-primary/5 max-w-md justify-center md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">

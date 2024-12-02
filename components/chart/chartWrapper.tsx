@@ -88,7 +88,7 @@ function ChartWrapper({
             </span>
           </div>
         </div>
-        <CardDescription className="text-base text-accent font-normal line-clamp-2">
+        <CardDescription className="text-xs text-accent font-normal line-clamp-2">
           {description}
         </CardDescription>
         {filters?.length > 0 && (

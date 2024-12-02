@@ -1,10 +1,12 @@
 import axios from "axios";
 import { BASE_URL } from "./constant";
+import { FormatValue } from "@/utils/formatNumbers";
 
-export const SalesTypeChart = async (params?: {
+export const SalesTypeChart = async (params: {
   [key: string]: string | number;
 }) => {
   try {
+    params.start_year = Number(params?.end_year);
     const response = await axios.get(`${BASE_URL}/api/transaction/types`, {
       params: params,
     });
@@ -116,10 +118,18 @@ export const SalesValueTrend = async (params: {
     }));
     console.log("totalValue", totalValue);
 
+    const lastYear = parseFloat(totalValue[totalValue.length - 1].value);
+    const secondLastYear = parseFloat(totalValue[totalValue.length - 2].value);
+    const total = (lastYear + secondLastYear).toFixed(2);
+    const growth = (lastYear / (lastYear + secondLastYear)) * 100;
     const insight = `
-          Dubai’s GMV grew by 18% this year, reaching new highs in luxury transactions.
+          Dubai’s GMV grew by ${FormatValue(
+            growth.toFixed(2)
+          )}% this year, reaching new highs in luxury transactions.
           Off-plan properties show the fastest growth in transaction value.
-          The total market value crossed AED 350B, up from AED 295B last year.
+          The total market value crossed AED ${FormatValue(
+            lastYear
+          )}, up from AED ${FormatValue(secondLastYear)} last year.
       `;
 
     return {
@@ -142,8 +152,7 @@ export const SalesValueTrend = async (params: {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+      insights: insight,
       data: totalValue, // Calculated data will be here
     };
   } catch (error) {
@@ -168,20 +177,14 @@ export const SalesValueTrend = async (params: {
   }
 };
 
-export const SalesTrend = async (params?: {
+export const SalesTrend = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    params = {};
-    const date = new Date();
-    const end_year = date.getFullYear();
-    const start_year = end_year - 9;
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/trends?start_year=${start_year}&end_year=${end_year}`,
-      {
-        params: params,
-      }
-    );
+    params.start_year = Number(params?.end_year) - 9;
+    const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
+      params: params,
+    });
     const data = response.data.data.data;
     console.log("chddd", data);
 
@@ -291,15 +294,13 @@ export const SalesTrend = async (params?: {
   }
 };
 
-export const SalesPriceRanges = async (params?: {
+export const SalesPriceRanges = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    params = {};
-    const date = new Date();
-    const end_year = date.getFullYear();
+    params.start_year = Number(params?.end_year);
     const responseRange = await axios.get(
-      `${BASE_URL}/api/transaction/salesIndex?start_year=${end_year}&end_year=${end_year}`,
+      `${BASE_URL}/api/transaction/salesIndex`,
       {
         params: params,
       }
@@ -387,10 +388,11 @@ export const SalesPriceRanges = async (params?: {
   }
 };
 
-export const SalesIndex = async (params?: {
+export const SalesIndex = async (params: {
   [key: string]: string | number;
 }) => {
   try {
+    params.start_year = Number(params?.end_year);
     const response = await axios.get(`${BASE_URL}/api/transaction/index`, {
       params: params,
     });
@@ -445,10 +447,11 @@ export const SalesIndex = async (params?: {
   }
 };
 
-export const SalesSimilarData = async (params?: {
+export const SalesSimilarData = async (params: {
   [key: string]: string | number;
 }) => {
   try {
+    params.start_year = Number(params?.end_year);
     const response = await axios.get(`${BASE_URL}/api/transaction/last`, {
       params: params,
     });
@@ -514,16 +517,15 @@ export const SalesSimilarData = async (params?: {
   }
 };
 
-export const SalesPriceComparison = async (params?: {
+export const SalesPriceComparison = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/comp?location=Business%20Bay`,
-      {
-        params: params,
-      }
-    );
+    params.start_year = Number(params?.end_year);
+    params.location = params?.location || "Business Bay";
+    const response = await axios.get(`${BASE_URL}/api/transaction/comp`, {
+      params: params,
+    });
     // Will do the required calculation here and return the data to build graph
 
     const data = response.data.data.data;
@@ -561,10 +563,11 @@ export const SalesPriceComparison = async (params?: {
   }
 };
 
-export const SalesSegmentation = async (params?: {
+export const SalesSegmentation = async (params: {
   [key: string]: string | number;
 }) => {
   try {
+    params.start_year = Number(params?.end_year);
     const response = await axios.get(`${BASE_URL}/api/transaction/types`, {
       params: params,
     });
@@ -573,24 +576,27 @@ export const SalesSegmentation = async (params?: {
     const data = response.data.data.data;
     console.log("data Transs", data);
     const commercialTotalData = data.filter(
-      (item: any) => item.USAGE_EN === "Commercial"
+      (item: any) => item?.USAGE_EN === "Commercial"
     );
     const residentialTotalData = data.filter(
-      (item: any) => item.USAGE_EN === "Residential"
+      (item: any) => item?.USAGE_EN === "Residential"
     );
     console.log("commercialTotalData", commercialTotalData);
-    const chartData = [
-      {
+    const chartData = [];
+    if (commercialTotalData.length > 0) {
+      chartData.push({
         name: "Commercial",
-        value: commercialTotalData[0].total_commercial,
+        value: commercialTotalData[0]?.total_commercial || 0,
         colorClass: "bg-[#FFC8C8]",
-      },
-      {
+      });
+    }
+    if (residentialTotalData.length > 0) {
+      chartData.push({
         name: "Residential",
-        value: residentialTotalData[0].total_residential,
+        value: residentialTotalData[0]?.total_residential || 0,
         colorClass: "bg-[#EFEEFC]",
-      },
-    ];
+      });
+    }
     console.log("chartData", chartData);
 
     const colors: Record<string, string> = {
@@ -648,10 +654,12 @@ export const SalesSegmentation = async (params?: {
       return categories[categoryKey].map(({ key, name, color }) => {
         const value = sourceData.reduce((sum: number, item: any) => {
           const commercialValue =
-            item.total_commercial > 0 ? item.types[categoryKey]?.[key] || 0 : 0;
+            item.total_commercial > 0
+              ? item.types?.[categoryKey]?.[key] || 0
+              : 0;
           const residentialValue =
             item.total_residential > 0
-              ? item.types[categoryKey]?.[key] || 0
+              ? item.types?.[categoryKey]?.[key] || 0
               : 0;
           return sum + commercialValue + residentialValue;
         }, 0);
@@ -675,139 +683,143 @@ export const SalesSegmentation = async (params?: {
       );
     });
     console.log("allData", residentialData);
-    allData["rooms_en"] = [
-      {
-        name: "Studio",
-        value: residentialTotalData[0].types.rooms_en.count_studio,
-        fill: colors.count_studio,
-      },
-      {
-        name: "Single Room",
-        value: residentialTotalData[0].types.rooms_en.count_single_room,
-        fill: colors.count_single_room,
-      },
-      {
-        name: "Penthouse",
-        value: residentialTotalData[0].types.rooms_en.count_penthouse,
-        fill: colors.count_penthouse,
-      },
-      {
-        name: "1 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_1_B_R,
-        fill: colors.count_1_B_R,
-      },
-      {
-        name: "2 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_2_B_R,
-        fill: colors.count_2_B_R,
-      },
-      {
-        name: "3 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_3_B_R,
-        fill: colors.count_3_B_R,
-      },
-      {
-        name: "4 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_4_B_R,
-        fill: colors.count_4_B_R,
-      },
-      {
-        name: "5 B/R+",
-        value:
-          residentialTotalData[0].types.rooms_en.count_5_B_R +
-          residentialTotalData[0].types.rooms_en.count_6_B_R +
-          residentialTotalData[0].types.rooms_en.count_7_B_R +
-          residentialTotalData[0].types.rooms_en.count_8_B_R +
-          residentialTotalData[0].types.rooms_en.count_9_B_R,
-        fill: colors.count_5_B_R,
-      },
-    ];
+    if (residentialTotalData > 0) {
+      allData["rooms_en"] = [
+        {
+          name: "Studio",
+          value: residentialTotalData[0].types.rooms_en.count_studio,
+          fill: colors.count_studio,
+        },
+        {
+          name: "Single Room",
+          value: residentialTotalData[0].types.rooms_en.count_single_room,
+          fill: colors.count_single_room,
+        },
+        {
+          name: "Penthouse",
+          value: residentialTotalData[0].types.rooms_en.count_penthouse,
+          fill: colors.count_penthouse,
+        },
+        {
+          name: "1 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_1_B_R,
+          fill: colors.count_1_B_R,
+        },
+        {
+          name: "2 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_2_B_R,
+          fill: colors.count_2_B_R,
+        },
+        {
+          name: "3 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_3_B_R,
+          fill: colors.count_3_B_R,
+        },
+        {
+          name: "4 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_4_B_R,
+          fill: colors.count_4_B_R,
+        },
+        {
+          name: "5 B/R+",
+          value:
+            residentialTotalData[0].types.rooms_en.count_5_B_R +
+            residentialTotalData[0].types.rooms_en.count_6_B_R +
+            residentialTotalData[0].types.rooms_en.count_7_B_R +
+            residentialTotalData[0].types.rooms_en.count_8_B_R +
+            residentialTotalData[0].types.rooms_en.count_9_B_R,
+          fill: colors.count_5_B_R,
+        },
+      ];
 
-    residentialData["rooms_en"] = [
-      {
-        name: "Studio",
-        value: residentialTotalData[0].types.rooms_en.count_studio,
-        fill: colors.count_studio,
-      },
-      {
-        name: "Single Room",
-        value: residentialTotalData[0].types.rooms_en.count_single_room,
-        fill: colors.count_single_room,
-      },
-      {
-        name: "Penthouse",
-        value: residentialTotalData[0].types.rooms_en.count_penthouse,
-        fill: colors.count_penthouse,
-      },
-      {
-        name: "1 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_1_B_R,
-        fill: colors.count_1_B_R,
-      },
-      {
-        name: "2 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_2_B_R,
-        fill: colors.count_2_B_R,
-      },
-      {
-        name: "3 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_3_B_R,
-        fill: colors.count_3_B_R,
-      },
-      {
-        name: "4 B/R",
-        value: residentialTotalData[0].types.rooms_en.count_4_B_R,
-        fill: colors.count_4_B_R,
-      },
-      {
-        name: "5 B/R+",
-        value:
-          residentialTotalData[0].types.rooms_en.count_5_B_R +
-          residentialTotalData[0].types.rooms_en.count_6_B_R +
-          residentialTotalData[0].types.rooms_en.count_7_B_R +
-          residentialTotalData[0].types.rooms_en.count_8_B_R +
-          residentialTotalData[0].types.rooms_en.count_9_B_R,
-        fill: colors.count_5_B_R,
-      },
-    ];
+      residentialData["rooms_en"] = [
+        {
+          name: "Studio",
+          value: residentialTotalData[0].types.rooms_en.count_studio,
+          fill: colors.count_studio,
+        },
+        {
+          name: "Single Room",
+          value: residentialTotalData[0].types.rooms_en.count_single_room,
+          fill: colors.count_single_room,
+        },
+        {
+          name: "Penthouse",
+          value: residentialTotalData[0].types.rooms_en.count_penthouse,
+          fill: colors.count_penthouse,
+        },
+        {
+          name: "1 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_1_B_R,
+          fill: colors.count_1_B_R,
+        },
+        {
+          name: "2 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_2_B_R,
+          fill: colors.count_2_B_R,
+        },
+        {
+          name: "3 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_3_B_R,
+          fill: colors.count_3_B_R,
+        },
+        {
+          name: "4 B/R",
+          value: residentialTotalData[0].types.rooms_en.count_4_B_R,
+          fill: colors.count_4_B_R,
+        },
+        {
+          name: "5 B/R+",
+          value:
+            residentialTotalData[0].types.rooms_en.count_5_B_R +
+            residentialTotalData[0].types.rooms_en.count_6_B_R +
+            residentialTotalData[0].types.rooms_en.count_7_B_R +
+            residentialTotalData[0].types.rooms_en.count_8_B_R +
+            residentialTotalData[0].types.rooms_en.count_9_B_R,
+          fill: colors.count_5_B_R,
+        },
+      ];
+    }
 
-    commercialData["rooms_en"] = [
-      {
-        name: "Industrial",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_industrial,
-        fill: colors.count_studio,
-      },
-      {
-        name: "Commercial",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_commercial,
-        fill: colors.count_single_room,
-      },
-      {
-        name: "Office",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_office,
-        fill: colors.count_penthouse,
-      },
-      {
-        name: "Shop",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_shop,
-        fill: colors.count_1_B_R,
-      },
-      {
-        name: "Show Rooms",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_show_rooms,
-        fill: colors.count_2_B_R,
-      },
-      {
-        name: "Gymnasium",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_gymnasium,
-        fill: colors.count_3_B_R,
-      },
-      {
-        name: "Sports Club",
-        value: commercialTotalData[0].types.prop_sb_type_en.count_sports_club,
-        fill: colors.count_4_B_R,
-      },
-    ];
+    if (commercialTotalData > 0) {
+      commercialData["rooms_en"] = [
+        {
+          name: "Industrial",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_industrial,
+          fill: colors.count_studio,
+        },
+        {
+          name: "Commercial",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_commercial,
+          fill: colors.count_single_room,
+        },
+        {
+          name: "Office",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_office,
+          fill: colors.count_penthouse,
+        },
+        {
+          name: "Shop",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_shop,
+          fill: colors.count_1_B_R,
+        },
+        {
+          name: "Show Rooms",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_show_rooms,
+          fill: colors.count_2_B_R,
+        },
+        {
+          name: "Gymnasium",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_gymnasium,
+          fill: colors.count_3_B_R,
+        },
+        {
+          name: "Sports Club",
+          value: commercialTotalData[0].types.prop_sb_type_en.count_sports_club,
+          fill: colors.count_4_B_R,
+        },
+      ];
+    }
 
     return {
       name: "Sales Segmentation",
