@@ -51,8 +51,8 @@ function HomePage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await SalesIndex();
-      const response2 = await SalesPriceRanges();
+      const response = await SalesIndex({});
+      const response2 = await SalesPriceRanges({});
       setPriceRange(response2);
       setSalesIndex(response.data);
       console.log(response2);
