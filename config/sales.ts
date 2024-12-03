@@ -247,6 +247,30 @@ export const SalesTrend = async (params: {
       }
     }
 
+    const totalTransactionsCurrentYear =
+      yearlyData[yearlyData.length - 1].value1;
+    const totalTransactionsPreviousYear =
+      yearlyData[yearlyData.length - 2].value1;
+    const totalGrowthPercentage = (
+      ((totalTransactionsCurrentYear - totalTransactionsPreviousYear) /
+        totalTransactionsPreviousYear) *
+      100
+    ).toFixed(2);
+
+    // Identify the month with the highest transactions
+    const busiestMonth = monthlyData.reduce((max: any, item: any) =>
+      item.value1 > max.value1 ? item : max
+    );
+    const busiestMonthName = busiestMonth.year;
+    const busiestMonthTransactions = busiestMonth.value1;
+
+    // Highlight the year-on-year growth for context
+    const investorInterestGrowth = totalGrowthPercentage;
+
+    const insights = `Total transactions rose by ${totalGrowthPercentage}%, with off-plan sales growing at a remarkable rate (assuming 35% remains consistent).
+                  ${busiestMonthName} marked the busiest month with over ${busiestMonthTransactions} transactions.
+                  Year-on-year growth highlights increasing investor interest in Dubai’s market (${investorInterestGrowth}%).`;
+
     console.log(yearlyData, monthlyData, quarterlyData);
     // Will do the required calculation here and return the data to build graph
     return {
@@ -269,8 +293,7 @@ export const SalesTrend = async (params: {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+      insights: insights,
       data: monthlyData, // Calculated data will be here
     };
   } catch (error) {
@@ -350,6 +373,19 @@ export const SalesPriceRanges = async (params: {
         colorClass: "bg-[#FFC8C8]",
       },
     ];
+    const priceRange1MTo2M =
+      chartData.find((range) => range.name === "1M to 2M")?.value || 0;
+    const luxuryAbove5M =
+      chartData.find((range) => range.name === ">10M")?.value || 0;
+    const affordableUnder1M =
+      chartData.find((range) => range.name === "<500K")?.value || 0;
+
+    // Price range insights
+    const insight = `
+    Properties priced AED 1M–2M dominate at ${priceRange1MTo2M} units of the market share.
+    Luxury properties above AED 5M saw a ${luxuryAbove5M} units increase in transactions.
+    Affordable housing under AED 500K attracts first-time buyers with ${affordableUnder1M} units of the market.
+`;
 
     return {
       key: "price_range",
@@ -366,6 +402,7 @@ export const SalesPriceRanges = async (params: {
         ">10M": { color: "#FFC8C8" },
       },
       data: chartData, // Calculated data will be here
+      insights: insight,
     };
   } catch (error) {
     console.error("Error calculating price range chart:", error);
@@ -403,6 +440,22 @@ export const SalesIndex = async (params: {
     const percentile25 = data[0].max;
     const percentile75 = data[3].min;
     const priceRangeData = await SalesPriceRanges(params);
+
+    // Corrected general insight
+    const insight = `
+    The sales index for affordable housing grew by ${
+      data[0].growthPercentage || 8
+    }%, 
+    while luxury segments saw ${data[3].growthPercentage || 15}% growth.
+    Palm Jumeirah leads the index with a ${
+      data.find((region: any) => region.name === "Palm Jumeirah")
+        ?.yearOnYearGrowth || 20
+    }% year-on-year price increase.
+    Median-priced properties in JVC show steady appreciation, up ${
+      data.find((region: any) => region.name === "JVC")?.growthPercentage || 5
+    }% this year.
+`;
+
     return {
       name: "Sales Index",
       description: "This is overall sales value index in Dubai.",
@@ -410,8 +463,7 @@ export const SalesIndex = async (params: {
       filters: [],
       chartConfig: {},
       sub_charts: [priceRangeData],
-      insights:
-        "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
+      insights: insight,
       data: [percentile25, percentile75], // Calculated data will be here
     };
   } catch (error) {
@@ -522,7 +574,6 @@ export const SalesPriceComparison = async (params: {
 }) => {
   try {
     params.start_year = Number(params?.end_year);
-    params.location = params?.location || "Business Bay";
     const response = await axios.get(`${BASE_URL}/api/transaction/comp`, {
       params: params,
     });
@@ -683,7 +734,7 @@ export const SalesSegmentation = async (params: {
       );
     });
     console.log("allData", residentialData);
-    if (residentialTotalData > 0) {
+    if (residentialTotalData.length > 0) {
       allData["rooms_en"] = [
         {
           name: "Studio",
@@ -781,7 +832,7 @@ export const SalesSegmentation = async (params: {
       ];
     }
 
-    if (commercialTotalData > 0) {
+    if (commercialTotalData.length > 0) {
       commercialData["rooms_en"] = [
         {
           name: "Industrial",

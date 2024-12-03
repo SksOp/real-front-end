@@ -86,7 +86,7 @@ function HomeVolumeIndex() {
             {volume ? (
               <Tabs
                 defaultValue={
-                  volume.filters ? volume?.filters[0].key : "total_value"
+                  volume.filters ? volume?.filters[0]?.key : "total_value"
                 }
               >
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
@@ -101,7 +101,11 @@ function HomeVolumeIndex() {
                   ))}
                 </TabsList>
                 {volume.filters?.map((filter) => (
-                  <TabsContent key={filter.key} value={filter.key}>
+                  <TabsContent
+                    key={filter.key}
+                    value={filter.key}
+                    className="overflow-x-scroll"
+                  >
                     <AreaChartComponent
                       chartConfig={volume.chartConfig}
                       data={filter.data}
@@ -131,7 +135,9 @@ function HomeVolumeIndex() {
           </CardDescription>
           <CardContent className="p-0 w-full">
             {value ? (
-              <Tabs defaultValue={value.filters ? value.filters[0].key : "all"}>
+              <Tabs
+                defaultValue={value.filters ? value.filters[0]?.key : "all"}
+              >
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
                   {value.filters?.map((filter) => (
                     <TabsTrigger
@@ -143,7 +149,11 @@ function HomeVolumeIndex() {
                   ))}
                 </TabsList>
                 {value.filters?.map((filter) => (
-                  <TabsContent value={filter.key} className="overflow-x-scroll">
+                  <TabsContent
+                    key={filter.key}
+                    value={filter.key}
+                    className="overflow-x-scroll"
+                  >
                     <Barchart
                       chartConfig={value.chartConfig}
                       data={filter.data}

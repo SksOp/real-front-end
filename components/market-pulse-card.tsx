@@ -3,8 +3,6 @@ import React from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
 import AreaChartComponent from "./chart/areachart/area";
-import ChartWrapper from "./chart/chartWrapper";
-import SecondaryChartWrapper from "./secondaryChartWrapper";
 import { FormatValue } from "@/utils/formatNumbers";
 
 interface MarketPulseCardProps {
@@ -89,7 +87,9 @@ function MarketPulseCard({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0">{RenderChart()}</CardContent>
+      <CardContent className="p-0 overflow-x-scroll">
+        {RenderChart()}
+      </CardContent>
     </Card>
   );
 }

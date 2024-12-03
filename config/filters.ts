@@ -15,6 +15,7 @@ export const SalesFilter: PageFilter[] = [
   {
     key: "location", //check
     label: "Area",
+    searchable: true,
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
   },
@@ -67,6 +68,7 @@ export const RentalFilter: PageFilter[] = [
   {
     key: "location", // check
     label: "Area",
+    searchable: true,
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental", //check
   },
@@ -87,6 +89,7 @@ export const SupplyFilter: PageFilter[] = [
   {
     key: "location",
     label: "Area",
+    searchable: true,
     source:
       "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
   },

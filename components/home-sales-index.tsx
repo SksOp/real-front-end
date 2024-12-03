@@ -92,7 +92,7 @@ function HomeSalesIndex() {
               <Tabs
                 defaultValue={
                   salesIndex.filters
-                    ? salesIndex?.filters[0].key
+                    ? salesIndex?.filters[0]?.key
                     : "total_value"
                 }
               >
@@ -108,7 +108,11 @@ function HomeSalesIndex() {
                   ))}
                 </TabsList>
                 {salesIndex.filters?.map((filter) => (
-                  <TabsContent value={filter.key}>
+                  <TabsContent
+                    key={filter.key}
+                    value={filter.key}
+                    className="overflow-x-scroll"
+                  >
                     <AreaChartComponent
                       key={filter.key}
                       chartConfig={salesIndex.chartConfig}
@@ -142,7 +146,7 @@ function HomeSalesIndex() {
             {salesValue ? (
               <Tabs
                 defaultValue={
-                  salesValue.filters ? salesValue.filters[0].key : "all"
+                  salesValue.filters ? salesValue.filters[0]?.key : "all"
                 }
               >
                 <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll  mb-2">
@@ -157,7 +161,11 @@ function HomeSalesIndex() {
                   ))}
                 </TabsList>
                 {salesValue.filters?.map((filter) => (
-                  <TabsContent value={filter.key}>
+                  <TabsContent
+                    key={filter.key}
+                    value={filter.key}
+                    className="overflow-x-scroll"
+                  >
                     <AreaChartComponent
                       key={filter.key}
                       chartConfig={salesValue.chartConfig}

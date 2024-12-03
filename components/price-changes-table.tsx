@@ -12,6 +12,7 @@ interface PriceTableRowProps {
   transactions: string;
   isMuted?: boolean;
   isSelected?: boolean;
+  type?: "sales" | "rental";
 }
 
 // PriceTableRow Component to represent a single row in the table
@@ -22,6 +23,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
   transactions,
   isMuted,
   isSelected,
+  type = "sales",
 }) => {
   return (
     <TableRow
@@ -45,7 +47,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
         <div className="flex items-center justify-between w-full">
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
             <h3 className="text-[0.813rem] text-muted-foreground font-semibold max-w-14  break-words">
-              {"Average price"}
+              {type === "sales" ? "Average price" : "Average rent"}
             </h3>
             <div className="flex gap-1 justify-start items-center">
               <h2 className="text-base text-secondary/90 font-medium">
@@ -59,7 +61,7 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 ml-4 justify-center">
             <h3 className="text-[0.813rem] text-muted-foreground font-semibold max-w-16  break-words">
-              {"Price Per sq. ft"}
+              {type === "sales" ? "Price Per sq. ft" : "Renewal rate"}
             </h3>
             <h2 className="text-base text-secondary/90 font-medium">
               {FormatValue(pricePerSqFt)}
@@ -89,11 +91,13 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
 interface PriceChangesTableProps {
   data: PriceTableRowProps[]; // Array of objects with label and value
   selectedRow?: number; // Index of the selected row
+  type?: "sales" | "rental"; // Type of data to be displayed
 }
 
 const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
   data,
   selectedRow,
+  type,
 }) => {
   return (
     <div className="border rounded-xl w-full overflow-hidden">
@@ -108,6 +112,7 @@ const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
               transactions={row.transactions}
               isMuted={index % 2 === 0}
               isSelected={selectedRow === index}
+              type={type}
             />
           ))}
         </TableBody>

@@ -19,6 +19,11 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { FetchAndStoreOptions } from "@/utils/fetchOptions";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 function Filters({
   selectOptions,
@@ -77,7 +82,7 @@ function Filters({
   return (
     <nav className="w-full bg-background sticky z-20 top-0">
       <div className="w-full rounded-md overflow-scroll">
-        <div className="flex items-center justify-start space-x-2 py-2 px-2">
+        <div className="flex items-center justify-start space-x-2 py-2 px-2 md:hidden">
           {selectOptions.map((select, index) => (
             <Drawer key={index}>
               <DrawerTrigger asChild>
@@ -154,7 +159,81 @@ function Filters({
             </Drawer>
           ))}
         </div>
-        {/* <ScrollBar orientation="horizontal" /> */}
+        <div className="hidden items-center justify-start space-x-2 py-2 px-2 md:flex">
+          {selectOptions.map((select, index) => (
+            <DropdownMenu key={index}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "rounded-full text-sm text-muted-foreground p-2 h-8",
+                    selectedFilters[select.key]
+                      ? "bg-primary/10 hover:bg-primary/20"
+                      : "bg-white hover:bg-primary/10"
+                  )}
+                >
+                  {select.label}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="max-h-[600px] p-2">
+                <div className="flex justify-start items-center gap-2">
+                  <FilterIcons option={select.label} />
+                  <h3 className="font-semibold text-base text-secondary">
+                    {select.label}
+                  </h3>
+                </div>
+                {select.searchable && (
+                  <Input
+                    placeholder="Search"
+                    value={searchQueries[select.key] || ""}
+                    onChange={(e) =>
+                      handleSearchChange(select.key, e.target.value)
+                    }
+                    className="bg-secondary-foreground border-2 font-bold text-secondary mt-2"
+                  />
+                )}
+                <div className="space-y-4 overflow-y-scroll mt-2 max-h-[600px]">
+                  <RadioGroup
+                    value={selectedFilters[select.key]?.toString()}
+                    onValueChange={(value) =>
+                      handleOptionChange(select.key, value)
+                    }
+                  >
+                    {filterOptions[select.key] ? (
+                      filterOptions[select.key]
+                        .filter((option) =>
+                          option
+                            ?.toLowerCase()
+                            .includes(
+                              (searchQueries[select.key] || "").toLowerCase()
+                            )
+                        )
+                        .map((option, idx) => (
+                          <div
+                            key={idx}
+                            className="flex items-center space-x-2 p-2"
+                          >
+                            <RadioGroupItem
+                              value={option}
+                              id={`${select.key}-${option}`}
+                            />
+                            <Label
+                              htmlFor={`${select.key}-${option}`}
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              {option}
+                            </Label>
+                          </div>
+                        ))
+                    ) : (
+                      <div>Loading options...</div>
+                    )}
+                  </RadioGroup>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ))}
+        </div>
       </div>
     </nav>
   );

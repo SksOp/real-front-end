@@ -1,22 +1,27 @@
 "use client";
 import CalculatorSelector from "@/components/calculator-selector";
 import ChartException from "@/components/chartException";
+import Exceptions from "@/components/exceptions";
 import Layout from "@/layout/secondary";
+import { SelectDataException } from "@/public/svg/exceptions";
 import React from "react";
 
 function CalculatorPage() {
   return (
     <Layout page="calculators" title="calculators">
       <div className="flex w-full justify-center  ">
-        <div defaultValue={"all-dashboards"} className="flex flex-col w-full ">
-          <div className="flex gap-5 w-full mt-16 md:mt-20">
-            <div className="md:w-1/3 md:max-w-md w-full md:max-h-screen md:overflow-y-auto ">
+        <div className="flex flex-col w-full ">
+          <div className="flex gap-5 w-full pt-12 md:pt-20 px-2">
+            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
               <CalculatorSelector />
             </div>
-            <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-screen md:overflow-y-auto">
-              <ChartException />
+            <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
+              <Exceptions
+                svg={<SelectDataException />}
+                title="Selected details will showup here."
+                description="any drill down insights / selection will be shown here."
+              />
             </div>
-            <div className="lg:flex hidden  max-w-md justify-center "></div>
           </div>
         </div>
         {/* <div className="grid grid-cols-2 md:grid-cols-1 md:w-[30%] gap-3 px-3 pt-16 mb-4">

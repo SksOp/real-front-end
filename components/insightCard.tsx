@@ -34,12 +34,14 @@ function InsightCard({
           </div>
           {/* Text Content */}
           <div className="flex">
-            <CardDescription>{children}</CardDescription>
-          </div>
+            <CardDescription>
+              {children}{" "}
+              <span className="text-sm font-semibold text-primary cursor-pointer">
+                {linkText}
+              </span>
+            </CardDescription>
+          </div>{" "}
         </div>
-        <span className="text-sm font-semibold text-primary cursor-pointer">
-          {linkText}
-        </span>
       </Card>
     </div>
   );

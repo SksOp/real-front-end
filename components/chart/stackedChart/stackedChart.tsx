@@ -87,16 +87,17 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[250px] w-full overflow-x-scroll"
+      className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
     >
-      <ResponsiveContainer width={chartWidth} height={300}>
-        <ComposedChart data={data} margin={{ left: -15 }} barGap={30}>
+      <ResponsiveContainer width="100%" height={400}>
+        <ComposedChart data={data} margin={{ left: -10, top: 10 }} barGap={20}>
           <XAxis
             dataKey={xAxisDataKey}
             tickLine={false}
             tickMargin={tickMargin}
             axisLine={axisLine}
             tickFormatter={tickFormatter}
+            interval={"preserveStart"}
           />
           <YAxis
             tickLine={tickLine}
@@ -120,7 +121,6 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
             stackId="a"
             stroke={"#121212"}
             fill={barColors[0]}
-            barSize={20}
             radius={[0, 0, 5, 5]}
           />
           <Bar
@@ -128,7 +128,6 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
             stackId="a"
             stroke={"#121212"}
             fill={barColors[1]}
-            barSize={20}
             className="-translate-y-0.5"
             radius={[5, 5, 0, 0]}
           />

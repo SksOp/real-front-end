@@ -155,7 +155,7 @@ export interface Dashboard {
   tag?: string;
   type: "standard" | "custom";
   label?: string;
-  dashboard_filters?: DashboardFilters;
+  dashboard_filters: DashboardFilters;
   page_filters: PageFilter[];
 
   matrics?: MatrixData[];

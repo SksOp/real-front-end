@@ -58,7 +58,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   chartConfig,
   xAxisDataKey,
   yAxisDataKeys,
-  barColors = ["#DDDAF9", "#F2F2F2"], // Default to one color if not provided
+  barColors = ["#DDDAF9", "#F2F2F2"],
   barRadius = 4,
   gridStroke = "#F2F2F2",
   tickColor = "black",
@@ -76,26 +76,29 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   showXAxis = true,
   showInsideLabel = false,
 }) => {
+  // Find the maximum value across all yAxisDataKeys
   const maxValue = Math.max(
     ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
   );
 
-  // Add some padding to the top of the chart
-  const yAxisDomain = [0, parseInt(String(maxValue))]; // 10% padding
+  // Add padding (e.g., 10%) to the Y-axis maximum value
+  const yAxisPadding = maxValue * 0.1;
+  const yAxisMax = maxValue + yAxisPadding;
 
-  // Custom tick rendering with customizable styles
-  const customTickFormatter = (value: any): string => {
-    const result = tickFormatter(value);
-    return result !== undefined ? result.toString() : "";
-  };
+  // Explicitly define ticks based on the max value and desired steps
+  const numberOfTicks = 5; // Change this to control the number of ticks
+  const tickInterval = Math.ceil(yAxisMax / numberOfTicks);
+  const yAxisTicks = Array.from(
+    { length: numberOfTicks + 1 },
+    (_, i) => i * tickInterval
+  );
 
-  const chartWidth = Math.max(data?.length * 100, 400);
   return (
     <ChartContainer
       config={chartConfig}
       className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
     >
-      <ResponsiveContainer height={maxValue}>
+      <ResponsiveContainer width="100%" height={400}>
         <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={30}>
           <CartesianGrid
             vertical={false}
@@ -108,7 +111,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               tickLine={tickLine}
               tickMargin={tickMargin}
               axisLine={axisLine}
-              tickFormatter={customTickFormatter}
+              tickFormatter={tickFormatter}
               interval={"preserveStart"}
               {...customXAxisProps}
             />
@@ -118,7 +121,8 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             tickFormatter={formatYAxisTick}
             tickMargin={0}
             axisLine={axisLine}
-            domain={yAxisDomain}
+            domain={[0, yAxisMax]} // Use the padded Y-axis max
+            ticks={yAxisTicks} // Explicitly set ticks
           />
           <Tooltip cursor={false} content={<ChartTooltipContent />} />
 
@@ -126,11 +130,10 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             <Bar
               key={key}
               dataKey={key}
-              fill={barColors[index % barColors.length]} // Cycle through colors
+              fill={barColors[index % barColors.length]}
               radius={barRadius}
               stroke={"#121212"}
               overflow={"scroll"}
-              barSize={50}
               {...customBarProps}
             >
               {!showXAxis && (

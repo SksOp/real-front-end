@@ -18,6 +18,7 @@ import InsightCard from "./insightCard";
 import StackedBarchart from "./chart/stackedChart/stackedChart";
 
 interface DashboardChartsProps {
+  dashboardType: "sales" | "rental" | null;
   type: string;
   title: string;
   description?: string;
@@ -33,6 +34,7 @@ interface DashboardChartsProps {
 }
 
 const DashboardCharts: React.FC<DashboardChartsProps> = ({
+  dashboardType,
   type,
   title,
   description,
@@ -156,7 +158,13 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           />
         );
       case "comparison_table":
-        return <PriceChangesTable data={data} selectedRow={selectedFilter} />;
+        return (
+          <PriceChangesTable
+            data={data}
+            selectedRow={selectedFilter}
+            type={dashboardType || "sales"}
+          />
+        );
 
       default:
         return <ChartException />;
@@ -251,7 +259,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           );
         })}
       </div>
-      <InsightCard>{insights}</InsightCard>
+      {insights && <InsightCard>{insights}</InsightCard>}
     </ChartWrapper>
   );
 };

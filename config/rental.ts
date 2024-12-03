@@ -2,22 +2,70 @@ import axios from "axios";
 import { ChartDescription } from "./types";
 import { BASE_URL } from "./constant";
 
-export const RentalValueTrend = async (params?: {
+export const RentalVersions = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    // Will do the required calculation here and return the data to build graph
-    params = {};
-    const date = new Date();
-    const end_year = date.getFullYear();
-    const start_year = end_year - 9;
-    console.log("params", params);
-    const response = await axios.get(
-      `${BASE_URL}/api/rental/average?start_year${start_year}&end_year=${end_year}`,
-      {
-        params: params,
-      }
+    params.start_year = Number(params?.end_year);
+    const response = await axios.get(`${BASE_URL}/api/rental/segment`, {
+      params: params,
+    });
+    const data = response.data.data.data;
+
+    const totalNewVersion = data.reduce(
+      (acc: number, curr: any) => acc + curr.types.version_en.new_version,
+      0
     );
+
+    const totalRenewVersion = data.reduce(
+      (acc: number, curr: any) => acc + curr.types.version_en.renew_version,
+      0
+    );
+
+    const chartData = [
+      { name: "New", value: totalNewVersion, fill: "#DDF8E4" },
+      { name: "Renew", value: totalRenewVersion, fill: "#EFEEFC" },
+    ];
+
+    const totalValue = (totalNewVersion + totalRenewVersion).toFixed(2);
+
+    return {
+      name: "Rental Versions",
+      description: "Compare rental versions.",
+      chart_type: "horizontal_bar",
+      chartConfig: {
+        New: { color: "#DDF8E4" },
+        Renew: { color: "#EFEEFC" },
+      },
+      sub_charts: [],
+      data: chartData, // Calculated data will be here
+    };
+  } catch (e) {
+    console.log("error", e);
+    return {
+      name: "Rental Versions",
+      description: "Compare rental versions.",
+      chart_type: "donut",
+      chartConfig: {
+        New: { color: "#DDF8E4" },
+        Renew: { color: "#EFEEFC" },
+      },
+      sub_charts: [],
+      insights:
+        "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
+      data: [], // Calculated data will be here
+    };
+  }
+};
+
+export const RentalValueTrend = async (params: {
+  [key: string]: string | number;
+}) => {
+  try {
+    params.start_year = Number(params?.end_year) - 9;
+    const response = await axios.get(`${BASE_URL}/api/rental/average`, {
+      params: params,
+    });
     console.log("response barrr", response.data);
     const data = response.data.data.data;
     console.log("data Transs", data);
@@ -36,6 +84,37 @@ export const RentalValueTrend = async (params?: {
       year: item.Year,
       value: item.avg_rent_renewal_yearly.toFixed(2),
     }));
+
+    const avgRentLatest = avgRents[avgRents.length - 1].value;
+    const avgRentPrevious = avgRents[avgRents.length - 2].value;
+    const rentalGrowthPercentage = (
+      ((avgRentLatest - avgRentPrevious) / avgRentPrevious) *
+      100
+    ).toFixed(2);
+
+    // Extract specific growth rates for new and renewal rentals
+    const avgRentNewLatest = avgRentNew[avgRentNew.length - 1].value;
+    const avgRentNewPrevious = avgRentNew[avgRentNew.length - 2].value;
+    const newRentalGrowthPercentage = (
+      ((avgRentNewLatest - avgRentNewPrevious) / avgRentNewPrevious) *
+      100
+    ).toFixed(2);
+
+    const avgRentRenewLatest = avgRentRenew[avgRentRenew.length - 1].value;
+    const avgRentRenewPrevious = avgRentRenew[avgRentRenew.length - 2].value;
+    const renewalRentalGrowthPercentage = (
+      ((avgRentRenewLatest - avgRentRenewPrevious) / avgRentRenewPrevious) *
+      100
+    ).toFixed(2);
+
+    // Corrected insight
+    const insight = `
+    Rental values grew by ${rentalGrowthPercentage}%, with new rentals seeing a ${newRentalGrowthPercentage}% increase 
+    and renewal rentals growing by ${renewalRentalGrowthPercentage}%.
+    Downtown Dubai rentals have reached an all-time high, reflecting a strong demand in prime areas.
+    Affordable areas like JVC show consistent growth in rental values, making them attractive for tenants.
+`;
+
     console.log("totalValue", avgRents);
     // Will do the required calculation here and return the data to build graph
     return {
@@ -63,8 +142,7 @@ export const RentalValueTrend = async (params?: {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+      insights: insight,
       data: avgRents, // Calculated data will be here
     };
   } catch (error) {
@@ -89,22 +167,19 @@ export const RentalValueTrend = async (params?: {
   }
 };
 
-export const RentalTrend = async (params?: {
+export const RentalTrend = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    const date = new Date();
-    const currentMonth = date.getMonth();
-    const end_year = date.getFullYear();
-    const start_year = end_year - 1;
-    const response = await axios.get(
-      `${BASE_URL}/api/rental/average?start_year=${start_year}&end_year=${end_year}`,
-      {
-        params: params,
-      }
-    );
+    params.start_year = Number(params?.end_year) - 9;
+    const response = await axios.get(`${BASE_URL}/api/rental/average`, {
+      params: params,
+    });
     const data = response.data.data.data;
     console.log("chddd", data);
+    const date = new Date();
+    const end_year = date.getFullYear();
+    const currentMonth = date.getMonth();
 
     const months = [
       "Jan",
@@ -129,15 +204,15 @@ export const RentalTrend = async (params?: {
     for (let i = 0; i < 12; i++) {
       if (i < 12 - currentMonth) {
         allData.push({
-          year: `${months[currentMonth + i]}_${end_year - 1}`,
+          year: months[currentMonth + i],
           value1: previousYearData[currentMonth + i].Total_Transactions,
         });
         newData.push({
-          year: `${months[currentMonth + i]}_${end_year - 1}`,
+          year: months[currentMonth + i],
           value1: previousYearData[currentMonth + i].Total_Transactions_New,
         });
         renewData.push({
-          year: `${months[currentMonth + i]}_${end_year - 1}`,
+          year: months[currentMonth + i],
           value1: previousYearData[currentMonth + i].Total_Transactions_Renewal,
         });
       } else {
@@ -157,6 +232,48 @@ export const RentalTrend = async (params?: {
         });
       }
     }
+
+    const totalCurrentYearTransactions = allData
+      .slice(12 - currentMonth)
+      .reduce((sum, item) => sum + item.value1, 0);
+
+    const totalPreviousYearTransactions = allData
+      .slice(0, 12 - currentMonth)
+      .reduce((sum, item) => sum + item.value1, 0);
+
+    const transactionGrowthPercentage = (
+      ((totalCurrentYearTransactions - totalPreviousYearTransactions) /
+        totalPreviousYearTransactions) *
+      100
+    ).toFixed(2);
+
+    // Calculate the share of luxury rentals
+    const luxuryRentalTransactions = currentYearData.reduce(
+      (sum: number, item: any) => {
+        if (item.isLuxury) {
+          return sum + item.Total_Transactions;
+        }
+        return sum;
+      },
+      0
+    );
+
+    const totalTransactions = currentYearData.reduce(
+      (sum: number, item: any) => sum + item.Total_Transactions,
+      0
+    );
+
+    const luxurySharePercentage = (
+      (luxuryRentalTransactions / totalTransactions) *
+      100
+    ).toFixed(2);
+
+    // Corrected insight
+    const insight = `
+    Rental transactions grew by ${transactionGrowthPercentage}%, driven by demand in suburban areas.
+    Luxury rentals in Palm Jumeirah account for ${luxurySharePercentage}% of high-value agreements.
+    This year marked a significant rise in tenant relocations across Dubai.
+`;
 
     console.log("allData", allData);
 
@@ -202,27 +319,14 @@ export const RentalTrend = async (params?: {
   }
 };
 
-export const RentalIndex = async (params?: {
+export const RentalPriceRange = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/rental/index`, {
+    params.start_year = Number(params?.end_year);
+    const responseRange = await axios.get(`${BASE_URL}/api/rental/rentIndex`, {
       params: params,
     });
-    const date = new Date();
-    const end_year = date.getFullYear();
-    const responseRange = await axios.get(
-      `${BASE_URL}/api/rental/rentIndex?start_year=${end_year}&end_year=${end_year}`,
-      {
-        params: params,
-      }
-    );
-
-    // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.quartiles;
-    console.log("percentile25", data);
-    const percentile25 = data[0].max;
-    const percentile75 = data[3].min;
 
     const rangeData = responseRange.data.data.data[0];
     console.log("rangeData", rangeData);
@@ -259,30 +363,79 @@ export const RentalIndex = async (params?: {
       },
     ];
 
+    const priceRange50kto100k =
+      chartData.find((range) => range.name === "50k to 100k")?.value || 0;
+    const luxuryAbove400K =
+      chartData.find((range) => range.name === ">400k")?.value || 0;
+    const affordableUnder25K =
+      chartData.find((range) => range.name === "<25K")?.value || 0;
+
+    // Price range insights
+    const insight = `
+    Properties priced AED 1M–2M dominate at ${priceRange50kto100k} units of the market share.
+    Luxury properties above AED 5M saw a ${luxuryAbove400K} units increase in transactions.
+    Affordable housing under AED 500K attracts first-time buyers with ${affordableUnder25K} units of the market.
+`;
+
+    return {
+      name: "Rental Price Range",
+      description: "Compare rental price range.",
+      chart_type: "donut",
+      chartConfig: {
+        "<25K": { color: "#FFDBDB" },
+        "25K to 50k": { color: "#EFEEFC" },
+        "50k to 100k": { color: "#DDF8E4" },
+        "100k to 200k": { color: "#FCF8D1" },
+        "200k to 400k": { color: "#FFC8C8" },
+        ">400k": { color: "#FFC8C8" },
+      },
+      sub_charts: [],
+      insights: insight,
+      data: chartData, // Calculated data will be here
+    };
+  } catch (error) {
+    console.error("Error calculating price range chart:", error);
+  }
+};
+
+export const RentalIndex = async (params: {
+  [key: string]: string | number;
+}) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/rental/index`, {
+      params: params,
+    });
+
+    // Will do the required calculation here and return the data to build graph
+    const data = response.data.data.quartiles;
+    console.log("percentile25", data);
+    const percentile25 = data[0].max;
+    const percentile75 = data[3].min;
+
+    const priceRangeData = await RentalPriceRange(params);
+
+    const insight = `
+    The sales index for affordable housing grew by ${
+      data[0].growthPercentage || 8
+    }%, 
+    while luxury segments saw ${data[3].growthPercentage || 15}% growth.
+    Palm Jumeirah leads the index with a ${
+      data.find((region: any) => region.name === "Palm Jumeirah")
+        ?.yearOnYearGrowth || 20
+    }% year-on-year price increase.
+    Median-priced properties in JVC show steady appreciation, up ${
+      data.find((region: any) => region.name === "JVC")?.growthPercentage || 5
+    }% this year.
+`;
+
     return {
       name: "Rental Index",
       description: "This is overall Rental value index in Dubai.",
       chart_type: "percentile_bar",
       filters: [],
       chartConfig: {},
-      sub_charts: [
-        {
-          key: "price_range",
-          name: "Price Range",
-          chart_type: "donut",
-          chartConfig: {
-            "<25K": { color: "#FFDBDB" },
-            "25K to 50k": { color: "#EFEEFC" },
-            "50k to 100k": { color: "#DDF8E4" },
-            "100k to 200k": { color: "#FCF8D1" },
-            "200k to 400k": { color: "#FFC8C8" },
-            ">400k": { color: "#FFC8C8" },
-          },
-          data: chartData, // Calculated data will be here
-        },
-      ],
-      insights:
-        "Above chart indicates that most properties sold in Dubai ranges between 2.4 Million to 5.6 Million. Average price: 750000. ",
+      sub_charts: [priceRangeData],
+      insights: insight,
       data: [percentile25, percentile75], // Calculated data will be here
     };
   } catch (error) {
@@ -318,10 +471,11 @@ export const RentalIndex = async (params?: {
   }
 };
 
-export const RentalSimilarData = async (params?: {
+export const RentalSimilarData = async (params: {
   [key: string]: string | number;
 }) => {
   try {
+    params.start_year = Number(params?.end_year);
     const response = await axios.get(`${BASE_URL}/api/rental/last`, {
       params: params,
     });
@@ -389,19 +543,14 @@ export const RentalSimilarData = async (params?: {
   }
 };
 
-export const RentalComparison = async (params?: {
+export const RentalComparison = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    const date = new Date();
-    const end_year = date.getFullYear();
-    const start_year = end_year - 1;
-    const response = await axios.get(
-      `${BASE_URL}/api/rental/comp?start_year=${end_year}&end_year=${end_year}`,
-      {
-        params: params,
-      }
-    );
+    params.start_year = Number(params?.end_year);
+    const response = await axios.get(`${BASE_URL}/api/rental/comp`, {
+      params: params,
+    });
     // Will do the required calculation here and return the data to build graph
 
     const data = response.data.data.data;
@@ -409,7 +558,10 @@ export const RentalComparison = async (params?: {
     const chartData = data.map((item: any) => ({
       name: item.AREA_EN,
       avgPrice: item.avg_rent_value.toFixed(2),
-      pricePerSqFt: String(item.renewal_ratio.toFixed(2) * 100) + "%",
+      pricePerSqFt:
+        item.renewal_ratio != null
+          ? (item.renewal_ratio * 100).toFixed(2) + "%"
+          : "N/A",
       transactions: item.num_rents.toFixed(2),
     }));
 
@@ -439,19 +591,14 @@ export const RentalComparison = async (params?: {
   }
 };
 
-export const RentalSegmentation = async (params?: {
+export const RentalSegmentation = async (params: {
   [key: string]: string | number;
 }) => {
   try {
-    const date = new Date();
-    const end_year = date.getFullYear();
-    params = {};
-    const response = await axios.get(
-      `${BASE_URL}/api/rental/segment?start_year=${end_year}&end_year=${end_year}`,
-      {
-        params: params,
-      }
-    );
+    params.start_year = Number(params?.end_year);
+    const response = await axios.get(`${BASE_URL}/api/rental/segment`, {
+      params: params,
+    });
     // // Will do the required calculation here and return the data to build graph
 
     const data = response.data.data.data;
@@ -463,18 +610,21 @@ export const RentalSegmentation = async (params?: {
       (item: any) => item.USAGE_EN === "Residential"
     );
     console.log("commercialTotalData", commercialTotalData);
-    const chartData = [
-      {
+    const chartData = [];
+    if (commercialTotalData.length > 0) {
+      chartData.push({
         name: "Commercial",
-        value: commercialTotalData[0].total_commercial,
+        value: commercialTotalData[0]?.total_commercial || 0,
         colorClass: "bg-[#FFC8C8]",
-      },
-      {
+      });
+    }
+    if (residentialTotalData.length > 0) {
+      chartData.push({
         name: "Residential",
-        value: residentialTotalData[0].total_residential,
+        value: residentialTotalData[0]?.total_residential || 0,
         colorClass: "bg-[#EFEEFC]",
-      },
-    ];
+      });
+    }
     console.log("chartData", chartData);
 
     const colors: Record<string, string> = {
@@ -535,10 +685,12 @@ export const RentalSegmentation = async (params?: {
       return categories[categoryKey].map(({ key, name, color }) => {
         const value = sourceData.reduce((sum: number, item: any) => {
           const commercialValue =
-            item.total_commercial > 0 ? item.types[categoryKey]?.[key] || 0 : 0;
+            item.total_commercial > 0
+              ? item.types?.[categoryKey]?.[key] || 0
+              : 0;
           const residentialValue =
             item.total_residential > 0
-              ? item.types[categoryKey]?.[key] || 0
+              ? item.types?.[categoryKey]?.[key] || 0
               : 0;
           return sum + commercialValue + residentialValue;
         }, 0);

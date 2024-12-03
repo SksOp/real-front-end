@@ -41,6 +41,7 @@ function DashboardData() {
         href={`/app/dashboard/explore`}
         onClick={() => setSelectedDashboard(dashboard.key)}
         className={cn("col-span-2 bg-background")}
+        shallow={true}
       >
         <DataCards
           className={
@@ -67,6 +68,7 @@ function DashboardData() {
         key={dashboard.key}
         href={`/app/dashboard/${dashboard.key}`}
         onClick={() => setSelectedDashboard(dashboard.key)}
+        shallow={true}
       >
         <DataCards
           className={

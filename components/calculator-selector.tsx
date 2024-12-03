@@ -13,7 +13,7 @@ function CalculatorSelector() {
 
   const createLink = (calculator: Calculator) =>
     calculator.tag === "upcoming" ? (
-      <DataCards tag={calculator.tag} bgColor="bg-[#FFF0B296]">
+      <DataCards tag={calculator.tag} className="bg-[#FFFEFA]">
         <h3 className="text-secondary font-semibold text-sm">
           {calculator.name}
         </h3>
@@ -26,13 +26,14 @@ function CalculatorSelector() {
         key={calculator.key}
         href={`/app/calculator/${calculator.key}`}
         onClick={() => setSelectedCalculator(calculator.key)}
-        className={
-          selectedCalculator === calculator.key
-            ? "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
-            : ""
-        }
       >
-        <DataCards>
+        <DataCards
+          className={
+            selectedCalculator === calculator.key
+              ? "border border-secondary rounded-lg bg-[#FEF8F5]"
+              : "bg-[#FFFEFA]"
+          }
+        >
           <h3 className="text-secondary font-semibold text-sm">
             {calculator.name}
           </h3>
@@ -47,7 +48,7 @@ function CalculatorSelector() {
     createLink(calculator)
   );
   return (
-    <div className="md:flex md:flex-col grid grid-cols-2  gap-3 px-2">
+    <div className="md:flex md:flex-col grid grid-cols-2 md:border rounded-xl  gap-3 p-2">
       {allCalculators}
     </div>
   );

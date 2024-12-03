@@ -236,15 +236,15 @@ function CalculatorPage() {
         </Accordion>
       </div>
 
-      <div className="md:flex w-full justify-between hidden px-4">
-        <div className="flex gap-5 w-full mt-16 md:mt-20">
+      <div className="md:flex w-full justify-between hidden ">
+        <div className="flex gap-5 w-full pt-12 md:pt-20 px-2">
           {/* Calculator Selector */}
-          <div className="md:w-1/4 md:max-w-md w-full md:max-h-screen md:overflow-y-auto">
+          <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
             <CalculatorSelector />
           </div>
 
           {/* Inputs Section */}
-          <div className="md:flex md:flex-col md:w-1/3 hidden flex-grow items-center justify-start gap-3 md:max-h-screen md:overflow-y-auto">
+          <div className="md:flex md:flex-col md:w-1/3 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto px-2">
             <Accordion
               type="single"
               defaultValue="input"
@@ -279,10 +279,17 @@ function CalculatorPage() {
                   ))}
 
                   {/* Calculate Button */}
-                  <div className="w-full mt-4">
+                  <div className="w-full flex justify-end items-center gap-4 pt-4">
+                    <Button
+                      variant={"outline"}
+                      className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/4 h-14 rounded-xl border"
+                      // onClick={}
+                    >
+                      Clear All
+                    </Button>
                     <Button
                       variant={"secondary"}
-                      className="text-background flex text-sm justify-center items-center gap-4 font-semibold w-full h-14 rounded-xl border"
+                      className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/4 h-14 rounded-xl border"
                       onClick={handleCalculate}
                       disabled={isButtonDisabled}
                     >
@@ -296,7 +303,7 @@ function CalculatorPage() {
 
           {/* Output Section */}
           {showOutput && (
-            <div className="lg:flex md:w-1/3 hidden max-w-md justify-center md:max-h-screen md:overflow-y-auto  ">
+            <div className="lg:flex md:w-1/3 hidden max-w-md justify-center md:max-h-[calc(100vh-7rem)] md:overflow-y-auto  ">
               {/* Close Button */}
               <XIcon
                 className="absolute top-2 right-2 border-0 cursor-pointer"

@@ -15,6 +15,13 @@ import DashboardSelector from "@/components/dashboard-selector";
 import DashboardData from "@/components/all-dashboard-data";
 import Layout from "@/layout/secondary";
 import SharingCard from "@/components/sharingCard";
+import HomeTransactionCard from "@/components/home-transaction-card";
+import { cn } from "@/lib/utils";
+import SecondaryChartWrapper from "@/components/secondaryChartWrapper";
+import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
+import InsightCard from "@/components/insightCard";
+import DonutChartComponent from "@/components/chart/donutChart/donutChart";
+import ChartWrapper from "@/components/chart/chartWrapper";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
@@ -99,6 +106,7 @@ function DashboardDetailPage() {
             </div>
             {charts?.map((chart, index) => (
               <DashboardCharts
+                dashboardType={dashboard?.dashboard_filters?.mode || "sales"}
                 key={index}
                 type={chart.chart_type}
                 data={chart.data}
@@ -149,27 +157,63 @@ function DashboardDetailPage() {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 items-stretch w-full">
-                  {charts?.map((chart, index) => (
-                    <DashboardCharts
-                      key={index + 1}
-                      type={chart.chart_type}
-                      data={chart.data}
-                      chartConfig={chart.chartConfig}
-                      title={chart.name}
-                      filters={chart.filters}
-                      columns={chart?.columns}
-                      otherInfo={chart.otherInfo}
-                      subCharts={chart.sub_charts}
-                      description={chart.description}
-                      insights={chart?.insights}
-                      className={
-                        index === 0 || index === 3 || index === 6
-                          ? "col-span-2"
-                          : ""
-                      }
-                    />
-                  ))}{" "}
+                <div className="grid grid-cols-2 gap-4  justify-items-center w-full">
+                  {charts?.map((chart, index) =>
+                    index === 3 ? (
+                      <ChartWrapper
+                        title="Transactions Value Index"
+                        description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
+                        className="col-span-2"
+                      >
+                        <div className="flex justify-center items-stretch   gap-3">
+                          <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
+                            <div className="flex flex-col justify-between items-center  gap-10 ">
+                              <SalesIndexCardComponent
+                                percentile25={chart.data[0]}
+                                percentile75={chart.data[1]}
+                                knob={(chart.data[0] + chart.data[1]) / 2}
+                              />
+                              <InsightCard>{chart.insights}</InsightCard>
+                            </div>
+                          </SecondaryChartWrapper>
+                          <SecondaryChartWrapper>
+                            <div className="flex flex-col justify-between items-center gap-10 ">
+                              <DonutChartComponent
+                                chartConfig={chart.sub_charts[0]?.chartConfig}
+                                data={chart.sub_charts[0].data}
+                                dataKey="value"
+                                nameKey="name"
+                              />
+                              <InsightCard>
+                                {chart.sub_charts[0].insights}
+                              </InsightCard>
+                            </div>
+                          </SecondaryChartWrapper>
+                        </div>
+                      </ChartWrapper>
+                    ) : (
+                      <DashboardCharts
+                        key={index + 1}
+                        dashboardType={
+                          dashboard?.dashboard_filters?.mode || "sales"
+                        }
+                        type={chart.chart_type}
+                        data={chart.data}
+                        chartConfig={chart.chartConfig}
+                        title={chart.name}
+                        filters={chart.filters}
+                        columns={chart?.columns}
+                        otherInfo={chart.otherInfo}
+                        subCharts={chart.sub_charts}
+                        description={chart.description}
+                        insights={chart?.insights}
+                        className={cn(
+                          "",
+                          (index === 0 || index === 6) && "col-span-2"
+                        )}
+                      />
+                    )
+                  )}{" "}
                   <Feedback />
                   <SharingCard />
                 </div>
