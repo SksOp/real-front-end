@@ -13,6 +13,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 
 interface AreaConfig {
   yAxisDataKey: string;
@@ -36,6 +38,7 @@ interface AreaChartComponentProps {
   axisLine?: boolean;
   customXAxisProps?: Record<string, any>;
   customGridProps?: Record<string, any>;
+  className?: ClassValue;
 }
 
 const formatYAxisTick = (value: number): string => {
@@ -65,6 +68,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   axisLine = false,
   customXAxisProps = {},
   customGridProps = {},
+  className,
 }) => {
   const chartWidth = Math.max(data?.length * 30, 500);
   const chartHeight = 350;
@@ -77,7 +81,10 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
+      className={cn(
+        "min-h-[280px] min-w-fit w-full overflow-x-scroll ",
+        className
+      )}
     >
       <ResponsiveContainer height={"100%"}>
         <AreaChart

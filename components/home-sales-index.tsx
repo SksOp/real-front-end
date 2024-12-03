@@ -120,6 +120,7 @@ function HomeSalesIndex() {
                       xAxisDataKey={"year"}
                       areas={[{ yAxisDataKey: "value1" }]}
                       tickFormatter={(value) => value.toString()}
+                      className="min-w-full"
                     />
                   </TabsContent>
                 ))}
@@ -173,6 +174,7 @@ function HomeSalesIndex() {
                       xAxisDataKey={"year"}
                       areas={[{ yAxisDataKey: "value1" }]}
                       tickFormatter={(value) => value.toString()}
+                      className="min-w-full"
                     />
                   </TabsContent>
                 ))}

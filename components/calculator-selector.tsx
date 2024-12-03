@@ -13,7 +13,7 @@ function CalculatorSelector() {
 
   const createLink = (calculator: Calculator) =>
     calculator.tag === "upcoming" ? (
-      <DataCards tag={calculator.tag} className="bg-[#FFFEFA]">
+      <DataCards tag={calculator.tag} className="bg-[#FFFEFA] h-full">
         <h3 className="text-secondary font-semibold text-sm">
           {calculator.name}
         </h3>
@@ -30,8 +30,8 @@ function CalculatorSelector() {
         <DataCards
           className={
             selectedCalculator === calculator.key
-              ? "border border-secondary rounded-lg bg-[#FEF8F5]"
-              : "bg-[#FFFEFA]"
+              ? "border border-secondary rounded-lg bg-[#FEF8F5] h-full"
+              : "bg-[#FFFEFA] h-full"
           }
         >
           <h3 className="text-secondary font-semibold text-sm">
@@ -48,7 +48,7 @@ function CalculatorSelector() {
     createLink(calculator)
   );
   return (
-    <div className="md:flex md:flex-col grid grid-cols-2 md:border rounded-xl  gap-3 p-2">
+    <div className="md:flex md:flex-col grid grid-cols-2 md:border rounded-xl  justify-items-stretch items-stretch gap-3 p-2">
       {allCalculators}
     </div>
   );

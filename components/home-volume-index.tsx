@@ -112,6 +112,7 @@ function HomeVolumeIndex() {
                       xAxisDataKey={"year"}
                       tickFormatter={(value) => value.toString()}
                       areas={[{ yAxisDataKey: "value1" }]}
+                      className="min-w-full"
                     />
                   </TabsContent>
                 ))}

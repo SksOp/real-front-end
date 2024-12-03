@@ -27,7 +27,7 @@ function DashboardData() {
 
   const createLink = (dashboard: Dashboard) =>
     dashboard.tag === "upcoming" ? (
-      <DataCards tag={dashboard.tag} className="bg-[#FFFEFA]">
+      <DataCards tag={dashboard.tag} className="bg-[#FFFEFA] h-full">
         <h3 className="text-secondary font-semibold text-sm">
           {dashboard.name}
         </h3>
@@ -46,8 +46,8 @@ function DashboardData() {
         <DataCards
           className={
             selectedDashboard === dashboard.key
-              ? "border border-secondary rounded-lg bg-[#FEF8F5]"
-              : "bg-[#FFFEFA]"
+              ? "border border-secondary rounded-lg bg-[#FEF8F5] h-full"
+              : "bg-[#FFFEFA] h-full"
           }
         >
           <div className="flex justify-between items-center">
@@ -73,8 +73,8 @@ function DashboardData() {
         <DataCards
           className={
             selectedDashboard === dashboard.key
-              ? "border border-secondary rounded-lg bg-[#FEF8F5]"
-              : "bg-[#FFFEFA]"
+              ? "border border-secondary rounded-lg bg-[#FEF8F5] h-full"
+              : "bg-[#FFFEFA] h-full"
           }
         >
           <h3 className="text-secondary font-semibold text-sm">
@@ -97,7 +97,7 @@ function DashboardData() {
     <div className="w-full md:border rounded-xl p-2">
       <TabsContent
         value="all-dashboards"
-        className="md:flex md:flex-col grid grid-cols-2 justify-items-stretch gap-3 mt-0"
+        className="md:flex md:flex-col grid grid-cols-2 justify-items-stretch gap-3 mt-0 items-stretch"
       >
         {allDashboards}
       </TabsContent>
