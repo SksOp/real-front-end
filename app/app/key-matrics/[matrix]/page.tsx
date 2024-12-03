@@ -61,6 +61,7 @@ function MatrixDataPage() {
             {/* If selectedChart is of type ChartDescription */}
             {"chart_type" in selectedChart ? (
               <DashboardCharts
+                dashboardType={"sales"}
                 type={selectedChart.chart_type}
                 data={selectedChart.data}
                 chartConfig={selectedChart.chartConfig}
@@ -106,6 +107,7 @@ function MatrixDataPage() {
                   {/* If selectedChart is of type ChartDescription */}
                   {"chart_type" in selectedChart ? (
                     <DashboardCharts
+                      dashboardType={"sales"}
                       type={selectedChart.chart_type}
                       data={selectedChart.data}
                       chartConfig={selectedChart.chartConfig}

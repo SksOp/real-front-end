@@ -3,6 +3,7 @@ import { RentalFilter } from "./filters";
 import { Matrix } from "./matrices";
 import {
   RentalIndex,
+  RentalPriceRange,
   RentalSegmentation,
   RentalTrend,
   RentalValueTrend,
@@ -170,9 +171,7 @@ export const RentalMatrices: Matrix[] = [
     calculate_charts: {
       key: "rental_price_range_distribution",
       calculate: async (params) => {
-        const data = await RentalIndex(params);
-        const extractChart = data.sub_charts[0];
-        return extractChart;
+        return await RentalPriceRange(params);
       },
     },
   },

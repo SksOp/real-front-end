@@ -1,12 +1,17 @@
 "use client";
 import DashboardData from "@/components/all-dashboard-data";
 import CalculatorInputs from "@/components/calculator-inputs";
+import ChartWrapper from "@/components/chart/chartWrapper";
+import DonutChartComponent from "@/components/chart/donutChart/donutChart";
+import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
 import ChartException from "@/components/chartException";
 import DashboardCharts from "@/components/dashboard-charts";
 import DashboardSelector from "@/components/dashboard-selector";
 import Feedback from "@/components/feedback";
 import Filters from "@/components/filters";
+import InsightCard from "@/components/insightCard";
 import MatrixCard from "@/components/matrix-card";
+import SecondaryChartWrapper from "@/components/secondaryChartWrapper";
 import SharingCard from "@/components/sharingCard";
 import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
@@ -15,6 +20,7 @@ import { dashboards } from "@/config/dashboards";
 import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
 import { CalculateCharts, CalculateMatrix } from "@/config/utility";
 import Layout from "@/layout/secondary";
+import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
 function ExplorePage() {
@@ -212,6 +218,9 @@ function ExplorePage() {
             </div>
             {charts?.map((chart, index) => (
               <DashboardCharts
+                dashboardType={
+                  inputValues.transaction_type === "Sales" ? "sales" : "rental"
+                }
                 key={index}
                 type={chart.chart_type}
                 data={chart.data}
@@ -354,60 +363,69 @@ function ExplorePage() {
                       />
                     ))}
                   </div>
-                  {charts && (
-                    <DashboardCharts
-                      type={charts[0].chart_type}
-                      data={charts[0].data}
-                      chartConfig={charts[0].chartConfig}
-                      title={charts[0].name}
-                      filters={charts[0].filters}
-                      columns={charts[0]?.columns}
-                      otherInfo={charts[0].otherInfo}
-                      subCharts={charts[0].sub_charts}
-                      insights={charts[0]?.insights}
-                      description={charts[0].description}
-                    />
-                  )}
 
-                  <div className="grid grid-cols-2 gap-4 items-stretch w-full">
-                    {charts?.slice(1, -1).map((chart, index, arr) => (
-                      <DashboardCharts
-                        key={index + 1}
-                        type={chart.chart_type}
-                        data={chart.data}
-                        chartConfig={chart.chartConfig}
-                        title={chart.name}
-                        filters={chart.filters}
-                        columns={chart?.columns}
-                        otherInfo={chart.otherInfo}
-                        subCharts={chart.sub_charts}
-                        description={chart.description}
-                        insights={chart?.insights}
-                        className={
-                          arr.length % 2 !== 0 && index === 2
-                            ? "col-span-2"
-                            : ""
-                        }
-                      />
-                    ))}
+                  <div className="grid grid-cols-2 gap-4  justify-items-center w-full">
+                    {charts?.map((chart, index) =>
+                      index === 3 ? (
+                        <ChartWrapper
+                          title="Transactions Value Index"
+                          description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
+                          className="col-span-2"
+                        >
+                          <div className="flex justify-center items-stretch   gap-3">
+                            <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
+                              <div className="flex flex-col justify-between items-center  gap-10 ">
+                                <SalesIndexCardComponent
+                                  percentile25={chart.data[0]}
+                                  percentile75={chart.data[1]}
+                                  knob={(chart.data[0] + chart.data[1]) / 2}
+                                />
+                                <InsightCard>{chart.insights}</InsightCard>
+                              </div>
+                            </SecondaryChartWrapper>
+                            <SecondaryChartWrapper>
+                              <div className="flex flex-col justify-between items-center gap-10 ">
+                                <DonutChartComponent
+                                  chartConfig={chart.sub_charts[0]?.chartConfig}
+                                  data={chart.sub_charts[0].data}
+                                  dataKey="value"
+                                  nameKey="name"
+                                />
+                                <InsightCard>
+                                  {chart.sub_charts[0].insights}
+                                </InsightCard>
+                              </div>
+                            </SecondaryChartWrapper>
+                          </div>
+                        </ChartWrapper>
+                      ) : (
+                        <DashboardCharts
+                          key={index + 1}
+                          dashboardType={
+                            inputValues.transaction_type === "Sales"
+                              ? "sales"
+                              : "rental"
+                          }
+                          type={chart.chart_type}
+                          data={chart.data}
+                          chartConfig={chart.chartConfig}
+                          title={chart.name}
+                          filters={chart.filters}
+                          columns={chart?.columns}
+                          otherInfo={chart.otherInfo}
+                          subCharts={chart.sub_charts}
+                          description={chart.description}
+                          insights={chart?.insights}
+                          className={cn(
+                            "",
+                            (index === 0 || index === 6) && "col-span-2"
+                          )}
+                        />
+                      )
+                    )}{" "}
+                    <Feedback />
+                    <SharingCard />
                   </div>
-
-                  {charts && (
-                    <DashboardCharts
-                      type={charts[charts.length - 1].chart_type}
-                      data={charts[charts.length - 1].data}
-                      chartConfig={charts[charts.length - 1].chartConfig}
-                      title={charts[charts.length - 1].name}
-                      filters={charts[charts.length - 1].filters}
-                      columns={charts[charts.length - 1]?.columns}
-                      otherInfo={charts[charts.length - 1].otherInfo}
-                      subCharts={charts[charts.length - 1].sub_charts}
-                      description={charts[charts.length - 1].description}
-                      insights={charts[charts.length - 1]?.insights}
-                    />
-                  )}
-                  <Feedback />
-                  <SharingCard />
                 </div>
               )}
             </div>
