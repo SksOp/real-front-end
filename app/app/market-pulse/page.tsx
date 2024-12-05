@@ -6,7 +6,7 @@ import React from "react";
 function page() {
   return (
     <Layout page="market-pulse" title="Market Pulse">
-      <div className="flex flex-col gap-3 px-3 md:py-20 py-16 md:hidden">
+      <div className="flex flex-col gap-3 px-3 md:px-8 md:py-20 py-16">
         <h3>Area</h3>
         <MarketPulseList />
       </div>

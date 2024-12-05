@@ -251,11 +251,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             .map((page) => (
               <PaginationItem key={page} className="cursor-pointer">
                 <PaginationLink
-                  href="#"
                   isActive={pageIndex === page}
                   onClick={() => handlePageChange(page)}
                 >
-                  {page}
+                  {FormatValue(page)}
                 </PaginationLink>
               </PaginationItem>
             ))}
@@ -268,14 +267,14 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           )}
 
           {/* Last Page */}
-          {totalPages > 1 && (
+          {totalPages > 1 && pageIndex !== totalPages && (
             <PaginationItem className="cursor-pointer">
               <PaginationLink
                 href="#"
                 isActive={pageIndex === totalPages}
                 onClick={() => handlePageChange(totalPages)}
               >
-                {totalPages}
+                {FormatValue(totalPages)}
               </PaginationLink>
             </PaginationItem>
           )}

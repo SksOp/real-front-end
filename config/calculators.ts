@@ -315,13 +315,11 @@ export const Calculators: Calculator[] = [
         const totalValue = rentalDatas.reduce((sum: number, rents: any) => {
           const startDate = new Date(rents.START_DATE.value);
           const endDate = new Date(rents.END_DATE.value);
-          const totalMonths =
-            (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-            (endDate.getMonth() - startDate.getMonth());
+          const totalYears = endDate.getFullYear() - startDate.getFullYear();
 
           const rentPerMonth = rents.ANNUAL_AMOUNT
-            ? rents.ANNUAL_AMOUNT / 12
-            : rents.CONTRACT_AMOUNT / totalMonths;
+            ? rents.ANNUAL_AMOUNT
+            : rents.CONTRACT_AMOUNT / totalYears;
           return sum + rentPerMonth;
         }, 0);
 
@@ -338,7 +336,9 @@ export const Calculators: Calculator[] = [
           confidenceLevel: totalConfidence,
           insights: `Estimated rental value: AED ${FormatValue(
             estimated_rental_value.toFixed(2)
-          )} annually. Derived from ${FormatValue(
+          )} annualy (${FormatValue(
+            (estimated_rental_value / 12).toFixed(2)
+          )} monthly). Derived from ${FormatValue(
             totalConfidence
           )} properties in ${choose_location}. Helps assess realistic rental pricing.`,
         };

@@ -8,6 +8,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { KeyMatrices, Matrix } from "@/config/matrices";
 import { ChartDescription, MatrixData } from "@/config/types";
 import Layout from "@/layout/secondary";
+import { cn } from "@/lib/utils";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -47,9 +48,13 @@ function MatrixDataPage() {
     <Layout
       page="key-matrices"
       title={selectedMatrix?.title || "Matrix Name"}
-      className="sticky"
+      className={cn(
+        selectedMatrix?.filters &&
+          selectedMatrix?.filters.length > 0 &&
+          "sticky"
+      )}
     >
-      <div className="flex flex-col w-full  md:hidden px-2">
+      <div className={"flex flex-col w-full  md:hidden px-2"}>
         <Filters
           selectOptions={selectedMatrix?.filters || []}
           selectedFilters={filters}

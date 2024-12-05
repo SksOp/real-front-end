@@ -40,6 +40,7 @@ function MarketPulseCard({
         data={monthly_transactions}
         xAxisDataKey={"year"}
         areas={[{ yAxisDataKey: "value1" }]}
+        className="min-w-full"
       />
     );
   };
@@ -87,9 +88,7 @@ function MarketPulseCard({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0 overflow-x-scroll">
-        {RenderChart()}
-      </CardContent>
+      <CardContent className="p-0 ">{RenderChart()}</CardContent>
     </Card>
   );
 }

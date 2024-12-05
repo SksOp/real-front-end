@@ -40,7 +40,7 @@ function TransactionPage() {
         setMatrixDataPage(matrixOutput);
         setTotalPages(response.totalPages);
         setTransactions(response.transactions);
-      } else {
+      } else if (selectedTab === "rental") {
         const response = await RentalTransactionApi(1);
         const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
           presentYear - 1
@@ -49,6 +49,15 @@ function TransactionPage() {
         setMatrixDataPage(matrixOutput);
         setTotalPages(response.totalPages);
         setTransactions(response.transactions);
+      } else if (selectedTab === "mortage") {
+        const response = await SalesTransactionApi(1, { group_en: "Mortgage" });
+        const sourceURL = `${BASE_URL}/api/transaction/trends?start_year=${
+          presentYear - 1
+        }&end_year=${presentYear}&group_en=Mprtgage`;
+        const matrixOutput = await CalculateMatrix(sourceURL, "sales");
+        setMatrixDataPage(matrixOutput);
+        setTotalPages(response.totalPages);
+        response.transactions;
       }
     };
 

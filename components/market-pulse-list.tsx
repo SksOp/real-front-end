@@ -57,16 +57,27 @@ function MarketPulseList() {
   }, [page]);
 
   return (
-    <div className="flex flex-col gap-3">
-      {transactions.map((transaction, index) => (
-        <MarketPulseCard key={index} {...transaction} />
-      ))}
-      {/* Loader or End of List */}
-      <div ref={lastElementRef}>
-        {isLoading && <p>Loading...</p>}
-        {!hasMore && <p>No more transactions</p>}
+    <>
+      <div className="flex flex-col gap-3 md:hidden">
+        {transactions.map((transaction, index) => (
+          <MarketPulseCard key={index} {...transaction} />
+        ))}
+        {/* Loader or End of List */}
+        <div ref={lastElementRef}>
+          {isLoading && <p>Loading...</p>}
+          {!hasMore && <p>No more transactions</p>}
+        </div>
       </div>
-    </div>
+      <div className="hidden md:grid grid-cols-3 gap-4 gap-x-4">
+        {transactions.map((transaction, index) => (
+          <MarketPulseCard key={index} {...transaction} />
+        ))}
+        <div ref={lastElementRef}>
+          {isLoading && <p>Loading...</p>}
+          {!hasMore && <p>No more transactions</p>}
+        </div>
+      </div>
+    </>
   );
 }
 

@@ -133,6 +133,18 @@ function TransactionTabs({
             ))}
           </div>
         </TabsContent>
+        <TabsContent value="mortgage" className="w-full flex  mt-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1">
+            {matrixData.map((item, index) => (
+              <MatrixCard
+                key={index}
+                title={item.title}
+                value={item.value}
+                growth={item.growth}
+              />
+            ))}
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );

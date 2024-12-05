@@ -66,7 +66,7 @@ function Navbar({
           <SheetTrigger>
             <HamburgerIcon />
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 ">
+          <SheetContent side="left" className="p-0 overflow-y-scroll">
             <SidebarContent />
           </SheetContent>
         </Sheet>

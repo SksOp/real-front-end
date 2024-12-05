@@ -252,7 +252,7 @@ export const SalesTransactionApi = async (
         areaName: transaction?.AREA_EN || "N/A",
         transactionAmount: transaction?.TRANS_VALUE || 0,
         date,
-        pricePerSqFt: 465, // Assuming static for now
+        pricePerSqFt: transaction?.PROCEDURE_AREA, // Assuming static for now
         badges: [
           transaction?.isOffplan ? "OffPlan" : "Resale",
           transaction?.PROP_TYPE_EN || "N/A",
@@ -302,7 +302,7 @@ export const RentalTransactionApi = async (
         areaName: transaction?.AREA_EN || "N/A",
         transactionAmount: transaction?.TRANS_VALUE || 0,
         date,
-        pricePerSqFt: 465, // Assuming static for now
+        pricePerSqFt: transaction?.PROCEDURE_AREA, // Assuming static for now
         badges: [
           transaction?.isOffplan ? "OffPlan" : "Resale",
           transaction?.PROP_TYPE_EN || "N/A",
@@ -339,6 +339,21 @@ export const MarketPulseApi = async (pageNo?: number) => {
 
     console.log("response", response.data.data);
 
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
     const cardData = response.data.data.data.map((transaction: any) => {
       return {
         area_name: transaction?.area_name || "N/A",
@@ -349,7 +364,7 @@ export const MarketPulseApi = async (pageNo?: number) => {
         monthly_transactions: transaction?.timeseries_sales_last_12_months.map(
           (item: any) => {
             return {
-              year: item.month,
+              year: months[Number(item.month.split("-")[1]) - 1],
               value1: item.transactions,
             };
           }

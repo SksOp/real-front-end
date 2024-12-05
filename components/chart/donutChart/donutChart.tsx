@@ -107,13 +107,14 @@ const DonutChartComponent: React.FC<DonutChartComponentProps> = ({
       </ChartContainer>
       <div className="flex flex-col items-center justify-center mt-4">
         <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-start gap-x-8 gap-6 ">
-          {data.map((item) => (
+          {updatedData.map((item) => (
             <div
               key={item.name}
               className="flex items-start justify-center  gap-2"
             >
               <span
-                className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary ${item.colorClass}`}
+                className={`min-w-3 w-3 h-3 mt-1 rounded-sm border border-secondary `}
+                style={{ backgroundColor: item.fill }}
               />
               <div className="flex flex-col gap-1 ">
                 <div className="flex  gap-2 justify-center items-center">
