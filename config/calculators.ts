@@ -294,7 +294,7 @@ export const Calculators: Calculator[] = [
         choose_project,
         property_type,
       } = inputs;
-      const current_year = 2024;
+      const current_year = new Date().getFullYear;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
         const response = await axios.get(`${BASE_URL}/api/rental`, {

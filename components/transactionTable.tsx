@@ -244,7 +244,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           {Array.from({ length: totalPages }, (_, index) => index + 1)
             .filter(
               (page) =>
-                page !== 1 && // First Page
+                page !== 1 &&
+                page !== totalPages && // Exclude first and last
                 (page === pageIndex ||
                   (page >= pageIndex - 1 && page <= pageIndex + 1)) // Pages around current
             )
@@ -254,7 +255,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                   isActive={pageIndex === page}
                   onClick={() => handlePageChange(page)}
                 >
-                  {FormatValue(page)}
+                  {page}
                 </PaginationLink>
               </PaginationItem>
             ))}
@@ -267,14 +268,14 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           )}
 
           {/* Last Page */}
-          {totalPages > 1 && pageIndex !== totalPages && (
+          {totalPages > 1 && (
             <PaginationItem className="cursor-pointer">
               <PaginationLink
                 href="#"
                 isActive={pageIndex === totalPages}
                 onClick={() => handlePageChange(totalPages)}
               >
-                {FormatValue(totalPages)}
+                {totalPages}
               </PaginationLink>
             </PaginationItem>
           )}
