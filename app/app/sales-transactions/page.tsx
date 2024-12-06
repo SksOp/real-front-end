@@ -42,9 +42,9 @@ function SalesTransactionPage() {
       </div>
 
       <div className="hidden md:flex w-full gap-3 px-3 py-20">
-        <div className="w-2/3 flex flex-col gap-3">
-          {/* <HomeTransactionCard cardItems={MatrixDataPage} /> */}
-          <TransactionTable
+        {/* <div className="w-2/3 flex flex-col gap-3"> */}
+        {/* <HomeTransactionCard cardItems={MatrixDataPage} /> */}
+        {/* <TransactionTable
             selectedTab="sales"
             selectedRow={selectedRow}
             onRowSelect={(index) => setSelectedRow(index)}
@@ -54,7 +54,7 @@ function SalesTransactionPage() {
         </div>
         <div className="w-1/3">
           <InsightDrawerView />
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
