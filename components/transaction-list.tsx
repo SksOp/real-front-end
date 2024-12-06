@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import TransactionTabs from "./transaction-tabs";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
 import TransactionCard from "./transaction-card";
+import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import InsightDrawerView from "./insightDrawerView";
 
 interface TransactionsListProps {
   selectedTab: string;
@@ -72,7 +74,14 @@ const TransactionsList = ({ selectedTab }: TransactionsListProps) => {
   return (
     <div className="flex flex-col gap-3">
       {transactions.map((transaction, index) => (
-        <TransactionCard key={index} {...transaction} />
+        <Drawer>
+          <DrawerTrigger>
+            <TransactionCard key={index} {...transaction} />
+          </DrawerTrigger>
+          <DrawerContent className="max-h-[80vh] p-0 ">
+            <InsightDrawerView location_name={transaction.areaName} />
+          </DrawerContent>
+        </Drawer>
       ))}
       {/* Loader or End of List */}
       <div ref={lastElementRef}>

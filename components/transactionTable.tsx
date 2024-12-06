@@ -2,12 +2,7 @@ import React, { use, useEffect } from "react";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
-import {
-  AreaSizeIcon,
-  BathIcon,
-  BedIcon,
-  FilterIcon,
-} from "@/public/svg/icons";
+import { AreaSizeIcon, BathIcon, BedIcon } from "@/public/svg/icons";
 import {
   Pagination,
   PaginationContent,
@@ -15,19 +10,12 @@ import {
   PaginationItem,
   PaginationLink,
 } from "./ui/pagination";
-import { Button } from "./ui/button";
-import { ChevronLeft, ChevronRight, MoveLeft, MoveRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FormatValue } from "@/utils/formatNumbers";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import TransactionFilter from "./transaction-filter";
 
 interface TransactionTableRowProps {
+  transactionId: string;
   areaName: string;
   transactionAmount: string;
   date: Date;
@@ -70,7 +58,8 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
           isSelected && "rounded-xl border border-primary"
         )}
       >
-        <div className="flex flex-col justify-start gap-2 w-1/5 items-start">
+        {/* Area Name */}
+        <div className="flex flex-col justify-start gap-2 w-1/6 items-start ">
           <Badge
             variant="outline"
             className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1 truncate max-w-[150px]"
@@ -81,11 +70,12 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             <h3 className="text-secondary text-sm font-semibold">
               {FormatValue(transactionAmount)}
             </h3>
-            <span className="text-red-600 font-medium">21%</span>
+            {/* <span className="text-red-600 font-medium">21%</span> */}
           </div>
         </div>
 
-        <div className="flex flex-col justify-start gap-1 w-1/8  items-start">
+        {/* Date */}
+        <div className="flex flex-col justify-start gap-1 w-1/6 items-start pl-8">
           <h3 className="text-muted-foreground font-medium text-[11px]">
             Date
           </h3>
@@ -97,7 +87,9 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             })}
           </h3>
         </div>
-        <div className="flex flex-col justify-start gap-1 w-1/8 items-start">
+
+        {/* Price Per Sq. Ft */}
+        <div className="flex flex-col justify-start gap-1 w-1/6 items-start pl-8">
           <h3 className="text-muted-foreground font-medium text-[11px]">
             Price Per sq. ft
           </h3>
@@ -105,7 +97,9 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             {pricePerSqFt}
           </h3>
         </div>
-        <div className="flex flex-col justify-start gap-2 w-1/4 items-start">
+
+        {/* Badges and Details */}
+        <div className="flex flex-col justify-start gap-2 w-1/3 items-start pl-8">
           <div className="flex justify-start gap-1 items-center w-full">
             {badges.map((badge, index) => (
               <Badge
@@ -117,38 +111,42 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
               </Badge>
             ))}
           </div>
-          <div>
-            <div className="flex w-full justify-start items-center gap-6 pl-2">
-              <div className="flex gap-1 justify-start items-center">
-                <BedIcon className="w-4 h-4" />
-                <p className="text-muted-foreground font-normal text-xs">
-                  {bedrooms}
-                </p>
-              </div>
-              <div className="flex gap-1 justify-start items-center">
-                <BathIcon className="w-4 h-4" />
-                <p className="text-muted-foreground font-normal text-xs">
-                  {bathrooms}
-                </p>
-              </div>
-              <div className="flex gap-1 justify-start items-center">
-                <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />
-                <p className="text-muted-foreground font-normal text-xs">
-                  {area} sqft
-                </p>
-              </div>
+          <div className="flex w-full justify-start items-center gap-6 pl-2">
+            <div className="flex gap-1 justify-start items-center">
+              <BedIcon className="w-4 h-4" />
+              <p className="text-muted-foreground font-normal text-xs">
+                {bedrooms}
+              </p>
+            </div>
+            <div className="flex gap-1 justify-start items-center">
+              <BathIcon className="w-4 h-4" />
+              <p className="text-muted-foreground font-normal text-xs">
+                {bathrooms}
+              </p>
+            </div>
+            <div className="flex gap-1 justify-start items-center">
+              <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />
+              <p className="text-muted-foreground font-normal text-xs">
+                {area} sqft
+              </p>
             </div>
           </div>
         </div>
-        <Badge
-          variant="outline"
-          className={cn(
-            "text-white font-medium text-[11px] py-1",
-            tag === "First" ? "bg-[#8177E5]" : "bg-[#509BDC]"
-          )}
-        >
-          {tag}
-        </Badge>
+
+        {/* Tag */}
+        <div className="flex flex-col justify-center items-end w-1/6 pl-8">
+          <Badge
+            variant="outline"
+            className={cn(
+              "text-white font-medium text-[11px] py-1",
+              tag === "First" || tag === "Renew"
+                ? "bg-[#8177E5]"
+                : "bg-[#509BDC]"
+            )}
+          >
+            {tag}
+          </Badge>
+        </div>
       </TableCell>
     </TableRow>
   );
@@ -158,8 +156,8 @@ interface TransactionTableProps {
   data: TransactionTableRowProps[];
   totalPages: number;
   selectedTab: string;
-  selectedRow?: number | null;
-  onRowSelect?: (index: number) => void;
+  selectedRow?: string | null;
+  onRowSelect?: (index: string) => void;
 }
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
@@ -196,8 +194,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <div className="border rounded-xl w-full overflow-hidden">
+    <div className="flex h-full flex-col gap-3 w-full">
+      <div className="border rounded-xl w-full overflow-hidden ">
         <Table>
           <TableBody>
             {transactions?.map((row, index) => (
@@ -205,16 +203,15 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                 key={index}
                 {...row}
                 isMuted={index % 2 === 0}
-                isSelected={selectedRow === index}
-                onClick={() => onRowSelect?.(index)}
+                isSelected={selectedRow === row.transactionId}
+                onClick={() => onRowSelect?.(row.transactionId)}
               />
             ))}
           </TableBody>
         </Table>
       </div>
-      <Pagination className="flex items-center justify-end bg-background px-6 py-3.5">
+      <Pagination className="flex items-center justify-end bg-background px-6 pt-3.5 ">
         <PaginationContent>
-          {/* Previous Button */}
           <PaginationItem
             onClick={() => handlePageChange(pageIndex - 1)}
             className="cursor-pointer"
@@ -222,10 +219,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             <ChevronLeft />
           </PaginationItem>
 
-          {/* First Page */}
           <PaginationItem>
             <PaginationLink
-              href="#"
               isActive={pageIndex === 1}
               onClick={() => handlePageChange(1)}
             >
@@ -233,14 +228,12 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             </PaginationLink>
           </PaginationItem>
 
-          {/* Ellipsis Before Current Page */}
           {pageIndex > 3 && (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           )}
 
-          {/* Middle Pages */}
           {Array.from({ length: totalPages }, (_, index) => index + 1)
             .filter(
               (page) =>
@@ -260,18 +253,15 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               </PaginationItem>
             ))}
 
-          {/* Ellipsis After Current Page */}
           {pageIndex < totalPages - 2 && (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           )}
 
-          {/* Last Page */}
           {totalPages > 1 && (
             <PaginationItem className="cursor-pointer">
               <PaginationLink
-                href="#"
                 isActive={pageIndex === totalPages}
                 onClick={() => handlePageChange(totalPages)}
               >
@@ -280,7 +270,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             </PaginationItem>
           )}
 
-          {/* Next Button */}
           <PaginationItem
             onClick={() => handlePageChange(pageIndex + 1)}
             className="cursor-pointer"

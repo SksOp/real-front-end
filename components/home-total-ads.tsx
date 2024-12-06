@@ -42,7 +42,7 @@ function HomeTotalAds() {
         <CardTitle className="text-sm font-semibold text-secondary">
           Total Online Ads - Today (135000)
         </CardTitle>
-        <h3 className="text-base text-accent font-normal line-clamp-2">
+        <h3 className="text-base text-accent font-normal line-clamp-2 ">
           Get a holistic view listings and property ads in the region.
         </h3>
       </CardHeader>

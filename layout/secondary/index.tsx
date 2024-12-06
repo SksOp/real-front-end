@@ -20,14 +20,14 @@ function Layout({
   const mainRef = useRef<HTMLElement | null>(null);
   return (
     <main
-      className="min-h-screen relative bg-gradient-to-b from-backgrounds to-[#FAFAFA] w-full max-w-screen"
+      className="min-h-screen relative bg-gradient-to-b from-backgrounds to-[#FAFAFA]  w-full max-w-screen"
       ref={mainRef}
     >
       <Navbar page={page} className="hidden md:block" />
 
       <SecondaryNavbar title={title} className={cn("md:hidden", className)} />
       <Progressbar target={mainRef} className="top-11 md:top-16" />
-      <div className="pt-4">{children}</div>
+      <div className="pt-4 ">{children}</div>
       {/* <NavBottom selected={page} /> */}
     </main>
   );

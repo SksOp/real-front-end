@@ -58,7 +58,7 @@ function MarketPulseList() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 md:hidden">
+      <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
         {transactions.map((transaction, index) => (
           <MarketPulseCard key={index} {...transaction} />
         ))}
@@ -68,7 +68,7 @@ function MarketPulseList() {
           {!hasMore && <p>No more transactions</p>}
         </div>
       </div>
-      <div className="hidden md:grid grid-cols-3 gap-4 gap-x-4">
+      {/* <div className="hidden md:grid grid-cols-3 gap-4 gap-x-4">
         {transactions.map((transaction, index) => (
           <MarketPulseCard key={index} {...transaction} />
         ))}
@@ -76,7 +76,7 @@ function MarketPulseList() {
           {isLoading && <p>Loading...</p>}
           {!hasMore && <p>No more transactions</p>}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

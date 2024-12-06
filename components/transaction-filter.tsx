@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import DatePicker from "./date-picker";
+import { Button } from "./ui/button";
 
 interface FilterOption {
   label: string;
@@ -59,15 +60,6 @@ function TransactionFilter() {
       ],
     },
     {
-      label: "Transaction type",
-      name: "transactionType",
-      options: [
-        { label: "Mortgage", value: "mortgage" },
-        { label: "Sales", value: "sales" },
-        { label: "Gift", value: "gift" },
-      ],
-    },
-    {
       label: "Usage",
       name: "usage",
       options: [
@@ -83,20 +75,12 @@ function TransactionFilter() {
         { label: "Leasehold", value: "leasehold" },
       ],
     },
-    {
-      label: "Parking",
-      name: "parking",
-      options: [
-        { label: "Yes", value: "yes" },
-        { label: "No", value: "no" },
-      ],
-    },
   ];
   console.log(filters);
   return (
     <div className="flex flex-col gap-4 p-4">
       <h3 className="text-center text-secondary text-base font-bold">Filter</h3>
-      <div className="flex flex-col gap-7">
+      <div className="flex flex-col gap-5">
         {filterOptions.map((filter) => (
           <div key={filter.name} className="flex flex-col gap-2">
             <Label className="text-secondary font-semibold text-sm">
@@ -160,6 +144,23 @@ function TransactionFilter() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="w-full flex justify-end items-center gap-4 pt-4">
+        <Button
+          variant={"outline"}
+          className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/2 h-14 rounded-xl border"
+          // onClick={}
+        >
+          Clear All
+        </Button>
+        <Button
+          variant={"secondary"}
+          className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/2 h-14 rounded-xl border"
+          // onClick={() => handleCalculate(filters)}
+        >
+          Explore
+        </Button>
       </div>
     </div>
   );

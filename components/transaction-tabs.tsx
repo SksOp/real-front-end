@@ -81,10 +81,11 @@ function TransactionTabs({
               Rental
             </TabsTrigger>
             <TabsTrigger
-              value="mortage"
+              value="mortgage"
               className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+              onClick={() => setSelectedTab("mortgage")}
             >
-              Mortage
+              Mortgage
             </TabsTrigger>
             {/* <Separator orientation="vertical" className="h-5" /> */}
           </TabsList>
@@ -103,7 +104,10 @@ function TransactionTabs({
               <DropdownMenuTrigger>
                 <FilterIcon className="w-4 h-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="max-h-[400px] overflow-y-auto">
+              <DropdownMenuContent
+                align="start"
+                className="max-h-[600px] overflow-y-auto"
+              >
                 <TransactionFilter />
               </DropdownMenuContent>
             </DropdownMenu>

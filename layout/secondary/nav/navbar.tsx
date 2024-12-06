@@ -31,7 +31,7 @@ function SecondaryNavbar({
       <div onClick={() => router.back()}>
         <BackIcon />
       </div>
-      <h3 className="absolute left-1/2 transform -translate-x-1/2 text-secondary font-semibold text-base truncate">
+      <h3 className="absolute left-1/2 transform -translate-x-1/2 text-secondary max-w-[70%] font-semibold text-base truncate">
         {title}
       </h3>
     </nav>

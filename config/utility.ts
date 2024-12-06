@@ -7,6 +7,7 @@ import {
   RentalSimilarData,
   RentalTrend,
   RentalValueTrend,
+  RentalVersions,
 } from "./rental";
 
 import {
@@ -214,6 +215,7 @@ export const CalculateCharts = async (
     allCharts.push(...charts);
   } else {
     const charts = await Promise.all([
+      RentalVersions(params),
       RentalValueTrend(params),
       RentalTrend(params),
       RentalIndex(params),
@@ -247,8 +249,9 @@ export const SalesTransactionApi = async (
       const date = transaction?.INSTANCE_DATE?.value
         ? new Date(transaction.INSTANCE_DATE.value)
         : null;
-
+      console.log(transaction?.INSTANCE_DATE?.value, "vs", date);
       return {
+        transactionId: transaction?.TRANSACTION_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",
         transactionAmount: transaction?.TRANS_VALUE || 0,
         date,
@@ -260,7 +263,7 @@ export const SalesTransactionApi = async (
           transaction?.GROUP_EN || "N/A",
         ],
         bathrooms: transaction?.BATHROOMS || 0,
-        bedrooms: transaction?.ROOMS_EN ? transaction.ROOMS_EN[0] : 0,
+        bedrooms: transaction?.ROOMS_EN ? transaction.ROOMS_EN : null,
         area: transaction?.PROCEDURE_AREA || "Unknown",
         tag: transaction?.first_sale ? "First" : "Resale",
       };
