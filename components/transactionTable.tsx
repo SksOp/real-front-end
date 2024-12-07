@@ -176,8 +176,14 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       const response = await SalesTransactionApi(page);
       console.log(response);
       setTransactions(response.transactions);
-    } else {
+    } else if (selectedTab === "rental") {
       const response = await RentalTransactionApi(page);
+      console.log(response);
+      setTransactions(response.transactions);
+    } else if (selectedTab === "mortgage") {
+      const response = await SalesTransactionApi(page, {
+        group_en: "Mortgage",
+      });
       console.log(response);
       setTransactions(response.transactions);
     }

@@ -46,6 +46,8 @@ const TransactionsList = ({ selectedTab }: TransactionsListProps) => {
         const response =
           selectedTab === "sales"
             ? await SalesTransactionApi(page)
+            : selectedTab === "mortgage"
+            ? await SalesTransactionApi(page, { group_en: "Mortgage" })
             : await RentalTransactionApi(page);
 
         setTransactions((prev) =>
