@@ -249,13 +249,16 @@ export const SalesTransactionApi = async (
       const date = transaction?.INSTANCE_DATE?.value
         ? new Date(transaction.INSTANCE_DATE.value)
         : null;
-      console.log(transaction?.INSTANCE_DATE?.value, "vs", date);
+      const areaInSqft =
+        (transaction?.PROCEDURE_AREA * 10.764).toFixed(2) || "N/A";
+      const pricePerSqFt =
+        (transaction?.TRANS_VALUE / parseFloat(areaInSqft)).toFixed(2) || 0;
       return {
         transactionId: transaction?.TRANSACTION_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",
         transactionAmount: transaction?.TRANS_VALUE || 0,
         date,
-        pricePerSqFt: transaction?.PROCEDURE_AREA, // Assuming static for now
+        pricePerSqFt: pricePerSqFt, // Assuming static for now
         badges: [
           transaction?.isOffplan ? "OffPlan" : "Resale",
           transaction?.PROP_TYPE_EN || "N/A",
@@ -263,8 +266,8 @@ export const SalesTransactionApi = async (
           transaction?.GROUP_EN || "N/A",
         ],
         bathrooms: transaction?.BATHROOMS || 0,
-        bedrooms: transaction?.ROOMS_EN ? transaction.ROOMS_EN : null,
-        area: transaction?.PROCEDURE_AREA || "Unknown",
+        bedrooms: transaction?.ROOMS_EN ? transaction.ROOMS_EN : "N/A",
+        area: areaInSqft,
         tag: transaction?.first_sale ? "First" : "Resale",
       };
     });
@@ -300,8 +303,10 @@ export const RentalTransactionApi = async (
       const date = transaction?.INSTANCE_DATE?.value
         ? new Date(transaction.INSTANCE_DATE.value)
         : null;
-
+      const areaInSqft =
+        (transaction?.PROCEDURE_AREA * 10.764).toFixed(2) || "N/A";
       return {
+        transactionId: transaction?.TRANSACTION_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",
         transactionAmount: transaction?.TRANS_VALUE || 0,
         date,
@@ -312,8 +317,8 @@ export const RentalTransactionApi = async (
           transaction?.USAGE_EN || "N/A",
         ],
         bathrooms: transaction?.BATHROOMS || 0,
-        bedrooms: transaction?.ROOMS_EN ? transaction.ROOMS_EN[0] : 0,
-        area: transaction?.PROCEDURE_AREA || "Unknown",
+        bedrooms: transaction?.ROOMS_EN ? transaction.ROOMS_EN : "N/A",
+        area: areaInSqft,
         tag: transaction?.VERSION,
       };
     });
@@ -372,6 +377,54 @@ export const MarketPulseApi = async (pageNo?: number) => {
             };
           }
         ),
+      };
+    });
+    console.log(cardData);
+    return cardData;
+  } catch (error) {
+    console.error("Error fetching sales transactions:", error);
+    return [];
+  }
+};
+
+export const MarketPulseRentalApi = async (pageNo?: number) => {
+  try {
+    pageNo = pageNo || 1;
+    const response = await axios.get(
+      `${BASE_URL}/api/rental/marketPulse/pages/${pageNo}`
+    );
+
+    console.log("response", response.data.data);
+
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const cardData = response.data.data.data.map((transaction: any) => {
+      return {
+        area_name: transaction?.area_name || "N/A",
+        total_supply: transaction?.units_from_unit_dataSet,
+        avg_price: transaction?.average_rent.toFixed(2) || 0,
+        avg_price_per_sqft: transaction?.renewal_rate.toFixed(2) || 0,
+        no_of_transactions: transaction?.last_12_month_transactions || 0,
+        monthly_transactions:
+          transaction?.timeseries_rentals_last_12_months.map((item: any) => {
+            return {
+              year: months[Number(item.month.split("-")[1]) - 1],
+              value1: item.transactions,
+            };
+          }),
       };
     });
     console.log(cardData);

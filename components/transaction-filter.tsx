@@ -4,84 +4,32 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import DatePicker from "./date-picker";
 import { Button } from "./ui/button";
 
-interface FilterOption {
-  label: string;
-  value: string;
-}
+function TransactionFilter({
+  setFilters,
+}: {
+  setFilters: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: string | number;
+    }>
+  >;
+}) {
+  const [fromDate, setFromDate] = useState<Date>(new Date());
+  const [toDate, setToDate] = useState<Date>(new Date());
+  const filterOptions = [];
 
-interface FilterConfig {
-  label: string;
-  name: keyof Filters;
-  options: FilterOption[];
-}
+  const handleFilterChange = (name: string, value: string) => {};
 
-interface Filters {
-  type: string;
-  transactionType: string;
-  usage: string;
-  holdType: string;
-  parking: string;
-  fromDate: Date | undefined;
-  toDate: Date | undefined;
-}
-
-function TransactionFilter() {
-  const [filters, setFilters] = useState<Filters>({
-    type: "",
-    transactionType: "",
-    usage: "",
-    holdType: "",
-    parking: "",
-    fromDate: undefined,
-    toDate: undefined,
-  });
-
-  const handleFilterChange = (name: keyof Filters, value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
+  const handleDateChange = (date: Date | undefined) => {
+    if (date) {
+      setFromDate(date);
+    }
   };
 
-  const handleDateChange = (name: keyof Filters, date: Date | undefined) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: date,
-    }));
-  };
-
-  const filterOptions: FilterConfig[] = [
-    {
-      label: "Type",
-      name: "type",
-      options: [
-        { label: "OffPlan", value: "offplan" },
-        { label: "Ready", value: "ready" },
-      ],
-    },
-    {
-      label: "Usage",
-      name: "usage",
-      options: [
-        { label: "Residential", value: "residential" },
-        { label: "Commercial", value: "commercial" },
-      ],
-    },
-    {
-      label: "Hold type",
-      name: "holdType",
-      options: [
-        { label: "Freehold", value: "freehold" },
-        { label: "Leasehold", value: "leasehold" },
-      ],
-    },
-  ];
-  console.log(filters);
   return (
     <div className="flex flex-col gap-4 p-4">
       <h3 className="text-center text-secondary text-base font-bold">Filter</h3>
       <div className="flex flex-col gap-5">
-        {filterOptions.map((filter) => (
+        {/* {filterOptions.map((filter) => (
           <div key={filter.name} className="flex flex-col gap-2">
             <Label className="text-secondary font-semibold text-sm">
               {filter.label}
@@ -109,7 +57,7 @@ function TransactionFilter() {
               ))}
             </RadioGroup>
           </div>
-        ))}
+        ))} */}
         <div className="flex flex-col gap-2">
           <Label
             htmlFor="date-range"
@@ -126,8 +74,8 @@ function TransactionFilter() {
                 From
               </Label>
               <DatePicker
-                date={filters.fromDate}
-                setDate={(date) => handleDateChange("fromDate", date)}
+                date={fromDate}
+                setDate={(date: Date | undefined) => handleDateChange(date)}
               />
             </div>
             <div>
@@ -138,8 +86,8 @@ function TransactionFilter() {
                 To
               </Label>
               <DatePicker
-                date={filters.toDate}
-                setDate={(date) => handleDateChange("toDate", date)}
+                date={toDate}
+                setDate={(date: Date | undefined) => handleDateChange(date)}
               />
             </div>
           </div>

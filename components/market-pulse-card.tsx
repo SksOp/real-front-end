@@ -6,6 +6,7 @@ import AreaChartComponent from "./chart/areachart/area";
 import { FormatValue } from "@/utils/formatNumbers";
 
 interface MarketPulseCardProps {
+  type: "sales" | "rental";
   area_name: string;
   total_supply: number;
   avg_price: number;
@@ -26,6 +27,7 @@ const chartConfig = {
 };
 
 function MarketPulseCard({
+  type,
   area_name,
   total_supply,
   avg_price,
@@ -56,7 +58,7 @@ function MarketPulseCard({
         <div className="flex justify-between items-center">
           <div className="flex flex-col gap-2 w-1/4 ">
             <h3 className="text-muted-foreground text-sm font-normal max-w-14">
-              Total Supply
+              {type === "sales" ? "Total Supply" : "Total Units"}
             </h3>
             <h2 className="text-secondary/90 font-medium text-base">
               {FormatValue(total_supply)}
@@ -64,7 +66,7 @@ function MarketPulseCard({
           </div>
           <div className="flex flex-col gap-2 w-1/4">
             <h3 className="text-muted-foreground text-sm font-normal max-w-14">
-              Avg Price
+              {type === "sales" ? "Avg Price" : "Avg Rent"}
             </h3>
             <h2 className="text-secondary/90 font-medium text-base">
               {FormatValue(avg_price)}
@@ -72,7 +74,7 @@ function MarketPulseCard({
           </div>
           <div className="flex flex-col gap-2 w-1/4">
             <h3 className="text-muted-foreground text-sm font-normal max-w-20">
-              Avg Price Per sq. ft
+              {type === "sales" ? "Avg Price Per sq. ft" : "Renewal Rate"}
             </h3>
             <h2 className="text-secondary/90 font-medium text-base">
               {FormatValue(avg_price_per_sqft)}

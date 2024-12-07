@@ -23,43 +23,10 @@ export const RentalMatrices: Matrix[] = [
     calculate_charts: {
       key: "total_sales_value",
       calculate: async (params) => {
-        try {
-          const date = new Date();
-          const presentYear = date.getFullYear();
-          const response = await axios.get(
-            `${BASE_URL}/api/rental/average?start_year=${
-              presentYear - 1
-            }&end_year=${presentYear}`
-          );
-          console.log("response", response.data);
-          const transactions = response.data.data.data;
-
-          if (transactions.length === 0) {
-            throw new Error("No transactions found for the specified filters.");
-          }
-          console.log(transactions);
-          const growthCalculator = (current: number, previous: number) =>
-            ((current - previous) / previous) * 100;
-
-          const currentYear = transactions[1].total_rent_yearly;
-          const previousYear = transactions[0].total_rent_yearly;
-          const growth = growthCalculator(currentYear, previousYear);
-          const result: MatrixData = {
-            key: "total_rental_value",
-            title: "Total Rental Value",
-            value: currentYear,
-            growth: growth,
-          };
-          return result;
-        } catch (error) {
-          console.error(error);
-          return {
-            key: "total_rental_value",
-            title: "Total Rental Value",
-            value: "N/A",
-            growth: 0,
-          };
-        }
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/rental/average`;
+        const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+        return matrixOutput[2];
       },
     },
   },
@@ -73,14 +40,9 @@ export const RentalMatrices: Matrix[] = [
     calculate_charts: {
       key: "average_rent_value",
       calculate: async (params) => {
-        const date = new Date();
-        const presentYear = date.getFullYear();
-        const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
-
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/rental/average`;
         const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
-
         const data1 = matrixOutput[0];
         const data2 = matrixOutput[1];
         const result: MatrixData = {
@@ -88,6 +50,7 @@ export const RentalMatrices: Matrix[] = [
           title: "Average Rent Value",
           value: data1.value + data2.value,
         };
+
         return result;
       },
     },
@@ -102,12 +65,8 @@ export const RentalMatrices: Matrix[] = [
     calculate_charts: {
       key: "number_of_rental_transactions",
       calculate: async (params) => {
-        const date = new Date();
-        const presentYear = date.getFullYear();
-        const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
-
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/rental/average`;
         const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
         return matrixOutput[2];
       },
@@ -122,12 +81,8 @@ export const RentalMatrices: Matrix[] = [
     calculate_charts: {
       key: "renewal_ratio",
       calculate: async (params) => {
-        const date = new Date();
-        const presentYear = date.getFullYear();
-        const sourceURL = `${BASE_URL}/api/rental/average?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
-
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/rental/average`;
         const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
         return matrixOutput[3];
       },

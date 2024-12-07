@@ -26,8 +26,9 @@ function MatricesData() {
         description={matrix.description}
         tag={matrix.tag}
         className={
-          selectedMatrix?.key === matrix.key &&
-          "border-2 border-secondary rounded-lg bg-[#FEF8F5]"
+          selectedMatrix?.key === matrix.key
+            ? "border border-secondary rounded-lg bg-[#FEF8F5] h-full"
+            : "bg-[#FFFEFA] h-full"
         }
       />
     </Link>

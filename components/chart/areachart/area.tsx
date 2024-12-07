@@ -82,7 +82,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
     <ChartContainer
       config={chartConfig}
       className={cn(
-        "min-h-[280px] min-w-fit w-full overflow-x-scroll ",
+        "min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-scroll ",
         className
       )}
     >

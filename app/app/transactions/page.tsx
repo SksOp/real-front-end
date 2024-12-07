@@ -24,6 +24,9 @@ function TransactionPage() {
   const [transactions, setTransactions] = React.useState<any[]>([]);
   const [MatrixDataPage, setMatrixDataPage] = React.useState<any[]>([]);
   const [totalPages, setTotalPages] = React.useState(0);
+  const [filters, setFilters] = React.useState<{
+    [key: string]: string | number;
+  }>();
 
   useEffect(() => {
     const type = searchParams.get("type");
@@ -34,6 +37,7 @@ function TransactionPage() {
     const fetchTransactions = async () => {
       const date = new Date();
       const presentYear = date.getFullYear();
+
       if (selectedTab === "sales") {
         const response = await SalesTransactionApi(1);
         const sourceURL = `${BASE_URL}/api/transaction/trends`;
@@ -69,7 +73,7 @@ function TransactionPage() {
         setTransactions(response.transactions);
       }
     };
-
+    setSelectedRow(null);
     fetchTransactions();
   }, [selectedTab]);
 
@@ -91,8 +95,8 @@ function TransactionPage() {
         <TransactionsList selectedTab={selectedTab} />
       </div>
 
-      <div className="hidden md:flex w-full gap-3 px-3 pt-20  pb-2  ">
-        <div className="w-2/3 flex flex-col gap-3 max-h-screen overflow-y-auto ">
+      <div className="hidden md:flex w-full gap-3 px-3 pt-20  max-h-screen ">
+        <div className="w-2/3 flex flex-col gap-3 max-h-full overflow-y-auto ">
           <TransactionTabs
             matrixData={MatrixDataPage}
             defaultTab={selectedTab}
@@ -107,7 +111,7 @@ function TransactionPage() {
             data={transactions}
           />
         </div>
-        <div className="w-1/3 max-h-screen overflow-y-auto ">
+        <div className="w-1/3  max-h-full overflow-y-auto ">
           {selectedRow ? (
             <InsightDrawerView location_name={getLocationname()} />
           ) : (

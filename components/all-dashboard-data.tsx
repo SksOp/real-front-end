@@ -105,7 +105,7 @@ function DashboardData() {
         value="your-dashboards"
         className="md:flex md:flex-col grid grid-cols-2 gap-3  mt-0"
       >
-        {yourDashboards.length > 0 ? (
+        {/* {yourDashboards.length > 0 ? (
           yourDashboards
         ) : (
           <Exceptions
@@ -114,7 +114,7 @@ function DashboardData() {
             description="No data for the selected criteria. try changing the filters."
             className="col-span-2"
           />
-        )}
+        )} */}
       </TabsContent>
     </div>
   );

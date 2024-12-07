@@ -121,7 +121,7 @@ function HomeVolumeIndex() {
               <ChartException />
             )}
             <CardFooter className=" p-0 mt-3">
-              <InsightCard linkText="Explore full market index here.">
+              <InsightCard linkText="Explore index.">
                 Dubai’s real estate market has shown impressive growth since
                 2014, with 2024 seeing the highest appreciation in property
                 value.

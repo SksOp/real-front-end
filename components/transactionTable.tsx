@@ -10,7 +10,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "./ui/pagination";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
 import { FormatValue } from "@/utils/formatNumbers";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
 
@@ -118,12 +118,12 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
                 {bedrooms}
               </p>
             </div>
-            <div className="flex gap-1 justify-start items-center">
+            {/* <div className="flex gap-1 justify-start items-center">
               <BathIcon className="w-4 h-4" />
               <p className="text-muted-foreground font-normal text-xs">
                 {bathrooms}
               </p>
-            </div>
+            </div> */}
             <div className="flex gap-1 justify-start items-center">
               <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />
               <p className="text-muted-foreground font-normal text-xs">
@@ -201,7 +201,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
   return (
     <div className="flex h-full flex-col gap-3 w-full">
-      <div className="border rounded-xl w-full overflow-hidden ">
+      <div className="border rounded-xl w-full  ">
         <Table>
           <TableBody>
             {transactions?.map((row, index) => (
@@ -216,7 +216,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           </TableBody>
         </Table>
       </div>
-      <Pagination className="flex items-center justify-end bg-background px-6 pt-3.5 ">
+      <Pagination className="flex items-center justify-end bg-background px-6 py-3.5 ">
         <PaginationContent>
           <PaginationItem
             onClick={() => handlePageChange(pageIndex - 1)}
@@ -261,7 +261,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
           {pageIndex < totalPages - 2 && (
             <PaginationItem>
-              <PaginationEllipsis />
+              <Ellipsis />
             </PaginationItem>
           )}
 

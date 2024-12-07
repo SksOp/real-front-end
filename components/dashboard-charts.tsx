@@ -96,6 +96,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             data={selectedFilter?.data ?? data}
             xAxisDataKey={"year"}
             yAxisDataKeys={["value"]}
+            showXAxis={otherInfo && otherInfo[0]?.value === "true"}
           />
         );
 

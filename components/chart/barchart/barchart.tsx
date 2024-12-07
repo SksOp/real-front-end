@@ -10,6 +10,7 @@ import {
   ReferenceLine,
   Label,
   LabelList,
+  LabelProps,
 } from "recharts";
 import {
   ChartContainer,
@@ -96,10 +97,10 @@ const Barchart: React.FC<BarChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
+      className="min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-scroll "
     >
       <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={30}>
+        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={10}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -143,7 +144,8 @@ const Barchart: React.FC<BarChartComponentProps> = ({
                   angle={-90}
                   offset={18}
                   fontSize={14}
-                  className="fill-[--color-label]"
+                  textBreakAll={false}
+                  className="fill-[--color-label] "
                 />
               )}
               {showInsideLabel && (

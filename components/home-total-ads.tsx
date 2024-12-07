@@ -57,8 +57,8 @@ function HomeTotalAds() {
       </CardContent>
       <CardFooter className=" p-0 mt-2">
         <InsightCard linkText="Explore full market index here.">
-          Dubai’s top 10 areas account for 30% of total sales transactions in
-          the market.
+          Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
+          morbi eu elit. Neque Average price: 750000.
         </InsightCard>
       </CardFooter>
     </Card>

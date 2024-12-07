@@ -87,7 +87,7 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   return (
     <ChartContainer
       config={chartConfig}
-      className="min-h-[280px] min-w-fit w-full overflow-x-scroll "
+      className="min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-scroll "
     >
       <ResponsiveContainer width="100%" height={400}>
         <ComposedChart data={data} margin={{ left: -10, top: 10 }} barGap={20}>

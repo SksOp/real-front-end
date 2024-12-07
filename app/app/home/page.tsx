@@ -6,7 +6,6 @@ import ChartException from "@/components/chartException";
 import Feedback from "@/components/feedback";
 import Footer from "@/components/footer";
 import FrequentQuestions from "@/components/frequent-questions";
-import HomeClaimCard from "@/components/home-claim-card";
 import HomeInsights from "@/components/home-insights";
 import HomeIntro from "@/components/home-intro";
 import HomeListing from "@/components/home-listing";

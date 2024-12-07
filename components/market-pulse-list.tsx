@@ -1,16 +1,25 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import MarketPulseCard from "./market-pulse-card";
-import { MarketPulseApi } from "@/config/utility";
+import { MarketPulseApi, MarketPulseRentalApi } from "@/config/utility";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 function MarketPulseList() {
-  const [transactions, setTransactions] = useState<any[]>([]); // List of transactions
-  const [page, setPage] = useState(1); // Current page number
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [hasMore, setHasMore] = useState(true); // Check if more data is available
-  const observer = useRef<IntersectionObserver | null>(null); // Ref for the observer
+  const [activeTab, setActiveTab] = useState("sales"); // Active tab state
 
-  // Observe the last element
+  // Sales state
+  const [salesTransactions, setSalesTransactions] = useState<any[]>([]);
+  const [salesPage, setSalesPage] = useState(1);
+  const [isSalesLoading, setIsSalesLoading] = useState(false);
+  const [hasMoreSales, setHasMoreSales] = useState(true);
+
+  // Rental state
+  const [rentalTransactions, setRentalTransactions] = useState<any[]>([]);
+  const [rentalPage, setRentalPage] = useState(1);
+  const [isRentalLoading, setIsRentalLoading] = useState(false);
+  const [hasMoreRentals, setHasMoreRentals] = useState(true);
+
+  const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -18,8 +27,16 @@ function MarketPulseList() {
 
     observer.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
-          setPage((prev) => prev + 1); // Increment page number
+        if (entries[0].isIntersecting) {
+          if (activeTab === "sales" && hasMoreSales && !isSalesLoading) {
+            setSalesPage((prev) => prev + 1);
+          } else if (
+            activeTab === "rental" &&
+            hasMoreRentals &&
+            !isRentalLoading
+          ) {
+            setRentalPage((prev) => prev + 1);
+          }
         }
       },
       { threshold: 1.0 }
@@ -30,53 +47,97 @@ function MarketPulseList() {
     }
 
     return () => observer.current?.disconnect();
-  }, [hasMore, isLoading]);
+  }, [
+    activeTab,
+    hasMoreSales,
+    isSalesLoading,
+    hasMoreRentals,
+    isRentalLoading,
+  ]);
 
-  // Fetch transactions dynamically
   useEffect(() => {
-    const fetchTransactions = async () => {
-      setIsLoading(true);
+    const fetchSalesTransactions = async () => {
+      setIsSalesLoading(true);
       try {
-        const response = await MarketPulseApi(page);
-
-        // Append new transactions to the list and check if there are more
+        const response = await MarketPulseApi(salesPage);
         if (response && response.length > 0) {
-          setTransactions((prev) => [...prev, ...response]);
+          setSalesTransactions((prev) => [...prev, ...response]);
         } else {
-          setHasMore(false); // No more data to fetch
+          setHasMoreSales(false);
         }
       } catch (error) {
-        console.error("Error fetching transactions:", error);
-        setHasMore(false); // Stop further attempts if an error occurs
+        console.error("Error fetching sales transactions:", error);
+        setHasMoreSales(false);
       } finally {
-        setIsLoading(false);
+        setIsSalesLoading(false);
       }
     };
 
-    fetchTransactions();
-  }, [page]);
+    if (activeTab === "sales") fetchSalesTransactions();
+  }, [salesPage, activeTab]);
+
+  useEffect(() => {
+    const fetchRentalTransactions = async () => {
+      setIsRentalLoading(true);
+      try {
+        const response = await MarketPulseRentalApi(rentalPage);
+        console.log(response);
+        if (response && response.length > 0) {
+          setRentalTransactions((prev) => [...prev, ...response]);
+        } else {
+          setHasMoreRentals(false);
+        }
+      } catch (error) {
+        console.error("Error fetching rental transactions:", error);
+        setHasMoreRentals(false);
+      } finally {
+        setIsRentalLoading(false);
+      }
+    };
+
+    if (activeTab === "rental") fetchRentalTransactions();
+  }, [rentalPage, activeTab]);
 
   return (
     <>
-      <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
-        {transactions.map((transaction, index) => (
-          <MarketPulseCard key={index} {...transaction} />
-        ))}
-        {/* Loader or End of List */}
-        <div ref={lastElementRef}>
-          {isLoading && <p>Loading...</p>}
-          {!hasMore && <p>No more transactions</p>}
-        </div>
-      </div>
-      {/* <div className="hidden md:grid grid-cols-3 gap-4 gap-x-4">
-        {transactions.map((transaction, index) => (
-          <MarketPulseCard key={index} {...transaction} />
-        ))}
-        <div ref={lastElementRef}>
-          {isLoading && <p>Loading...</p>}
-          {!hasMore && <p>No more transactions</p>}
-        </div>
-      </div> */}
+      <Tabs defaultValue="sales" onValueChange={(value) => setActiveTab(value)}>
+        <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll">
+          <TabsTrigger
+            value="sales"
+            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+          >
+            Sales
+          </TabsTrigger>
+          <TabsTrigger
+            value="rental"
+            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+          >
+            Rental
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="sales" className="w-full mt-1">
+          <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+            {salesTransactions.map((transaction, index) => (
+              <MarketPulseCard key={index} type={activeTab} {...transaction} />
+            ))}
+            <div ref={lastElementRef}>
+              {isSalesLoading && <p>Loading...</p>}
+              {!hasMoreSales && <p>No more sales transactions</p>}
+            </div>
+          </div>
+        </TabsContent>
+        <TabsContent value="rental" className="w-full mt-1">
+          <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+            {rentalTransactions.map((transaction, index) => (
+              <MarketPulseCard key={index} type={activeTab} {...transaction} />
+            ))}
+            <div ref={lastElementRef}>
+              {isRentalLoading && <p>Loading...</p>}
+              {!hasMoreRentals && <p>No more rental transactions</p>}
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </>
   );
 }

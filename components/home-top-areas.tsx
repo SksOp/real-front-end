@@ -78,8 +78,8 @@ function HomeTopAreas() {
           yAxisDataKey={"value"}
         />
         <InsightCard>
-          Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum
-          morbi eu elit. Neque Average price: 750000.{" "}
+          Dubai’s top 9 areas account for 30% of total sales transactions in the
+          market.
         </InsightCard>
       </div>
     </ChartWrapper>

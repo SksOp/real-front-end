@@ -461,6 +461,59 @@ export const SupplyMatrices: Matrix[] = [
     description: "Forecasted supply of properties by area.",
     type: "supply",
     filters: SupplyFilter,
+    calculate_charts: {
+      key: "future_property_supply_per_area",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `${BASE_URL}/api/projects/futureSupply`,
+            { params: params }
+          );
+
+          const data = response.data.data;
+
+          const chartData = data.map((item: any) => {
+            return {
+              name: item.area,
+              value: item.future_property_supply,
+              fill: "#DDF8E4",
+            };
+          });
+          console.log(chartData);
+          return {
+            name: "Future Property Supply per Area",
+            description: "Forecasted supply of properties by area.",
+            chart_type: "horizontal_bar",
+            chartConfig: {
+              desktop: {
+                label: "Desktop",
+                color: "hsl(var(--chart-1))",
+              },
+            },
+            otherInfo: [{ key: "insideText", value: true }],
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: chartData, // Calculated data will be here
+          };
+        } catch (error) {
+          console.error(error);
+          return {
+            name: "Future Property Supply per Area",
+            description: "Forecasted supply of properties by area.",
+            chart_type: "bar",
+            chartConfig: {
+              desktop: {
+                label: "Desktop",
+                color: "hsl(var(--chart-1))",
+              },
+            },
+            sub_charts: [],
+            data: [], // Calculated data will be here
+          };
+        }
+      },
+    },
   },
   {
     key: "delivered_units_per_area_dubai",
@@ -468,12 +521,66 @@ export const SupplyMatrices: Matrix[] = [
     description: "Total units delivered per area in Dubai.",
     type: "supply",
     filters: SupplyFilter,
+    calculate_charts: {
+      key: "delivered_units_per_area_dubai",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `${BASE_URL}/api/projects/delveredUnits`,
+            { params: params }
+          );
+
+          const data = response.data.data;
+
+          const chartData = data.map((item: any) => {
+            return {
+              name: item.area,
+              value: item.delivered_units,
+              fill: "#DDF8E4",
+            };
+          });
+          console.log(chartData);
+          return {
+            name: "Delivered Units in Dubai per Area",
+            description: "Total units delivered per area in Dubai.",
+            chart_type: "horizontal_bar",
+            chartConfig: {
+              desktop: {
+                label: "Desktop",
+                color: "hsl(var(--chart-1))",
+              },
+            },
+            otherInfo: [{ key: "insideText", value: true }],
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: chartData, // Calculated data will be here
+          };
+        } catch (error) {
+          console.error(error);
+          return {
+            name: "Delivered Units in Dubai per Area",
+            description: "Total units delivered per area in Dubai.",
+            chart_type: "bar",
+            chartConfig: {
+              desktop: {
+                label: "Desktop",
+                color: "hsl(var(--chart-1))",
+              },
+            },
+            sub_charts: [],
+            data: [], // Calculated data will be here
+          };
+        }
+      },
+    },
   },
   {
     key: "total_developers",
     title: "Total Developers",
     description: "Total number of active developers in the market.",
     type: "supply",
+    filters: SupplyFilter,
     calculate_charts: {
       key: "total_developers",
       calculate: async (params) => {
@@ -506,5 +613,9 @@ export const SupplyMatrices: Matrix[] = [
     description:
       "Doughnut chart to visualise percentage distribution of planned projects.",
     type: "supply",
+    filters: SupplyFilter,
+    // calculate_charts: {
+    //   key: "planed_properties_by_completion_percentage",
+    // },
   },
 ];

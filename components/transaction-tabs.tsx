@@ -21,6 +21,11 @@ interface TransactionTabsProps {
   }[];
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
+  setFilters?: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: string | number;
+    }>
+  >;
   defaultTab?: string;
 }
 
@@ -28,6 +33,7 @@ function TransactionTabs({
   matrixData,
   selectedTab,
   setSelectedTab,
+  setFilters,
   defaultTab = "sales",
 }: TransactionTabsProps) {
   // const {
@@ -95,7 +101,7 @@ function TransactionTabs({
                 <FilterIcon />
               </DrawerTrigger>
               <DrawerContent>
-                <TransactionFilter />
+                <TransactionFilter setFilters={setFilters || (() => {})} />
               </DrawerContent>
             </Drawer>
           </div>
@@ -108,7 +114,7 @@ function TransactionTabs({
                 align="start"
                 className="max-h-[600px] overflow-y-auto"
               >
-                <TransactionFilter />
+                <TransactionFilter setFilters={setFilters || (() => {})} />
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
