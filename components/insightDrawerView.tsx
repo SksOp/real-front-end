@@ -9,6 +9,7 @@ import MatrixCard from "./matrix-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import DashboardCharts from "./dashboard-charts";
 import TransactionInsightsChart from "./transaction-insights-chart";
+import TransactionFairPrice from "./transaction-fairPrice";
 
 function InsightDrawerView({ location_name }: { location_name: string }) {
   const [selectedFilter, setSelectedFilter] = React.useState<string>("sales");
@@ -75,9 +76,9 @@ function InsightDrawerView({ location_name }: { location_name: string }) {
 
   return (
     <div className="p-4 flex flex-col gap-4 overflow-y-auto">
-      <div className="flex items-center justify-start gap-2">
+      <div className="flex items-start justify-start gap-2">
         <LightBulbIcon className="w-8 h-8" />
-        <h3 className="text-secondary text-lg font-semibold">
+        <h3 className="text-secondary text-base font-semibold">
           Insights of {location_name}
         </h3>
       </div>
@@ -127,6 +128,8 @@ function InsightDrawerView({ location_name }: { location_name: string }) {
           </TabsContent>
         </Tabs>
       </ChartWrapper>
+
+      <TransactionFairPrice />
 
       {currentChartData.map((chart, index) => (
         <TransactionInsightsChart

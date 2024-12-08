@@ -1,9 +1,11 @@
 "use client";
 import ChartException from "@/components/chartException";
+import Exceptions from "@/components/exceptions";
 import MatricesData from "@/components/matrices-data";
 import MatricesSelector from "@/components/matrices-selector";
 import { Tabs } from "@/components/ui/tabs";
 import Layout from "@/layout/secondary";
+import { SelectDataException } from "@/public/svg/exceptions";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
@@ -23,9 +25,12 @@ function KeyMatricesPage() {
               <MatricesData />
             </div>
             <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              <ChartException />
+              <Exceptions
+                svg={<SelectDataException />}
+                title="Selected details will showup here."
+                description="any drill down insights / selection will be shown here."
+              />
             </div>
-            <div className="lg:flex hidden  max-w-md justify-center "></div>
           </div>
         </Tabs>
       </div>

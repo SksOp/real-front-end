@@ -8,7 +8,7 @@ import { TabsContent } from "./ui/tabs";
 import { CompassIcon } from "@/public/svg/navIcons";
 import { cn } from "@/lib/utils";
 import Exceptions from "./exceptions";
-import { NoDataException } from "@/public/svg/exceptions";
+import { NoDataException, PremiumException } from "@/public/svg/exceptions";
 
 function DashboardData() {
   const { type } = useParams<{ type: string }>();
@@ -105,16 +105,16 @@ function DashboardData() {
         value="your-dashboards"
         className="md:flex md:flex-col grid grid-cols-2 gap-3  mt-0"
       >
-        {/* {yourDashboards.length > 0 ? (
+        {yourDashboards.length > 0 ? (
           yourDashboards
         ) : (
           <Exceptions
-            svg={<NoDataException />}
-            title="No data available for the selected filter"
-            description="No data for the selected criteria. try changing the filters."
+            svg={<PremiumException />}
+            title="This Is for Premium Users"
+            description="This feature is only available for registered brokers."
             className="col-span-2"
           />
-        )} */}
+        )}
       </TabsContent>
     </div>
   );

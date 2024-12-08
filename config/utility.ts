@@ -300,17 +300,24 @@ export const RentalTransactionApi = async (
     console.log("response", response.data.data);
 
     const transactionData = response.data.data.map((transaction: any) => {
-      const date = transaction?.INSTANCE_DATE?.value
-        ? new Date(transaction.INSTANCE_DATE.value)
+      const date = transaction?.START_DATE?.value
+        ? new Date(transaction.START_DATE.value)
         : null;
       const areaInSqft =
-        (transaction?.PROCEDURE_AREA * 10.764).toFixed(2) || "N/A";
+        (transaction?.ACTUAL_AREA * 10.764).toFixed(2) || "N/A";
+      const DIFFERENCE =
+        transaction?.Contract_difference.year +
+          " years " +
+          transaction?.Contract_difference.month +
+          " months " +
+          transaction?.Contract_difference.day +
+          " days" || 0;
       return {
-        transactionId: transaction?.TRANSACTION_NUMBER || null,
+        transactionId: transaction?.CONTRACT_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",
-        transactionAmount: transaction?.TRANS_VALUE || 0,
+        transactionAmount: transaction?.ANNUAL_AMOUNT || 0,
         date,
-        pricePerSqFt: transaction?.PROCEDURE_AREA, // Assuming static for now
+        pricePerSqFt: DIFFERENCE, // Assuming static for now
         badges: [
           transaction?.isOffplan ? "OffPlan" : "Resale",
           transaction?.PROP_TYPE_EN || "N/A",

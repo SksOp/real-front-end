@@ -1,16 +1,24 @@
+import Exceptions from "@/components/exceptions";
 import ListingSelector from "@/components/listing-selector";
 import PropertiesCard from "@/components/propertiesCard";
 import SecondaryNavbar from "@/components/secondaryNavbar";
 import { properties1 } from "@/constants/properties";
 import Layout from "@/layout/secondary";
+import { PremiumException } from "@/public/svg/exceptions";
 import Link from "next/link";
 import React from "react";
 
 function ListingPage() {
   return (
     <Layout page={"my-listings"} title="listings">
-      <div className="flex w-full justify-center  ">
-        <div className=" w-full flex flex-col gap-3 mt-16 md:mt-20">
+      <div className="flex w-full justify-center  items-center h-[calc(100vh-1rem)]">
+        <Exceptions
+          svg={<PremiumException />}
+          title="This Is for Premium Users"
+          description="This feature is only available for registered brokers."
+          className="col-span-2"
+        />
+        {/* <div className=" w-full flex flex-col gap-3 mt-16 md:mt-20">
           <h3 className="text-secondary font-semibold text-base pl-2">
             My listings ({properties1.length})
           </h3>
@@ -23,7 +31,7 @@ function ListingPage() {
             </div>
             <div className="lg:flex hidden  max-w-md justify-center "></div>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* <div className="flex flex-col gap-3 px-3 py-14">
         <h3 className="text-secondary font-semibold text-base pl-2">

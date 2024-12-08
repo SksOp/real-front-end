@@ -56,7 +56,7 @@ function MarketPulseCard({
           {area_name}
         </Badge>
         <div className="flex justify-between items-center">
-          <div className="flex flex-col gap-2 w-1/4 ">
+          <div className="flex flex-col items-center justify-start gap-2 w-1/4 ">
             <h3 className="text-muted-foreground text-sm font-normal max-w-14">
               {type === "sales" ? "Total Supply" : "Total Units"}
             </h3>
@@ -64,7 +64,7 @@ function MarketPulseCard({
               {FormatValue(total_supply)}
             </h2>
           </div>
-          <div className="flex flex-col gap-2 w-1/4">
+          <div className="flex flex-col items-center justify-start gap-2 w-1/4">
             <h3 className="text-muted-foreground text-sm font-normal max-w-14">
               {type === "sales" ? "Avg Price" : "Avg Rent"}
             </h3>
@@ -72,17 +72,17 @@ function MarketPulseCard({
               {FormatValue(avg_price)}
             </h2>
           </div>
-          <div className="flex flex-col gap-2 w-1/4">
+          <div className="flex flex-col items-center justify-start gap-2 w-1/4">
             <h3 className="text-muted-foreground text-sm font-normal max-w-20">
-              {type === "sales" ? "Avg Price Per sq. ft" : "Renewal Rate"}
+              {type === "sales" ? "Price Per sq. ft" : "Renewal Rate"}
             </h3>
             <h2 className="text-secondary/90 font-medium text-base">
               {FormatValue(avg_price_per_sqft)}
             </h2>
           </div>
-          <div className="flex flex-col gap-2 w-1/4">
+          <div className="flex flex-col items-center justify-start gap-2 w-1/4">
             <h3 className="text-muted-foreground text-sm font-normal max-w-14">
-              No. of Transactions
+              {type === "sales" ? "Sales Volume" : "Rental Volume"}
             </h3>
             <h2 className="text-secondary/90 font-medium text-base">
               {FormatValue(no_of_transactions)}

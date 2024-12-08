@@ -151,7 +151,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
           <div className="flex gap-1 justify-start items-center">
             <AreaSizeIcon className="w-[0.8rem] h-[0.8rem]" />
             <p className="text-muted-foreground font-normal text-xs">
-              {props.pricePerSqFt} sqft
+              {props.area} sqft
             </p>
           </div>
         </div>

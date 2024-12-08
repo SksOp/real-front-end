@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import MarketPulseCard from "./market-pulse-card";
 import { MarketPulseApi, MarketPulseRentalApi } from "@/config/utility";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import InsightDrawerView from "./insightDrawerView";
 
 function MarketPulseList() {
   const [activeTab, setActiveTab] = useState("sales"); // Active tab state
@@ -118,7 +120,18 @@ function MarketPulseList() {
         <TabsContent value="sales" className="w-full mt-1">
           <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
             {salesTransactions.map((transaction, index) => (
-              <MarketPulseCard key={index} type={activeTab} {...transaction} />
+              <Sheet>
+                <SheetTrigger>
+                  <MarketPulseCard
+                    key={index}
+                    type={activeTab}
+                    {...transaction}
+                  />
+                </SheetTrigger>
+                <SheetContent className="p-0  max-h-full overflow-y-auto pb-2">
+                  <InsightDrawerView location_name={transaction.area_name} />
+                </SheetContent>
+              </Sheet>
             ))}
             <div ref={lastElementRef}>
               {isSalesLoading && <p>Loading...</p>}
@@ -129,7 +142,18 @@ function MarketPulseList() {
         <TabsContent value="rental" className="w-full mt-1">
           <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
             {rentalTransactions.map((transaction, index) => (
-              <MarketPulseCard key={index} type={activeTab} {...transaction} />
+              <Sheet>
+                <SheetTrigger>
+                  <MarketPulseCard
+                    key={index}
+                    type={activeTab}
+                    {...transaction}
+                  />
+                </SheetTrigger>
+                <SheetContent className="p-0  max-h-full overflow-y-auto pb-2">
+                  <InsightDrawerView location_name={transaction.area_name} />
+                </SheetContent>
+              </Sheet>
             ))}
             <div ref={lastElementRef}>
               {isRentalLoading && <p>Loading...</p>}

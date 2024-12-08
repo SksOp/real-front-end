@@ -26,7 +26,7 @@ function DashboardPage() {
             <DashboardSelector />
           </div>
           <div className="flex gap-5 w-full">
-            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-10rem)] md:overflow-y-auto ">
+            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto ">
               <DashboardData />
             </div>
             <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">

@@ -614,8 +614,85 @@ export const SupplyMatrices: Matrix[] = [
       "Doughnut chart to visualise percentage distribution of planned projects.",
     type: "supply",
     filters: SupplyFilter,
-    // calculate_charts: {
-    //   key: "planed_properties_by_completion_percentage",
-    // },
+    calculate_charts: {
+      key: "planed_properties_by_completion_percentage",
+      calculate: async (params) => {
+        try {
+          const response = await axios.get(
+            `${BASE_URL}/api/projects/compPercent`,
+            { params: params }
+          );
+
+          const data = response.data.data;
+
+          const colors = [
+            "#EFEEFC",
+            "#DDF8E4",
+            "#FFDBDB",
+            "#E5F2FF",
+            "#FFE2E2",
+            "#FFF3E0",
+            "#E2FFEB",
+            "#E2FFEB",
+            "#FFE2E2",
+            "#FFE2E2",
+          ];
+
+          const chartData = data.map((item: any, idx: number) => {
+            return {
+              name: item.completion_range,
+              value: item.planned_properties,
+              colorClass: `bg-[${colors[idx]}]`,
+            };
+          });
+          chartData.shift();
+          console.log(chartData);
+          return {
+            name: "Planned properties by Completion Percentage",
+            description:
+              "Doughnut chart to visualise percentage distribution of planned projects.",
+            chart_type: "donut",
+            chartConfig: {
+              "0-10": { color: "#EFEEFC" },
+              "10-20": { color: "#DDF8E4" },
+              "20-30": { color: "#FFDBDB" },
+              "30-40": { color: "#E5F2FF" },
+              "40-50": { color: "#FFE2E2" },
+              "50-60": { color: "#FFF3E0" },
+              "60-70": { color: "#E2FFEB" },
+              "70-80": { color: "#E2FFEB" },
+              "80-90": { color: "#FFE2E2" },
+              "90-100": { color: "#FFE2E2" },
+            },
+            sub_charts: [],
+            insights:
+              "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+            data: chartData, // Calculated data will be here
+          };
+        } catch (error) {
+          console.error(error);
+          return {
+            name: "Planned properties by Completion Percentage",
+            description:
+              "Doughnut chart to visualise percentage distribution of planned projects.",
+            chart_type: "donut",
+            chartConfig: {
+              "0-10": { color: "#EFEEFC" },
+              "10-20": { color: "#DDF8E4" },
+              "20-30": { color: "#FFDBDB" },
+              "30-40": { color: "#E5F2FF" },
+              "40-50": { color: "#FFE2E2" },
+              "50-60": { color: "#FFF3E0" },
+              "60-70": { color: "#E2FFEB" },
+              "70-80": { color: "#E2FFEB" },
+              "80-90": { color: "#FFE2E2" },
+              "90-100": { color: "#FFE2E2" },
+            },
+            sub_charts: [],
+            data: [], // Calculated data will be here
+          };
+        }
+      },
+    },
   },
 ];

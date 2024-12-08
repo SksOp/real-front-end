@@ -19,7 +19,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/underline-tabs";
 import { logOut, useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { HamburgerIcon } from "@/public/svg/icons";
-import { CompassIcon, SettingIcon } from "@/public/svg/navIcons";
+import { MainLogo } from "@/public/svg/logo";
+import {
+  CompassIcon,
+  InsightIcon,
+  SelectedItemIcon,
+  SettingIcon,
+} from "@/public/svg/navIcons";
 import { ClassValue } from "clsx";
 import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -32,6 +38,7 @@ function Navbar({
   page?: string;
   className?: ClassValue;
 }) {
+  const [selectedTab, setSelectedTab] = React.useState<string>(page || "home");
   const router = useRouter();
   const auth = useAuth();
   const [user, setUser] = React.useState<User | null>(null);
@@ -61,70 +68,87 @@ function Navbar({
         className
       )}
     >
-      <div className="flex justify-start items-center gap-3 md:hidden">
+      <div className="flex justify-between items-center w-full md:hidden">
+        <div className="flex items-center justify-start gap-3">
+          <MainLogo />
+          <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
+        </div>
         <Sheet>
           <SheetTrigger>
             <HamburgerIcon />
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 overflow-y-scroll">
+          <SheetContent side="right" className="p-0 overflow-y-scroll">
             <SidebarContent />
           </SheetContent>
         </Sheet>
-        <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>
       </div>
       <div className="justify-between items-center gap-3 w-full hidden md:flex">
         <div className="flex justify-start gap-16">
-          <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>
-          <Tabs defaultValue={page}>
+          <div className="flex items-center justify-start gap-3">
+            <MainLogo />
+            <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
+          </div>
+          <Tabs
+            defaultValue={page}
+            value={selectedTab}
+            onValueChange={setSelectedTab}
+          >
             <TabsList>
               <TabsTrigger
                 value="home"
-                className="text-sm "
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/home")}
               >
+                {selectedTab === "home" && <SelectedItemIcon />}
                 Home
               </TabsTrigger>
               <TabsTrigger
                 value="dashboards"
-                className="text-sm"
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/dashboard")}
               >
+                {selectedTab === "dashboards" && <SelectedItemIcon />}
                 Dashboards
               </TabsTrigger>
 
               <TabsTrigger
                 value="calculators"
-                className="text-sm"
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/calculator")}
               >
+                {selectedTab === "calculators" && <SelectedItemIcon />}
                 Calculators
               </TabsTrigger>
               <TabsTrigger
                 value="transactions"
-                className="text-sm"
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/transactions")}
               >
+                {selectedTab === "transactions" && <SelectedItemIcon />}
                 Transactions
               </TabsTrigger>
               <TabsTrigger
                 value="my-listings"
-                className="text-sm"
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/listings")}
               >
+                {selectedTab === "my-listings" && <SelectedItemIcon />}
                 My Properties
               </TabsTrigger>
               <TabsTrigger
                 value="key-matrices"
-                className="text-sm"
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/key-matrics")}
               >
+                {selectedTab === "key-matrices" && <SelectedItemIcon />}
                 Key Metrics
               </TabsTrigger>
               <TabsTrigger
                 value="market-pulse"
-                className="text-sm"
+                className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/market-pulse")}
               >
+                {selectedTab === "market-pulse" && <SelectedItemIcon />}
                 Market Pulse
               </TabsTrigger>
             </TabsList>

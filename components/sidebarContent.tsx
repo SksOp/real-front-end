@@ -16,7 +16,7 @@ import {
   TransactionIcon,
 } from "@/public/svg/sidebarIcons";
 import { useRouter } from "next/navigation";
-import { KeyMatricIcon } from "@/public/svg/navIcons";
+import { KeyMatricIcon, MarketPulseIcon } from "@/public/svg/navIcons";
 import { User } from "firebase/auth";
 import { useAuth } from "@/lib/auth";
 
@@ -102,7 +102,7 @@ function SidebarContent() {
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
           onClick={() => router.push("/app/market-pulse")}
         >
-          <KeyMatricIcon />
+          <MarketPulseIcon />
           Market Pulse
         </Button>
       </div>
