@@ -200,6 +200,20 @@ function Navbar({
                   </Button>
                   <Button
                     variant={"ghost"}
+                    className="text-secondary-500 text-sm font-normal"
+                    onClick={() => router.push("/support/privacy")}
+                  >
+                    Privacy Policy
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    className="text-secondary-500 text-sm font-normal"
+                    onClick={() => router.push("/support/terms")}
+                  >
+                    Terms and Condition
+                  </Button>
+                  <Button
+                    variant={"ghost"}
                     onClick={handleLogout}
                     className="text-red-500 hover:bg-red-100 text-sm font-normal"
                   >

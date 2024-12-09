@@ -64,7 +64,11 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
       {transactions.map((transaction, index) => (
         <Drawer>
           <DrawerTrigger>
-            <TransactionCard key={index} {...transaction} />
+            <TransactionCard
+              key={index}
+              selectedTab={selectedTab}
+              {...transaction}
+            />
           </DrawerTrigger>
           <DrawerContent className="max-h-[80vh] p-0 ">
             <InsightDrawerView location_name={transaction.areaName} />

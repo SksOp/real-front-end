@@ -25,6 +25,7 @@ interface TransactionTableRowProps {
   bedrooms: number;
   area: number;
   tag: string;
+  selectedTab: string;
   isMuted?: boolean;
   isSelected?: boolean;
   onClick?: () => void;
@@ -40,6 +41,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
   bedrooms,
   area,
   tag,
+  selectedTab,
   isMuted,
   isSelected,
   onClick,
@@ -91,7 +93,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
         {/* Price Per Sq. Ft */}
         <div className="flex flex-col justify-start gap-1 w-1/6 items-start pl-8">
           <h3 className="text-muted-foreground font-medium text-[11px]">
-            Price Per sq. ft
+            {selectedTab === "sales" ? "Price Per sq. ft" : "Contract Duration"}
           </h3>
           <h3 className="text-secondary text-sm font-semibold">
             {pricePerSqFt}
@@ -208,6 +210,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               <TransactionTableRow
                 key={index}
                 {...row}
+                selectedTab={selectedTab}
                 isMuted={index % 2 === 0}
                 isSelected={selectedRow === row.transactionId}
                 onClick={() => onRowSelect?.(row.transactionId)}

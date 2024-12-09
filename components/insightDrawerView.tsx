@@ -135,7 +135,7 @@ function InsightDrawerView({
         </Tabs>
       </ChartWrapper>
 
-      <TransactionFairPrice />
+      <TransactionFairPrice priceperSqft={priceperSqft} />
 
       {currentChartData.map((chart, index) => (
         <TransactionInsightsChart

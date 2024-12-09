@@ -91,6 +91,13 @@ function TransactionPage() {
       (transaction) => transaction.transactionId === selectedRow
     )?.areaName;
   };
+
+  const getPricePerSqft = () => {
+    if (selectedTab === "rental") return;
+    return transactions.find(
+      (transaction) => transaction.transactionId === selectedRow
+    )?.pricePerSqFt;
+  };
   console.log("filters", filters);
   return (
     <Layout page="transactions" title="Transactions">
@@ -125,7 +132,10 @@ function TransactionPage() {
         </div>
         <div className="w-1/3  max-h-full overflow-y-auto ">
           {selectedRow ? (
-            <InsightDrawerView location_name={getLocationname()} />
+            <InsightDrawerView
+              priceperSqft={getPricePerSqft()}
+              location_name={getLocationname()}
+            />
           ) : (
             <Exceptions
               svg={<SelectDataException />}

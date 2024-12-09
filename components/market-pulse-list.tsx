@@ -5,6 +5,7 @@ import { MarketPulseApi, MarketPulseRentalApi } from "@/config/utility";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import InsightDrawerView from "./insightDrawerView";
+import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 
 function MarketPulseList() {
   const [activeTab, setActiveTab] = useState("sales"); // Active tab state
@@ -118,7 +119,30 @@ function MarketPulseList() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="sales" className="w-full mt-1">
-          <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+          <div className="flex flex-col gap-3 md:hidden">
+            {salesTransactions.map((transaction, index) => (
+              <Drawer>
+                <DrawerTrigger>
+                  <MarketPulseCard
+                    key={index}
+                    type={activeTab}
+                    {...transaction}
+                  />
+                </DrawerTrigger>
+                <DrawerContent className="max-h-[80vh] p-0 ">
+                  <InsightDrawerView
+                    priceperSqft={
+                      activeTab === "sales"
+                        ? transaction.avg_price_per_sqft
+                        : null
+                    }
+                    location_name={transaction.area_name}
+                  />
+                </DrawerContent>
+              </Drawer>
+            ))}
+          </div>
+          <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
             {salesTransactions.map((transaction, index) => (
               <Sheet>
                 <SheetTrigger>
@@ -128,8 +152,15 @@ function MarketPulseList() {
                     {...transaction}
                   />
                 </SheetTrigger>
-                <SheetContent className="p-0  max-h-full overflow-y-auto pb-2">
-                  <InsightDrawerView location_name={transaction.area_name} />
+                <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
+                  <InsightDrawerView
+                    priceperSqft={
+                      activeTab === "sales"
+                        ? transaction.avg_price_per_sqft
+                        : null
+                    }
+                    location_name={transaction.area_name}
+                  />
                 </SheetContent>
               </Sheet>
             ))}
@@ -140,7 +171,30 @@ function MarketPulseList() {
           </div>
         </TabsContent>
         <TabsContent value="rental" className="w-full mt-1">
-          <div className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+          <div className="flex flex-col gap-3 md:hidden">
+            {rentalTransactions.map((transaction, index) => (
+              <Drawer>
+                <DrawerTrigger>
+                  <MarketPulseCard
+                    key={index}
+                    type={activeTab}
+                    {...transaction}
+                  />
+                </DrawerTrigger>
+                <DrawerContent className="max-h-[80vh] p-0 ">
+                  <InsightDrawerView
+                    priceperSqft={
+                      activeTab === "sales"
+                        ? transaction.avg_price_per_sqft
+                        : null
+                    }
+                    location_name={transaction.area_name}
+                  />
+                </DrawerContent>
+              </Drawer>
+            ))}
+          </div>
+          <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
             {rentalTransactions.map((transaction, index) => (
               <Sheet>
                 <SheetTrigger>
@@ -150,14 +204,21 @@ function MarketPulseList() {
                     {...transaction}
                   />
                 </SheetTrigger>
-                <SheetContent className="p-0  max-h-full overflow-y-auto pb-2">
-                  <InsightDrawerView location_name={transaction.area_name} />
+                <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
+                  <InsightDrawerView
+                    priceperSqft={
+                      activeTab === "sales"
+                        ? transaction.avg_price_per_sqft
+                        : null
+                    }
+                    location_name={transaction.area_name}
+                  />
                 </SheetContent>
               </Sheet>
             ))}
             <div ref={lastElementRef}>
-              {isRentalLoading && <p>Loading...</p>}
-              {!hasMoreRentals && <p>No more rental transactions</p>}
+              {isSalesLoading && <p>Loading...</p>}
+              {!hasMoreSales && <p>No more sales transactions</p>}
             </div>
           </div>
         </TabsContent>

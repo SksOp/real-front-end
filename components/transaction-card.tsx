@@ -52,6 +52,7 @@ interface TransactionCardProps {
   bedrooms: number;
   area: number;
   tag: string;
+  selectedTab?: string;
 }
 
 const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
@@ -101,7 +102,11 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
         <h1 className="text-secondary text-sm font-semibold flex gap-1 items-center justify-start">
           {FormatValue(props.transactionAmount)}
           <span className="text-muted-foreground text-sm font-medium ">
-            ({props.pricePerSqFt} per sq. ft)
+            (
+            {props.selectedTab === "sales"
+              ? props.pricePerSqFt + " per sq. ft"
+              : props.pricePerSqFt}
+            )
           </span>
           {/* {22 > 0 ? (
             <div className="flex items-center justify-start gap-0.5">
