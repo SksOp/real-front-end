@@ -1,8 +1,12 @@
 "use client";
 import ChartException from "@/components/chartException";
 import Exceptions from "@/components/exceptions";
+import Feedback from "@/components/feedback";
+import FrequentQuestions from "@/components/frequent-questions";
+import HomeIntro from "@/components/home-intro";
 import MatricesData from "@/components/matrices-data";
 import MatricesSelector from "@/components/matrices-selector";
+import SharingCard from "@/components/sharingCard";
 import { Tabs } from "@/components/ui/tabs";
 import Layout from "@/layout/secondary";
 import { SelectDataException } from "@/public/svg/exceptions";

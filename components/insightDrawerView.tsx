@@ -38,11 +38,9 @@ function InsightDrawerView({
     allChartsRental.shift();
 
     allChartsSales.forEach((chart) => {
-      chart.sub_charts = [];
       chart.filters = [];
     });
     allChartsRental.forEach((chart) => {
-      chart.sub_charts = [];
       chart.filters = [];
     });
 
@@ -145,6 +143,7 @@ function InsightDrawerView({
           title={chart.name}
           chartConfig={chart.chartConfig}
           data={chart.data}
+          subcharts={chart.sub_charts}
           columns={chart.columns}
           description={chart.description}
           otherInfo={chart.otherInfo}

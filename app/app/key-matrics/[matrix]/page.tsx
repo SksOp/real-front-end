@@ -1,9 +1,13 @@
 "use client";
 import DashboardCharts from "@/components/dashboard-charts";
+import Feedback from "@/components/feedback";
 import Filters from "@/components/filters";
+import FrequentQuestions from "@/components/frequent-questions";
+import HomeIntro from "@/components/home-intro";
 import MatricesData from "@/components/matrices-data";
 import MatricesSelector from "@/components/matrices-selector";
 import MatrixCard from "@/components/matrix-card";
+import SharingCard from "@/components/sharingCard";
 import { Tabs } from "@/components/ui/tabs";
 import { KeyMatrices, Matrix } from "@/config/matrices";
 import { ChartDescription, MatrixData } from "@/config/types";

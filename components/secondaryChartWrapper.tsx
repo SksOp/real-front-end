@@ -17,7 +17,7 @@ function SecondaryChartWrapper({
       className={cn("border rounded-xl w-full bg-background p-0", className)}
     >
       <CardHeader className="py-4 px-3">
-        <CardTitle className="text-base text-accent font-normal line-clamp-2">
+        <CardTitle className="text-sm font-semibold text-secondary">
           {title}
         </CardTitle>
       </CardHeader>

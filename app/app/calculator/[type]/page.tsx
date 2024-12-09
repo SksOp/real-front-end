@@ -19,6 +19,8 @@ import { Calculators } from "@/config/calculators";
 import Layout from "@/layout/secondary";
 import CalculatorSelector from "@/components/calculator-selector";
 import { XIcon } from "lucide-react";
+import Exceptions from "@/components/exceptions";
+import { SelectDataException } from "@/public/svg/exceptions";
 
 function CalculatorPage() {
   const [showOutput, setShowOutput] = useState<boolean>(false);
@@ -244,73 +246,58 @@ function CalculatorPage() {
           </div>
 
           {/* Inputs Section */}
-          <div className="md:flex md:flex-col md:w-1/3 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto px-2">
-            <Accordion
-              type="single"
-              defaultValue="input"
-              className="w-full"
-              collapsible
-            >
-              <AccordionItem value="input">
-                <AccordionTrigger className="text-base text-secondary w-full font-semibold">
-                  Inputs
-                </AccordionTrigger>
-                <AccordionContent className="flex flex-col items-start justify-center gap-5 w-full">
-                  <CalculatorPropertySelector />
-                  {calculator?.inputs.map((input) => (
-                    <CalculatorInputs
-                      key={input.key}
-                      uniqueKey={input.key}
-                      type={input.type}
-                      title={input.label}
-                      value={inputValues[input?.key]}
-                      searchable={input.searchable}
-                      onChange={(value) => handleInputChange(input.key, value)}
-                      min={input.min}
-                      max={input.max}
-                      step={input.step}
-                      options={input.options}
-                      source={input.source}
-                      is_mandatory={input.is_mandatory}
-                      placeholder={input.placeholder ?? "Enter value"}
-                      default_value={input.default_value}
-                      additionalTexts={input.helper_text}
-                    />
-                  ))}
+          <div className="md:flex md:flex-col md:w-[45%] hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto px-2">
+            <div className="flex flex-col gap-3 w-full pt-2 ">
+              <h3 className="text-lg font-semibold text-secondary">Inputs</h3>
+              <div className="flex flex-col items-start justify-center gap-5 w-full">
+                <CalculatorPropertySelector />
+                {calculator?.inputs.map((input) => (
+                  <CalculatorInputs
+                    key={input.key}
+                    uniqueKey={input.key}
+                    type={input.type}
+                    title={input.label}
+                    value={inputValues[input?.key]}
+                    searchable={input.searchable}
+                    onChange={(value) => handleInputChange(input.key, value)}
+                    min={input.min}
+                    max={input.max}
+                    step={input.step}
+                    options={input.options}
+                    source={input.source}
+                    is_mandatory={input.is_mandatory}
+                    placeholder={input.placeholder ?? "Enter value"}
+                    default_value={input.default_value}
+                    additionalTexts={input.helper_text}
+                  />
+                ))}
 
-                  {/* Calculate Button */}
-                  <div className="w-full flex justify-end items-center gap-4 pt-4">
-                    <Button
-                      variant={"outline"}
-                      className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/4 h-14 rounded-xl border"
-                      // onClick={}
-                    >
-                      Clear All
-                    </Button>
-                    <Button
-                      variant={"secondary"}
-                      className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/4 h-14 rounded-xl border"
-                      onClick={handleCalculate}
-                      disabled={isButtonDisabled}
-                    >
-                      Calculate
-                    </Button>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                {/* Calculate Button */}
+                <div className="w-full flex justify-end items-center gap-4 pt-4">
+                  <Button
+                    variant={"outline"}
+                    className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/4 h-14 rounded-xl border"
+                    // onClick={}
+                  >
+                    Clear All
+                  </Button>
+                  <Button
+                    variant={"secondary"}
+                    className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/4 h-14 rounded-xl border"
+                    onClick={handleCalculate}
+                    disabled={isButtonDisabled}
+                  >
+                    Calculate
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Output Section */}
-          {showOutput && (
-            <div className="lg:flex md:w-1/3 hidden max-w-md justify-center md:max-h-[calc(100vh-7rem)] md:overflow-y-auto  ">
-              {/* Close Button */}
-              <XIcon
-                className="absolute top-2 right-2 border-0 cursor-pointer"
-                onClick={() => setShowOutput(false)}
-              />
 
-              {/* Output Content */}
+          <div className="md:flex md:flex-col w-1/3  hidden flex-grow gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
+            {showOutput ? (
               <div className="flex flex-col items-start justify-start gap-4 w-full mt-4">
                 <h3 className="text-lg font-semibold text-secondary">
                   Calculation Result
@@ -331,8 +318,14 @@ function CalculatorPage() {
                   />
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <Exceptions
+                svg={<SelectDataException />}
+                title="Calculated metrics will showup here."
+                description="Add details and click to calculate."
+              />
+            )}
+          </div>
         </div>
       </div>
     </Layout>

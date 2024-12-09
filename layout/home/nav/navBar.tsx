@@ -19,13 +19,21 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/underline-tabs";
 import { logOut, useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { HamburgerIcon } from "@/public/svg/icons";
-import { MainLogo } from "@/public/svg/logo";
+import { HomeLogo, MainLogo } from "@/public/svg/logo";
 import {
   CompassIcon,
   InsightIcon,
+  KeyMatricIcon,
+  MarketPulseIcon,
   SelectedItemIcon,
   SettingIcon,
 } from "@/public/svg/navIcons";
+import {
+  CalculatorIcon,
+  DashboardIcon,
+  MyPropertiesIcon,
+  TransactionIcon,
+} from "@/public/svg/sidebarIcons";
 import { ClassValue } from "clsx";
 import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -99,7 +107,9 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/home")}
               >
-                {selectedTab === "home" && <SelectedItemIcon />}
+                {selectedTab === "home" && (
+                  <HomeLogo className="stroke-[#121212]" />
+                )}
                 Home
               </TabsTrigger>
               <TabsTrigger
@@ -107,7 +117,7 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/dashboard")}
               >
-                {selectedTab === "dashboards" && <SelectedItemIcon />}
+                {selectedTab === "dashboards" && <DashboardIcon />}
                 Dashboards
               </TabsTrigger>
 
@@ -116,7 +126,7 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/calculator")}
               >
-                {selectedTab === "calculators" && <SelectedItemIcon />}
+                {selectedTab === "calculators" && <CalculatorIcon />}
                 Calculators
               </TabsTrigger>
               <TabsTrigger
@@ -124,7 +134,7 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/transactions")}
               >
-                {selectedTab === "transactions" && <SelectedItemIcon />}
+                {selectedTab === "transactions" && <TransactionIcon />}
                 Transactions
               </TabsTrigger>
               <TabsTrigger
@@ -132,7 +142,7 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/listings")}
               >
-                {selectedTab === "my-listings" && <SelectedItemIcon />}
+                {selectedTab === "my-listings" && <MyPropertiesIcon />}
                 My Properties
               </TabsTrigger>
               <TabsTrigger
@@ -140,7 +150,7 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/key-matrics")}
               >
-                {selectedTab === "key-matrices" && <SelectedItemIcon />}
+                {selectedTab === "key-matrices" && <KeyMatricIcon />}
                 Key Metrics
               </TabsTrigger>
               <TabsTrigger
@@ -148,7 +158,7 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/market-pulse")}
               >
-                {selectedTab === "market-pulse" && <SelectedItemIcon />}
+                {selectedTab === "market-pulse" && <MarketPulseIcon />}
                 Market Pulse
               </TabsTrigger>
             </TabsList>
@@ -192,12 +202,12 @@ function Navbar({
                   </div>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-4">
-                  <Button
+                  {/* <Button
                     variant={"ghost"}
                     className="text-secondary-500 text-sm font-normal"
                   >
                     Change Profile picture
-                  </Button>
+                  </Button> */}
                   <Button
                     variant={"ghost"}
                     className="text-secondary-500 text-sm font-normal"

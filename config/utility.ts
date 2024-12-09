@@ -358,7 +358,7 @@ export const MarketPulseApi = async (pageNo?: number) => {
       `${BASE_URL}/api/transaction/marketPulse/pages/${pageNo}`
     );
 
-    console.log("response", response.data.data);
+    console.log("response market pulse", response.data.data);
 
     const months = [
       "Jan",

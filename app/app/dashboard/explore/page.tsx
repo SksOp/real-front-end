@@ -239,10 +239,7 @@ function ExplorePage() {
       </div>
 
       <div className="md:flex w-full justify-between hidden ">
-        <Tabs
-          defaultValue={"all-dashboards"}
-          className="flex flex-col w-full px-2"
-        >
+        <Tabs defaultValue={"standard"} className="flex flex-col w-full px-2">
           <div className="flex w-full items-center justify-center gap-5 pt-20 pb-2">
             <DashboardSelector />
           </div>

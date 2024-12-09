@@ -10,6 +10,8 @@ import ChartException from "./chartException";
 import ChartWrapper from "./chart/chartWrapper";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import DonutChartComponent from "./chart/donutChart/donutChart";
+import SecondaryChartWrapper from "./secondaryChartWrapper";
+import { cn } from "@/lib/utils";
 
 interface TransactionInsightsChartProps {
   dashboardType: "sales" | "rental" | null;
@@ -19,6 +21,7 @@ interface TransactionInsightsChartProps {
   viewAll?: boolean;
   chartConfig: ChartConfig;
   data: any;
+  subcharts?: any[];
   columns?: string[];
   filters?: any[];
   selectedFilter: string;
@@ -34,6 +37,7 @@ function TransactionInsightsChart({
   description,
   chartConfig,
   data,
+  subcharts = [],
   columns = [],
   selectedFilter,
   setSelectedFilter,
@@ -50,6 +54,9 @@ function TransactionInsightsChart({
     if (data?.length === 0 || !data) {
       return <ChartException />;
     }
+
+    const getLocationRow = () => {};
+
     switch (type) {
       case "bar":
         return (
@@ -139,6 +146,29 @@ function TransactionInsightsChart({
         </TabsList>
       </Tabs>
       {renderChart(type, data, chartConfig, columns, className)}
+      <div className="flex flex-col md:grid md:grid-cols-2 gap-3 mt-4 mb-2">
+        {subcharts?.map((chart, idx, arr) => {
+          return (
+            <SecondaryChartWrapper
+              key={chart.key}
+              title={chart.name}
+              className={cn(
+                "overflow-scroll ",
+                arr.length % 2 !== 0 && idx === arr.length - 1
+                  ? "col-span-2"
+                  : ""
+              )}
+            >
+              {renderChart(
+                chart.chart_type,
+                chart.data,
+                chart.chartConfig,
+                columns
+              )}
+            </SecondaryChartWrapper>
+          );
+        })}
+      </div>
     </ChartWrapper>
   );
 }
