@@ -11,8 +11,10 @@ import {
   DashboardIcon,
   LogoutIcon,
   MyPropertiesIcon,
+  PrivacyIcon,
   SupportIcon,
   ThemeIcon,
+  TNCIcon,
   TransactionIcon,
 } from "@/public/svg/sidebarIcons";
 import { useRouter } from "next/navigation";
@@ -115,7 +117,7 @@ function SidebarContent() {
           <AddToHomeIcon />
           Add to Home Screen
         </Button>
-        <div className="flex justify-between items-center hover:bg-primary/10 w-full">
+        {/* <div className="flex justify-between items-center hover:bg-primary/10 w-full">
           <Button
             variant="ghost"
             className="w-full justify-start items-center hover:bg-transparent flex gap-3 text-secondary font-normal text-sm px-2"
@@ -138,13 +140,31 @@ function SidebarContent() {
         >
           <ContactUsIcon />
           Submit Feedback
-        </Button>
+        </Button> */}
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
         >
           <SupportIcon />
           Support
+        </Button>
+
+        <Button
+          variant="ghost"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/support/privacy")}
+        >
+          <PrivacyIcon />
+          Privacy
+        </Button>
+
+        <Button
+          variant="ghost"
+          className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={() => router.push("/support/terms")}
+        >
+          <TNCIcon />
+          Terms & Conditions
         </Button>
 
         <Button

@@ -207,3 +207,59 @@ export function LogoutIcon({ className }: Props) {
     </svg>
   );
 }
+
+export function PrivacyIcon({ className }: Props) {
+  return (
+    <svg
+      className={cn("", className)}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"
+        stroke="#5C5C5C"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9 12L11 14L15 10"
+        stroke="#5C5C5C"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function TNCIcon({ className }: Props) {
+  return (
+    <svg
+      className={cn("", className)}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12.1 3C10.9 3 9.7 3.6 9.1 4.7C8.5012 4.54669 7.87302 4.55015 7.27595 4.71003C6.67887 4.86991 6.13302 5.18082 5.69096 5.61284C5.24889 6.04486 4.92551 6.58342 4.75195 7.17666C4.57839 7.7699 4.5605 8.39784 4.7 9C3.7 9.6 3 10.8 3 12C3 13.2 3.7 14.4 4.7 15C4.4 16.2 4.7 17.5 5.7 18.4C6.5 19.2 7.8 19.6 9 19.4C9.6 20.4 10.8 21 12 21C13.2 21 14.4 20.4 15 19.3C16.2 19.6 17.5 19.3 18.4 18.3C19.2 17.5 19.6 16.3 19.4 15C20.4 14.4 21 13.2 21 12C21 10.8 20.4 9.6 19.3 9C19.6 7.8 19.3 6.5 18.3 5.6C17.8725 5.17793 17.3486 4.86631 16.7736 4.69208C16.1987 4.51785 15.5899 4.48624 15 4.6C14.4 3.6 13.2 3 12 3H12.1Z"
+        stroke="#5C5C5C"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.09961 12L11.0996 14L15.0996 10"
+        stroke="#5C5C5C"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
