@@ -15,7 +15,6 @@ import Layout from "@/layout/secondary";
 import { SelectDataException } from "@/public/svg/exceptions";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
-import { start } from "repl";
 
 function TransactionPage() {
   const searchParams = useSearchParams();
@@ -26,7 +25,7 @@ function TransactionPage() {
   const [totalPages, setTotalPages] = React.useState(0);
   const [filters, setFilters] = React.useState<{
     [key: string]: string | number;
-  }>();
+  }>({});
 
   useEffect(() => {
     const type = searchParams.get("type");
@@ -38,32 +37,42 @@ function TransactionPage() {
       const date = new Date();
       const presentYear = date.getFullYear();
 
+      const filterParams = {
+        ...filters,
+        start_year: presentYear - 1,
+        end_year: presentYear,
+      };
+
       if (selectedTab === "sales") {
-        const response = await SalesTransactionApi(1);
+        const response = await SalesTransactionApi(1, filterParams);
         const sourceURL = `${BASE_URL}/api/transaction/trends`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", {
-          start_year: presentYear - 1,
-          end_year: presentYear,
-        });
+        const matrixOutput = await CalculateMatrix(
+          sourceURL,
+          "sales",
+          filterParams
+        );
         setMatrixDataPage(matrixOutput);
         setTotalPages(response.totalPages);
         setTransactions(response.transactions);
       } else if (selectedTab === "rental") {
-        const response = await RentalTransactionApi(1);
+        const response = await RentalTransactionApi(1, filterParams);
         const sourceURL = `${BASE_URL}/api/rental/average`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "rental", {
-          start_year: presentYear - 1,
-          end_year: presentYear,
-        });
+        const matrixOutput = await CalculateMatrix(
+          sourceURL,
+          "rental",
+          filterParams
+        );
         setMatrixDataPage(matrixOutput);
         setTotalPages(response.totalPages);
         setTransactions(response.transactions);
       } else if (selectedTab === "mortgage") {
-        const response = await SalesTransactionApi(1, { group_en: "Mortgage" });
+        const response = await SalesTransactionApi(1, {
+          ...filterParams,
+          group_en: "Mortgage",
+        });
         const sourceURL = `${BASE_URL}/api/transaction/trends`;
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", {
-          start_year: presentYear - 1,
-          end_year: presentYear,
+          ...filterParams,
           group_en: "Mortgage",
         });
 
@@ -75,14 +84,14 @@ function TransactionPage() {
     };
     setSelectedRow(null);
     fetchTransactions();
-  }, [selectedTab]);
+  }, [selectedTab, filters]);
 
   const getLocationname = () => {
     return transactions.find(
       (transaction) => transaction.transactionId === selectedRow
     )?.areaName;
   };
-
+  console.log("filters", filters);
   return (
     <Layout page="transactions" title="Transactions">
       <div className="flex flex-col gap-3 px-3  pt-12 md:hidden">
@@ -90,9 +99,10 @@ function TransactionPage() {
           matrixData={MatrixDataPage}
           defaultTab={selectedTab}
           selectedTab={selectedTab}
+          setFilters={setFilters}
           setSelectedTab={setSelectedTab}
         />
-        <TransactionsList selectedTab={selectedTab} />
+        <TransactionsList selectedTab={selectedTab} filters={filters} />
       </div>
 
       <div className="hidden md:flex w-full gap-3 px-3 pt-20  max-h-screen ">
@@ -101,6 +111,7 @@ function TransactionPage() {
             matrixData={MatrixDataPage}
             defaultTab={selectedTab}
             selectedTab={selectedTab}
+            setFilters={setFilters}
             setSelectedTab={setSelectedTab}
           />
           <TransactionTable
@@ -109,6 +120,7 @@ function TransactionPage() {
             onRowSelect={(index) => setSelectedRow(index)}
             totalPages={totalPages}
             data={transactions}
+            filters={filters}
           />
         </div>
         <div className="w-1/3  max-h-full overflow-y-auto ">

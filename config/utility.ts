@@ -20,6 +20,7 @@ import {
   SalesValueTrend,
 } from "./sales";
 import { BASE_URL } from "./constant";
+import { FormatValue } from "@/utils/formatNumbers";
 
 export const ConvertedParams = (params: { [key: string]: string | number }) => {
   const convertedParams: { [key: string]: string } = {};
@@ -235,6 +236,7 @@ export const SalesTransactionApi = async (
   params?: { [key: string]: string | number }
 ) => {
   try {
+    console.log(params);
     pageNo = pageNo || 1;
     const response = await axios.get(
       `${BASE_URL}/api/transaction/pages/${pageNo}`,
@@ -250,9 +252,11 @@ export const SalesTransactionApi = async (
         ? new Date(transaction.INSTANCE_DATE.value)
         : null;
       const areaInSqft =
-        (transaction?.PROCEDURE_AREA * 10.764).toFixed(2) || "N/A";
+        FormatValue((transaction?.PROCEDURE_AREA * 10.764).toFixed(2)) || "N/A";
       const pricePerSqFt =
-        (transaction?.TRANS_VALUE / parseFloat(areaInSqft)).toFixed(2) || 0;
+        FormatValue(
+          (transaction?.TRANS_VALUE / parseFloat(areaInSqft)).toFixed(2)
+        ) || 0;
       return {
         transactionId: transaction?.TRANSACTION_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",
@@ -304,14 +308,16 @@ export const RentalTransactionApi = async (
         ? new Date(transaction.START_DATE.value)
         : null;
       const areaInSqft =
-        (transaction?.ACTUAL_AREA * 10.764).toFixed(2) || "N/A";
-      const DIFFERENCE =
-        transaction?.Contract_difference.year +
-          " years " +
-          transaction?.Contract_difference.month +
-          " months " +
-          transaction?.Contract_difference.day +
-          " days" || 0;
+        FormatValue((transaction?.ACTUAL_AREA * 10.764).toFixed(2)) || "N/A";
+      const { year, month, day } = transaction?.Contract_difference || {};
+
+      const DIFFERENCE = year
+        ? `${year} years${month ? ` ${month} months` : ""}`
+        : month
+        ? `${month} months`
+        : day
+        ? `${day} days`
+        : "0";
       return {
         transactionId: transaction?.CONTRACT_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",

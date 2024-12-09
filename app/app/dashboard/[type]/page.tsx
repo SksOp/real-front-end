@@ -147,7 +147,7 @@ function DashboardDetailPage() {
                 onChange={handleFilterChange}
               />
 
-              {matrixData?.length === 0 && charts?.length === 0 ? (
+              {matrixData && matrixData[3].value === "N/A" ? (
                 <Exceptions
                   svg={<NoDataException />}
                   title="This Is for Premium Users"

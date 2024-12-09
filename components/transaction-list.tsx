@@ -7,9 +7,12 @@ import InsightDrawerView from "./insightDrawerView";
 
 interface TransactionsListProps {
   selectedTab: string;
+  filters: {
+    [key: string]: string | number;
+  };
 }
 
-const TransactionsList = ({ selectedTab }: TransactionsListProps) => {
+const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
   const [transactions, setTransactions] = useState<any[]>([]); // List of transactions
   const [page, setPage] = useState(1); // Current page number
   const [isLoading, setIsLoading] = useState(false); // Loading state
@@ -20,35 +23,18 @@ const TransactionsList = ({ selectedTab }: TransactionsListProps) => {
   const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
-          setPage((prev) => prev + 1); // Increment page number
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    return () => observer.current?.disconnect();
-  }, [hasMore, isLoading]);
-
-  // Fetch transactions dynamically
-  useEffect(() => {
     const fetchTransactions = async () => {
       setIsLoading(true);
       try {
         const response =
           selectedTab === "sales"
-            ? await SalesTransactionApi(page)
+            ? await SalesTransactionApi(page, filters)
             : selectedTab === "mortgage"
-            ? await SalesTransactionApi(page, { group_en: "Mortgage" })
-            : await RentalTransactionApi(page);
+            ? await SalesTransactionApi(page, {
+                ...filters,
+                group_en: "Mortgage",
+              })
+            : await RentalTransactionApi(page, filters);
 
         setTransactions((prev) =>
           page === 1
@@ -65,13 +51,13 @@ const TransactionsList = ({ selectedTab }: TransactionsListProps) => {
     };
 
     fetchTransactions();
-  }, [page, selectedTab]);
+  }, [page, selectedTab, filters]);
 
   useEffect(() => {
     setTransactions([]);
     setPage(1);
     setHasMore(true);
-  }, [selectedTab]);
+  }, [selectedTab, filters]);
 
   return (
     <div className="flex flex-col gap-3">

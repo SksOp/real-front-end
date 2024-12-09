@@ -1,8 +1,9 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import DatePicker from "./date-picker";
 import { Button } from "./ui/button";
+import DatePicker from "./date-picker";
+import CalculatorInputs from "./calculator-inputs";
+import { TransactionFilterOptions } from "@/config/filters";
 
 function TransactionFilter({
   setFilters,
@@ -13,51 +14,58 @@ function TransactionFilter({
     }>
   >;
 }) {
-  const [fromDate, setFromDate] = useState<Date>(new Date());
-  const [toDate, setToDate] = useState<Date>(new Date());
-  const filterOptions = [];
+  const [localFilters, setLocalFilters] = useState<{
+    [key: string]: string | number;
+  }>({});
 
-  const handleFilterChange = (name: string, value: string) => {};
+  const handleFilterChange = (name: string, value: string | number) => {
+    setLocalFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
 
-  const handleDateChange = (date: Date | undefined) => {
+  const handleDateChange = (name: string, date: Date | undefined) => {
     if (date) {
-      setFromDate(date);
+      // Format date in local timezone
+      const formattedDate = date.toISOString().split("T")[0]; // If you need UTC format
+      const localDate = date.toLocaleDateString("en-CA"); // "YYYY-MM-DD" in local time
+      setLocalFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: localDate, // Use localDate to avoid UTC shift
+      }));
+    } else {
+      setLocalFilters((prevFilters) => {
+        const updatedFilters = { ...prevFilters };
+        delete updatedFilters[name];
+        return updatedFilters;
+      });
     }
+  };
+
+  const applyFilters = () => {
+    console.log(localFilters);
+    setFilters(localFilters);
   };
 
   return (
     <div className="flex flex-col gap-4 p-4">
       <h3 className="text-center text-secondary text-base font-bold">Filter</h3>
       <div className="flex flex-col gap-5">
-        {/* {filterOptions.map((filter) => (
-          <div key={filter.name} className="flex flex-col gap-2">
-            <Label className="text-secondary font-semibold text-sm">
-              {filter.label}
-            </Label>
-            <RadioGroup
-              className="flex justify-start items-center gap-5 py-2"
-              onValueChange={(value) => handleFilterChange(filter.name, value)}
-            >
-              {filter.options.map((option) => (
-                <div
-                  key={option.value}
-                  className="flex items-center justify-start gap-1"
-                >
-                  <RadioGroupItem
-                    value={option.value}
-                    className="text-secondary border-accent"
-                  />
-                  <Label
-                    htmlFor={option.value}
-                    className="text-muted-foreground font-normal text-sm"
-                  >
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </div>
-        ))} */}
+        {TransactionFilterOptions.map((option) => (
+          <CalculatorInputs
+            key={option.key}
+            uniqueKey={option.key}
+            title={option.label}
+            type={option.type}
+            options={option.options}
+            is_mandatory={option.is_mandatory}
+            source={option.source}
+            searchable={option.searchable}
+            value={localFilters[option.key]}
+            onChange={(value) => handleFilterChange(option.key, value)}
+          />
+        ))}
         <div className="flex flex-col gap-2">
           <Label
             htmlFor="date-range"
@@ -74,8 +82,12 @@ function TransactionFilter({
                 From
               </Label>
               <DatePicker
-                date={fromDate}
-                setDate={(date: Date | undefined) => handleDateChange(date)}
+                date={
+                  localFilters.start_date
+                    ? new Date(localFilters.start_date)
+                    : undefined
+                }
+                setDate={(date) => handleDateChange("start_date", date)}
               />
             </div>
             <div>
@@ -86,26 +98,29 @@ function TransactionFilter({
                 To
               </Label>
               <DatePicker
-                date={toDate}
-                setDate={(date: Date | undefined) => handleDateChange(date)}
+                date={
+                  localFilters.end_date
+                    ? new Date(localFilters.end_date)
+                    : undefined
+                }
+                setDate={(date) => handleDateChange("end_date", date)}
               />
             </div>
           </div>
         </div>
       </div>
-
       <div className="w-full flex justify-end items-center gap-4 pt-4">
         <Button
           variant={"outline"}
           className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/2 h-14 rounded-xl border"
-          // onClick={}
+          onClick={() => setLocalFilters({})}
         >
           Clear All
         </Button>
         <Button
           variant={"secondary"}
           className="text-background flex text-sm justify-center items-center gap-4 focus:bg-none font-semibold w-1/2 h-14 rounded-xl border"
-          // onClick={() => handleCalculate(filters)}
+          onClick={applyFilters}
         >
           Explore
         </Button>

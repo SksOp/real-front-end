@@ -11,7 +11,13 @@ import DashboardCharts from "./dashboard-charts";
 import TransactionInsightsChart from "./transaction-insights-chart";
 import TransactionFairPrice from "./transaction-fairPrice";
 
-function InsightDrawerView({ location_name }: { location_name: string }) {
+function InsightDrawerView({
+  location_name,
+  priceperSqft,
+}: {
+  location_name: string;
+  priceperSqft?: number;
+}) {
   const [selectedFilter, setSelectedFilter] = React.useState<string>("sales");
   const [salesMatrix, setSalesMatrix] = React.useState<MatrixData[]>([]);
   const [rentalMatrix, setRentalMatrix] = React.useState<MatrixData[]>([]);

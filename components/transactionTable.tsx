@@ -139,9 +139,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             variant="outline"
             className={cn(
               "text-white font-medium text-[11px] py-1",
-              tag === "First" || tag === "Renew"
-                ? "bg-[#8177E5]"
-                : "bg-[#509BDC]"
+              tag === "First" || tag === "New" ? "bg-[#8177E5]" : "bg-[#509BDC]"
             )}
           >
             {tag}
@@ -155,6 +153,9 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
 interface TransactionTableProps {
   data: TransactionTableRowProps[];
   totalPages: number;
+  filters: {
+    [key: string]: string | number;
+  };
   selectedTab: string;
   selectedRow?: string | null;
   onRowSelect?: (index: string) => void;
@@ -165,6 +166,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   selectedTab,
   selectedRow,
   totalPages,
+  filters,
   onRowSelect,
 }) => {
   const [pageIndex, setPageIndex] = React.useState(1);
@@ -173,25 +175,23 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
   const fetchTransactions = async (page: number) => {
     if (selectedTab === "sales") {
-      const response = await SalesTransactionApi(page);
-      console.log(response);
+      const response = await SalesTransactionApi(page, filters);
       setTransactions(response.transactions);
     } else if (selectedTab === "rental") {
-      const response = await RentalTransactionApi(page);
-      console.log(response);
+      const response = await RentalTransactionApi(page, filters);
       setTransactions(response.transactions);
     } else if (selectedTab === "mortgage") {
       const response = await SalesTransactionApi(page, {
+        ...filters,
         group_en: "Mortgage",
       });
-      console.log(response);
       setTransactions(response.transactions);
     }
   };
 
   useEffect(() => {
     fetchTransactions(pageIndex);
-  }, [pageIndex, selectedTab]);
+  }, [pageIndex, selectedTab, filters]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {

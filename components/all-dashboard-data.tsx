@@ -9,6 +9,7 @@ import { CompassIcon } from "@/public/svg/navIcons";
 import { cn } from "@/lib/utils";
 import Exceptions from "./exceptions";
 import { NoDataException, PremiumException } from "@/public/svg/exceptions";
+import { ExploreIcon } from "@/public/svg/mortageCalculatorIcon";
 
 function DashboardData() {
   const { type } = useParams<{ type: string }>();
@@ -51,16 +52,21 @@ function DashboardData() {
           }
         >
           <div className="flex justify-between items-center">
-            <h3 className="text-secondary font-semibold text-base">
-              {"Explore dubai from your own perspective"}
-            </h3>
+            <div>
+              <div className="flex justify-between items-center">
+                <h3 className="text-secondary font-semibold text-base">
+                  {"Explore dubai from your own perspective"}
+                </h3>
+              </div>
+              <p className="text-base text-muted-foreground font-normal leading-6">
+                {"Sales? rental? we have it all covered."}
+              </p>
+              <span className="text-sm font-semibold text-primary cursor-pointer">
+                Explore now
+              </span>
+            </div>
+            <ExploreIcon />
           </div>
-          <p className="text-base text-muted-foreground font-normal leading-6">
-            {"Sales? rental? we have it all covered."}
-          </p>
-          <span className="text-sm font-semibold text-primary cursor-pointer">
-            Explore now
-          </span>
         </DataCards>
       </Link>
     ) : (
@@ -96,13 +102,13 @@ function DashboardData() {
   return (
     <div className="w-full md:border rounded-xl p-2">
       <TabsContent
-        value="all-dashboards"
+        value="standard"
         className="md:flex md:flex-col grid grid-cols-2 justify-items-stretch gap-3 mt-0 items-stretch"
       >
         {allDashboards}
       </TabsContent>
       <TabsContent
-        value="your-dashboards"
+        value="custom"
         className="md:flex md:flex-col grid grid-cols-2 gap-3  mt-0"
       >
         {yourDashboards.length > 0 ? (
@@ -111,7 +117,7 @@ function DashboardData() {
           <Exceptions
             svg={<PremiumException />}
             title="This Is for Premium Users"
-            description="This feature is only available for registered brokers."
+            description="Custom Dashboard is only available for registered brokers."
             className="col-span-2"
           />
         )}

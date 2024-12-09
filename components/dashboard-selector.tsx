@@ -5,16 +5,16 @@ function DashboardSelector() {
   return (
     <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-1">
       <TabsTrigger
-        value="all-dashboards"
+        value="standard"
         className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
       >
-        All Dashboards
+        Standard
       </TabsTrigger>
       <TabsTrigger
-        value="your-dashboards"
+        value="custom"
         className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
       >
-        Your Dashboards
+        Custom
       </TabsTrigger>
     </TabsList>
   );

@@ -18,10 +18,7 @@ function DashboardPage() {
   return (
     <Layout page="dashboards" title="Dashboards">
       <div className="flex w-full justify-center ">
-        <Tabs
-          defaultValue={"all-dashboards"}
-          className="flex flex-col w-full px-2"
-        >
+        <Tabs defaultValue={"standard"} className="flex flex-col w-full px-2">
           <div className="flex w-full gap-5 pt-12 md:pt-20">
             <DashboardSelector />
           </div>
@@ -32,8 +29,8 @@ function DashboardPage() {
             <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
               <Exceptions
                 svg={<SelectDataException />}
-                title="Selected details will showup here."
-                description="any drill down insights / selection will be shown here."
+                title="No data available for the selected filter"
+                description="No data for the selected criteria. try changing the filters."
               />
             </div>
           </div>

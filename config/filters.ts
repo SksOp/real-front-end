@@ -114,3 +114,31 @@ export const SupplyFilter: PageFilter[] = [
     options: ["0-20", "20-40", "40-60", "60-80", "80-100"],
   },
 ];
+
+export const TransactionFilterOptions = [
+  {
+    key: "usage_en",
+    label: "Usage",
+    type: "radio",
+    options: ["Residential", "Commercial"],
+    is_mandatory: true,
+  },
+
+  {
+    key: "property_type", //modified backend
+    label: "Property Type",
+    type: "dropdown",
+    source:
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type",
+    is_mandatory: true,
+  },
+  {
+    key: "location", //check
+    label: "Area",
+    type: "dropdown",
+    searchable: true,
+    source:
+      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+    is_mandatory: true,
+  },
+];

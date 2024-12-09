@@ -1,6 +1,6 @@
 import React, { use, useContext } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { FilterIcon, VerticalThreeDots } from "@/public/svg/icons";
+import { FilterIcon, OrderIcon, VerticalThreeDots } from "@/public/svg/icons";
 import { Separator } from "./ui/separator";
 // import { transactionData } from "@/constants/transactionCards";
 import TransactionCard from "./transaction-card";
@@ -21,7 +21,7 @@ interface TransactionTabsProps {
   }[];
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
-  setFilters?: React.Dispatch<
+  setFilters: React.Dispatch<
     React.SetStateAction<{
       [key: string]: string | number;
     }>
@@ -63,6 +63,10 @@ function TransactionTabs({
     setSelectedTab(tab);
   };
 
+  const handleOrderChange = (order: string) => {
+    setFilters((prev) => ({ ...prev, ["orderBy"]: order }));
+  };
+
   return (
     <div className="w-full ">
       <Tabs
@@ -95,7 +99,41 @@ function TransactionTabs({
             </TabsTrigger>
             {/* <Separator orientation="vertical" className="h-5" /> */}
           </TabsList>
-          <div className="md:hidden block">
+          <div className="md:hidden flex gap-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
+                <OrderIcon className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                className="max-h-[600px] cursor-pointer rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4  overflow-y-auto"
+              >
+                <div
+                  onClick={() => handleOrderChange("area")}
+                  className="cursor-pointer"
+                >
+                  By Name
+                </div>
+                <div
+                  onClick={() => handleOrderChange("value")}
+                  className="cursor-pointer"
+                >
+                  By Price
+                </div>
+                <div
+                  onClick={() => handleOrderChange("INSTANCE_DATE")}
+                  className="cursor-pointer"
+                >
+                  By Date
+                </div>
+                <div
+                  onClick={() => handleOrderChange("procedure")}
+                  className="cursor-pointer"
+                >
+                  By sqft
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Drawer>
               <DrawerTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
                 <FilterIcon />
@@ -105,14 +143,49 @@ function TransactionTabs({
               </DrawerContent>
             </Drawer>
           </div>
-          <div className="md:flex hidden justify-end items-center gap-2">
+          <div className="md:flex hidden justify-end items-center gap-3">
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
+                <OrderIcon className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                className="max-h-[600px] cursor-pointer rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4  overflow-y-auto"
+              >
+                <div
+                  onClick={() => handleOrderChange("area")}
+                  className="cursor-pointer"
+                >
+                  By Name
+                </div>
+                <div
+                  onClick={() => handleOrderChange("value")}
+                  className="cursor-pointer"
+                >
+                  By Price
+                </div>
+                <div
+                  onClick={() => handleOrderChange("INSTANCE_DATE")}
+                  className="cursor-pointer"
+                >
+                  By Date
+                </div>
+                <div
+                  onClick={() => handleOrderChange("procedure")}
+                  className="cursor-pointer"
+                >
+                  By sqft
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
                 <FilterIcon className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
-                className="max-h-[600px] overflow-y-auto"
+                className="max-h-[600px] rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4  overflow-y-auto"
               >
                 <TransactionFilter setFilters={setFilters || (() => {})} />
               </DropdownMenuContent>
