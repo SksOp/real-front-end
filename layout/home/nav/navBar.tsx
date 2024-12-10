@@ -1,5 +1,8 @@
 "use client";
+import Privacypage from "@/app/support/privacy/page";
+import PrivacyContent from "@/components/privacyContent";
 import SidebarContent from "@/components/sidebarContent";
+import TermsContent from "@/components/termsContent";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +17,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/underline-tabs";
 import { logOut, useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -219,22 +227,41 @@ function Navbar({
                     <SupportIcon />
                     Customer Support
                   </Button>
-                  <Button
-                    variant={"ghost"}
-                    className="text-secondary-500 text-sm font-normal gap-1"
-                    onClick={() => router.push("/support/privacy")}
-                  >
-                    <PrivacyIcon />
-                    Privacy Policy
-                  </Button>
-                  <Button
-                    variant={"ghost"}
-                    className="text-secondary-500 text-sm font-normal gap-1"
-                    onClick={() => router.push("/support/terms")}
-                  >
-                    <TNCIcon />
-                    Terms and Condition
-                  </Button>
+                  <Sheet>
+                    <SheetTrigger>
+                      <Button
+                        variant={"ghost"}
+                        className="text-secondary-500 text-sm font-normal gap-1"
+                      >
+                        <PrivacyIcon />
+                        Privacy Policy
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="overflow-y-scroll pt-4 min-w-[45%]">
+                      <SheetTitle className="text-base text-secondary ">
+                        Privacy Policy
+                      </SheetTitle>
+                      <PrivacyContent />
+                    </SheetContent>
+                  </Sheet>
+                  <Sheet>
+                    <SheetTrigger>
+                      <Button
+                        variant={"ghost"}
+                        className="text-secondary-500 text-sm font-normal gap-1"
+                      >
+                        <TNCIcon />
+                        Terms and Condition
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="overflow-y-scroll pt-4 min-w-[45%]">
+                      <SheetTitle className="text-base text-secondary ">
+                        Terms and Condition
+                      </SheetTitle>
+                      <TermsContent />
+                    </SheetContent>
+                  </Sheet>
+
                   <Button
                     variant={"ghost"}
                     onClick={handleLogout}

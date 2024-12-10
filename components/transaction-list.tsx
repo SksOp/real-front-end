@@ -4,6 +4,8 @@ import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
 import TransactionCard from "./transaction-card";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import InsightDrawerView from "./insightDrawerView";
+import LoadingWidget from "./loadingWidget";
+import { Spinner } from "./ui/spinner";
 
 interface TransactionsListProps {
   selectedTab: string;
@@ -95,7 +97,12 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
       ))}
       {/* Loader or End of List */}
       <div ref={lastElementRef}>
-        {isLoading && <p>Loading...</p>}
+        {isLoading && (
+          <div className="flex  items-center justify-center">
+            <Spinner />
+            <div className="ml-2">Loading...</div>
+          </div>
+        )}
         {!hasMore && <p>No more transactions</p>}
       </div>
     </div>

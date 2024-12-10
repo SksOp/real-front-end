@@ -30,7 +30,7 @@ function page() {
               Commercial
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="residential">
+          <TabsContent value="residential" className="w-full">
             <MarketPulseList />
           </TabsContent>
           <TabsContent value="commercial">

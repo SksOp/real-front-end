@@ -1,5 +1,5 @@
 "use client";
-import { Spinner } from "@/components/ui/spinner";
+import LoadingWidget from "@/components/loadingWidget";
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -14,5 +14,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   }, [router, user]);
 
   // Render the children inside a Suspense component to show a loading indicator while checking authentication status
-  return <React.Suspense fallback={<Spinner />}>{children}</React.Suspense>;
+  return (
+    <React.Suspense fallback={<LoadingWidget />}>{children}</React.Suspense>
+  );
 }

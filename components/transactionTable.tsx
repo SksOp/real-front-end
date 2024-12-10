@@ -1,4 +1,4 @@
-import React, { use, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
@@ -13,6 +13,7 @@ import {
 import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
 import { FormatValue } from "@/utils/formatNumbers";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
+import { Spinner } from "./ui/spinner";
 
 interface TransactionTableRowProps {
   transactionId: string;
@@ -171,23 +172,31 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   filters,
   onRowSelect,
 }) => {
-  const [pageIndex, setPageIndex] = React.useState(1);
+  const [pageIndex, setPageIndex] = useState(1);
   const [transactions, setTransactions] =
-    React.useState<TransactionTableRowProps[]>(data);
+    useState<TransactionTableRowProps[]>(data);
+  const [loading, setLoading] = useState(false); // New loading state
 
   const fetchTransactions = async (page: number) => {
-    if (selectedTab === "sales") {
-      const response = await SalesTransactionApi(page, filters);
-      setTransactions(response.transactions);
-    } else if (selectedTab === "rental") {
-      const response = await RentalTransactionApi(page, filters);
-      setTransactions(response.transactions);
-    } else if (selectedTab === "mortgage") {
-      const response = await SalesTransactionApi(page, {
-        ...filters,
-        group_en: "Mortgage",
-      });
-      setTransactions(response.transactions);
+    setLoading(true); // Start loading
+    try {
+      if (selectedTab === "sales") {
+        const response = await SalesTransactionApi(page, filters);
+        setTransactions(response.transactions);
+      } else if (selectedTab === "rental") {
+        const response = await RentalTransactionApi(page, filters);
+        setTransactions(response.transactions);
+      } else if (selectedTab === "mortgage") {
+        const response = await SalesTransactionApi(page, {
+          ...filters,
+          group_en: "Mortgage",
+        });
+        setTransactions(response.transactions);
+      }
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -203,90 +212,99 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
   return (
     <div className="flex h-full flex-col gap-3 w-full">
-      <div className="border rounded-xl w-full  ">
-        <Table>
-          <TableBody>
-            {transactions?.map((row, index) => (
-              <TransactionTableRow
-                key={index}
-                {...row}
-                selectedTab={selectedTab}
-                isMuted={index % 2 === 0}
-                isSelected={selectedRow === row.transactionId}
-                onClick={() => onRowSelect?.(row.transactionId)}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      <Pagination className="flex items-center justify-end bg-background px-6 py-3.5 ">
-        <PaginationContent>
-          <PaginationItem
-            onClick={() => handlePageChange(pageIndex - 1)}
-            className="cursor-pointer"
-          >
-            <ChevronLeft />
-          </PaginationItem>
+      {loading ? (
+        <div className="flex  items-center justify-center">
+          <Spinner />
+          <div className="ml-2">Loading...</div>
+        </div>
+      ) : (
+        <>
+          <div className="border rounded-xl w-full">
+            <Table>
+              <TableBody>
+                {transactions?.map((row, index) => (
+                  <TransactionTableRow
+                    key={index}
+                    {...row}
+                    selectedTab={selectedTab}
+                    isMuted={index % 2 === 0}
+                    isSelected={selectedRow === row.transactionId}
+                    onClick={() => onRowSelect?.(row.transactionId)}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <Pagination className="flex items-center justify-end bg-background px-6 py-3.5 ">
+            <PaginationContent>
+              <PaginationItem
+                onClick={() => handlePageChange(pageIndex - 1)}
+                className="cursor-pointer"
+              >
+                <ChevronLeft />
+              </PaginationItem>
 
-          <PaginationItem>
-            <PaginationLink
-              isActive={pageIndex === 1}
-              onClick={() => handlePageChange(1)}
-            >
-              1
-            </PaginationLink>
-          </PaginationItem>
-
-          {pageIndex > 3 && (
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-          )}
-
-          {Array.from({ length: totalPages }, (_, index) => index + 1)
-            .filter(
-              (page) =>
-                page !== 1 &&
-                page !== totalPages && // Exclude first and last
-                (page === pageIndex ||
-                  (page >= pageIndex - 1 && page <= pageIndex + 1)) // Pages around current
-            )
-            .map((page) => (
-              <PaginationItem key={page} className="cursor-pointer">
+              <PaginationItem>
                 <PaginationLink
-                  isActive={pageIndex === page}
-                  onClick={() => handlePageChange(page)}
+                  isActive={pageIndex === 1}
+                  onClick={() => handlePageChange(1)}
                 >
-                  {page}
+                  1
                 </PaginationLink>
               </PaginationItem>
-            ))}
 
-          {pageIndex < totalPages - 2 && (
-            <PaginationItem>
-              <Ellipsis />
-            </PaginationItem>
-          )}
+              {pageIndex > 3 && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
 
-          {totalPages > 1 && (
-            <PaginationItem className="cursor-pointer">
-              <PaginationLink
-                isActive={pageIndex === totalPages}
-                onClick={() => handlePageChange(totalPages)}
+              {Array.from({ length: totalPages }, (_, index) => index + 1)
+                .filter(
+                  (page) =>
+                    page !== 1 &&
+                    page !== totalPages && // Exclude first and last
+                    (page === pageIndex ||
+                      (page >= pageIndex - 1 && page <= pageIndex + 1)) // Pages around current
+                )
+                .map((page) => (
+                  <PaginationItem key={page} className="cursor-pointer">
+                    <PaginationLink
+                      isActive={pageIndex === page}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+              {pageIndex < totalPages - 2 && (
+                <PaginationItem>
+                  <Ellipsis />
+                </PaginationItem>
+              )}
+
+              {totalPages > 1 && (
+                <PaginationItem className="cursor-pointer">
+                  <PaginationLink
+                    isActive={pageIndex === totalPages}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {totalPages}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+
+              <PaginationItem
+                onClick={() => handlePageChange(pageIndex + 1)}
+                className="cursor-pointer"
               >
-                {totalPages}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-
-          <PaginationItem
-            onClick={() => handlePageChange(pageIndex + 1)}
-            className="cursor-pointer"
-          >
-            <ChevronRight />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+                <ChevronRight />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
+      )}
     </div>
   );
 };

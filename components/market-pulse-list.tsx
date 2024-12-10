@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import InsightDrawerView from "./insightDrawerView";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import LoadingWidget from "./loadingWidget";
+import { Spinner } from "./ui/spinner";
 
 function MarketPulseList() {
   const [activeTab, setActiveTab] = useState("sales"); // Active tab state
@@ -102,128 +104,131 @@ function MarketPulseList() {
   }, [rentalPage, activeTab]);
 
   return (
-    <>
-      <Tabs defaultValue="sales" onValueChange={(value) => setActiveTab(value)}>
-        <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll">
-          <TabsTrigger
-            value="sales"
-            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-          >
-            Sales
-          </TabsTrigger>
-          <TabsTrigger
-            value="rental"
-            className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-          >
-            Rental
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="sales" className="w-full mt-1">
-          <div className="flex flex-col gap-3 md:hidden">
-            {salesTransactions.map((transaction, index) => (
-              <Drawer>
-                <DrawerTrigger>
-                  <MarketPulseCard
-                    key={index}
-                    type={activeTab}
-                    {...transaction}
-                  />
-                </DrawerTrigger>
-                <DrawerContent className="max-h-[80vh] p-0 ">
-                  <InsightDrawerView
-                    priceperSqft={
-                      activeTab === "sales"
-                        ? transaction.avg_price_per_sqft
-                        : null
-                    }
-                    location_name={transaction.area_name}
-                  />
-                </DrawerContent>
-              </Drawer>
-            ))}
+    <Tabs defaultValue="sales" onValueChange={(value) => setActiveTab(value)}>
+      <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll">
+        <TabsTrigger
+          value="sales"
+          className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+        >
+          Sales
+        </TabsTrigger>
+        <TabsTrigger
+          value="rental"
+          className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+        >
+          Rental
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="sales" className="w-full mt-1">
+        <div className="flex flex-col gap-3 md:hidden">
+          {salesTransactions.map((transaction, index) => (
+            <Drawer>
+              <DrawerTrigger>
+                <MarketPulseCard
+                  key={index}
+                  type={activeTab}
+                  {...transaction}
+                />
+              </DrawerTrigger>
+              <DrawerContent className="max-h-[80vh] p-0 ">
+                <InsightDrawerView
+                  priceperSqft={
+                    activeTab === "sales"
+                      ? transaction.avg_price_per_sqft
+                      : null
+                  }
+                  location_name={transaction.area_name}
+                />
+              </DrawerContent>
+            </Drawer>
+          ))}
+        </div>
+        <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+          {salesTransactions.map((transaction, index) => (
+            <Sheet>
+              <SheetTrigger>
+                <MarketPulseCard
+                  key={index}
+                  type={activeTab}
+                  {...transaction}
+                />
+              </SheetTrigger>
+              <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
+                <InsightDrawerView
+                  priceperSqft={
+                    activeTab === "sales"
+                      ? transaction.avg_price_per_sqft
+                      : null
+                  }
+                  location_name={transaction.area_name}
+                />
+              </SheetContent>
+            </Sheet>
+          ))}
+          <div ref={lastElementRef} className="w-full">
+            {isSalesLoading && (
+              <div className="flex  items-center justify-center">
+                <Spinner />
+                <div className="ml-2">Loading...</div>
+              </div>
+            )}
+            {!hasMoreSales && <p>No more sales transactions</p>}
           </div>
-          <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
-            {salesTransactions.map((transaction, index) => (
-              <Sheet>
-                <SheetTrigger>
-                  <MarketPulseCard
-                    key={index}
-                    type={activeTab}
-                    {...transaction}
-                  />
-                </SheetTrigger>
-                <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
-                  <InsightDrawerView
-                    priceperSqft={
-                      activeTab === "sales"
-                        ? transaction.avg_price_per_sqft
-                        : null
-                    }
-                    location_name={transaction.area_name}
-                  />
-                </SheetContent>
-              </Sheet>
-            ))}
-            <div ref={lastElementRef}>
-              {isSalesLoading && <p>Loading...</p>}
-              {!hasMoreSales && <p>No more sales transactions</p>}
-            </div>
+        </div>
+      </TabsContent>
+      <TabsContent value="rental" className="w-full mt-1">
+        <div className="flex flex-col gap-3 md:hidden">
+          {rentalTransactions.map((transaction, index) => (
+            <Drawer>
+              <DrawerTrigger>
+                <MarketPulseCard
+                  key={index}
+                  type={activeTab}
+                  {...transaction}
+                />
+              </DrawerTrigger>
+              <DrawerContent className="max-h-[80vh] p-0 ">
+                <InsightDrawerView
+                  priceperSqft={
+                    activeTab === "sales"
+                      ? transaction.avg_price_per_sqft
+                      : null
+                  }
+                  location_name={transaction.area_name}
+                />
+              </DrawerContent>
+            </Drawer>
+          ))}
+        </div>
+        <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+          {rentalTransactions.map((transaction, index) => (
+            <Sheet>
+              <SheetTrigger>
+                <MarketPulseCard
+                  key={index}
+                  type={activeTab}
+                  {...transaction}
+                />
+              </SheetTrigger>
+              <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
+                <InsightDrawerView
+                  priceperSqft={
+                    activeTab === "sales"
+                      ? transaction.avg_price_per_sqft
+                      : null
+                  }
+                  location_name={transaction.area_name}
+                />
+              </SheetContent>
+            </Sheet>
+          ))}
+          <div ref={lastElementRef}>
+            {isSalesLoading && <p>Loading...</p>}
+            {!hasMoreSales && <p>No more sales transactions</p>}
           </div>
-        </TabsContent>
-        <TabsContent value="rental" className="w-full mt-1">
-          <div className="flex flex-col gap-3 md:hidden">
-            {rentalTransactions.map((transaction, index) => (
-              <Drawer>
-                <DrawerTrigger>
-                  <MarketPulseCard
-                    key={index}
-                    type={activeTab}
-                    {...transaction}
-                  />
-                </DrawerTrigger>
-                <DrawerContent className="max-h-[80vh] p-0 ">
-                  <InsightDrawerView
-                    priceperSqft={
-                      activeTab === "sales"
-                        ? transaction.avg_price_per_sqft
-                        : null
-                    }
-                    location_name={transaction.area_name}
-                  />
-                </DrawerContent>
-              </Drawer>
-            ))}
-          </div>
-          <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
-            {rentalTransactions.map((transaction, index) => (
-              <Sheet>
-                <SheetTrigger>
-                  <MarketPulseCard
-                    key={index}
-                    type={activeTab}
-                    {...transaction}
-                  />
-                </SheetTrigger>
-                <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
-                  <InsightDrawerView
-                    priceperSqft={
-                      activeTab === "sales"
-                        ? transaction.avg_price_per_sqft
-                        : null
-                    }
-                    location_name={transaction.area_name}
-                  />
-                </SheetContent>
-              </Sheet>
-            ))}
-            <div ref={lastElementRef}>
-              {isSalesLoading && <p>Loading...</p>}
-              {!hasMoreSales && <p>No more sales transactions</p>}
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </>
+        </div>
+      </TabsContent>
+    </Tabs>
   );
 }
 
