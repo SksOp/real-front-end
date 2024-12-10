@@ -15,6 +15,7 @@ import {
 } from "./ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import MatrixSkeleton from "./matrixSkeleton";
 
 interface TransactionTabsProps {
   matrixData: {
@@ -33,6 +34,7 @@ interface TransactionTabsProps {
     }>
   >;
   defaultTab?: string;
+  isLoading?: boolean;
 }
 
 function TransactionTabs({
@@ -42,6 +44,7 @@ function TransactionTabs({
   filters,
   setFilters,
   defaultTab = "sales",
+  isLoading = false,
 }: TransactionTabsProps) {
   const [sortedBy, setSortedBy] = React.useState<string | null>(null);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] =
@@ -81,7 +84,8 @@ function TransactionTabs({
   };
 
   const hasFilters =
-    Object.keys(filters).length > 0 && !filters?.hasOwnProperty("orderBy");
+    Object.keys(filters).length > 1 ||
+    (Object.keys(filters).length > 0 && !filters?.hasOwnProperty("orderBy"));
 
   return (
     <div className="w-full ">
@@ -91,29 +95,17 @@ function TransactionTabs({
         onValueChange={handleTabChange}
       >
         <div className="flex justify-between items-center">
-          <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll ">
-            <TabsTrigger
-              value="sales"
-              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-              onClick={() => setSelectedTab("sales")}
-            >
-              Sales
-            </TabsTrigger>
-            <TabsTrigger
-              value="rental"
-              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-              onClick={() => setSelectedTab("rental")}
-            >
-              Rental
-            </TabsTrigger>
-            <TabsTrigger
-              value="mortgage"
-              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
-              onClick={() => setSelectedTab("mortgage")}
-            >
-              Mortgage
-            </TabsTrigger>
-            {/* <Separator orientation="vertical" className="h-5" /> */}
+          <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll">
+            {["sales", "rental", "mortgage"].map((tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab}
+                className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                onClick={() => setSelectedTab(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </TabsTrigger>
+            ))}
           </TabsList>
           <div className="md:hidden flex gap-1">
             <DropdownMenu>
@@ -250,42 +242,24 @@ function TransactionTabs({
             </DropdownMenu>
           </div>
         </div>
-        <TabsContent value="sales" className="w-full flex mt-0 ">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1">
-            {matrixData.map((item, index) => (
-              <MatrixCard
-                key={index}
-                title={item.title}
-                value={item.value}
-                growth={item.growth}
-              />
-            ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="rental" className="w-full flex  mt-0">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1">
-            {matrixData.map((item, index) => (
-              <MatrixCard
-                key={index}
-                title={item.title}
-                value={item.value}
-                growth={item.growth}
-              />
-            ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="mortgage" className="w-full flex  mt-0">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1">
-            {matrixData.map((item, index) => (
-              <MatrixCard
-                key={index}
-                title={item.title}
-                value={item.value}
-                growth={item.growth}
-              />
-            ))}
-          </div>
-        </TabsContent>
+        {["sales", "rental", "mortgage"].map((tab) => (
+          <TabsContent key={tab} value={tab} className="w-full flex mt-0">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1">
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <MatrixSkeleton key={index} />
+                  ))
+                : matrixData.map((item, index) => (
+                    <MatrixCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={item.growth}
+                    />
+                  ))}
+            </div>
+          </TabsContent>
+        ))}
       </Tabs>
     </div>
   );

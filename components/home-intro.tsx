@@ -66,6 +66,7 @@ function HomeIntro() {
                   title={item.title}
                   description={item.description}
                   image={item.image}
+                  btn={auth?.user ? false : true}
                 />
               </CarouselItem>
             ))}

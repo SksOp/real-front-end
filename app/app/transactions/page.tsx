@@ -2,6 +2,7 @@
 
 import Exceptions from "@/components/exceptions";
 import InsightDrawerView from "@/components/insightDrawerView";
+import MatrixSkeleton from "@/components/matrixSkeleton";
 import TransactionsList from "@/components/transaction-list";
 import TransactionTabs from "@/components/transaction-tabs";
 import TransactionTable from "@/components/transactionTable";
@@ -13,7 +14,7 @@ import {
 } from "@/config/utility";
 import Layout from "@/layout/secondary";
 import { SelectDataException } from "@/public/svg/exceptions";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
 function TransactionPage() {
@@ -26,6 +27,7 @@ function TransactionPage() {
   const [filters, setFilters] = React.useState<{
     [key: string]: string | number;
   }>({});
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   useEffect(() => {
     const type = searchParams.get("type");
@@ -34,54 +36,61 @@ function TransactionPage() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const date = new Date();
-      const presentYear = date.getFullYear();
+      setIsLoading(true); // Start loading
+      try {
+        const date = new Date();
+        const presentYear = date.getFullYear();
 
-      const filterParams = {
-        ...filters,
-        start_year: presentYear - 1,
-        end_year: presentYear,
-      };
+        const filterParams = {
+          ...filters,
+          start_year: presentYear - 1,
+          end_year: presentYear,
+        };
 
-      if (selectedTab === "sales") {
-        const response = await SalesTransactionApi(1, filterParams);
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-        const matrixOutput = await CalculateMatrix(
-          sourceURL,
-          "sales",
-          filterParams
-        );
-        setMatrixDataPage(matrixOutput);
-        setTotalPages(response.totalPages);
-        setTransactions(response.transactions);
-      } else if (selectedTab === "rental") {
-        const response = await RentalTransactionApi(1, filterParams);
-        const sourceURL = `${BASE_URL}/api/rental/average`;
-        const matrixOutput = await CalculateMatrix(
-          sourceURL,
-          "rental",
-          filterParams
-        );
-        setMatrixDataPage(matrixOutput);
-        setTotalPages(response.totalPages);
-        setTransactions(response.transactions);
-      } else if (selectedTab === "mortgage") {
-        const response = await SalesTransactionApi(1, {
-          ...filterParams,
-          group_en: "Mortgage",
-        });
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", {
-          ...filterParams,
-          group_en: "Mortgage",
-        });
+        if (selectedTab === "sales") {
+          const response = await SalesTransactionApi(1, filterParams);
+          const sourceURL = `${BASE_URL}/api/transaction/trends`;
+          const matrixOutput = await CalculateMatrix(
+            sourceURL,
+            "sales",
+            filterParams
+          );
+          setMatrixDataPage(matrixOutput);
+          setTotalPages(response.totalPages);
+          setTransactions(response.transactions);
+        } else if (selectedTab === "rental") {
+          const response = await RentalTransactionApi(1, filterParams);
+          const sourceURL = `${BASE_URL}/api/rental/average`;
+          const matrixOutput = await CalculateMatrix(
+            sourceURL,
+            "rental",
+            filterParams
+          );
+          setMatrixDataPage(matrixOutput);
+          setTotalPages(response.totalPages);
+          setTransactions(response.transactions);
+        } else if (selectedTab === "mortgage") {
+          const response = await SalesTransactionApi(1, {
+            ...filterParams,
+            group_en: "Mortgage",
+          });
+          const sourceURL = `${BASE_URL}/api/transaction/trends`;
+          const matrixOutput = await CalculateMatrix(sourceURL, "sales", {
+            ...filterParams,
+            group_en: "Mortgage",
+          });
 
-        console.log(response);
-        setMatrixDataPage(matrixOutput);
-        setTotalPages(response.totalPages);
-        setTransactions(response.transactions);
+          setMatrixDataPage(matrixOutput);
+          setTotalPages(response.totalPages);
+          setTransactions(response.transactions);
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      } finally {
+        setIsLoading(false); // End loading
       }
     };
+
     setSelectedRow(null);
     fetchTransactions();
   }, [selectedTab, filters]);
@@ -109,6 +118,7 @@ function TransactionPage() {
           filters={filters}
           setFilters={setFilters}
           setSelectedTab={setSelectedTab}
+          isLoading={isLoading}
         />
         <TransactionsList selectedTab={selectedTab} filters={filters} />
       </div>
@@ -122,7 +132,9 @@ function TransactionPage() {
             filters={filters}
             setFilters={setFilters}
             setSelectedTab={setSelectedTab}
+            isLoading={isLoading}
           />
+
           <TransactionTable
             selectedTab={selectedTab}
             selectedRow={selectedRow}

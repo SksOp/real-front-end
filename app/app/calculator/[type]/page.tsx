@@ -9,11 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import CalculatorPropertySelector from "@/components/calculator-property-selector";
 import CalculatorInputs from "@/components/calculator-inputs";
-import SecondaryNavbar from "@/components/secondaryNavbar";
-import Filters from "@/components/filters";
 import { useParams, usePathname } from "next/navigation";
 import CalculatorOutputs from "@/components/calculator-outputs";
-import CalculatorCompareCard from "@/components/calculator-compareCard";
 import { Calculator, InputField } from "@/config/types";
 import { Calculators } from "@/config/calculators";
 import Layout from "@/layout/secondary";
@@ -21,6 +18,7 @@ import CalculatorSelector from "@/components/calculator-selector";
 import { XIcon } from "lucide-react";
 import Exceptions from "@/components/exceptions";
 import { SelectDataException } from "@/public/svg/exceptions";
+import MatrixSkeleton from "@/components/matrixSkeleton";
 
 function CalculatorPage() {
   const [showOutput, setShowOutput] = useState<boolean>(false);
@@ -34,6 +32,7 @@ function CalculatorPage() {
     [key: string]: any;
   }>({});
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!calculator) return;
@@ -126,6 +125,7 @@ function CalculatorPage() {
   const handleCalculate = async () => {
     if (!calculator) return; // Ensure calculator is selected
     console.log("inputttt", inputValues);
+    setIsLoading(true);
     // Use the calculator's calculate function to get output
     const result = await calculator.calculate(inputValues);
     if (result && Object.keys(result).length > 0) {
@@ -134,8 +134,10 @@ function CalculatorPage() {
 
       // Now set showOutput to true and open the output accordion
       setShowOutput(true);
+
       setActiveAccordion("output");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -302,21 +304,25 @@ function CalculatorPage() {
                 <h3 className="text-lg font-semibold text-secondary">
                   Calculation Result
                 </h3>
-                {calculator?.outputs.map((output) => (
-                  <CalculatorOutputs
-                    key={output.key}
-                    type={output.type}
-                    title={output.label}
-                    value={results[output?.key] ?? []}
-                    secondary_output={output.secondary_output}
-                    chartConfig={output?.chartConfig}
-                    output={results}
-                    secondaryValue={
-                      results[output?.secondary_output?.key ?? ""] ?? 0
-                    }
-                    subChart={output?.subChart}
-                  />
-                ))}
+                {isLoading ? (
+                  <MatrixSkeleton />
+                ) : (
+                  calculator?.outputs.map((output) => (
+                    <CalculatorOutputs
+                      key={output.key}
+                      type={output.type}
+                      title={output.label}
+                      value={results[output?.key] ?? []}
+                      secondary_output={output.secondary_output}
+                      chartConfig={output?.chartConfig}
+                      output={results}
+                      secondaryValue={
+                        results[output?.secondary_output?.key ?? ""] ?? 0
+                      }
+                      subChart={output?.subChart}
+                    />
+                  ))
+                )}
               </div>
             ) : (
               <Exceptions

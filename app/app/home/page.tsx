@@ -6,6 +6,7 @@ import ChartException from "@/components/chartException";
 import Feedback from "@/components/feedback";
 import Footer from "@/components/footer";
 import FrequentQuestions from "@/components/frequent-questions";
+import HomeClaimCard from "@/components/home-claim-card";
 import HomeInsights from "@/components/home-insights";
 import HomeIntro from "@/components/home-intro";
 import HomeListing from "@/components/home-listing";
@@ -15,6 +16,7 @@ import HomeTopAreas from "@/components/home-top-areas";
 import HomeTotalAds from "@/components/home-total-ads";
 import HomeTransactionCard from "@/components/home-transaction-card";
 import HomeTransactionList from "@/components/home-transaction-list";
+import HomeTransactionValue from "@/components/home-transaction-value";
 import HomeVolumeIndex from "@/components/home-volume-index";
 import InsightCard from "@/components/insightCard";
 import SecondaryChartWrapper from "@/components/secondaryChartWrapper";
@@ -28,8 +30,7 @@ import React, { useEffect, useState } from "react";
 function HomePage() {
   const auth = useAuth();
   const [name, setName] = useState<string | null>(null);
-  const [salesIndex, setSalesIndex] = React.useState<any[]>([]);
-  const [priceRange, setPriceRange] = React.useState<ChartDescription>();
+
   const [greeting, setGreeting] = useState<string>("Good Morning");
 
   useEffect(() => {
@@ -47,18 +48,6 @@ function HomePage() {
       setGreeting("Good Evening");
     }
   }, [auth]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const date = new Date().getFullYear();
-      const response = await SalesIndex({ end_year: date });
-      const response2 = await SalesPriceRanges({ end_year: date });
-      setPriceRange(response2);
-      setSalesIndex(response.data);
-      console.log(response2);
-    };
-    fetchData();
-  }, []);
 
   return (
     <Layout page="home">
@@ -86,7 +75,7 @@ function HomePage() {
         <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-[calc(100vh-5rem)] overflow-y-auto md:flex flex-col gap-3 pb-4">
           <HomeIntro />
           <FrequentQuestions />
-          {/* <HomeClaimCard /> */}
+          <HomeClaimCard />
           <Feedback />
           <SharingCard />
         </div>
@@ -112,38 +101,7 @@ function HomePage() {
               <HomeTransactionList />
             </div>
           </div>
-          <ChartWrapper
-            title="Transactions Value Index"
-            description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
-          >
-            <div className="flex justify-center items-stretch  gap-3">
-              <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
-                <div className="flex flex-col justify-between items-center gap-10 ">
-                  <SalesIndexCardComponent
-                    percentile25={salesIndex[0]}
-                    percentile75={salesIndex[1]}
-                    knob={(salesIndex[1] + salesIndex[0]) / 2}
-                  />
-                  <InsightCard>
-                    Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam
-                    interdum morbi eu elit. Neque Average price: 750000.{" "}
-                  </InsightCard>
-                </div>
-              </SecondaryChartWrapper>
-              <SecondaryChartWrapper>
-                {priceRange ? (
-                  <DonutChartComponent
-                    chartConfig={priceRange?.chartConfig}
-                    data={priceRange.data}
-                    dataKey="value"
-                    nameKey="name"
-                  />
-                ) : (
-                  <ChartException />
-                )}
-              </SecondaryChartWrapper>
-            </div>
-          </ChartWrapper>
+          <HomeTransactionValue />
           <Footer />
         </div>
       </div>

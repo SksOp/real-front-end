@@ -12,6 +12,7 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import DonutChartComponent from "./chart/donutChart/donutChart";
 import SecondaryChartWrapper from "./secondaryChartWrapper";
 import { cn } from "@/lib/utils";
+import InsightCard from "./insightCard";
 
 interface TransactionInsightsChartProps {
   dashboardType: "sales" | "rental" | null;
@@ -26,6 +27,7 @@ interface TransactionInsightsChartProps {
   filters?: any[];
   selectedFilter: string;
   setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
+  insights?: string;
   otherInfo?: { name: string; value: string }[];
   className?: ClassValue;
 }
@@ -42,6 +44,7 @@ function TransactionInsightsChart({
   selectedFilter,
   setSelectedFilter,
   otherInfo,
+  insights,
   className,
 }: TransactionInsightsChartProps) {
   const renderChart = (
@@ -169,6 +172,7 @@ function TransactionInsightsChart({
           );
         })}
       </div>
+      {insights && <InsightCard>{insights}</InsightCard>}
     </ChartWrapper>
   );
 }

@@ -10,6 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import DashboardCharts from "./dashboard-charts";
 import TransactionInsightsChart from "./transaction-insights-chart";
 import TransactionFairPrice from "./transaction-fairPrice";
+import LoadingWidget from "./loadingWidget";
+import { Spinner } from "./ui/spinner";
+import MatrixSkeleton from "./matrixSkeleton";
 
 function InsightDrawerView({
   location_name,
@@ -27,6 +30,7 @@ function InsightDrawerView({
   const [chartDataRental, setChartDataRental] = React.useState<
     ChartDescription[]
   >([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const getAllChartData = async () => {
     const year = new Date().getFullYear();
@@ -52,7 +56,7 @@ function InsightDrawerView({
     const fetchChartData = async () => {
       const date = new Date();
       const presentYear = date.getFullYear();
-
+      setIsLoading(true);
       // Fetch Sales Matrix Data
       const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
         presentYear - 1
@@ -69,10 +73,17 @@ function InsightDrawerView({
         "rental"
       );
       setRentalMatrix(matrixOutputRental);
+      setIsLoading(false);
     };
 
-    fetchChartData();
-    getAllChartData();
+    const loadData = async () => {
+      setIsLoading(true);
+      await fetchChartData();
+      await getAllChartData();
+      setIsLoading(false);
+    };
+
+    loadData();
   }, [location_name]);
 
   const currentChartData =
@@ -108,26 +119,34 @@ function InsightDrawerView({
           </TabsList>
           <TabsContent value="sales" className="w-full flex">
             <div className="grid grid-cols-2 gap-3 w-full">
-              {salesMatrix.map((item, index) => (
-                <MatrixCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  growth={item.growth}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <MatrixSkeleton key={index} />
+                  ))
+                : salesMatrix.map((item, index) => (
+                    <MatrixCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={item.growth}
+                    />
+                  ))}
             </div>
           </TabsContent>
           <TabsContent value="rental" className="w-full flex mt-0">
             <div className="grid grid-cols-2 gap-3 w-full">
-              {rentalMatrix.map((item, index) => (
-                <MatrixCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  growth={item.growth}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <MatrixSkeleton key={index} />
+                  ))
+                : rentalMatrix.map((item, index) => (
+                    <MatrixCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={item.growth}
+                    />
+                  ))}
             </div>
           </TabsContent>
         </Tabs>
@@ -135,22 +154,30 @@ function InsightDrawerView({
 
       <TransactionFairPrice priceperSqft={priceperSqft} />
 
-      {currentChartData.map((chart, index) => (
-        <TransactionInsightsChart
-          key={index}
-          dashboardType={selectedFilter as "sales" | "rental"}
-          type={chart.chart_type}
-          title={chart.name}
-          chartConfig={chart.chartConfig}
-          data={chart.data}
-          subcharts={chart.sub_charts}
-          columns={chart.columns}
-          description={chart.description}
-          otherInfo={chart.otherInfo}
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-        />
-      ))}
+      {isLoading ? (
+        <div className="flex  items-center justify-center">
+          <Spinner />
+          <div className="ml-2">Loading...</div>
+        </div>
+      ) : (
+        currentChartData.map((chart, index) => (
+          <TransactionInsightsChart
+            key={index}
+            dashboardType={selectedFilter as "sales" | "rental"}
+            type={chart.chart_type}
+            title={chart.name}
+            chartConfig={chart.chartConfig}
+            data={chart.data}
+            subcharts={chart.sub_charts}
+            columns={chart.columns}
+            description={chart.description}
+            insights={chart.insights}
+            otherInfo={chart.otherInfo}
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+          />
+        ))
+      )}
     </div>
   );
 }

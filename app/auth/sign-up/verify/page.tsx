@@ -40,13 +40,22 @@ const VerifyEmail = () => {
         <br />
         Didn’t receive the email? Click the button below to resend it.
       </p>
-      <Button
-        onClick={handleResendVerificationEmail}
-        disabled={loading}
-        className="w-full max-w-xs"
-      >
-        {loading ? "Sending..." : "Resend Verification Email"}
-      </Button>
+      <div className="flex flex-col gap-2 w-full items-center justify-center">
+        <Button
+          onClick={handleResendVerificationEmail}
+          disabled={loading}
+          className="w-full cursor-pointer max-w-xs"
+        >
+          {loading ? "Sending..." : "Resend Verification Email"}
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => router.push("/auth/login")}
+          className="w-full cursor-pointer max-w-xs"
+        >
+          Back to Login Page
+        </Button>
+      </div>
     </div>
   );
 };

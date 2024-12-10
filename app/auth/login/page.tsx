@@ -1,13 +1,25 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmail, signInWithGoogle } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { GoogleIcon, SplashIcon } from "@/public/svg/auth";
+import { signInWithGoogle } from "@/lib/auth";
 import { useToast } from "@/components/ui/use-toast";
-import { Separator } from "@/components/ui/separator";
+import HomeTransactionCard from "@/components/home-transaction-card";
+import HomeInsights from "@/components/home-insights";
+import HomeSalesIndex from "@/components/home-sales-index";
+import HomeTotalAds from "@/components/home-total-ads";
+import HomeTopAreas from "@/components/home-top-areas";
+import HomePriceIndex from "@/components/home-price-index";
+import HomeListing from "@/components/home-listing";
+import Feedback from "@/components/feedback";
+import FrequentQuestions from "@/components/frequent-questions";
+import HomeIntro from "@/components/home-intro";
+import HomeTransactionList from "@/components/home-transaction-list";
+import HomeVolumeIndex from "@/components/home-volume-index";
+import SharingCard from "@/components/sharingCard";
+import HomeTransactionValue from "@/components/home-transaction-value";
+import HomeClaimCard from "@/components/home-claim-card";
+import Footer from "@/components/footer";
+import Layout from "@/layout/home";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -53,78 +65,52 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen  bg-background flex items-center justify-center p-4">
-      <div className="absolute top-4 left-4">
-        <SplashIcon />
+    <div>
+      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-3">
+        <HomeTransactionCard />
+        <HomeInsights />
+        <HomeSalesIndex />
+        <HomeTotalAds />
+        <HomeTopAreas />
+        <HomePriceIndex />
+        <HomeListing />
+        <FrequentQuestions />
+        <SharingCard />
+        <Footer />
       </div>
-      <div className="hidden md:block md:w-1/2 pl-20">
-        <img src="/svg/auth.svg" alt="" className="object-cover" />
-      </div>
-      <div className="flex flex-col gap-5 items-center justify-center  w-full">
-        <h3 className="text-secondary font-bold text-2xl -translate-x-1/2">
-          Create Account.
-        </h3>
-
-        {/* Email Input */}
-        <div className="flex flex-col gap-3 w-full max-w-sm ">
-          <Label htmlFor="email" className="text-secondary font-normal text-sm">
-            Email <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-lg bg-card"
-            required
-          />
+      <div className="hidden pt-20 md:flex gap-3 w-full px-4 pb-0">
+        <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-[calc(100vh-5rem)] overflow-y-auto md:flex flex-col gap-3 pb-4">
+          <HomeIntro />
+          <FrequentQuestions />
+          <HomeClaimCard />
+          <Feedback />
+          <SharingCard />
         </div>
-
-        {/* Password Input */}
-        <div className="flex flex-col gap-3 w-full max-w-sm">
-          <Label
-            htmlFor="password"
-            className="text-secondary font-normal text-sm"
-          >
-            Password <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-lg "
-            required
-          />
+        <div className="w-3/4  max-h-[calc(100vh-5rem)] overflow-y-auto flex flex-col gap-3">
+          <HomeTransactionCard />
+          <div className="grid grid-cols-2 w-full gap-3 gap-x-4">
+            <div className="flex flex-col gap-3">
+              <HomeInsights />
+            </div>
+            <div className="flex flex-col gap-3">
+              <HomeListing />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 w-full items-start  gap-3 gap-x-4">
+            <div className="flex flex-col gap-3">
+              <HomeSalesIndex />
+              <HomeTopAreas />
+              <HomePriceIndex />
+            </div>
+            <div className="flex flex-col gap-3">
+              <HomeVolumeIndex />
+              <HomeTotalAds />
+              <HomeTransactionList />
+            </div>
+          </div>
+          <HomeTransactionValue />
+          <Footer />
         </div>
-
-        <Button
-          onClick={handleSignIn}
-          variant={"secondary"}
-          className="text-background flex text-sm justify-center max-w-sm items-center gap-4 focus:bg-none font-semibold w-full h-14 rounded-xl border"
-        >
-          Continue
-        </Button>
-        <div className="flex gap-2 w-full items-center max-w-sm justify-center px-4">
-          <Separator className="w-[8rem] " />
-          <span>Or</span>
-          <Separator className="w-[8rem] " />
-        </div>
-        <Button
-          onClick={handleGoogleSignUp}
-          variant="outline"
-          className="text-secondary flex text-sm justify-center items-center gap-1 font-normal w-full h-14 rounded-xl border max-w-sm"
-        >
-          <GoogleIcon />
-          Continue with Google
-        </Button>
-        <h3 className="text-accent font-normal text-sm">
-          Don’t have an account?{" "}
-          <span
-            className="text-primary font-semibold cursor-pointer"
-            onClick={() => router.push("/auth/sign-up")}
-          >
-            Create One
-          </span>
-        </h3>
       </div>
     </div>
   );
