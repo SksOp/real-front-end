@@ -106,6 +106,7 @@ function TransactionPage() {
           matrixData={MatrixDataPage}
           defaultTab={selectedTab}
           selectedTab={selectedTab}
+          filters={filters}
           setFilters={setFilters}
           setSelectedTab={setSelectedTab}
         />
@@ -118,6 +119,7 @@ function TransactionPage() {
             matrixData={MatrixDataPage}
             defaultTab={selectedTab}
             selectedTab={selectedTab}
+            filters={filters}
             setFilters={setFilters}
             setSelectedTab={setSelectedTab}
           />

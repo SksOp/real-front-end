@@ -10,8 +10,11 @@ import MatrixCard from "./matrix-card";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 interface TransactionTabsProps {
   matrixData: {
@@ -21,6 +24,9 @@ interface TransactionTabsProps {
   }[];
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
+  filters: {
+    [key: string]: string | number;
+  };
   setFilters: React.Dispatch<
     React.SetStateAction<{
       [key: string]: string | number;
@@ -33,9 +39,15 @@ function TransactionTabs({
   matrixData,
   selectedTab,
   setSelectedTab,
+  filters,
   setFilters,
   defaultTab = "sales",
 }: TransactionTabsProps) {
+  const [sortedBy, setSortedBy] = React.useState<string | null>(null);
+  const [isOpenFilterDrawer, setIsOpenFilterDrawer] =
+    React.useState<boolean>(false);
+  const [isOpenFilterMenu, setIsOpenFilterMenu] =
+    React.useState<boolean>(false);
   // const {
   //   data: Transaction,
   //   isLoading: isLoading,
@@ -64,8 +76,12 @@ function TransactionTabs({
   };
 
   const handleOrderChange = (order: string) => {
+    setSortedBy(order);
     setFilters((prev) => ({ ...prev, ["orderBy"]: order }));
   };
+
+  const hasFilters =
+    Object.keys(filters).length > 0 && !filters?.hasOwnProperty("orderBy");
 
   return (
     <div className="w-full ">
@@ -101,93 +117,135 @@ function TransactionTabs({
           </TabsList>
           <div className="md:hidden flex gap-1">
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
+              <DropdownMenuTrigger
+                className={cn(
+                  "rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ",
+                  sortedBy && "bg-primary/10"
+                )}
+              >
                 <OrderIcon className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
                 className="max-h-[600px] cursor-pointer rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4  overflow-y-auto"
               >
-                <div
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("area")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2"
                 >
                   By Name
-                </div>
-                <div
+                  {sortedBy === "area" && <Check size={20} />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("value")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2"
                 >
                   By Price
-                </div>
-                <div
+                  {sortedBy === "value" && <Check size={20} />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("INSTANCE_DATE")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2"
                 >
                   By Date
-                </div>
-                <div
+                  {sortedBy === "INSTANCE_DATE" && <Check size={20} />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("procedure")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2"
                 >
                   By sqft
-                </div>
+                  {sortedBy === "procedure" && <Check size={20} />}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Drawer>
-              <DrawerTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
+            <Drawer
+              open={isOpenFilterDrawer}
+              onOpenChange={setIsOpenFilterDrawer}
+            >
+              <DrawerTrigger
+                className={cn(
+                  "rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ",
+                  hasFilters && "bg-primary/10"
+                )}
+              >
                 <FilterIcon />
               </DrawerTrigger>
               <DrawerContent>
-                <TransactionFilter setFilters={setFilters || (() => {})} />
+                <TransactionFilter
+                  filters={filters}
+                  setFilters={setFilters || (() => {})}
+                  setIsOpen={setIsOpenFilterDrawer}
+                />
               </DrawerContent>
             </Drawer>
           </div>
           <div className="md:flex hidden justify-end items-center gap-3">
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
+              <DropdownMenuTrigger
+                className={cn(
+                  "rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ",
+                  sortedBy && "bg-primary/10"
+                )}
+              >
                 <OrderIcon className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
                 className="max-h-[600px] cursor-pointer rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4  overflow-y-auto"
               >
-                <div
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("area")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2 "
                 >
                   By Name
-                </div>
-                <div
+                  {sortedBy === "area" && <Check size={20} />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("value")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2 "
                 >
                   By Price
-                </div>
-                <div
+                  {sortedBy === "value" && <Check size={20} />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("INSTANCE_DATE")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2 "
                 >
                   By Date
-                </div>
-                <div
+                  {sortedBy === "INSTANCE_DATE" && <Check size={20} />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => handleOrderChange("procedure")}
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-2 "
                 >
                   By sqft
-                </div>
+                  {sortedBy === "procedure" && <Check size={20} />}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ">
+            <DropdownMenu
+              open={isOpenFilterMenu}
+              onOpenChange={setIsOpenFilterMenu}
+            >
+              <DropdownMenuTrigger
+                className={cn(
+                  "rounded-full border border-muted-foreground text-center font-bold px-3 py-1.5 ",
+                  hasFilters && "bg-primary/10"
+                )}
+              >
                 <FilterIcon className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
                 className="max-h-[600px] rounded-2xl shadow-[0px_4px_19px_0px_rgba(0,0,0,0.12)] px-6 border-0 py-4 flex flex-col gap-4  overflow-y-auto"
               >
-                <TransactionFilter setFilters={setFilters || (() => {})} />
+                <TransactionFilter
+                  filters={filters}
+                  setFilters={setFilters || (() => {})}
+                  setIsOpen={setIsOpenFilterMenu}
+                />
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

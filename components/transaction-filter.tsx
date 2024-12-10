@@ -4,10 +4,15 @@ import { Button } from "./ui/button";
 import DatePicker from "./date-picker";
 import CalculatorInputs from "./calculator-inputs";
 import { TransactionFilterOptions } from "@/config/filters";
+import { set } from "date-fns";
 
 function TransactionFilter({
+  filters,
+  setIsOpen,
   setFilters,
 }: {
+  filters: { [key: string]: string | number };
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setFilters: React.Dispatch<
     React.SetStateAction<{
       [key: string]: string | number;
@@ -16,7 +21,7 @@ function TransactionFilter({
 }) {
   const [localFilters, setLocalFilters] = useState<{
     [key: string]: string | number;
-  }>({});
+  }>(filters);
 
   const handleFilterChange = (name: string, value: string | number) => {
     setLocalFilters((prevFilters) => ({
@@ -45,11 +50,12 @@ function TransactionFilter({
 
   const applyFilters = () => {
     console.log(localFilters);
+    setIsOpen(false);
     setFilters(localFilters);
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-2">
       <h3 className="text-center text-secondary text-base font-bold">Filter</h3>
       <div className="flex flex-col gap-5">
         {TransactionFilterOptions.map((option) => (
@@ -113,7 +119,11 @@ function TransactionFilter({
         <Button
           variant={"outline"}
           className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/2 h-14 rounded-xl border"
-          onClick={() => setLocalFilters({})}
+          onClick={() => {
+            setLocalFilters({});
+            setFilters({});
+            setIsOpen(false);
+          }}
         >
           Clear All
         </Button>

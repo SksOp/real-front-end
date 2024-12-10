@@ -31,7 +31,11 @@ import {
 import {
   CalculatorIcon,
   DashboardIcon,
+  LogoutIcon,
   MyPropertiesIcon,
+  PrivacyIcon,
+  SupportIcon,
+  TNCIcon,
   TransactionIcon,
 } from "@/public/svg/sidebarIcons";
 import { ClassValue } from "clsx";
@@ -210,23 +214,33 @@ function Navbar({
                   </Button> */}
                   <Button
                     variant={"ghost"}
-                    className="text-secondary-500 text-sm font-normal"
+                    className="text-secondary-500 text-sm font-normal gap-1"
+                  >
+                    <SupportIcon />
+                    Customer Support
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    className="text-secondary-500 text-sm font-normal gap-1"
                     onClick={() => router.push("/support/privacy")}
                   >
+                    <PrivacyIcon />
                     Privacy Policy
                   </Button>
                   <Button
                     variant={"ghost"}
-                    className="text-secondary-500 text-sm font-normal"
+                    className="text-secondary-500 text-sm font-normal gap-1"
                     onClick={() => router.push("/support/terms")}
                   >
+                    <TNCIcon />
                     Terms and Condition
                   </Button>
                   <Button
                     variant={"ghost"}
                     onClick={handleLogout}
-                    className="text-red-500 hover:bg-red-100 text-sm font-normal"
+                    className="text-red-500 hover:bg-red-100 text-sm font-normal gap-1"
                   >
+                    <LogoutIcon />
                     Sign Out
                   </Button>
                 </CardContent>

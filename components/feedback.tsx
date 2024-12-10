@@ -27,7 +27,7 @@ function Feedback() {
     <Card className="border rounded-xl w-full bg-background">
       <CardHeader>
         <CardTitle className="text-base font-semibold text-secondary">
-          Is this dashboard helpful?
+          Is this application helpful?
         </CardTitle>
         <CardDescription className="text-base text-muted-foreground font-normal">
           Got all the information that you wanted? We are all ears for what you

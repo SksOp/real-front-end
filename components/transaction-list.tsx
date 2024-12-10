@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import TransactionTabs from "./transaction-tabs";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
 import TransactionCard from "./transaction-card";
@@ -22,36 +22,34 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
   // Observe the last element
   const lastElementRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      setIsLoading(true);
-      try {
-        const response =
-          selectedTab === "sales"
-            ? await SalesTransactionApi(page, filters)
-            : selectedTab === "mortgage"
-            ? await SalesTransactionApi(page, {
-                ...filters,
-                group_en: "Mortgage",
-              })
-            : await RentalTransactionApi(page, filters);
+  const fetchTransactions = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response =
+        selectedTab === "sales"
+          ? await SalesTransactionApi(page, filters)
+          : selectedTab === "mortgage"
+          ? await SalesTransactionApi(page, {
+              ...filters,
+              group_en: "Mortgage",
+            })
+          : await RentalTransactionApi(page, filters);
 
-        setTransactions((prev) =>
-          page === 1
-            ? response.transactions
-            : [...prev, ...response.transactions]
-        ); // Reset list on tab change
-        setHasMore(page < response.totalPages); // Stop fetching if no more pages
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-        setHasMore(false); // Stop further attempts if an error occurs
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTransactions();
+      setTransactions((prev) =>
+        page === 1 ? response.transactions : [...prev, ...response.transactions]
+      ); // Reset list on tab change
+      setHasMore(page < response.totalPages); // Stop fetching if no more pages
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      setHasMore(false); // Stop further attempts if an error occurs
+    } finally {
+      setIsLoading(false);
+    }
   }, [page, selectedTab, filters]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [page, selectedTab, filters, fetchTransactions]);
 
   useEffect(() => {
     setTransactions([]);
@@ -59,10 +57,30 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
     setHasMore(true);
   }, [selectedTab, filters]);
 
+  useEffect(() => {
+    if (isLoading || !hasMore) return;
+
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    });
+
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [isLoading, hasMore]);
+
   return (
     <div className="flex flex-col gap-3">
       {transactions.map((transaction, index) => (
-        <Drawer>
+        <Drawer key={index}>
           <DrawerTrigger>
             <TransactionCard
               key={index}
