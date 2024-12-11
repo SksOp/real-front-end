@@ -140,6 +140,7 @@ export const InstagramIcon: React.FC<Props> = ({ className }) => {
 export const WhatsAppIcon: React.FC<Props> = ({ className }) => {
   return (
     <svg
+      className={cn("", className)}
       width="32"
       height="33"
       viewBox="0 0 32 33"

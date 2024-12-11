@@ -20,53 +20,49 @@ import HomeTransactionValue from "@/components/home-transaction-value";
 import HomeClaimCard from "@/components/home-claim-card";
 import Footer from "@/components/footer";
 import Layout from "@/layout/home";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import SignInModel from "@/components/signInModel";
+import LogInModel from "@/components/logInModel";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-  const { toast } = useToast();
-
-  const handleSignIn = async () => {
-    if (!email || !password) {
-      toast({
-        title: "Uh oh! Something went wrong.",
-        description: "Please fill in all the required fields.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const res = await signInWithGoogle();
-      console.log({ res });
-      setEmail("");
-      setPassword("");
-      router.push("/app/home");
-    } catch (e: any) {
-      toast({
-        title: "Uh oh! Something went wrong.",
-        description: e.message,
-        variant: "destructive",
-      });
-      console.error(e);
-    }
-  };
-
-  // Google Sign-In Handler
-  const handleGoogleSignUp = async () => {
-    try {
-      const user = await signInWithGoogle();
-      console.log("User signed in with Google:", user);
-      router.push("/app/home");
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   return (
     <div>
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-3">
+        <div className="flex flex-col gap-5 pl-1">
+          <h3 className="text-secondary font-bold text-2xl ">
+            Be the top 1% of{" "}
+            <span className="text-primary">Dubai Brokers!</span>
+          </h3>
+          <p className="text-muted-foreground text-base font-normal">
+            This app helps you plan how to move up the ladder and be the top
+            broker!
+          </p>
+          <div className="flex justify-start items-center gap-2 ">
+            <Dialog>
+              <DialogTrigger>
+                <Button>Join Now </Button>
+              </DialogTrigger>
+              <DialogContent className="max-h-[75vh]  overflow-y-scroll">
+                <SignInModel />
+              </DialogContent>
+            </Dialog>
+
+            {/* <Dialog>
+              <DialogTrigger> */}
+            <Button
+              variant={"outline"}
+              className="border-primary text-primary font-semibold"
+            >
+              Benefits for Agencies
+            </Button>
+            {/* </DialogTrigger>
+              <DialogContent>
+                <LogInModel />
+              </DialogContent>
+            </Dialog> */}
+          </div>
+        </div>
         <HomeTransactionCard />
         <HomeInsights />
         <HomeSalesIndex />

@@ -42,18 +42,31 @@ function HomeIntro() {
   return (
     <div className="w-full p-4 ">
       <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-2xl bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
-            <span className="">Hello {name}</span>{" "}
-            <span className="inline-block text-black">👋</span>,
-            <br />
-            {greeting}!
-          </h1>
-          <p className="text-muted-foreground text-base font-normal">
-            Every real estate insights you need in one place. We have put
-            together a few handy resources here to help you.
-          </p>
-        </div>
+        {name ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-2xl bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
+              <span className="">Hello {name}</span>{" "}
+              <span className="inline-block text-black">👋</span>,
+              <br />
+              {greeting}!
+            </h1>
+            <p className="text-muted-foreground text-base font-normal">
+              Every real estate insights you need in one place. We have put
+              together a few handy resources here to help you.
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-5">
+            <h3 className="text-secondary font-bold text-2xl ">
+              Be the top 1% of{" "}
+              <span className="text-primary">Dubai Brokers!</span>
+            </h3>
+            <p className="text-muted-foreground text-base font-normal">
+              This app helps you plan how to move up the ladder and be the top
+              broker!
+            </p>
+          </div>
+        )}
 
         <Carousel className="w-full">
           <CarouselContent

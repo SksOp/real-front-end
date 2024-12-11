@@ -15,7 +15,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
             <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="md:flex items-center gap-3 hidden">
           <Dialog>
             <DialogTrigger>
               <Button>Join Now </Button>

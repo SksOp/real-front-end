@@ -81,7 +81,7 @@ function SidebarContent() {
         </div>
       </div>
       <Separator />
-      <div className="flex flex-col gap-1 justify-start items-start w-full">
+      <div className="flex flex-col gap-1 justify-start items-center w-full">
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
@@ -140,7 +140,7 @@ function SidebarContent() {
         </Button>
       </div>
       <Separator />
-      <div className="flex flex-col gap-1 justify-start items-start w-full  pb-4">
+      <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"

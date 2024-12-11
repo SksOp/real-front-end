@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
+import { WhatsAppIcon } from "@/public/svg/social";
 
 /**
  * Exceptions Component
@@ -55,7 +56,15 @@ const Exceptions: React.FC<ExceptionsProps> = ({
         <div className="flex items-center justify-center mb-4">{svg}</div>
         <h1 className={cn("text-lg font-bold mb-2")}>{title}</h1>
         <h3 className={cn("text-sm mb-4 opacity-50")}>{description}</h3>
-        {buttonText && <Button variant="default">{buttonText}</Button>}
+        {buttonText && (
+          <Button
+            variant="outline"
+            className="text-base font-normal text-secondary gap-2 hover:bg-none"
+          >
+            <WhatsAppIcon className="w-5 h-5" />
+            {buttonText}
+          </Button>
+        )}
       </div>
     </div>
   );

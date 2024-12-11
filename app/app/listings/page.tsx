@@ -16,6 +16,7 @@ function ListingPage() {
           svg={<PremiumException />}
           title="This Is for Premium Users"
           description="This feature is only available for registered brokers."
+          buttonText="Whatsapp Support"
           className="col-span-2"
         />
         {/* <div className=" w-full flex flex-col gap-3 mt-16 md:mt-20">
