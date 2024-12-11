@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -26,6 +26,7 @@ function SidebarContent() {
   const router = useRouter();
   const auth = useAuth();
   const [user, setUser] = React.useState<User | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
     const user = auth.user;
@@ -34,6 +35,36 @@ function SidebarContent() {
     }
     console.log(user);
   }, [user]);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+
+  const handleAddToHomeScreen = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the A2HS prompt");
+        } else {
+          console.log("User dismissed the A2HS prompt");
+        }
+        setDeferredPrompt(null);
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col justify-start items-start gap-5 h-full w-full px-5 pt-9">
@@ -109,10 +140,11 @@ function SidebarContent() {
         </Button>
       </div>
       <Separator />
-      <div className="flex flex-col gap-1 justify-start items-start w-full">
+      <div className="flex flex-col gap-1 justify-start items-start w-full  pb-4">
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
+          onClick={handleAddToHomeScreen}
         >
           <AddToHomeIcon />
           Add to Home Screen
