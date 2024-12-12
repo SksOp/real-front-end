@@ -24,21 +24,21 @@ function page() {
               Residential
             </TabsTrigger>
             <TabsTrigger
-              value="commercial"
+              value="comercial"
               className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
             >
-              Commercial
+              Comercial
             </TabsTrigger>
           </TabsList>
           <TabsContent value="residential" className="w-full">
             <MarketPulseList />
           </TabsContent>
-          <TabsContent value="commercial">
+          <TabsContent value="comercial">
             <Exceptions
               svg={<FlaskException />}
               title={"Comming Soon!"}
               description={
-                "Commercial dashboard is not yet available, this is getting cooked!"
+                "Comercial dashboard is not yet available, this is getting cooked!"
               }
             />
           </TabsContent>

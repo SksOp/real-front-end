@@ -71,16 +71,6 @@ function Navbar({
     console.log(user);
   }, [user]);
 
-  const handleLogout = async () => {
-    try {
-      const res = await logOut();
-      console.log({ res });
-      router.push("/auth/login");
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   return (
     <nav
       className={cn(
@@ -264,7 +254,7 @@ function Navbar({
 
                   <Button
                     variant={"ghost"}
-                    onClick={handleLogout}
+                    onClick={logOut}
                     className="text-red-500 hover:bg-red-100 text-sm font-normal gap-1"
                   >
                     <LogoutIcon />

@@ -119,6 +119,7 @@ function DashboardData() {
             title="This Is for Premium Users"
             description="Custom Dashboard is only available for registered brokers."
             className="col-span-2"
+            buttonText="Whatsapp Support"
           />
         )}
       </TabsContent>

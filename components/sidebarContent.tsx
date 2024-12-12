@@ -20,7 +20,7 @@ import {
 import { useRouter } from "next/navigation";
 import { KeyMatricIcon, MarketPulseIcon } from "@/public/svg/navIcons";
 import { User } from "firebase/auth";
-import { useAuth } from "@/lib/auth";
+import { logOut, useAuth } from "@/lib/auth";
 
 function SidebarContent() {
   const router = useRouter();
@@ -202,6 +202,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-red-500 font-normal text-sm px-2"
+          onClick={logOut}
         >
           <LogoutIcon />
           Logout

@@ -231,7 +231,9 @@ export const CalculateCharts = async (
   return allCharts;
 };
 
-export const SalesTransactionApi = async (
+export const 
+
+SalesTransactionApi = async (
   pageNo?: number,
   params?: { [key: string]: string | number }
 ) => {
