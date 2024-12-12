@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface AreaConfig {
   yAxisDataKey: string;
@@ -136,7 +137,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             axisLine={axisLine}
             tickFormatter={formatYAxisTick}
           />
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
 
           {areas.map((area, index) => (
             <Area
