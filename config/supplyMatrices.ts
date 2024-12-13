@@ -475,7 +475,7 @@ export const SupplyMatrices: Matrix[] = [
           const chartData = data.map((item: any) => {
             return {
               name: item.area,
-              value: item.future_property_supply,
+              value: item.total_projects_new_supply,
               fill: "#DDF8E4",
             };
           });
@@ -535,7 +535,7 @@ export const SupplyMatrices: Matrix[] = [
           const chartData = data.map((item: any) => {
             return {
               name: item.area,
-              value: item.delivered_units,
+              value: item.total_projects_new_supply,
               fill: "#DDF8E4",
             };
           });

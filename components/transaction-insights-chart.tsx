@@ -128,7 +128,7 @@ function TransactionInsightsChart({
   };
 
   return (
-    <ChartWrapper title={title} description={description}>
+    <ChartWrapper title={title} description={description} className="">
       <Tabs
         value={selectedFilter}
         onValueChange={(value: string) => setSelectedFilter(value)}
@@ -148,7 +148,9 @@ function TransactionInsightsChart({
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      {renderChart(type, data, chartConfig, columns, className)}
+      <div className="overflow-scroll">
+        {renderChart(type, data, chartConfig, columns, className)}
+      </div>
       <div className="flex flex-col md:grid md:grid-cols-2 gap-3 mt-4 mb-2">
         {subcharts?.map((chart, idx, arr) => {
           return (
@@ -156,7 +158,7 @@ function TransactionInsightsChart({
               key={chart.key}
               title={chart.name}
               className={cn(
-                "overflow-scroll ",
+                "overflow-x-scroll ",
                 arr.length % 2 !== 0 && idx === arr.length - 1
                   ? "col-span-2"
                   : ""

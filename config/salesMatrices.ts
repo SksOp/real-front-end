@@ -39,12 +39,8 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "average_sales_value",
       calculate: async (params) => {
-        params = {};
-        const date = new Date();
-        const presentYear = date.getFullYear();
-        const sourceURL = `${BASE_URL}/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/transaction/trends`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[0];
@@ -61,12 +57,8 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "average_price_per_sqft",
       calculate: async (params) => {
-        params = {};
-        const date = new Date();
-        const presentYear = date.getFullYear();
-        const sourceURL = `${BASE_URL}/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/transaction/trends`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[1];
@@ -83,12 +75,8 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "total_sales_value",
       calculate: async (params) => {
-        params = {};
-        const date = new Date();
-        const presentYear = date.getFullYear();
-        const sourceURL = `${BASE_URL}/api/transaction/trends?start_year=${
-          presentYear - 1
-        }&end_year=${presentYear}`;
+        params.start_year = Number(params.end_year) - 1;
+        const sourceURL = `${BASE_URL}/api/transaction/trends`;
 
         const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
         return matrixOutput[3];

@@ -15,6 +15,7 @@ import Layout from "@/layout/secondary";
 import { cn } from "@/lib/utils";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Spinner } from "@/components/ui/spinner"; // Import Spinner component
 
 function MatrixDataPage() {
   const { matrix } = useParams<{ matrix: string }>();
@@ -27,6 +28,7 @@ function MatrixDataPage() {
   const [filters, setFilters] = useState<{ [key: string]: string | number }>(
     {}
   );
+  const [loading, setLoading] = useState<boolean>(false); // Add loading state
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "all";
 
@@ -37,14 +39,17 @@ function MatrixDataPage() {
       return updatedFilters;
     });
   };
+
   useEffect(() => {
     const fetchMatrixData = async () => {
+      setLoading(true); // Set loading to true before fetching data
       const matrixData = KeyMatrices.find((m) => m.key === matrix);
       setSelectedMatrix(matrixData || null);
       const date = new Date();
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
       const chartData = await matrixData?.calculate_charts?.calculate(filters);
       setSelectedChart(chartData || null);
+      setLoading(false); // Set loading to false after fetching data
     };
     fetchMatrixData();
   }, [matrix, filters]);
@@ -66,33 +71,40 @@ function MatrixDataPage() {
           onChange={handleFilterChange}
         />
 
-        {selectedChart && (
-          <div className="">
-            {/* If selectedChart is of type ChartDescription */}
-            {"chart_type" in selectedChart ? (
-              <DashboardCharts
-                dashboardType={"sales"}
-                type={selectedChart.chart_type}
-                data={selectedChart.data}
-                chartConfig={selectedChart.chartConfig}
-                title={selectedChart.name}
-                filters={selectedChart.filters}
-                columns={selectedChart?.columns}
-                otherInfo={selectedChart.otherInfo}
-                subCharts={selectedChart.sub_charts}
-                insights={selectedChart.insights}
-                description={selectedChart.description}
-              />
-            ) : (
-              /* If selectedChart is of type MatrixData */
-              <MatrixCard
-                key={selectedMatrix?.key}
-                title={selectedChart?.title}
-                value={selectedChart?.value}
-                growth={parseInt(String(selectedChart?.growth))}
-              />
-            )}
+        {loading ? ( // Display loading indicator when loading is true
+          <div className="flex h-full items-center justify-center">
+            <Spinner />
+            <div className="ml-2">Loading...</div>
           </div>
+        ) : (
+          selectedChart && (
+            <div className="">
+              {/* If selectedChart is of type ChartDescription */}
+              {"chart_type" in selectedChart ? (
+                <DashboardCharts
+                  dashboardType={"sales"}
+                  type={selectedChart.chart_type}
+                  data={selectedChart.data}
+                  chartConfig={selectedChart.chartConfig}
+                  title={selectedChart.name}
+                  filters={selectedChart.filters}
+                  columns={selectedChart?.columns}
+                  otherInfo={selectedChart.otherInfo}
+                  subCharts={selectedChart.sub_charts}
+                  insights={selectedChart.insights}
+                  description={selectedChart.description}
+                />
+              ) : (
+                /* If selectedChart is of type MatrixData */
+                <MatrixCard
+                  key={selectedMatrix?.key}
+                  title={selectedChart?.title}
+                  value={selectedChart?.value}
+                  growth={parseInt(String(selectedChart?.growth))}
+                />
+              )}
+            </div>
+          )
         )}
       </div>
 
@@ -112,33 +124,40 @@ function MatrixDataPage() {
                 onChange={handleFilterChange}
               />
 
-              {selectedChart && (
-                <>
-                  {/* If selectedChart is of type ChartDescription */}
-                  {"chart_type" in selectedChart ? (
-                    <DashboardCharts
-                      dashboardType={"sales"}
-                      type={selectedChart.chart_type}
-                      data={selectedChart.data}
-                      chartConfig={selectedChart.chartConfig}
-                      title={selectedChart.name}
-                      filters={selectedChart.filters}
-                      columns={selectedChart?.columns}
-                      otherInfo={selectedChart.otherInfo}
-                      subCharts={selectedChart.sub_charts}
-                      insights={selectedChart.insights}
-                      description={selectedChart.description}
-                    />
-                  ) : (
-                    /* If selectedChart is of type MatrixData */
-                    <MatrixCard
-                      key={selectedMatrix?.key}
-                      title={selectedChart?.title}
-                      value={selectedChart?.value}
-                      growth={parseInt(String(selectedChart?.growth))}
-                    />
-                  )}
-                </>
+              {loading ? ( // Display loading indicator when loading is true
+                <div className="flex h-full items-center justify-center">
+                  <Spinner />
+                  <div className="ml-2">Loading...</div>
+                </div>
+              ) : (
+                selectedChart && (
+                  <>
+                    {/* If selectedChart is of type ChartDescription */}
+                    {"chart_type" in selectedChart ? (
+                      <DashboardCharts
+                        dashboardType={"sales"}
+                        type={selectedChart.chart_type}
+                        data={selectedChart.data}
+                        chartConfig={selectedChart.chartConfig}
+                        title={selectedChart.name}
+                        filters={selectedChart.filters}
+                        columns={selectedChart?.columns}
+                        otherInfo={selectedChart.otherInfo}
+                        subCharts={selectedChart.sub_charts}
+                        insights={selectedChart.insights}
+                        description={selectedChart.description}
+                      />
+                    ) : (
+                      /* If selectedChart is of type MatrixData */
+                      <MatrixCard
+                        key={selectedMatrix?.key}
+                        title={selectedChart?.title}
+                        value={selectedChart?.value}
+                        growth={parseInt(String(selectedChart?.growth))}
+                      />
+                    )}
+                  </>
+                )
               )}
             </div>
           </div>

@@ -49,7 +49,6 @@ function DashboardDetailPage() {
 
   useEffect(() => {
     const fetchMatrixData = async () => {
-      setLoading(true); // Start loading
       const date = new Date();
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
 
@@ -57,17 +56,9 @@ function DashboardDetailPage() {
       if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
         setMatrixData(matrixOutput);
       }
-      setLoading(false); // End loading once data is fetched
     };
 
-    if (dashboard) {
-      fetchMatrixData();
-    }
-  }, [dashboard, filters]);
-
-  useEffect(() => {
     const fetchChartsData = async () => {
-      setLoading(true); // Start loading
       const date = new Date();
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
       if (dashboard?.calculate_charts) {
@@ -78,12 +69,17 @@ function DashboardDetailPage() {
         );
         setCharts(allCharts);
       }
-      setLoading(false); // End loading once data is fetched
     };
 
-    if (dashboard) {
-      fetchChartsData();
-    }
+    const fetchData = async () => {
+      if (dashboard) {
+        setLoading(true);
+        await Promise.all([fetchChartsData(), fetchMatrixData()]);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [dashboard, filters]);
 
   return (
@@ -154,8 +150,8 @@ function DashboardDetailPage() {
                   {matrixData && matrixData[3].value === "N/A" ? (
                     <Exceptions
                       svg={<NoDataException />}
-                      title="This Is for Premium Users"
-                      description="This feature is only available for registered brokers."
+                      title="No data available for the selected filter"
+                      description="No data for the selected criteria. try changing the filters."
                       className="col-span-2"
                     />
                   ) : (
