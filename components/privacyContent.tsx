@@ -2,7 +2,7 @@ import React from "react";
 
 function PrivacyContent() {
   return (
-    <div className="flex flex-col gap-4 w-full pt-12 md:pt-4 px-2 pb-4">
+    <div className="flex flex-col gap-4 w-full pt-12 md:pt-4 px-4 pb-4">
       <div className="flex flex-col gap-2">
         <h3 className="text-muted-foreground text-base font-bold">
           1. Introduction
