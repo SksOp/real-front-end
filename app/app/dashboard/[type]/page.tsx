@@ -23,7 +23,11 @@ import InsightCard from "@/components/insightCard";
 import DonutChartComponent from "@/components/chart/donutChart/donutChart";
 import ChartWrapper from "@/components/chart/chartWrapper";
 import Exceptions from "@/components/exceptions";
-import { NoDataException } from "@/public/svg/exceptions";
+import {
+  FlaskException,
+  NoDataException,
+  SelectDataException,
+} from "@/public/svg/exceptions";
 import LoadingWidget from "@/components/loadingWidget";
 
 function DashboardDetailPage() {
@@ -85,44 +89,57 @@ function DashboardDetailPage() {
   return (
     <Layout page="dashboards" title={dashboard?.name ?? ""} className="sticky">
       <div className="flex flex-col w-full gap-3 md:hidden top-11">
-        <Filters
-          selectOptions={dashboard?.page_filters || []}
-          selectedFilters={filters}
-          onChange={handleFilterChange}
-        />
+        {dashboard?.tag === "upcoming" ? (
+          <Exceptions
+            svg={<FlaskException />}
+            title={"Comming Soon!"}
+            description={
+              "This dashboard is not yet available, this is getting cooked!"
+            }
+          />
+        ) : (
+          <>
+            <Filters
+              selectOptions={dashboard?.page_filters || []}
+              selectedFilters={filters}
+              onChange={handleFilterChange}
+            />
+            <main ref={navRef}>
+              <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
+                <div className="grid grid-cols-2 gap-3 w-full">
+                  {matrixData?.map((item, index) => (
+                    <MatrixCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={parseInt(String(item.growth))}
+                    />
+                  ))}
+                </div>
+                {charts?.map((chart, index) => (
+                  <DashboardCharts
+                    dashboardType={
+                      dashboard?.dashboard_filters?.mode || "sales"
+                    }
+                    key={index}
+                    type={chart.chart_type}
+                    data={chart.data}
+                    chartConfig={chart.chartConfig}
+                    title={chart.name}
+                    filters={chart.filters}
+                    columns={chart?.columns}
+                    otherInfo={chart.otherInfo}
+                    subCharts={chart.sub_charts}
+                    insights={chart.insights}
+                    description={chart.description}
+                  />
+                ))}
 
-        <main ref={navRef}>
-          <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
-            <div className="grid grid-cols-2 gap-3 w-full">
-              {matrixData?.map((item, index) => (
-                <MatrixCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  growth={parseInt(String(item.growth))}
-                />
-              ))}
-            </div>
-            {charts?.map((chart, index) => (
-              <DashboardCharts
-                dashboardType={dashboard?.dashboard_filters?.mode || "sales"}
-                key={index}
-                type={chart.chart_type}
-                data={chart.data}
-                chartConfig={chart.chartConfig}
-                title={chart.name}
-                filters={chart.filters}
-                columns={chart?.columns}
-                otherInfo={chart.otherInfo}
-                subCharts={chart.sub_charts}
-                insights={chart.insights}
-                description={chart.description}
-              />
-            ))}
-
-            <Feedback />
-          </div>
-        </main>
+                <Feedback />
+              </div>
+            </main>
+          </>
+        )}
       </div>
 
       <div className="md:flex w-full justify-between hidden ">
@@ -135,101 +152,119 @@ function DashboardDetailPage() {
               <DashboardData />
             </div>
             <div className="md:flex md:flex-col md:w-2/3 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              <Filters
-                selectOptions={dashboard?.page_filters || []}
-                selectedFilters={filters}
-                onChange={handleFilterChange}
-              />
-              {loading ? (
-                <div className="flex h-full  items-center justify-center">
-                  <Spinner />
-                  <div className="ml-2">Loading...</div>
-                </div>
+              {dashboard?.tag === "upcoming" ? (
+                <Exceptions
+                  svg={<FlaskException />}
+                  title={"Comming Soon!"}
+                  description={
+                    "This dashboard is not yet available, this is getting cooked!"
+                  }
+                />
               ) : (
                 <>
-                  {matrixData && matrixData[3].value === "N/A" ? (
-                    <Exceptions
-                      svg={<NoDataException />}
-                      title="No data available for the selected filter"
-                      description="No data for the selected criteria. try changing the filters."
-                      className="col-span-2"
-                    />
-                  ) : (
-                    <div className="px-1 mb-4 flex flex-col gap-4 w-full">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
-                        {matrixData?.map((item, index) => (
-                          <MatrixCard
-                            key={index}
-                            title={item.title}
-                            value={item.value}
-                            growth={parseInt(String(item.growth))}
-                          />
-                        ))}
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4  justify-items-center w-full">
-                        {charts?.map((chart, index) =>
-                          index === 3 ? (
-                            <ChartWrapper
-                              title="Transactions Value Index"
-                              description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
-                              className="col-span-2"
-                            >
-                              <div className="flex justify-center items-stretch   gap-3">
-                                <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
-                                  <div className="flex flex-col justify-between items-center  gap-10 ">
-                                    <SalesIndexCardComponent
-                                      percentile25={chart.data[0]}
-                                      percentile75={chart.data[1]}
-                                      knob={(chart.data[0] + chart.data[1]) / 2}
-                                    />
-                                    <InsightCard>{chart.insights}</InsightCard>
-                                  </div>
-                                </SecondaryChartWrapper>
-                                <SecondaryChartWrapper>
-                                  <div className="flex flex-col justify-between items-center gap-10 ">
-                                    <DonutChartComponent
-                                      chartConfig={
-                                        chart.sub_charts[0]?.chartConfig
-                                      }
-                                      data={chart.sub_charts[0].data}
-                                      dataKey="value"
-                                      nameKey="name"
-                                    />
-                                    <InsightCard>
-                                      {chart.sub_charts[0].insights}
-                                    </InsightCard>
-                                  </div>
-                                </SecondaryChartWrapper>
-                              </div>
-                            </ChartWrapper>
-                          ) : (
-                            <DashboardCharts
-                              key={index + 1}
-                              dashboardType={
-                                dashboard?.dashboard_filters?.mode || "sales"
-                              }
-                              type={chart.chart_type}
-                              data={chart.data}
-                              chartConfig={chart.chartConfig}
-                              title={chart.name}
-                              filters={chart.filters}
-                              columns={chart?.columns}
-                              otherInfo={chart.otherInfo}
-                              subCharts={chart.sub_charts}
-                              description={chart.description}
-                              insights={chart?.insights}
-                              className={cn(
-                                "",
-                                (index === 0 || index === 6) && "col-span-2"
-                              )}
-                            />
-                          )
-                        )}{" "}
-                        <Feedback />
-                        <SharingCard />
-                      </div>
+                  {" "}
+                  <Filters
+                    selectOptions={dashboard?.page_filters || []}
+                    selectedFilters={filters}
+                    onChange={handleFilterChange}
+                  />
+                  {loading ? (
+                    <div className="flex h-full  items-center justify-center">
+                      <Spinner />
+                      <div className="ml-2">Loading...</div>
                     </div>
+                  ) : (
+                    <>
+                      {matrixData && matrixData[3].value === "N/A" ? (
+                        <Exceptions
+                          svg={<NoDataException />}
+                          title="No data available for the selected filter"
+                          description="No data for the selected criteria. try changing the filters."
+                          className="col-span-2"
+                        />
+                      ) : (
+                        <div className="px-1 mb-4 flex flex-col gap-4 w-full">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+                            {matrixData?.map((item, index) => (
+                              <MatrixCard
+                                key={index}
+                                title={item.title}
+                                value={item.value}
+                                growth={parseInt(String(item.growth))}
+                              />
+                            ))}
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4  justify-items-center w-full">
+                            {charts?.map((chart, index) =>
+                              index === 3 ? (
+                                <ChartWrapper
+                                  title="Transactions Value Index"
+                                  description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
+                                  className="col-span-2"
+                                >
+                                  <div className="flex justify-center items-stretch   gap-3">
+                                    <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
+                                      <div className="flex flex-col justify-between items-center  gap-10 ">
+                                        <SalesIndexCardComponent
+                                          percentile25={chart.data[0]}
+                                          percentile75={chart.data[1]}
+                                          knob={
+                                            (chart.data[0] + chart.data[1]) / 2
+                                          }
+                                        />
+                                        <InsightCard>
+                                          {chart.insights}
+                                        </InsightCard>
+                                      </div>
+                                    </SecondaryChartWrapper>
+                                    <SecondaryChartWrapper>
+                                      <div className="flex flex-col justify-between items-center gap-10 ">
+                                        <DonutChartComponent
+                                          chartConfig={
+                                            chart.sub_charts[0]?.chartConfig
+                                          }
+                                          data={chart.sub_charts[0].data}
+                                          dataKey="value"
+                                          nameKey="name"
+                                        />
+                                        <InsightCard>
+                                          {chart.sub_charts[0].insights}
+                                        </InsightCard>
+                                      </div>
+                                    </SecondaryChartWrapper>
+                                  </div>
+                                </ChartWrapper>
+                              ) : (
+                                <DashboardCharts
+                                  key={index + 1}
+                                  dashboardType={
+                                    dashboard?.dashboard_filters?.mode ||
+                                    "sales"
+                                  }
+                                  type={chart.chart_type}
+                                  data={chart.data}
+                                  chartConfig={chart.chartConfig}
+                                  title={chart.name}
+                                  filters={chart.filters}
+                                  columns={chart?.columns}
+                                  otherInfo={chart.otherInfo}
+                                  subCharts={chart.sub_charts}
+                                  description={chart.description}
+                                  insights={chart?.insights}
+                                  className={cn(
+                                    "",
+                                    (index === 0 || index === 6) && "col-span-2"
+                                  )}
+                                />
+                              )
+                            )}{" "}
+                            <Feedback />
+                            <SharingCard />
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}

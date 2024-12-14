@@ -13,6 +13,7 @@ import DonutChartComponent from "./chart/donutChart/donutChart";
 import SecondaryChartWrapper from "./secondaryChartWrapper";
 import { cn } from "@/lib/utils";
 import InsightCard from "./insightCard";
+import HorizontalBarChartComponent from "./chart/horizontalbarchart/horizontalbarchart";
 
 interface TransactionInsightsChartProps {
   dashboardType: "sales" | "rental" | null;
@@ -119,6 +120,16 @@ function TransactionInsightsChart({
             data={data}
             selectedRow={3}
             type={dashboardType || "sales"}
+          />
+        );
+
+      case "horizontal_bar":
+        return (
+          <HorizontalBarChartComponent
+            chartConfig={chartConfig}
+            data={data}
+            xAxisDataKey={"name"}
+            yAxisDataKey={"value"}
           />
         );
 

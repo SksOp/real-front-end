@@ -61,7 +61,7 @@ function HomeVolumeIndex() {
           </UnderlineTabsTrigger>
           <UnderlineTabsTrigger
             value="value"
-            className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit"
+            className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
           >
             Transaction (Value)
           </UnderlineTabsTrigger>

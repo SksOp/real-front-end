@@ -27,16 +27,7 @@ function DashboardData() {
   }, [pathname]);
 
   const createLink = (dashboard: Dashboard) =>
-    dashboard.tag === "upcoming" ? (
-      <DataCards tag={dashboard.tag} className="bg-[#FFFEFA] h-full">
-        <h3 className="text-secondary font-semibold text-sm">
-          {dashboard.name}
-        </h3>
-        <p className="text-base text-muted-foreground font-normal leading-6">
-          {dashboard.description}
-        </p>
-      </DataCards>
-    ) : dashboard.key === "explore" ? (
+    dashboard.key === "explore" ? (
       <Link
         key={dashboard.key}
         href={`/app/dashboard/explore`}
@@ -77,6 +68,7 @@ function DashboardData() {
         shallow={true}
       >
         <DataCards
+          tag={dashboard.tag}
           className={
             selectedDashboard === dashboard.key
               ? "border border-secondary rounded-lg bg-[#FEF8F5] h-full"
