@@ -90,7 +90,7 @@ function InsightDrawerView({
     selectedFilter === "sales" ? chartDataSales : chartDataRental;
 
   return (
-    <div className="p-4 flex flex-col gap-4 overflow-y-auto">
+    <div className="py-4 px-3 flex flex-col gap-4 overflow-y-auto">
       <div className="flex items-start justify-start gap-2">
         <LightBulbIcon className="w-8 h-8" />
         <h3 className="text-secondary text-base font-semibold">

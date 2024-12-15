@@ -14,8 +14,10 @@ import {
   TiktokIcon,
   WhatsAppIcon,
 } from "@/public/svg/social";
+import { useToast } from "./ui/use-toast";
 
 function SharingCard() {
+  const { toast } = useToast();
   const shareLink =
     "https://keypilot/Property_10435903?page=1&position=9&term=copy&origin=search&related_id=10435903";
 
@@ -49,8 +51,9 @@ function SharingCard() {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(shareLink).then(() => {
-      alert("Link copied to clipboard!");
+    toast({
+      title: "Link copied!",
+      description: "You can now paste the link anywhere you want.",
     });
   };
 

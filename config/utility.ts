@@ -231,9 +231,7 @@ export const CalculateCharts = async (
   return allCharts;
 };
 
-export const 
-
-SalesTransactionApi = async (
+export const SalesTransactionApi = async (
   pageNo?: number,
   params?: { [key: string]: string | number }
 ) => {
@@ -255,16 +253,13 @@ SalesTransactionApi = async (
         : null;
       const areaInSqft =
         FormatValue((transaction?.PROCEDURE_AREA * 10.764).toFixed(2)) || "N/A";
-      const pricePerSqFt =
-        FormatValue(
-          (transaction?.TRANS_VALUE / parseFloat(areaInSqft)).toFixed(2)
-        ) || 0;
+
       return {
         transactionId: transaction?.TRANSACTION_NUMBER || null,
         areaName: transaction?.AREA_EN || "N/A",
         transactionAmount: transaction?.TRANS_VALUE || 0,
         date,
-        pricePerSqFt: pricePerSqFt, // Assuming static for now
+        pricePerSqFt: transaction?.price_per_sqft.toFixed(2), // Assuming static for now
         badges: [
           transaction?.isOffplan ? "OffPlan" : "Resale",
           transaction?.PROP_TYPE_EN || "N/A",
