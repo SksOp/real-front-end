@@ -64,7 +64,14 @@ function MatrixDataPage() {
           "sticky"
       )}
     >
-      <div className={"flex flex-col w-full  md:hidden px-2"}>
+      <div
+        className={cn(
+          "flex flex-col w-full pt-8  md:hidden px-2",
+          selectedMatrix?.filters &&
+            selectedMatrix?.filters.length > 0 &&
+            "pt-0"
+        )}
+      >
         <Filters
           selectOptions={selectedMatrix?.filters || []}
           selectedFilters={filters}

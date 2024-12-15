@@ -20,7 +20,7 @@ function KeyMatricesPage() {
   return (
     <Layout page="key-matrices" title="Key Matrices">
       <div className="flex w-full justify-center ">
-        <Tabs defaultValue={tab} className="flex flex-col w-full px-2">
+        <Tabs defaultValue={tab} className="flex flex-col w-full ">
           <div className="flex w-full items-center justify-center gap-5 mt-14 md:mt-20 md:mb-2">
             <MatricesSelector />
           </div>

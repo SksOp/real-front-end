@@ -6,33 +6,37 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import InsightDrawerView from "./insightDrawerView";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
-import LoadingWidget from "./loadingWidget";
 import { Spinner } from "./ui/spinner";
 
 function MarketPulseList() {
-  const [activeTab, setActiveTab] = useState("sales"); // Active tab state
+  const [activeTab, setActiveTab] = useState("sales");
 
-  // Sales state
+  // States for sales data
   const [salesTransactions, setSalesTransactions] = useState<any[]>([]);
   const [salesPage, setSalesPage] = useState(1);
   const [isSalesLoading, setIsSalesLoading] = useState(false);
   const [hasMoreSales, setHasMoreSales] = useState(true);
 
-  // Rental state
+  // States for rental data
   const [rentalTransactions, setRentalTransactions] = useState<any[]>([]);
   const [rentalPage, setRentalPage] = useState(1);
   const [isRentalLoading, setIsRentalLoading] = useState(false);
   const [hasMoreRentals, setHasMoreRentals] = useState(true);
 
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
+  // Refs for the last elements
+  const mobileLastElementRef = useRef<HTMLDivElement | null>(null);
+  const desktopLastElementRef = useRef<HTMLDivElement | null>(null);
 
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  // Lazy loading observer
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
 
     observer.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        const targetEntry = entries.find((entry) => entry.isIntersecting);
+        if (targetEntry) {
           if (activeTab === "sales" && hasMoreSales && !isSalesLoading) {
             setSalesPage((prev) => prev + 1);
           } else if (
@@ -47,8 +51,13 @@ function MarketPulseList() {
       { threshold: 1.0 }
     );
 
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
+    const observeTarget =
+      window.innerWidth < 768
+        ? mobileLastElementRef.current
+        : desktopLastElementRef.current;
+
+    if (observeTarget) {
+      observer.current.observe(observeTarget);
     }
 
     return () => observer.current?.disconnect();
@@ -60,6 +69,7 @@ function MarketPulseList() {
     isRentalLoading,
   ]);
 
+  // Fetch sales transactions
   useEffect(() => {
     const fetchSalesTransactions = async () => {
       setIsSalesLoading(true);
@@ -81,12 +91,12 @@ function MarketPulseList() {
     if (activeTab === "sales") fetchSalesTransactions();
   }, [salesPage, activeTab]);
 
+  // Fetch rental transactions
   useEffect(() => {
     const fetchRentalTransactions = async () => {
       setIsRentalLoading(true);
       try {
         const response = await MarketPulseRentalApi(rentalPage);
-        console.log(response);
         if (response && response.length > 0) {
           setRentalTransactions((prev) => [...prev, ...response]);
         } else {
@@ -122,52 +132,45 @@ function MarketPulseList() {
       <TabsContent value="sales" className="w-full mt-1">
         <div className="flex flex-col gap-3 md:hidden">
           {salesTransactions.map((transaction, index) => (
-            <Drawer>
+            <Drawer key={index}>
               <DrawerTrigger>
-                <MarketPulseCard
-                  key={index}
-                  type={activeTab}
-                  {...transaction}
-                />
+                <MarketPulseCard type={activeTab} {...transaction} />
               </DrawerTrigger>
               <DrawerContent className="max-h-[80vh] p-0 ">
                 <InsightDrawerView
-                  priceperSqft={
-                    activeTab === "sales"
-                      ? transaction.avg_price_per_sqft
-                      : null
-                  }
+                  priceperSqft={transaction.avg_price_per_sqft}
                   location_name={transaction.area_name}
                 />
               </DrawerContent>
             </Drawer>
           ))}
+          <div ref={mobileLastElementRef}>
+            {isSalesLoading && (
+              <div className="flex items-center justify-center">
+                <Spinner />
+                <div className="ml-2">Loading...</div>
+              </div>
+            )}
+            {!hasMoreSales && <p>No more sales transactions</p>}
+          </div>
         </div>
-        <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+        <div className="hidden md:grid md:grid-cols-3 md:gap-4">
           {salesTransactions.map((transaction, index) => (
-            <Sheet>
+            <Sheet key={index}>
               <SheetTrigger>
-                <MarketPulseCard
-                  key={index}
-                  type={activeTab}
-                  {...transaction}
-                />
+                <MarketPulseCard type={activeTab} {...transaction} />
               </SheetTrigger>
-              <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
+              <SheetContent className="p-0 max-h-full min-w-[30%] overflow-y-auto pb-2">
                 <InsightDrawerView
-                  priceperSqft={
-                    activeTab === "sales"
-                      ? transaction.avg_price_per_sqft
-                      : null
-                  }
+                  priceperSqft={transaction.avg_price_per_sqft}
                   location_name={transaction.area_name}
                 />
               </SheetContent>
             </Sheet>
           ))}
-          <div ref={lastElementRef} className="w-full">
+          <div ref={desktopLastElementRef}>
             {isSalesLoading && (
-              <div className="flex  items-center justify-center">
+              <div className="flex items-center justify-center">
                 <Spinner />
                 <div className="ml-2">Loading...</div>
               </div>
@@ -179,52 +182,50 @@ function MarketPulseList() {
       <TabsContent value="rental" className="w-full mt-1">
         <div className="flex flex-col gap-3 md:hidden">
           {rentalTransactions.map((transaction, index) => (
-            <Drawer>
+            <Drawer key={index}>
               <DrawerTrigger>
-                <MarketPulseCard
-                  key={index}
-                  type={activeTab}
-                  {...transaction}
-                />
+                <MarketPulseCard type={activeTab} {...transaction} />
               </DrawerTrigger>
               <DrawerContent className="max-h-[80vh] p-0 ">
                 <InsightDrawerView
-                  priceperSqft={
-                    activeTab === "sales"
-                      ? transaction.avg_price_per_sqft
-                      : null
-                  }
+                  priceperSqft={transaction.avg_price_per_sqft}
                   location_name={transaction.area_name}
                 />
               </DrawerContent>
             </Drawer>
           ))}
+          <div ref={mobileLastElementRef}>
+            {isRentalLoading && (
+              <div className="flex items-center justify-center">
+                <Spinner />
+                <div className="ml-2">Loading...</div>
+              </div>
+            )}
+            {!hasMoreRentals && <p>No more rental transactions</p>}
+          </div>
         </div>
-        <div className="hidden md:grid md:grid-cols-3 md:gap-4 md:gap-x-4">
+        <div className="hidden md:grid md:grid-cols-3 md:gap-4">
           {rentalTransactions.map((transaction, index) => (
-            <Sheet>
+            <Sheet key={index}>
               <SheetTrigger>
-                <MarketPulseCard
-                  key={index}
-                  type={activeTab}
-                  {...transaction}
-                />
+                <MarketPulseCard type={activeTab} {...transaction} />
               </SheetTrigger>
-              <SheetContent className="p-0  max-h-full min-w-[30%] overflow-y-auto pb-2">
+              <SheetContent className="p-0 max-h-full min-w-[30%] overflow-y-auto pb-2">
                 <InsightDrawerView
-                  priceperSqft={
-                    activeTab === "sales"
-                      ? transaction.avg_price_per_sqft
-                      : null
-                  }
+                  priceperSqft={transaction.avg_price_per_sqft}
                   location_name={transaction.area_name}
                 />
               </SheetContent>
             </Sheet>
           ))}
-          <div ref={lastElementRef}>
-            {isSalesLoading && <p>Loading...</p>}
-            {!hasMoreSales && <p>No more sales transactions</p>}
+          <div ref={desktopLastElementRef}>
+            {isRentalLoading && (
+              <div className="flex items-center justify-center">
+                <Spinner />
+                <div className="ml-2">Loading...</div>
+              </div>
+            )}
+            {!hasMoreRentals && <p>No more rental transactions</p>}
           </div>
         </div>
       </TabsContent>
