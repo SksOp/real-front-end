@@ -24,47 +24,40 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import SignInModel from "@/components/signInModel";
 import LogInModel from "@/components/logInModel";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import SignupTrigger from "@/components/signupTrigger";
+import LoginTrigger from "@/components/loginTrigger";
+import CarouselAd from "@/components/carouselAd";
 
 const SignIn = () => {
   return (
     <div>
-      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-3">
+      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-4">
         <div className="flex flex-col gap-5 pl-1">
-          <h3 className="text-secondary font-bold text-2xl ">
-            Be the top 1% of{" "}
-            <span className="text-primary">Dubai Brokers!</span>
+          <h3 className="text-2xl bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
+            Join Dubai’s Top 1% Broker Club. Put Your Success on Copilot!
           </h3>
           <p className="text-muted-foreground text-base font-normal">
             This app helps you plan how to move up the ladder and be the top
             broker!
           </p>
-          <div className="flex justify-start items-center gap-2 ">
-            <Dialog>
-              <DialogTrigger>
+          <div className="flex items-center justify-start gap-2">
+            <div className="flex justify-start items-center gap-2 ">
+              <SignupTrigger>
                 <Button>Join Now </Button>
-              </DialogTrigger>
-              <DialogContent className="max-h-[75vh]  overflow-y-scroll">
-                <SignInModel />
-              </DialogContent>
-            </Dialog>
+              </SignupTrigger>
 
-            {/* <Dialog>
-              <DialogTrigger> */}
-            <Button
-              variant={"outline"}
-              className="border-primary text-primary font-semibold"
-            >
-              Benefits for Agencies
-            </Button>
-            {/* </DialogTrigger>
-              <DialogContent>
-                <LogInModel />
-              </DialogContent>
-            </Dialog> */}
+              <LoginTrigger>
+                <Button variant={"outline"} className="">
+                  Sign In
+                </Button>
+              </LoginTrigger>
+            </div>
           </div>
         </div>
         <HomeTransactionCard />
         <HomeInsights />
+        <CarouselAd />
         <HomeSalesIndex />
         <HomeTotalAds />
         <HomeTopAreas />

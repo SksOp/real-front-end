@@ -1,4 +1,5 @@
 "use client";
+import CarouselAd from "@/components/carouselAd";
 import ChartWrapper from "@/components/chart/chartWrapper";
 import DonutChartComponent from "@/components/chart/donutChart/donutChart";
 import SalesIndexCardComponent from "@/components/chart/salesIndexcard/salesIndexcard";
@@ -62,6 +63,7 @@ function HomePage() {
         </div>
         <HomeTransactionCard />
         <HomeInsights />
+        <CarouselAd />
         <HomeSalesIndex />
         <HomeTotalAds />
         <HomeTopAreas />

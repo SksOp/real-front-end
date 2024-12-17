@@ -79,9 +79,9 @@ function SignInModel() {
   };
 
   return (
-    <div className=" items-center justify-center p-4">
+    <div className="overflow-y-auto items-center justify-center p-4">
       <div className="flex flex-col gap-5 items-center justify-center  w-full">
-        <h3 className="text-secondary font-bold text-2xl -translate-x-1/2 ">
+        <h3 className="text-secondary font-bold text-2xl w-full md:px-6">
           Create Account.
         </h3>
 

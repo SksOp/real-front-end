@@ -9,7 +9,7 @@ import {
 import { Button } from "./ui/button";
 import HomeCarousalItem from "./home-Carousal-item";
 import { useAuth } from "@/lib/auth";
-import { carouslItems } from "@/constants/carousal";
+import CarouselAd from "./carouselAd";
 
 function HomeIntro() {
   const auth = useAuth();
@@ -32,12 +32,6 @@ function HomeIntro() {
       setGreeting("Good Evening");
     }
   }, [auth]);
-
-  // Function to handle slide change
-  const handleSlideChange = (event: any) => {
-    const index = event.detail.index; // Example: adjust based on the library's API
-    setActiveSlide(index);
-  };
 
   return (
     <div className="w-full p-4 ">
@@ -68,26 +62,7 @@ function HomeIntro() {
           </div>
         )}
 
-        <Carousel className="w-full">
-          <CarouselContent
-            onChange={(index) => handleSlideChange(index)} // Pass handler to Carousel
-            className=""
-          >
-            {carouslItems.map((item, idx) => (
-              <CarouselItem key={item.id}>
-                <HomeCarousalItem
-                  title={item.title}
-                  description={item.description}
-                  image={item.image}
-                  btn={auth?.user ? false : true}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-
-          {/* Dynamic Dots */}
-          <CarouselDots />
-        </Carousel>
+        <CarouselAd />
       </div>
     </div>
   );
