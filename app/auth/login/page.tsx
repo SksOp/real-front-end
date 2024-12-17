@@ -62,7 +62,9 @@ const SignIn = () => {
         <HomeTotalAds />
         <HomeTopAreas />
         <HomePriceIndex />
-        <HomeListing />
+        <LoginTrigger>
+          <HomeListing />
+        </LoginTrigger>
         <FrequentQuestions />
         <SharingCard />
         <Footer />
@@ -82,7 +84,9 @@ const SignIn = () => {
               <HomeInsights />
             </div>
             <div className="flex flex-col gap-3">
-              <HomeListing />
+              <LoginTrigger className="">
+                <HomeListing />
+              </LoginTrigger>
             </div>
           </div>
           <div className="grid grid-cols-2 w-full items-start  gap-3 gap-x-4">

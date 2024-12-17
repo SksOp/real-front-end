@@ -10,9 +10,11 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import PropertiesCard from "./propertiesCard";
+import { useAuth } from "@/lib/auth";
 
 function HomeListing() {
   const router = useRouter();
+  const auth = useAuth();
   const images = [
     "/imgs/prop/prop1.svg",
     "/imgs/prop/prop2.svg",
@@ -25,9 +27,9 @@ function HomeListing() {
     <>
       <Card
         className="border rounded-xl w-full h-full p-3 bg-[#FCFBEE] flex flex-col gap-1 "
-        onClick={() => router.push("/app/listings")}
+        onClick={() => auth.user && router.push("/app/listings")}
       >
-        <CardHeader className="w-full flex flex-col gap-3 md:gap-3 p-0">
+        <CardHeader className="w-full flex flex-col items-start text-left gap-3 md:gap-3 p-0">
           <CardTitle className="text-sm font-semibold text-secondary">
             My Properties
           </CardTitle>
