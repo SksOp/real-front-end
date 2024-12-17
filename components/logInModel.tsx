@@ -8,6 +8,7 @@ import { useToast } from "./ui/use-toast";
 import { signInWithGoogle } from "@/lib/auth";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import SignupTrigger from "./signupTrigger";
 
 function LogInModel() {
   const [email, setEmail] = useState("");
@@ -106,14 +107,13 @@ function LogInModel() {
           <GoogleIcon />
           Continue with Google
         </Button>
-        <h3 className="text-accent font-normal text-sm">
+        <h3 className="text-accent font-normal text-sm flex gap-1">
           Don’t have an account?{" "}
-          <span
-            className="text-primary font-semibold cursor-pointer"
-            onClick={() => router.push("/auth/sign-up")}
-          >
-            Create One
-          </span>
+          <SignupTrigger>
+            <span className="text-primary font-semibold cursor-pointer">
+              Create One
+            </span>
+          </SignupTrigger>
         </h3>
       </div>
     </div>

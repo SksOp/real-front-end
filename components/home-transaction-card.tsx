@@ -7,6 +7,8 @@ import { CalculateMatrix, SalesTransactionApi } from "@/config/utility";
 import { MatrixData } from "@/config/types";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/config/constant";
+import { useAuth } from "@/lib/auth";
+import LoginTrigger from "./loginTrigger";
 
 interface MatrixCardProps {
   title: string;
@@ -23,6 +25,7 @@ function HomeTransactionCard() {
   const [rentalMatrix, setRentalMatrix] = React.useState<MatrixData[]>([]);
   const [mortageMatrix, setMortageMatrix] = React.useState<MatrixData[]>([]);
   const router = useRouter();
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -58,12 +61,20 @@ function HomeTransactionCard() {
     <Card className="border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-3">
       <CardHeader className="flex flex-row justify-between items-center text-center p-0 w-full ">
         <h3 className="text-lg font-semibold text-secondary">Transactions</h3>
-        <h3
-          className="text-sm font-semibold text-primary cursor-pointer"
-          onClick={() => router.push("/app/transactions")}
-        >
-          Go to transactions
-        </h3>
+        {auth.user ? (
+          <h3
+            className="text-sm font-semibold text-primary cursor-pointer"
+            onClick={() => router.push("/app/transactions")}
+          >
+            Go to transactions
+          </h3>
+        ) : (
+          <LoginTrigger className="flex justify-end w-full">
+            <h3 className="text-sm font-semibold text-primary cursor-pointer">
+              Go to transactions
+            </h3>
+          </LoginTrigger>
+        )}
       </CardHeader>
       <CardContent className="p-0 w-full flex flex-col gap-3">
         <Tabs defaultValue="sales">

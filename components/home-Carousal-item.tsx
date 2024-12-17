@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Button } from "./ui/button";
+import SignupTrigger from "./signupTrigger";
 
 interface HomeCarousalItemProps {
   title: string;
@@ -35,12 +36,14 @@ function HomeCarousalItem({
         </CardHeader>
         <CardContent className="p-0">
           {btn && (
-            <Button
-              variant={"secondary"}
-              className="px-4 py-2 w-fit rounded-md text-base font-semibold text-white"
-            >
-              Join Now
-            </Button>
+            <SignupTrigger>
+              <Button
+                variant={"secondary"}
+                className="px-4 py-2 w-fit rounded-md text-base font-semibold text-white"
+              >
+                Join Now
+              </Button>
+            </SignupTrigger>
           )}
         </CardContent>
       </div>

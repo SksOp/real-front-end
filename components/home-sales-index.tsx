@@ -28,11 +28,14 @@ import { RentalValueTrend } from "@/config/rental";
 import { ChartDescription, MatrixData } from "@/config/types";
 import ChartException from "./chartException";
 import { SalesIndexMatrices } from "@/config/sales_index";
+import { useAuth } from "@/lib/auth";
+import LoginTrigger from "./loginTrigger";
 
 function HomeSalesIndex() {
   const [salesIndex, setSalesIndex] = React.useState<ChartDescription>();
   const [salesValue, setSalesValue] = React.useState<ChartDescription>();
   const router = useRouter();
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,12 +74,20 @@ function HomeSalesIndex() {
           </UnderlineTabsTrigger>
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
-          <h3
-            className="text-sm font-semibold text-primary cursor-pointer"
-            onClick={() => router.push("/app/dashboard")}
-          >
-            View All
-          </h3>
+          {auth.user ? (
+            <h3
+              className="text-sm font-semibold text-primary cursor-pointer"
+              onClick={() => router.push("/app/dashboard")}
+            >
+              View All
+            </h3>
+          ) : (
+            <LoginTrigger>
+              <h3 className="text-sm font-semibold text-primary cursor-pointer">
+                View All
+              </h3>
+            </LoginTrigger>
+          )}
           <HorizontalDotsIcon />
         </div>
       </div>

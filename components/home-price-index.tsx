@@ -22,11 +22,14 @@ import { ChartDescription } from "@/config/types";
 import ChartException from "./chartException";
 import PriceChangesTable from "./price-changes-table";
 import { MarketPulseApi } from "@/config/utility";
+import { useAuth } from "@/lib/auth";
+import LoginTrigger from "./loginTrigger";
 
 function HomePriceIndex() {
   const [salesData, setSalesData] = React.useState<any[]>([]);
   const [rentalData, setRentalData] = React.useState<ChartDescription>();
   const router = useRouter();
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,12 +68,20 @@ function HomePriceIndex() {
           </UnderlineTabsTrigger> */}
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
-          <h3
-            className="text-sm font-semibold text-primary cursor-pointer"
-            onClick={() => router.push("/app/dashboard")}
-          >
-            View All
-          </h3>
+          {auth.user ? (
+            <h3
+              className="text-sm font-semibold text-primary cursor-pointer"
+              onClick={() => router.push("/app/dashboard")}
+            >
+              View All
+            </h3>
+          ) : (
+            <LoginTrigger>
+              <h3 className="text-sm font-semibold text-primary cursor-pointer">
+                View All
+              </h3>
+            </LoginTrigger>
+          )}
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">

@@ -12,6 +12,8 @@ import {
   signUpWithEmail,
 } from "@/lib/auth";
 import { GoogleIcon } from "@/public/svg/auth";
+import SignupTrigger from "./signupTrigger";
+import LoginTrigger from "./loginTrigger";
 
 function SignInModel() {
   const [email, setEmail] = useState("");
@@ -192,14 +194,13 @@ function SignInModel() {
           <GoogleIcon />
           Continue with Google
         </Button>
-        <h3 className="text-accent font-normal text-sm">
-          Already have an account?{" "}
-          <span
-            className="text-primary font-semibold"
-            onClick={() => router.push("/auth/login")}
-          >
-            Login
-          </span>
+        <h3 className="text-accent font-normal text-sm whitespace-nowrap flex gap-1">
+          Already have an account?
+          <LoginTrigger>
+            <span className="text-primary font-semibold cursor-pointer">
+              Login
+            </span>
+          </LoginTrigger>
         </h3>
       </div>
     </div>

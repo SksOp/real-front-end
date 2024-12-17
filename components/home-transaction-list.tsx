@@ -1,40 +1,22 @@
 import React, { useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardContent, CardDescription } from "./ui/card";
 import {
   Tabs as UnderlineTabs,
   TabsContent as UnderlineTabsContent,
   TabsList as UnderlineTabsList,
   TabsTrigger as UnderlineTabsTrigger,
 } from "./ui/underline-tabs";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { ChartConfig } from "./ui/chart";
-import AreaChartComponent from "./chart/areachart/area";
-import InsightCard from "./insightCard";
 import { useRouter } from "next/navigation";
-import {
-  HamburgerIcon,
-  HorizontalDotsIcon,
-  VerticalThreeDots,
-} from "@/public/svg/icons";
-import { SalesPriceComparison, SalesValueTrend } from "@/config/sales";
-import { RentalComparison, RentalValueTrend } from "@/config/rental";
-import { ChartDescription } from "@/config/types";
-import ChartException from "./chartException";
-import PriceChangesTable from "./price-changes-table";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
 import TransactionCard from "./transaction-card";
+import LoginTrigger from "./loginTrigger";
+import { useAuth } from "@/lib/auth";
 
 function HomeTransactionList() {
   const [salesData, setSalesData] = React.useState<any[]>([]);
   const [rentalData, setRentalData] = React.useState<any[]>([]);
   const router = useRouter();
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,12 +51,20 @@ function HomeTransactionList() {
           </UnderlineTabsTrigger>
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
-          <h3
-            className="text-xs font-semibold text-primary cursor-pointer truncate"
-            onClick={() => router.push("/app/dashboard")}
-          >
-            View All
-          </h3>
+          {auth.user ? (
+            <h3
+              className="text-sm font-semibold text-primary cursor-pointer"
+              onClick={() => router.push("/app/dashboard")}
+            >
+              View All
+            </h3>
+          ) : (
+            <LoginTrigger>
+              <h3 className="text-sm font-semibold text-primary cursor-pointer">
+                View All
+              </h3>
+            </LoginTrigger>
+          )}
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col overflow-y-auto shrink gap-3">

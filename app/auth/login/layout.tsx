@@ -51,7 +51,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
                   {item.icon} {item.label}
                 </Button>
               ) : (
-                <LoginTrigger>
+                <LoginTrigger className="w-full">
                   <Button
                     key={item.label}
                     variant="ghost"

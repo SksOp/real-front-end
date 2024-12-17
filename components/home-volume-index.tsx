@@ -27,11 +27,14 @@ import { SalesTrend, SalesValueTrend } from "@/config/sales";
 import { ChartDescription } from "@/config/types";
 import ChartException from "./chartException";
 import Barchart from "./chart/barchart/barchart";
+import LoginTrigger from "./loginTrigger";
+import { useAuth } from "@/lib/auth";
 
 function HomeVolumeIndex() {
   const [volume, setVolume] = React.useState<ChartDescription>();
   const [value, setValue] = React.useState<ChartDescription>();
   const router = useRouter();
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,12 +70,20 @@ function HomeVolumeIndex() {
           </UnderlineTabsTrigger>
         </UnderlineTabsList>
         <div className="md:flex items-center hidden  justify-end gap-4 w-fit">
-          <h3
-            className="text-sm font-semibold text-primary cursor-pointer"
-            onClick={() => router.push("/app/dashboard")}
-          >
-            View All
-          </h3>
+          {auth.user ? (
+            <h3
+              className="text-sm font-semibold text-primary cursor-pointer"
+              onClick={() => router.push("/app/dashboard")}
+            >
+              View All
+            </h3>
+          ) : (
+            <LoginTrigger>
+              <h3 className="text-sm font-semibold text-primary cursor-pointer">
+                View All
+              </h3>
+            </LoginTrigger>
+          )}
           <HorizontalDotsIcon />
         </div>
       </div>

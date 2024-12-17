@@ -14,12 +14,12 @@ import PropertiesCard from "./propertiesCard";
 function HomeListing() {
   const router = useRouter();
   const images = [
-    "/prop1.png",
-    "/prop2.png",
-    "/prop3.png",
-    "/prop4.png",
-    "/prop1.png",
-    "/prop2.png",
+    "/imgs/prop/prop1.svg",
+    "/imgs/prop/prop2.svg",
+    "/imgs/prop/prop3.svg",
+    "/imgs/prop/prop4.svg",
+    "/imgs/prop/prop5.svg",
+    "/imgs/prop/prop6.svg",
   ];
   return (
     <>

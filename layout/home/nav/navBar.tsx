@@ -1,8 +1,10 @@
 "use client";
 import Privacypage from "@/app/support/privacy/page";
 import PrivacyContent from "@/components/privacyContent";
+import PrivacyTrigger from "@/components/privacyTrigger";
 import SidebarContent from "@/components/sidebarContent";
 import TermsContent from "@/components/termsContent";
+import TermsTrigger from "@/components/termsTrigger";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -217,40 +219,25 @@ function Navbar({
                     <SupportIcon />
                     Customer Support
                   </Button>
-                  <Sheet>
-                    <SheetTrigger>
-                      <Button
-                        variant={"ghost"}
-                        className="text-secondary-500 text-sm font-normal gap-1"
-                      >
-                        <PrivacyIcon />
-                        Privacy Policy
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent className="overflow-y-scroll pt-4 min-w-[45%]">
-                      <SheetTitle className="text-base text-secondary ">
-                        Privacy Policy
-                      </SheetTitle>
-                      <PrivacyContent />
-                    </SheetContent>
-                  </Sheet>
-                  <Sheet>
-                    <SheetTrigger>
-                      <Button
-                        variant={"ghost"}
-                        className="text-secondary-500 text-sm font-normal gap-1"
-                      >
-                        <TNCIcon />
-                        Terms and Condition
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent className="overflow-y-scroll pt-4 min-w-[45%]">
-                      <SheetTitle className="text-base text-secondary ">
-                        Terms and Condition
-                      </SheetTitle>
-                      <TermsContent />
-                    </SheetContent>
-                  </Sheet>
+                  <PrivacyTrigger>
+                    <Button
+                      variant={"ghost"}
+                      className="text-secondary-500 text-sm font-normal gap-1"
+                    >
+                      <PrivacyIcon />
+                      Privacy Policy
+                    </Button>
+                  </PrivacyTrigger>
+
+                  <TermsTrigger>
+                    <Button
+                      variant={"ghost"}
+                      className="text-secondary-500 text-sm font-normal gap-1"
+                    >
+                      <TNCIcon />
+                      Terms and Condition
+                    </Button>
+                  </TermsTrigger>
 
                   <Button
                     variant={"ghost"}
