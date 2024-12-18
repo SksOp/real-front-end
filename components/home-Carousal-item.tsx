@@ -23,7 +23,7 @@ function HomeCarousalItem({
   btn = false,
 }: HomeCarousalItemProps) {
   return (
-    <Card className="bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between  overflow-hidden">
+    <Card className="bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between h-[180px] overflow-hidden">
       {/* Text Section */}
       <div className="flex flex-col gap-3 max-w-[60%]">
         <CardHeader className="p-0">

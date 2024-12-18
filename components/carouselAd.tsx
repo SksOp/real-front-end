@@ -21,10 +21,10 @@ function CarouselAd() {
     <Carousel className="w-full">
       <CarouselContent
         onChange={(index) => handleSlideChange(index)} // Pass handler to Carousel
-        className=""
+        className="h-full "
       >
-        {carouslItems.map((item, idx) => (
-          <CarouselItem className="" key={item.id}>
+        {carouslItems.map((item) => (
+          <CarouselItem className="h-full" key={item.id}>
             <HomeCarousalItem
               title={item.title}
               description={item.description}
