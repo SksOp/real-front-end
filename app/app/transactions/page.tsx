@@ -2,18 +2,29 @@
 
 import Exceptions from "@/components/exceptions";
 import InsightDrawerView from "@/components/insightDrawerView";
+import LoadingWidget from "@/components/loadingWidget";
 import MatrixSkeleton from "@/components/matrixSkeleton";
 import TransactionsList from "@/components/transaction-list";
 import TransactionTabs from "@/components/transaction-tabs";
 import TransactionTable from "@/components/transactionTable";
 import { BASE_URL } from "@/config/constant";
 import {
-  CalculateMatrix,
+  RentalMatrix,
   RentalTransactionApi,
+  SalesMatrix,
   SalesTransactionApi,
 } from "@/config/utility";
 import Layout from "@/layout/secondary";
 import { SelectDataException } from "@/public/svg/exceptions";
+import {
+  getRentalMatrix,
+  getSalesMatrix,
+} from "@/repository/tanstack/queries/matrices.queries";
+import {
+  RentalApiResponse,
+  SalesApiResponse,
+} from "@/types/apiResponses/matrices";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -27,6 +38,37 @@ function TransactionPage() {
   const [filters, setFilters] = React.useState<{
     [key: string]: string | number;
   }>({});
+  const {
+    data: SalesTransactions,
+    isLoading: isSalesLoading,
+    isError: isSalesError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    ...filters,
+  });
+
+  const {
+    data: rentalTransactions,
+    isLoading: isRentalLoading,
+    isError: isRentalError,
+  } = getRentalMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    ...filters,
+  });
+
+  const {
+    data: mortageTransactions,
+    isLoading: isMortageLoading,
+    isError: isMortageError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    group_en: "Mortgage",
+    ...filters,
+  });
+
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   useEffect(() => {
@@ -48,39 +90,20 @@ function TransactionPage() {
         };
 
         if (selectedTab === "sales") {
-          const response = await SalesTransactionApi(1, filterParams);
-          const sourceURL = `${BASE_URL}/api/transaction/trends`;
-          const matrixOutput = await CalculateMatrix(
-            sourceURL,
-            "sales",
-            filterParams
-          );
-          setMatrixDataPage(matrixOutput);
+          const response = await SalesTransactionApi(1, filters);
           setTotalPages(response.totalPages);
           setTransactions(response.transactions);
         } else if (selectedTab === "rental") {
-          const response = await RentalTransactionApi(1, filterParams);
-          const sourceURL = `${BASE_URL}/api/rental/average`;
-          const matrixOutput = await CalculateMatrix(
-            sourceURL,
-            "rental",
-            filterParams
-          );
-          setMatrixDataPage(matrixOutput);
+          const response = await RentalTransactionApi(1, filters);
+
           setTotalPages(response.totalPages);
           setTransactions(response.transactions);
-        } else if (selectedTab === "mortgage") {
+        } else if (selectedTab === "mortgage" && !isMortageLoading) {
           const response = await SalesTransactionApi(1, {
             ...filterParams,
             group_en: "Mortgage",
           });
-          const sourceURL = `${BASE_URL}/api/transaction/trends`;
-          const matrixOutput = await CalculateMatrix(sourceURL, "sales", {
-            ...filterParams,
-            group_en: "Mortgage",
-          });
 
-          setMatrixDataPage(matrixOutput);
           setTotalPages(response.totalPages);
           setTransactions(response.transactions);
         }
@@ -92,8 +115,29 @@ function TransactionPage() {
     };
 
     setSelectedRow(null);
+    if (selectedTab === "sales" && !isSalesLoading) {
+      const matrixOutputSales = SalesMatrix(
+        SalesTransactions as SalesApiResponse
+      );
+      setMatrixDataPage(matrixOutputSales);
+    } else if (selectedTab === "rental" && !isRentalLoading) {
+      const matrixOutputRental = RentalMatrix(
+        rentalTransactions as RentalApiResponse
+      );
+      setMatrixDataPage(matrixOutputRental);
+    } else if (selectedTab === "mortgage" && !isMortageLoading) {
+      const matrixOutput = SalesMatrix(mortageTransactions as SalesApiResponse);
+      setMatrixDataPage(matrixOutput);
+    }
+
     fetchTransactions();
-  }, [selectedTab, filters]);
+  }, [
+    selectedTab,
+    filters,
+    SalesTransactions,
+    rentalTransactions,
+    mortageTransactions,
+  ]);
 
   const getLocationname = () => {
     return transactions.find(
@@ -132,7 +176,7 @@ function TransactionPage() {
             filters={filters}
             setFilters={setFilters}
             setSelectedTab={setSelectedTab}
-            isLoading={isLoading}
+            isLoading={isSalesLoading && isRentalLoading && isMortageLoading}
           />
 
           <TransactionTable

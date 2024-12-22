@@ -3,12 +3,25 @@ import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Info } from "lucide-react";
 import MatrixCard from "./matrix-card";
-import { CalculateMatrix, SalesTransactionApi } from "@/config/utility";
+import {
+  RentalMatrix,
+  SalesMatrix,
+  SalesTransactionApi,
+} from "@/config/utility";
 import { MatrixData } from "@/config/types";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/config/constant";
 import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
+import {
+  getRentalMatrix,
+  getSalesMatrix,
+} from "@/repository/tanstack/queries/matrices.queries";
+import { useQuery } from "@tanstack/react-query";
+import {
+  RentalApiResponse,
+  SalesApiResponse,
+} from "@/types/apiResponses/matrices";
 
 interface MatrixCardProps {
   title: string;
@@ -26,36 +39,54 @@ function HomeTransactionCard() {
   const [mortageMatrix, setMortageMatrix] = React.useState<MatrixData[]>([]);
   const router = useRouter();
   const auth = useAuth();
+  const {
+    data: SalesTransactions,
+    isLoading: isSalesLoading,
+    isError: isSalesError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+  });
+
+  const {
+    data: rentalTransactions,
+    isLoading: isRentalLoading,
+    isError: isRentalError,
+  } = getRentalMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+  });
+
+  const {
+    data: mortageTransactions,
+    isLoading: isMortageLoading,
+    isError: isMortageError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    group_en: "Mortgage",
+  });
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      const date = new Date();
-      const presentYear = date.getFullYear();
-      const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}`;
-      const matrixOutputSales = await CalculateMatrix(sourceURLSales, "sales");
-      setSalesMatrix(matrixOutputSales);
-      const sourceURLMortgage = `${BASE_URL}/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}&group_en=Mortgage`;
-      const matrixOutputMortgage = await CalculateMatrix(
-        sourceURLMortgage,
-        "sales"
+    if (SalesTransactions) {
+      const matrixOutputSales = SalesMatrix(
+        SalesTransactions as SalesApiResponse
       );
-      setMortageMatrix(matrixOutputMortgage);
-      const sourceURLRental = `${BASE_URL}/api/rental/average?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}`;
-      const matrixOutputRental = await CalculateMatrix(
-        sourceURLRental,
-        "rental"
+      setSalesMatrix(matrixOutputSales);
+    }
+    if (rentalTransactions) {
+      const matrixOutputRental = RentalMatrix(
+        rentalTransactions as RentalApiResponse
       );
       setRentalMatrix(matrixOutputRental);
-    };
-
-    fetchTransactions();
-  }, []);
+    }
+    if (mortageTransactions) {
+      const matrixOutputMortage = SalesMatrix(
+        mortageTransactions as SalesApiResponse
+      );
+      setMortageMatrix(matrixOutputMortage);
+    }
+  }, [SalesTransactions, rentalTransactions, mortageTransactions]);
 
   return (
     <Card className="border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-3">

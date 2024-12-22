@@ -129,7 +129,7 @@ export interface ChartDescription {
 export interface DashboardFilters {
   mode: "sales" | "rental" | null;
   usage?: "residential" | "commercial" | null;
-  group_en?: "sales" | "gifts" | "mortgage" | null;
+  group_en?: "Sales" | "Gifts" | "Mortgage" | null;
 }
 
 export interface MatrixData {
@@ -155,13 +155,14 @@ export interface Dashboard {
   tag?: string;
   type: "standard" | "custom";
   label?: string;
+  dashboard_type?: "sales" | "rental";
   dashboard_filters: DashboardFilters;
   page_filters: PageFilter[];
 
   matrics?: MatrixData[];
   calculate_matrics?: (params: {
     [key: string]: string | number;
-  }) => Promise<MatrixData[]>;
+  }) => MatrixData[];
   calculate_charts?: {
     key: string;
     calculate: (params: {

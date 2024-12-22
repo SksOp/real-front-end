@@ -2,8 +2,6 @@
 import Feedback from "@/components/feedback";
 import Filters from "@/components/filters";
 import MatrixCard from "@/components/matrix-card";
-import SecondaryNavbar from "@/components/secondaryNavbar";
-import { ChartConfig } from "@/components/ui/chart";
 import { useParams, usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
@@ -28,11 +26,17 @@ import {
   NoDataException,
   SelectDataException,
 } from "@/public/svg/exceptions";
-import LoadingWidget from "@/components/loadingWidget";
+import {
+  getRentalMatrix,
+  getSalesMatrix,
+} from "@/repository/tanstack/queries/matrices.queries";
+import { SalesApiResponse } from "@/types/apiResponses/matrices";
+import { SalesMatrix } from "@/config/utility";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
   const { type } = useParams();
+
   const [dashboard, setDashboard] = useState<Dashboard | undefined>(
     dashboards.find((item) => item.key === type)
   );
@@ -46,22 +50,31 @@ function DashboardDetailPage() {
     {}
   );
   const [loading, setLoading] = useState<boolean>(false); // New loading state
+  const {
+    data: SalesTransactions,
+    isLoading: isSalesLoading,
+    isError: isSalesError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    ...filters,
+  });
+
+  const {
+    data: rentalTransactions,
+    isLoading: isRentalLoading,
+    isError: isRentalError,
+  } = getRentalMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    ...filters,
+  });
 
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
   };
 
   useEffect(() => {
-    const fetchMatrixData = async () => {
-      const date = new Date();
-      if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
-
-      const matrixOutput = await dashboard?.calculate_matrics?.(filters);
-      if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
-        setMatrixData(matrixOutput);
-      }
-    };
-
     const fetchChartsData = async () => {
       const date = new Date();
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
@@ -78,13 +91,19 @@ function DashboardDetailPage() {
     const fetchData = async () => {
       if (dashboard) {
         setLoading(true);
-        await Promise.all([fetchChartsData(), fetchMatrixData()]);
+        await Promise.all([fetchChartsData()]);
         setLoading(false);
       }
     };
 
+    if (dashboard?.dashboard_filters.mode === "sales" && !isSalesLoading) {
+      const matrixOutputSales = SalesMatrix(
+        SalesTransactions as SalesApiResponse
+      );
+      setMatrixData(matrixOutputSales);
+    }
     fetchData();
-  }, [dashboard, filters]);
+  }, [dashboard, filters, SalesTransactions]);
 
   return (
     <Layout page="dashboards" title={dashboard?.name ?? ""} className="sticky">
@@ -175,7 +194,7 @@ function DashboardDetailPage() {
                     </div>
                   ) : (
                     <>
-                      {matrixData && matrixData[3].value === "N/A" ? (
+                      {matrixData && matrixData.length < 1 ? (
                         <Exceptions
                           svg={<NoDataException />}
                           title="No data available for the selected filter"

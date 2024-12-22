@@ -1,7 +1,6 @@
 import axios, { all } from "axios";
 import { Dashboard } from "./types";
 import { RentalFilter, SalesFilter } from "./filters";
-import { CalculateMatrix } from "./utility";
 import {
   SalesIndex,
   SalesPriceComparison,
@@ -22,6 +21,7 @@ import {
   RentalValueTrend,
   RentalVersions,
 } from "./rental";
+import { getSalesMatrix } from "@/repository/tanstack/queries/matrices.queries";
 
 export const dashboards: Dashboard[] = [
   {
@@ -77,21 +77,12 @@ export const dashboards: Dashboard[] = [
       "Comprehensive overview of all sales, mortgages, and gift property transactions.",
     type: "standard",
     label: "new",
+    dashboard_type: "sales",
     dashboard_filters: {
-      usage: null,
       mode: "sales",
     },
 
     page_filters: SalesFilter,
-
-    calculate_matrics: async (params) => {
-      console.log("params", params);
-      const presentYear = params?.end_year;
-      params.start_year = Number(presentYear) - 1;
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
-      return matrixOutput;
-    },
 
     calculate_charts: [
       {
@@ -146,21 +137,10 @@ export const dashboards: Dashboard[] = [
     type: "standard",
     label: "new",
     dashboard_filters: {
-      usage: null,
+      group_en: "Sales",
       mode: "sales",
     },
     page_filters: SalesFilter,
-
-    calculate_matrics: async (params) => {
-      console.log("params", params);
-      const date = new Date();
-      const presentYear = params?.end_year;
-      params.start_year = Number(presentYear) - 1;
-      params.group_en = "Sales";
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
-      return matrixOutput;
-    },
 
     calculate_charts: [
       {

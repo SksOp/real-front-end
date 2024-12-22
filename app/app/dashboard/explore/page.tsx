@@ -18,9 +18,18 @@ import { Tabs } from "@/components/ui/tabs";
 import { BASE_URL } from "@/config/constant";
 import { dashboards } from "@/config/dashboards";
 import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
-import { CalculateCharts, CalculateMatrix } from "@/config/utility";
+import { CalculateCharts, RentalMatrix, SalesMatrix } from "@/config/utility";
 import Layout from "@/layout/secondary";
 import { cn } from "@/lib/utils";
+import {
+  getRentalMatrix,
+  getSalesMatrix,
+} from "@/repository/tanstack/queries/matrices.queries";
+import {
+  RentalApiResponse,
+  SalesApiResponse,
+} from "@/types/apiResponses/matrices";
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 
 function ExplorePage() {
@@ -39,6 +48,25 @@ function ExplorePage() {
     undefined
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const {
+    data: SalesTransactions,
+    isLoading: isSalesLoading,
+    isError: isSalesError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    ...filters,
+  });
+
+  const {
+    data: rentalTransactions,
+    isLoading: isRentalLoading,
+    isError: isRentalError,
+  } = getRentalMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    ...filters,
+  });
 
   const handleInputChange = (key: string, value: any) => {
     setInputValues((prev) => ({
@@ -53,27 +81,21 @@ function ExplorePage() {
     console.log("filters", filters);
   };
 
-  const calculateMatrix = async (
-    transaction_type: "sales" | "rental",
-    subPath: string,
-    params?: { [key: string]: string | number }
-  ) => {
-    const date = new Date();
-    const presentYear = date.getFullYear();
-    const type = transaction_type === "sales" ? "transaction" : "rental";
-    const sourceURL = `${BASE_URL}/api/${type}/${subPath}?start_year=${
-      presentYear - 1
-    }&end_year=${presentYear}`;
-
-    const matrixOutput = await CalculateMatrix(
-      sourceURL,
-      transaction_type,
-      params
-    );
-    if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
-      setMatrixData(matrixOutput);
+  const calculateMatrix = () => {
+    if (inputValues.transaction_type === "Sales" && SalesTransactions) {
+      const matrixOutputSales = SalesMatrix(
+        SalesTransactions as SalesApiResponse
+      );
+      setMatrixData(matrixOutputSales);
+    } else if (
+      inputValues.transaction_type === "Rental" &&
+      rentalTransactions
+    ) {
+      const matrixOutputRental = RentalMatrix(
+        rentalTransactions as RentalApiResponse
+      );
+      setMatrixData(matrixOutputRental);
     }
-    console.log("maaatrrr ", matrixOutput);
   };
 
   useEffect(() => {
@@ -83,8 +105,6 @@ function ExplorePage() {
         inputValues.transaction_type === "Sales" ? "sales" : "rental";
       const subPath =
         inputValues.transaction_type === "Sales" ? "trends" : "average";
-
-      await calculateMatrix(transaction_type, subPath, filters);
 
       const allCharts = await CalculateCharts(transaction_type, filters);
       setCharts(allCharts);
@@ -102,7 +122,7 @@ function ExplorePage() {
       inputValues.transaction_type === "Sales" ? "sales" : "rental";
     const subPath =
       inputValues.transaction_type === "Sales" ? "trends" : "average";
-    await calculateMatrix(transaction_type, subPath);
+    await calculateMatrix();
     const allCharts = await CalculateCharts(transaction_type, params);
     setCharts(allCharts);
     setShowOutput(true);

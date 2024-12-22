@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChartDescription } from "./types";
+import { ChartDescription, MatrixData } from "./types";
 import {
   RentalComparison,
   RentalIndex,
@@ -21,6 +21,12 @@ import {
 } from "./sales";
 import { BASE_URL } from "./constant";
 import { FormatValue } from "@/utils/formatNumbers";
+import { getSalesMatrix } from "@/repository/tanstack/queries/matrices.queries";
+import { useQuery } from "@tanstack/react-query";
+import {
+  RentalApiResponse,
+  SalesApiResponse,
+} from "@/types/apiResponses/matrices";
 
 export const ConvertedParams = (params: { [key: string]: string | number }) => {
   const convertedParams: { [key: string]: string } = {};
@@ -47,151 +53,114 @@ export const ConvertedParams = (params: { [key: string]: string | number }) => {
   return convertedParams;
 };
 
-export const CalculateMatrix = async (
-  url: string,
-  type: string,
-  params?: {
-    [key: string]: string | number;
+const growthCalculator = (current: number, previous: number): number => {
+  if (previous === 0) return 0; // Avoid division by zero
+  return ((current - previous) / previous) * 100;
+};
+
+export const SalesMatrix = (transactions: SalesApiResponse): MatrixData[] => {
+  console.log("tra", transactions);
+  if (!transactions || transactions.data.length < 2) {
+    return [];
   }
-) => {
-  console.log(params);
-  try {
-    const response = await axios.get(url, {
-      params: params,
-    });
 
-    console.log("response", response.data);
-    const transactions = response.data.data.data;
+  const avgSalesValue = transactions.data[1].average_value_of_transactions;
+  const avgSalesValueGrowth = growthCalculator(
+    avgSalesValue,
+    transactions.data[0].average_value_of_transactions
+  );
+  const avgPricePerSqft = transactions.data[1].average_Price_per_sqft;
+  const salesPerSqftGrowth = growthCalculator(
+    avgPricePerSqft,
+    transactions.data[0].average_Price_per_sqft
+  );
+  const totalValue = transactions.data[1].Total_Value_of_Transaction;
+  const totalValueGrowth = growthCalculator(
+    totalValue,
+    transactions.data[0].Total_Value_of_Transaction
+  );
+  const noOfTransactions = transactions.data[1].number_of_Row_Used;
+  const noOfTransactionsGrowth = growthCalculator(
+    noOfTransactions,
+    transactions.data[0].number_of_Row_Used
+  );
 
-    if (transactions.length === 0) {
-      throw new Error("No transactions found for the specified filters.");
-    }
-    console.log(transactions);
-    const growthCalculator = (current: number, previous: number) =>
-      ((current - previous) / previous) * 100;
+  return [
+    {
+      key: "avg_sales_value",
+      title: "Average Sales Value",
+      value: avgSalesValue.toFixed(2),
+      growth: avgSalesValueGrowth.toFixed(1),
+    },
+    {
+      key: "avg_price_per_sqft",
+      title: "Avg. Price per SQFT",
+      value: avgPricePerSqft.toFixed(2),
+      growth: salesPerSqftGrowth.toFixed(1),
+    },
+    {
+      key: "total_value",
+      title: "Total Value",
+      value: totalValue.toFixed(2),
+      growth: totalValueGrowth.toFixed(1),
+    },
+    {
+      key: "no_of_transactions",
+      title: "No of Transactions",
+      value: noOfTransactions,
+      growth: noOfTransactionsGrowth.toFixed(1),
+    },
+  ];
+};
 
-    if (type === "sales") {
-      const avgSalesValue = transactions[1].average_value_of_transactions;
-      const avgSalesValueGrowth = growthCalculator(
-        parseFloat(avgSalesValue),
-        parseFloat(transactions[0].average_value_of_transactions)
-      );
-      const avgPricePerSqft = transactions[1].average_Price_per_sqft;
-      const salesPerSqftGrowth = growthCalculator(
-        parseFloat(avgPricePerSqft),
-        parseFloat(transactions[0].average_Price_per_sqft)
-      );
-      const totalValue = transactions[1].Total_Value_of_Transaction;
-      const totalValueGrowth = growthCalculator(
-        parseFloat(totalValue),
-        parseFloat(transactions[0].Total_Value_of_Transaction)
-      );
-      const noOfTransactions = transactions[1].number_of_Row_Used;
-      const noOfTransactionsGrowth = growthCalculator(
-        parseFloat(noOfTransactions),
-        parseFloat(transactions[0].number_of_Row_Used)
-      );
-
-      return [
-        {
-          key: "avg_sales_value",
-          title: "Average Sales Value",
-          value: avgSalesValue.toFixed(2),
-          growth: avgSalesValueGrowth.toFixed(1),
-        },
-        {
-          key: "avg_price_per_sqft",
-          title: "Avg. Price per SQFT",
-          value: avgPricePerSqft.toFixed(2),
-          growth: salesPerSqftGrowth.toFixed(1),
-        },
-        {
-          key: "total_value",
-          title: "Total Value",
-          value: totalValue.toFixed(2),
-          growth: totalValueGrowth.toFixed(1),
-        },
-        {
-          key: "no_of_transactions",
-          title: "No of Transactions",
-          value: noOfTransactions,
-          growth: noOfTransactionsGrowth.toFixed(1),
-        },
-      ];
-    } else {
-      const avgRentNew = transactions[1].avg_rent_new_yearly;
-      const avgRentNewGrowth = growthCalculator(
-        parseFloat(avgRentNew),
-        parseFloat(transactions[0].avg_rent_new_yearly)
-      );
-      const avgRentRenewal = transactions[1].avg_rent_renewal_yearly;
-      const avgRentRenewalGrowth = growthCalculator(
-        parseFloat(avgRentRenewal),
-        parseFloat(transactions[0].avg_rent_renewal_yearly)
-      );
-      const totalTransaction = transactions[1].total_transaction_yearly;
-      const totalTransactionGrowth = growthCalculator(
-        parseFloat(totalTransaction),
-        parseFloat(transactions[0].total_transaction_yearly)
-      );
-      const renewalRatio = transactions[1].renewal_ratio_yearly;
-      const renewalRatioGrowth = growthCalculator(
-        parseFloat(renewalRatio),
-        parseFloat(transactions[0].renewal_ratio_yearly)
-      );
-      console.log(avgRentNewGrowth, avgRentRenewalGrowth);
-      return [
-        {
-          key: "avg_rent_new",
-          title: "Average Rent (New)",
-          value: avgRentNew.toFixed(2),
-          growth: avgRentNewGrowth.toFixed(1),
-        },
-        {
-          key: "sales_per_sqft",
-          title: "Average Rent (Renewal)",
-          value: avgRentRenewal.toFixed(2),
-          growth: avgRentRenewalGrowth.toFixed(1),
-        },
-        {
-          key: "total_transactions",
-          title: "Total Transactions",
-          value: totalTransaction,
-          growth: totalTransactionGrowth.toFixed(1),
-        },
-        {
-          key: "renewal_ratio",
-          title: "Renewal Ratio",
-          value: String((renewalRatio * 100).toFixed(2)) + "%",
-          growth: renewalRatioGrowth.toFixed(1),
-        },
-      ];
-    }
-  } catch (error) {
-    console.error("Error calculating metrics:", error);
-    return [
-      {
-        key: "avg_sales_value",
-        title: "Average Sales Value",
-        value: "N/A",
-      },
-      {
-        key: "sales_per_sqft",
-        title: "Sales Per Sqft",
-        value: "N/A",
-      },
-      {
-        key: "total_value",
-        title: "Total Value",
-        value: "N/A",
-      },
-      {
-        key: "no_of_transactions",
-        title: "No of Transactions",
-        value: "N/A",
-      },
-    ];
-  }
+export const RentalMatrix = (transactions: RentalApiResponse): MatrixData[] => {
+  const avgRentNew = transactions.data[1].avg_rent_new_yearly;
+  const avgRentNewGrowth = growthCalculator(
+    avgRentNew,
+    transactions.data[0].avg_rent_new_yearly
+  );
+  const avgRentRenewal = transactions.data[1].avg_rent_renewal_yearly;
+  const avgRentRenewalGrowth = growthCalculator(
+    avgRentRenewal,
+    transactions.data[0].avg_rent_renewal_yearly
+  );
+  const totalTransaction = transactions.data[1].total_transaction_yearly;
+  const totalTransactionGrowth = growthCalculator(
+    totalTransaction,
+    transactions.data[0].total_transaction_yearly
+  );
+  const renewalRatio = transactions.data[1].renewal_ratio_yearly;
+  const renewalRatioGrowth = growthCalculator(
+    renewalRatio,
+    transactions.data[0].renewal_ratio_yearly
+  );
+  console.log(avgRentNewGrowth, avgRentRenewalGrowth);
+  return [
+    {
+      key: "avg_rent_new",
+      title: "Average Rent (New)",
+      value: avgRentNew.toFixed(2),
+      growth: avgRentNewGrowth.toFixed(1),
+    },
+    {
+      key: "sales_per_sqft",
+      title: "Average Rent (Renewal)",
+      value: avgRentRenewal.toFixed(2),
+      growth: avgRentRenewalGrowth.toFixed(1),
+    },
+    {
+      key: "total_transactions",
+      title: "Total Transactions",
+      value: totalTransaction,
+      growth: totalTransactionGrowth.toFixed(1),
+    },
+    {
+      key: "renewal_ratio",
+      title: "Renewal Ratio",
+      value: String((renewalRatio * 100).toFixed(2)) + "%",
+      growth: renewalRatioGrowth.toFixed(1),
+    },
+  ];
 };
 
 export const CalculateCharts = async (

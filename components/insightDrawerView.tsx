@@ -4,7 +4,7 @@ import ChartWrapper from "./chart/chartWrapper";
 import TransactionTable from "./transactionTable";
 import { ChartDescription, MatrixData } from "@/config/types";
 import { BASE_URL } from "@/config/constant";
-import { CalculateCharts, CalculateMatrix } from "@/config/utility";
+import { CalculateCharts, RentalMatrix, SalesMatrix } from "@/config/utility";
 import MatrixCard from "./matrix-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import DashboardCharts from "./dashboard-charts";
@@ -13,6 +13,14 @@ import TransactionFairPrice from "./transaction-fairPrice";
 import LoadingWidget from "./loadingWidget";
 import { Spinner } from "./ui/spinner";
 import MatrixSkeleton from "./matrixSkeleton";
+import {
+  getRentalMatrix,
+  getSalesMatrix,
+} from "@/repository/tanstack/queries/matrices.queries";
+import {
+  RentalApiResponse,
+  SalesApiResponse,
+} from "@/types/apiResponses/matrices";
 
 function InsightDrawerView({
   location_name,
@@ -31,6 +39,25 @@ function InsightDrawerView({
     ChartDescription[]
   >([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const {
+    data: SalesTransactions,
+    isLoading: isSalesLoading,
+    isError: isSalesError,
+  } = getSalesMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    location: location_name,
+  });
+
+  const {
+    data: rentalTransactions,
+    isLoading: isRentalLoading,
+    isError: isRentalError,
+  } = getRentalMatrix({
+    end_year: new Date().getFullYear(),
+    start_year: new Date().getFullYear() - 1,
+    location: location_name,
+  });
 
   const getAllChartData = async () => {
     const year = new Date().getFullYear();
@@ -53,35 +80,24 @@ function InsightDrawerView({
   };
 
   useEffect(() => {
-    const fetchChartData = async () => {
-      const date = new Date();
-      const presentYear = date.getFullYear();
-      setIsLoading(true);
-      // Fetch Sales Matrix Data
-      const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}&location=${location_name}`;
-      const matrixOutputSales = await CalculateMatrix(sourceURLSales, "sales");
-      setSalesMatrix(matrixOutputSales);
-
-      // Fetch Rental Matrix Data
-      const sourceURLRental = `${BASE_URL}/api/rental/average?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}&location=${location_name}`;
-      const matrixOutputRental = await CalculateMatrix(
-        sourceURLRental,
-        "rental"
-      );
-      setRentalMatrix(matrixOutputRental);
-      setIsLoading(false);
-    };
-
     const loadData = async () => {
       setIsLoading(true);
-      await fetchChartData();
       await getAllChartData();
       setIsLoading(false);
     };
+
+    if (SalesTransactions && rentalTransactions) {
+      const matrixOutputSales = SalesMatrix(
+        SalesTransactions as SalesApiResponse
+      );
+      setSalesMatrix(matrixOutputSales);
+    }
+    if (rentalTransactions) {
+      const matrixOutputRental = RentalMatrix(
+        rentalTransactions as RentalApiResponse
+      );
+      setRentalMatrix(matrixOutputRental);
+    }
 
     loadData();
   }, [location_name]);
