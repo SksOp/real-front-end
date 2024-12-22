@@ -36,7 +36,7 @@ function page() {
           <TabsContent value="comercial">
             <Exceptions
               svg={<FlaskException />}
-              title={"Comming Soon!"}
+              title={"Coming Soon!"}
               description={
                 "Comercial dashboard is not yet available, this is getting cooked!"
               }

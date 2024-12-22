@@ -23,6 +23,7 @@ import {
   ShareIcon,
 } from "@/public/svg/Indicator";
 import ChartException from "../chartException";
+import EllipsisMenu from "../ellipsisMenu";
 
 interface ChartWrapperProps {
   title: string;
@@ -59,33 +60,7 @@ function ChartWrapper({
                 View All
               </span>
             )}
-            <span className="flex items-center justify-center">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <Ellipsis />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>
-                    <DownloadIcon className="mr-2" />
-                    <span className="text-sm text-muted-foreground font-medium">
-                      Download
-                    </span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <ShareIcon className="mr-2 " />
-                    <span className="text-sm text-muted-foreground font-medium">
-                      Share
-                    </span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <InfoIcon className="mr-2 " />
-                    <span className="text-sm text-muted-foreground font-medium">
-                      Info
-                    </span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </span>
+            <EllipsisMenu />
           </div>
         </div>
         <CardDescription className="text-base text-accent font-normal line-clamp-2">

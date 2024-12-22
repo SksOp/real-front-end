@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import React from "react";
+import PrivacyTrigger from "./privacyTrigger";
 
 function TermsContent() {
   const router = useRouter();
@@ -36,12 +37,11 @@ function TermsContent() {
           Our commitment to privacy and data protection is detailed in our
           Privacy Policy and complies with UAE regulations and global GDPR
           standards. By using our services, you also agree to our{" "}
-          <span
-            className="text-primary font-bold underline"
-            onClick={() => router.push("/support/privacy")}
-          >
-            Privacy Policy.
-          </span>
+          <PrivacyTrigger>
+            <span className="text-primary font-bold underline">
+              Privacy Policy.
+            </span>
+          </PrivacyTrigger>
         </p>
       </div>
       <div className="flex flex-col gap-2">

@@ -71,7 +71,7 @@ function HomePriceIndex() {
           {auth.user ? (
             <h3
               className="text-sm font-semibold text-primary cursor-pointer"
-              onClick={() => router.push("/app/dashboard")}
+              onClick={() => router.push("/app/market-pulse")}
             >
               View All
             </h3>

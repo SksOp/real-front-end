@@ -70,6 +70,7 @@ function HomePage() {
         <HomePriceIndex />
         <HomeListing />
         <FrequentQuestions />
+        <HomeClaimCard />
         <SharingCard />
         <Footer />
       </div>

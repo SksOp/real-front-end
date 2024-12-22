@@ -56,7 +56,7 @@ function MatrixDataPage() {
 
   return (
     <Layout
-      page="key-matrices"
+      page="key-matrics"
       title={selectedMatrix?.title || "Matrix Name"}
       className={cn(
         selectedMatrix?.filters &&

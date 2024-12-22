@@ -198,11 +198,11 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
                 </LoginTrigger>
                 <LoginTrigger>
                   <TabsTrigger
-                    value="key-matrices"
+                    value="key-matrics"
                     className="text-sm flex items-center gap-1"
-                    onClick={() => setSelectedTab("key-matrices")}
+                    onClick={() => setSelectedTab("key-matrics")}
                   >
-                    {selectedTab === "key-matrices" && <KeyMatricIcon />}
+                    {selectedTab === "key-matrics" && <KeyMatricIcon />}
                     Key Metrics
                   </TabsTrigger>
                 </LoginTrigger>

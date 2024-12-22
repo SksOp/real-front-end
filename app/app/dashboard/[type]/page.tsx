@@ -92,7 +92,7 @@ function DashboardDetailPage() {
         {dashboard?.tag === "upcoming" ? (
           <Exceptions
             svg={<FlaskException />}
-            title={"Comming Soon!"}
+            title={"Coming Soon!"}
             description={
               "This dashboard is not yet available, this is getting cooked!"
             }
@@ -155,7 +155,7 @@ function DashboardDetailPage() {
               {dashboard?.tag === "upcoming" ? (
                 <Exceptions
                   svg={<FlaskException />}
-                  title={"Comming Soon!"}
+                  title={"Coming Soon!"}
                   description={
                     "This dashboard is not yet available, this is getting cooked!"
                   }

@@ -50,11 +50,19 @@ function SharingCard() {
     }
   };
 
-  const handleCopy = () => {
-    toast({
-      title: "Link copied!",
-      description: "You can now paste the link anywhere you want.",
-    });
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareLink);
+      toast({
+        title: "Link copied!",
+        description: "You can now paste the link anywhere you want.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to copy the link. Please try again.",
+      });
+    }
   };
 
   return (

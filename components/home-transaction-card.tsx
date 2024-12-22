@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/config/constant";
 import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
+import MatrixSkeleton from "./matrixSkeleton";
 
 interface MatrixCardProps {
   title: string;
@@ -26,11 +27,13 @@ function HomeTransactionCard() {
   const [mortageMatrix, setMortageMatrix] = React.useState<MatrixData[]>([]);
   const router = useRouter();
   const auth = useAuth();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       const date = new Date();
       const presentYear = date.getFullYear();
+      setIsLoading(true);
       const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
         presentYear - 1
       }&end_year=${presentYear}`;
@@ -52,6 +55,7 @@ function HomeTransactionCard() {
         "rental"
       );
       setRentalMatrix(matrixOutputRental);
+      setIsLoading(false);
     };
 
     fetchTransactions();
@@ -100,26 +104,34 @@ function HomeTransactionCard() {
           </TabsList>
           <TabsContent value="sales" className="w-full flex">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
-              {salesMatrix.map((item, index) => (
-                <MatrixCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  growth={item.growth}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <MatrixSkeleton key={index} />
+                  ))
+                : salesMatrix.map((item, index) => (
+                    <MatrixCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={item.growth}
+                    />
+                  ))}
             </div>
           </TabsContent>
           <TabsContent value="rental" className="w-full flex  mt-0">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
-              {rentalMatrix.map((item, index) => (
-                <MatrixCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  growth={item.growth}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <MatrixSkeleton key={index} />
+                  ))
+                : rentalMatrix.map((item, index) => (
+                    <MatrixCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      growth={item.growth}
+                    />
+                  ))}
             </div>
           </TabsContent>
           <TabsContent value="mortage" className="w-full flex  mt-0">

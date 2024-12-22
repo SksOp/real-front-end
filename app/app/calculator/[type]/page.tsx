@@ -146,7 +146,7 @@ function CalculatorPage() {
         {calculator?.tag === "upcoming" ? (
           <Exceptions
             svg={<FlaskException />}
-            title={"Comming Soon!"}
+            title={"Coming Soon!"}
             description={
               "This calculator is not yet available, this is getting cooked!"
             }
@@ -263,7 +263,7 @@ function CalculatorPage() {
           {calculator?.tag === "upcoming" ? (
             <Exceptions
               svg={<FlaskException />}
-              title={"Comming Soon!"}
+              title={"Coming Soon!"}
               description={
                 "This Calculator is not yet available, this is getting cooked!"
               }

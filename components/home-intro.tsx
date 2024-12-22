@@ -50,10 +50,9 @@ function HomeIntro() {
             </p>
           </div>
         ) : (
-          <div className="flex flex-col gap-5">
-            <h3 className="text-secondary font-bold text-2xl ">
-              Be the top 1% of{" "}
-              <span className="text-primary">Dubai Brokers!</span>
+          <div className="flex flex-col gap-5 pl-1">
+            <h3 className="text-2xl bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
+              Join Dubai’s Top 1% Broker Club. Put Your Success on Copilot!
             </h3>
             <p className="text-muted-foreground text-base font-normal">
               This app helps you plan how to move up the ladder and be the top

@@ -45,9 +45,9 @@ function HomeListing() {
                 )}
               />
             ))}
-            <div className="w-9 h-9 rounded-full bg-white border border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
+            {/* <div className="w-9 h-9 rounded-full bg-white border border-white shadow-lg -ml-4 flex items-center justify-center text-xs font-medium text-muted-foreground">
               +56
-            </div>
+            </div> */}
           </div>
           <h3 className="text-base text-muted-foreground font-normal ">
             Get detailed insights about the properties that you have listed

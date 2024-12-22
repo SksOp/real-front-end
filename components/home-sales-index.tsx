@@ -30,6 +30,7 @@ import ChartException from "./chartException";
 import { SalesIndexMatrices } from "@/config/sales_index";
 import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
+import EllipsisMenu from "./ellipsisMenu";
 
 function HomeSalesIndex() {
   const [salesIndex, setSalesIndex] = React.useState<ChartDescription>();
@@ -88,7 +89,7 @@ function HomeSalesIndex() {
               </h3>
             </LoginTrigger>
           )}
-          <HorizontalDotsIcon />
+          <EllipsisMenu />
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">

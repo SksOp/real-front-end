@@ -73,8 +73,6 @@ const SignIn = () => {
         <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-[calc(100vh-5rem)] overflow-y-auto md:flex flex-col gap-3 pb-4">
           <HomeIntro />
           <FrequentQuestions />
-          <HomeClaimCard />
-          <Feedback />
           <SharingCard />
         </div>
         <div className="w-3/4  max-h-[calc(100vh-5rem)] overflow-y-auto flex flex-col gap-3">

@@ -69,7 +69,9 @@ const HorizontalBarChartComponent: React.FC<
   customGridProps = {},
 }) => {
   // Filter out the data points where the value is 0 and collect categories with 0 values
-  const filteredData = data.filter((item) => item[yAxisDataKey] > 0);
+  const filteredData = data
+    .filter((item) => item[yAxisDataKey] > 0)
+    .sort((a, b) => b[yAxisDataKey] - a[yAxisDataKey]);
   const categoriesWithZeroValues = data
     .filter((item) => item[yAxisDataKey] === 0)
     .map((item) => item[xAxisDataKey]);

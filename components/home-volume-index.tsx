@@ -29,6 +29,7 @@ import ChartException from "./chartException";
 import Barchart from "./chart/barchart/barchart";
 import LoginTrigger from "./loginTrigger";
 import { useAuth } from "@/lib/auth";
+import EllipsisMenu from "./ellipsisMenu";
 
 function HomeVolumeIndex() {
   const [volume, setVolume] = React.useState<ChartDescription>();
@@ -84,7 +85,7 @@ function HomeVolumeIndex() {
               </h3>
             </LoginTrigger>
           )}
-          <HorizontalDotsIcon />
+          <EllipsisMenu />
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">

@@ -63,13 +63,13 @@ export const SalesIndexMatrices: Matrix[] = [
             description:
               "Sales index for overall units regardless property type based on comparison with previous years and base year 2012",
             filters: [
+              { key: "yearly", label: "Yearly", data: yearlyData },
               { key: "monthly", label: "Monthly", data: monthlyData },
               {
                 key: "quarterly",
                 label: "Quarterly",
                 data: quarterlyData,
               },
-              { key: "yearly", label: "Yearly", data: yearlyData },
             ],
             chart_type: "line",
             chartConfig: {
@@ -81,7 +81,7 @@ export const SalesIndexMatrices: Matrix[] = [
             sub_charts: [],
             insights:
               "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-            data: monthlyData, // Calculated data will be here
+            data: yearlyData, // Calculated data will be here
           };
         } catch (error) {
           console.error(error);
@@ -166,13 +166,13 @@ export const SalesIndexMatrices: Matrix[] = [
             description:
               "Sales Value for overall units regardless property type based on comparison with previous years and base year 2012",
             filters: [
+              { key: "yearly", label: "Yearly", data: yearlyData },
               { key: "monthly", label: "Monthly", data: monthlyData },
               {
                 key: "quarterly",
                 label: "Quarterly",
                 data: quarterlyData,
               },
-              { key: "yearly", label: "Yearly", data: yearlyData },
             ],
             chart_type: "line",
             chartConfig: {
@@ -184,7 +184,7 @@ export const SalesIndexMatrices: Matrix[] = [
             sub_charts: [],
             insights:
               "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-            data: monthlyData, // Calculated data will be here
+            data: yearlyData, // Calculated data will be here
           };
         } catch (error) {
           console.error(error);

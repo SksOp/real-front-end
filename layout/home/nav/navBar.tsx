@@ -81,7 +81,10 @@ function Navbar({
       )}
     >
       <div className="flex justify-between items-center w-full md:hidden">
-        <div className="flex items-center justify-start gap-3">
+        <div
+          className="flex items-center justify-start gap-3 cursor-pointer"
+          onClick={() => router.push("/app/home")}
+        >
           <MainLogo />
           <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
         </div>
@@ -96,7 +99,10 @@ function Navbar({
       </div>
       <div className="justify-between items-center gap-3 w-full hidden md:flex">
         <div className="flex justify-start gap-16">
-          <div className="flex items-center justify-start gap-3">
+          <div
+            className="flex items-center justify-start gap-3 cursor-pointer"
+            onClick={() => router.push("/app/home")}
+          >
             <MainLogo />
             <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
           </div>
@@ -150,11 +156,11 @@ function Navbar({
                 My Properties
               </TabsTrigger>
               <TabsTrigger
-                value="key-matrices"
+                value="key-matrics"
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/key-matrics")}
               >
-                {selectedTab === "key-matrices" && <KeyMatricIcon />}
+                {selectedTab === "key-matrics" && <KeyMatricIcon />}
                 Key Metrics
               </TabsTrigger>
               <TabsTrigger
