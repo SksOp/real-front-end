@@ -327,7 +327,9 @@ function CalculatorPage() {
                 {showOutput ? (
                   <div className="flex flex-col items-start justify-start gap-4 w-full mt-4">
                     <h3 className="text-lg font-semibold text-secondary">
-                      Calculation Result
+                      {calculator?.outputTitle
+                        ? calculator?.outputTitle
+                        : "Calculation Result"}
                     </h3>
                     {isLoading ? (
                       <MatrixSkeleton />

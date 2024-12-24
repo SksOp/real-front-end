@@ -56,6 +56,15 @@ export const CalculateMatrix = async (
 ) => {
   console.log(params);
   try {
+    if (!params) {
+      params = {};
+      params.start_year = new Date().getFullYear() - 1;
+      params.end_year = new Date().getFullYear();
+    }
+    if (!params.start_year) {
+      params.start_year = Number(params.end_year) - 1;
+    }
+    console.log(params);
     const response = await axios.get(url, {
       params: params,
     });

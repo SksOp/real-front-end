@@ -70,6 +70,7 @@ export interface Calculator {
   key: string;
   name: string;
   description: string;
+  outputTitle?: string;
   inputs: InputField[];
   outputs: OutputField[];
   tag?: string;

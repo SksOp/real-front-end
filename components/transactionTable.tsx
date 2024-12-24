@@ -14,6 +14,12 @@ import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
 import { FormatValue } from "@/utils/formatNumbers";
 import { RentalTransactionApi, SalesTransactionApi } from "@/config/utility";
 import { Spinner } from "./ui/spinner";
+import Exceptions from "./exceptions";
+import {
+  FetchError,
+  NoDataException,
+  SelectDataException,
+} from "@/public/svg/exceptions";
 
 interface TransactionTableRowProps {
   transactionId: string;
@@ -211,7 +217,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   };
 
   return (
-    <div className="flex h-full flex-col gap-3 w-full">
+    <div className="flex h-full flex-col rounded-xl gap-3 w-full">
       {loading ? (
         <div className="flex  items-center justify-center">
           <Spinner />
@@ -220,26 +226,35 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       ) : (
         <>
           <div className="border rounded-xl w-full">
-            <Table>
-              <TableBody>
-                {transactions?.map((row, index) => (
-                  <TransactionTableRow
-                    key={index}
-                    {...row}
-                    selectedTab={selectedTab}
-                    isMuted={index % 2 === 0}
-                    isSelected={selectedRow === row.transactionId}
-                    onClick={() => onRowSelect?.(row.transactionId)}
-                  />
-                ))}
-              </TableBody>
-            </Table>
+            {transactions.length > 0 ? (
+              <Table>
+                <TableBody>
+                  {transactions?.map((row, index) => (
+                    <TransactionTableRow
+                      key={index}
+                      {...row}
+                      selectedTab={selectedTab}
+                      isMuted={index % 2 === 0}
+                      isSelected={selectedRow === row.transactionId}
+                      onClick={() => onRowSelect?.(row.transactionId)}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <Exceptions
+                svg={<FetchError />}
+                title="Something Went Wrong!"
+                description="This doesn’t happen often, you can let our support know."
+                buttonText="Whatsapp Support"
+              />
+            )}
           </div>
           <Pagination className="flex items-center justify-end bg-background px-6 py-3.5 ">
-            <PaginationContent>
+            <PaginationContent className="flex gap-3">
               <PaginationItem
                 onClick={() => handlePageChange(pageIndex - 1)}
-                className="cursor-pointer"
+                className="cursor-pointer "
               >
                 <ChevronLeft />
               </PaginationItem>
@@ -273,7 +288,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                       isActive={pageIndex === page}
                       onClick={() => handlePageChange(page)}
                     >
-                      {page}
+                      {page.toLocaleString()}
                     </PaginationLink>
                   </PaginationItem>
                 ))}
@@ -290,7 +305,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                     isActive={pageIndex === totalPages}
                     onClick={() => handlePageChange(totalPages)}
                   >
-                    {totalPages}
+                    {totalPages.toLocaleString()}
                   </PaginationLink>
                 </PaginationItem>
               )}

@@ -16,8 +16,11 @@ import SharingCard from "@/components/sharingCard";
 import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
 import { BASE_URL } from "@/config/constant";
-import { dashboards } from "@/config/dashboards";
-import { ChartDescription, Dashboard, MatrixData } from "@/config/types";
+import {
+  ExploreFilterOptionsRental,
+  ExploreFilterOptionsSales,
+} from "@/config/filters";
+import { ChartDescription, MatrixData } from "@/config/types";
 import { CalculateCharts, CalculateMatrix } from "@/config/utility";
 import Layout from "@/layout/secondary";
 import { cn } from "@/lib/utils";
@@ -58,13 +61,8 @@ function ExplorePage() {
     subPath: string,
     params?: { [key: string]: string | number }
   ) => {
-    const date = new Date();
-    const presentYear = date.getFullYear();
     const type = transaction_type === "sales" ? "transaction" : "rental";
-    const sourceURL = `${BASE_URL}/api/${type}/${subPath}?start_year=${
-      presentYear - 1
-    }&end_year=${presentYear}`;
-
+    const sourceURL = `${BASE_URL}/api/${type}/${subPath}`;
     const matrixOutput = await CalculateMatrix(
       sourceURL,
       transaction_type,
@@ -83,7 +81,8 @@ function ExplorePage() {
         inputValues.transaction_type === "Sales" ? "sales" : "rental";
       const subPath =
         inputValues.transaction_type === "Sales" ? "trends" : "average";
-
+      const date = new Date();
+      if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
       await calculateMatrix(transaction_type, subPath, filters);
 
       const allCharts = await CalculateCharts(transaction_type, filters);
@@ -102,11 +101,17 @@ function ExplorePage() {
       inputValues.transaction_type === "Sales" ? "sales" : "rental";
     const subPath =
       inputValues.transaction_type === "Sales" ? "trends" : "average";
+
     await calculateMatrix(transaction_type, subPath);
     const allCharts = await CalculateCharts(transaction_type, params);
     setCharts(allCharts);
     setShowOutput(true);
     setActiveAccordion("output");
+  };
+
+  const handleClearAll = () => {
+    setInputValues({ transaction_type: "", usage: "" });
+    setFilters({});
   };
 
   return (
@@ -128,64 +133,43 @@ function ExplorePage() {
               value={inputValues.transaction_type}
               onChange={(value) => handleInputChange("transaction_type", value)}
             />
-            <CalculatorInputs
-              uniqueKey="usage"
-              type="radio"
-              title="Usage"
-              options={["Residential", "Commercial", "All"]}
-              is_mandatory={true}
-              value={inputValues.usage}
-              onChange={(value) => handleInputChange("usage", value)}
-            />
 
-            {inputValues.transaction_type === "Sales" && (
-              <CalculatorInputs
-                uniqueKey="sale_type"
-                type="radio"
-                title="Sale type"
-                options={["cash", "gift", "mortgage"]}
-                is_mandatory={true}
-                value={inputValues.sale_type}
-                onChange={(value) => handleInputChange("sale_type", value)}
-              />
-            )}
-            {inputValues.transaction_type === "Rental" && (
-              <CalculatorInputs
-                uniqueKey="rental_type"
-                type="radio"
-                title="Rental type"
-                options={["First Sale", "Resale", "All"]}
-                is_mandatory={true}
-                value={inputValues.rental_type}
-                onChange={(value) => handleInputChange("rental_type", value)}
-              />
-            )}
+            {inputValues.transaction_type === "Sales" &&
+              ExploreFilterOptionsSales.map((filter, index) => (
+                <CalculatorInputs
+                  key={index}
+                  uniqueKey={filter.key}
+                  type={filter.type || "dropdown"}
+                  title={filter.label}
+                  options={filter.options}
+                  source={filter.source}
+                  is_mandatory={false}
+                  searchable={filter.searchable}
+                  value={inputValues[filter.key]}
+                  onChange={(value) => handleInputChange(filter.key, value)}
+                />
+              ))}
+            {inputValues.transaction_type === "Rental" &&
+              ExploreFilterOptionsRental.map((filter, index) => (
+                <CalculatorInputs
+                  key={index}
+                  uniqueKey={filter.key}
+                  type={filter.type || "dropdown"}
+                  title={filter.label}
+                  options={filter.options}
+                  source={filter.source}
+                  is_mandatory={false}
+                  searchable={filter.searchable}
+                  value={inputValues[filter.key]}
+                  onChange={(value) => handleInputChange(filter.key, value)}
+                />
+              ))}
 
-            <CalculatorInputs
-              uniqueKey="area"
-              type="dropdown"
-              title="Area"
-              options={["1", "2", "3"]}
-              is_mandatory={true}
-              value={inputValues.area}
-              onChange={(value) => handleInputChange("area", value)}
-            />
-
-            <CalculatorInputs
-              uniqueKey="property_type"
-              type="dropdown"
-              title="Property Type"
-              options={["Unit", "Villa", "Apartment", "Building"]}
-              is_mandatory={true}
-              value={inputValues.property_type}
-              onChange={(value) => handleInputChange("property_type", value)}
-            />
-
-            <div className="w-full flex justify-end items-center pt-4">
+            <div className="w-full flex justify-between gap-4 items-center  pt-4">
               <Button
                 variant={"outline"}
                 className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-full h-14 rounded-xl border"
-                // onClick={}
+                onClick={handleClearAll}
               >
                 Clear All
               </Button>
@@ -202,7 +186,11 @@ function ExplorePage() {
         {showOutput && (
           <div className="flex flex-col items-start justify-center gap-4 w-full">
             <Filters
-              selectOptions={dashboards[0]?.page_filters || []}
+              selectOptions={
+                inputValues.transaction_type === "Sales"
+                  ? ExploreFilterOptionsSales
+                  : ExploreFilterOptionsRental || []
+              }
               selectedFilters={filters}
               onChange={handleFilterChange}
             />
@@ -265,70 +253,47 @@ function ExplorePage() {
                       handleInputChange("transaction_type", value)
                     }
                   />
-                  <CalculatorInputs
-                    uniqueKey="usage"
-                    type="radio"
-                    title="Usage"
-                    options={["Residential", "Commercial", "All"]}
-                    is_mandatory={true}
-                    value={inputValues.usage}
-                    onChange={(value) => handleInputChange("usage", value)}
-                  />
 
-                  {inputValues.transaction_type === "Sales" && (
-                    <CalculatorInputs
-                      uniqueKey="sale_type"
-                      type="radio"
-                      title="Sale type"
-                      options={["cash", "gift", "mortgage"]}
-                      is_mandatory={true}
-                      value={inputValues.sale_type}
-                      onChange={(value) =>
-                        handleInputChange("sale_type", value)
-                      }
-                    />
-                  )}
-                  {inputValues.transaction_type === "Rental" && (
-                    <CalculatorInputs
-                      uniqueKey="rental_type"
-                      type="radio"
-                      title="Rental type"
-                      options={["First Sale", "Resale", "All"]}
-                      is_mandatory={true}
-                      value={inputValues.rental_type}
-                      onChange={(value) =>
-                        handleInputChange("rental_type", value)
-                      }
-                    />
-                  )}
-
-                  <CalculatorInputs
-                    uniqueKey="rooms"
-                    type="dropdown"
-                    title="No. of Rooms"
-                    options={["1", "2", "3"]}
-                    is_mandatory={true}
-                    value={inputValues.rooms}
-                    onChange={(value) => handleInputChange("rooms", value)}
-                  />
-
-                  <CalculatorInputs
-                    uniqueKey="property_type"
-                    type="dropdown"
-                    title="Property Type"
-                    options={["Unit", "Villa", "Apartment", "Building"]}
-                    is_mandatory={true}
-                    value={inputValues.property_type}
-                    onChange={(value) =>
-                      handleInputChange("property_type", value)
-                    }
-                  />
+                  {inputValues.transaction_type === "Sales" &&
+                    ExploreFilterOptionsSales.map((filter, index) => (
+                      <CalculatorInputs
+                        key={index}
+                        uniqueKey={filter.key}
+                        type={filter.type || "dropdown"}
+                        title={filter.label}
+                        options={filter.options}
+                        source={filter.source}
+                        is_mandatory={false}
+                        searchable={filter.searchable}
+                        value={inputValues[filter.key]}
+                        onChange={(value) =>
+                          handleInputChange(filter.key, value)
+                        }
+                      />
+                    ))}
+                  {inputValues.transaction_type === "Rental" &&
+                    ExploreFilterOptionsRental.map((filter, index) => (
+                      <CalculatorInputs
+                        key={index}
+                        uniqueKey={filter.key}
+                        type={filter.type || "dropdown"}
+                        title={filter.label}
+                        options={filter.options}
+                        source={filter.source}
+                        is_mandatory={false}
+                        searchable={filter.searchable}
+                        value={inputValues[filter.key]}
+                        onChange={(value) =>
+                          handleInputChange(filter.key, value)
+                        }
+                      />
+                    ))}
 
                   <div className="w-full flex justify-end items-center gap-4 pt-4">
                     <Button
                       variant={"outline"}
                       className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/6 h-14 rounded-xl border"
-                      // onClick={}
+                      onClick={handleClearAll}
                     >
                       Clear All
                     </Button>
@@ -346,7 +311,11 @@ function ExplorePage() {
               {showOutput && (
                 <div className="flex flex-col items-start justify-center gap-4 w-full">
                   <Filters
-                    selectOptions={dashboards[0]?.page_filters || []}
+                    selectOptions={
+                      inputValues.transaction_type === "Sales"
+                        ? ExploreFilterOptionsSales
+                        : ExploreFilterOptionsRental || []
+                    }
                     selectedFilters={filters}
                     onChange={handleFilterChange}
                   />

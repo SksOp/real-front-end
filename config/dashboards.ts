@@ -149,7 +149,7 @@ export const dashboards: Dashboard[] = [
       usage: null,
       mode: "sales",
     },
-    page_filters: SalesFilter,
+    page_filters: SalesFilter.slice(1),
 
     calculate_matrics: async (params) => {
       console.log("params", params);
@@ -226,7 +226,7 @@ export const dashboards: Dashboard[] = [
       mode: "sales",
     },
 
-    page_filters: SalesFilter,
+    page_filters: SalesFilter.slice(1),
 
     calculate_matrics: async (params) => {
       console.log("params", params);
@@ -302,7 +302,7 @@ export const dashboards: Dashboard[] = [
       group_en: "gifts",
       mode: "sales",
     },
-    page_filters: SalesFilter,
+    page_filters: SalesFilter.slice(1),
 
     calculate_matrics: async (params) => {
       console.log("params", params);
@@ -378,7 +378,7 @@ export const dashboards: Dashboard[] = [
       usage: "residential",
       mode: "sales",
     },
-    page_filters: SalesFilter,
+    page_filters: [...SalesFilter.slice(0, 1), ...SalesFilter.slice(2)],
 
     calculate_matrics: async (params) => {
       console.log("params", params);
@@ -438,7 +438,9 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           params.usage_en = "Residential";
           const data = await SalesSegmentation(params);
-          data.sub_charts = [];
+          data.sub_charts.map((item) => {
+            item.filters = [item.filters[1]];
+          });
           return data;
         },
       },
@@ -455,7 +457,7 @@ export const dashboards: Dashboard[] = [
       usage: "commercial",
       mode: "sales",
     },
-    page_filters: SalesFilter,
+    page_filters: [...SalesFilter.slice(0, 1), ...SalesFilter.slice(2)],
 
     calculate_matrics: async (params) => {
       console.log("params", params);
@@ -515,7 +517,9 @@ export const dashboards: Dashboard[] = [
         calculate: async (params) => {
           params.usage_en = "Commercial";
           const data = await SalesSegmentation(params);
-          data.sub_charts = [];
+          data.sub_charts.map((item) => {
+            item.filters = [item.filters[2]];
+          });
           return data;
         },
       },

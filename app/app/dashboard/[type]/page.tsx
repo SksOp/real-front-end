@@ -28,7 +28,6 @@ import {
   NoDataException,
   SelectDataException,
 } from "@/public/svg/exceptions";
-import LoadingWidget from "@/components/loadingWidget";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
@@ -45,8 +44,7 @@ function DashboardDetailPage() {
   const [filters, setFilters] = useState<{ [key: string]: string | number }>(
     {}
   );
-  const [loading, setLoading] = useState<boolean>(false); // New loading state
-
+  const [loading, setLoading] = useState<boolean>(false);
   const handleFilterChange = (filterKey: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterKey]: value }));
   };

@@ -359,6 +359,7 @@ export const Calculators: Calculator[] = [
     name: "Mortgage Payment Calculator",
     description:
       "Calculate mortgage payments, rates, and affordability for property financing.",
+    outputTitle: "Mortgage Details",
     inputs: [
       {
         key: "property_price",
@@ -400,7 +401,7 @@ export const Calculators: Calculator[] = [
     outputs: [
       {
         key: "emi",
-        label: "EMI",
+        label: "Monthly EMI",
         type: "metric",
       },
       {
@@ -425,7 +426,7 @@ export const Calculators: Calculator[] = [
       },
       {
         key: "amortization_stacked_bar_chart",
-        label: "Amortization Stacked Bar Chart",
+        label: "Payment amortisation",
         type: "stacked_bar_chart",
         chartConfig: {
           principal: { color: "#F0FCF3" },
@@ -541,6 +542,7 @@ export const Calculators: Calculator[] = [
     name: "Investment ROI Estimator",
     description:
       "Estimate property investment returns and future profitability for better decision-making.",
+    outputTitle: "ROI Analysis",
     inputs: [
       {
         key: "property_selection",
@@ -668,11 +670,11 @@ export const Calculators: Calculator[] = [
       },
       {
         key: "annualized_capital_appreciation",
-        label: "Annualized Capital Apprecition",
+        label: "Annualised Capital Appreciation",
         type: "comparison",
         secondary_output: {
           key: "annual_rental_income",
-          label: "Annual rental income",
+          label: "Annual Rental Income",
           type: "comparison",
         },
       },
@@ -689,6 +691,7 @@ export const Calculators: Calculator[] = [
         key: "total_rental_income",
         label: "Total Rental Income",
         type: "comparison",
+
         secondary_output: {
           key: "total_appreciation",
           label: "Total Capital Appreciation",
@@ -782,6 +785,7 @@ export const Calculators: Calculator[] = [
     name: "Rent vs Buy Comparison Tool",
     description:
       "Compare financial benefits of renting versus buying a property over time.",
+    outputTitle: "Rent vs Buy Analysis",
     inputs: [
       {
         key: "home_price",
@@ -826,7 +830,7 @@ export const Calculators: Calculator[] = [
     outputs: [
       {
         key: "rent_vs_buy_chart",
-        label: "Rent vs Buy Chart",
+        label: "Rent vs Buy Comparison",
         type: "stacked_bar_chart",
         chartConfig: {
           principal: { color: "#F0FCF3" },
@@ -835,7 +839,7 @@ export const Calculators: Calculator[] = [
       },
       {
         key: "monthly_payment_comparison_chart",
-        label: "Monthly Payment Comparison Chart",
+        label: "Total Monthly Payments",
         chartConfig: {
           Rent: { color: "#FFC8C8" },
           Buy: { color: "#EFEEFC" },
@@ -844,7 +848,7 @@ export const Calculators: Calculator[] = [
       },
       {
         key: "total_payment_comparison_chart",
-        label: "Total Payment Comparison Chart",
+        label: "Overall Payment Comparison",
         type: "bar_chart",
         chartConfig: {
           Rent: { color: "#FFC8C8" },
@@ -891,7 +895,7 @@ export const Calculators: Calculator[] = [
         const principalPayment = monthlyBuyPayment - interestPayment;
         remainingLoanAmount -= principalPayment;
         annualCosts.push({
-          year: year,
+          year: `year ${year}`,
           rentCost: rentCost.toFixed(2),
           buyCost: remainingLoanAmount.toFixed(2),
         });
@@ -955,7 +959,11 @@ export const Calculators: Calculator[] = [
       return {
         rent_vs_buy_chart: annualCosts,
         monthly_payment_comparison_chart: [
-          { category: "Rent", value: monthlyRent.toFixed(2), fill: "#DDDAF9" },
+          {
+            category: "Rent",
+            value: monthlyRent.toFixed(2),
+            fill: "#DDDAF9",
+          },
           {
             category: "Buy",
             value: monthlyBuyPayment.toFixed(2),

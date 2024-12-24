@@ -1,35 +1,32 @@
+import { BASE_URL } from "./constant";
 import { PageFilter } from "./types";
 
 export const SalesFilter: PageFilter[] = [
   {
-    key: "group_en", //not on backend
+    key: "group_en",
     label: "Transaction Type",
     options: ["Sales", "Mortgage", "Gifts"],
   },
   {
-    key: "usage_en", //fixed modified backend
+    key: "usage_en",
     label: "Usage",
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage_en",
+    source: `${BASE_URL}/api/constants?type=usage_en`,
   },
   {
-    key: "location", //check
+    key: "location",
     label: "Area",
     searchable: true,
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+    source: `${BASE_URL}/api/constants?type=location`,
   },
   {
-    key: "property_type", //modified backend
+    key: "property_type",
     label: "Property Type",
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type",
+    source: `${BASE_URL}/api/constants?type=property_type`,
   },
   {
-    key: "property_subtype", // added route ON BACKEND
+    key: "property_subtype",
     label: "Property Subtype",
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_subtype",
+    source: `${BASE_URL}/api/constants?type=property_subtype`,
   },
   {
     key: "resale_vs_first_sale",
@@ -62,21 +59,18 @@ export const RentalFilter: PageFilter[] = [
   {
     key: "usage_en", // check
     label: "Usage",
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=usage_rental", //modified route call on backend changes usage_en to usage_rental
+    source: `${BASE_URL}/api/constants?type=usage_rental`, //modified route call on backend changes usage_en to usage_rental
   },
   {
     key: "location", // check
     label: "Area",
     searchable: true,
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental", //check
+    source: `${BASE_URL}/api/constants?type=location_rental`, //check
   },
   {
     key: "property_type",
     label: "Property Type",
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type_rental", // modified route call on backend changes property_type to property_type_rental
+    source: `${BASE_URL}/api/constants?type=property_type_rental`, // modified route call on backend changes property_type to property_type_rental
   },
   {
     key: "end_year",
@@ -90,8 +84,7 @@ export const SupplyFilter: PageFilter[] = [
     key: "location",
     label: "Area",
     searchable: true,
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location_rental",
+    source: `${BASE_URL}/api/constants?type=location_rental`,
   },
   {
     key: "start_date",
@@ -128,8 +121,7 @@ export const TransactionFilterOptions = [
     key: "property_type", //modified backend
     label: "Property Type",
     type: "dropdown",
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_type",
+    source: `${BASE_URL}/api/constants?type=property_type`,
     is_mandatory: true,
   },
   {
@@ -137,8 +129,67 @@ export const TransactionFilterOptions = [
     label: "Area",
     type: "dropdown",
     searchable: true,
-    source:
-      "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=location",
+    source: `${BASE_URL}/api/constants?type=location`,
     is_mandatory: true,
+  },
+];
+
+export const ExploreFilterOptionsSales = [
+  {
+    key: "group_en",
+    label: "Type",
+    type: "radio",
+    options: ["Sales", "Mortgage", "Gifts"],
+  },
+  {
+    key: "usage_en",
+    label: "Usage",
+    source: `${BASE_URL}/api/constants?type=usage_en`,
+  },
+  {
+    key: "location",
+    label: "Area",
+    type: "dropdown",
+    searchable: true,
+    source: `${BASE_URL}/api/constants?type=location`,
+    is_mandatory: true,
+  },
+  {
+    key: "property_type",
+    label: "Property Type",
+    type: "dropdown",
+    source: `${BASE_URL}/api/constants?type=property_type`,
+    is_mandatory: true,
+  },
+  {
+    key: "rooms",
+    label: "No. of Rooms",
+    type: "dropdown",
+    source: `${BASE_URL}/api/constants?type=rooms`,
+  },
+];
+
+export const ExploreFilterOptionsRental = [
+  {
+    key: "version_en", // Check only api/rental/ route
+    label: "Rental Type",
+    type: "radio",
+    options: ["New", "Renew", "All"],
+  },
+  {
+    key: "usage_en",
+    label: "Usage",
+    source: `${BASE_URL}/api/constants?type=usage_rental`,
+  },
+  {
+    key: "location",
+    label: "Area",
+    searchable: true,
+    source: `${BASE_URL}/api/constants?type=location_rental`,
+  },
+  {
+    key: "property_type",
+    label: "Property Type",
+    source: `${BASE_URL}/api/constants?type=property_type_rental`,
   },
 ];
