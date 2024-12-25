@@ -1,8 +1,4 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { signInWithGoogle } from "@/lib/auth";
-import { useToast } from "@/components/ui/use-toast";
 import HomeTransactionCard from "@/components/home-transaction-card";
 import HomeInsights from "@/components/home-insights";
 import HomeSalesIndex from "@/components/home-sales-index";
@@ -10,21 +6,14 @@ import HomeTotalAds from "@/components/home-total-ads";
 import HomeTopAreas from "@/components/home-top-areas";
 import HomePriceIndex from "@/components/home-price-index";
 import HomeListing from "@/components/home-listing";
-import Feedback from "@/components/feedback";
 import FrequentQuestions from "@/components/frequent-questions";
 import HomeIntro from "@/components/home-intro";
 import HomeTransactionList from "@/components/home-transaction-list";
 import HomeVolumeIndex from "@/components/home-volume-index";
 import SharingCard from "@/components/sharingCard";
 import HomeTransactionValue from "@/components/home-transaction-value";
-import HomeClaimCard from "@/components/home-claim-card";
 import Footer from "@/components/footer";
-import Layout from "@/layout/home";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import SignInModel from "@/components/signInModel";
-import LogInModel from "@/components/logInModel";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import SignupTrigger from "@/components/signupTrigger";
 import LoginTrigger from "@/components/loginTrigger";
 import CarouselAd from "@/components/carouselAd";
@@ -62,6 +51,7 @@ const SignIn = () => {
         <HomeTotalAds />
         <HomeTopAreas />
         <HomePriceIndex />
+        <HomeTransactionValue />
         <LoginTrigger>
           <HomeListing />
         </LoginTrigger>

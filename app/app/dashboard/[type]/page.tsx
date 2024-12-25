@@ -197,7 +197,8 @@ function DashboardDetailPage() {
                             {charts?.map((chart, index) =>
                               index === 3 &&
                               dashboard?.key !== "supply_trends_dashboard" &&
-                              dashboard?.key !== "offplan_market_insights" ? (
+                              dashboard?.key !== "offplan_market_insights" &&
+                              dashboard?.key !== "sales_price_index" ? (
                                 <ChartWrapper
                                   title="Transactions Value Index"
                                   description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."

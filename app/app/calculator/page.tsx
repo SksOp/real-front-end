@@ -8,7 +8,7 @@ import React from "react";
 
 function CalculatorPage() {
   return (
-    <Layout page="calculators" title="calculators">
+    <Layout page="calculators" title="Calculators">
       <div className="flex w-full justify-center  ">
         <div className="flex flex-col w-full ">
           <div className="flex gap-5 w-full pt-12 md:pt-20 px-2">

@@ -27,7 +27,7 @@ import { SalesValueTrend } from "@/config/sales";
 import { RentalValueTrend } from "@/config/rental";
 import { ChartDescription, MatrixData } from "@/config/types";
 import ChartException from "./chartException";
-import { SalesIndexMatrices } from "@/config/sales_index";
+import { SalesIndexMatrices } from "@/config/sales_indexMatrices";
 import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
 import EllipsisMenu from "./ellipsisMenu";

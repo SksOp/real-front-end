@@ -29,7 +29,7 @@ function HomeTransactionValue() {
       title="Transactions Value Index"
       description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
     >
-      <div className="flex justify-center items-stretch  gap-3">
+      <div className="md:flex-row flex flex-col  justify-center items-stretch  gap-3">
         <SecondaryChartWrapper className="flex flex-col justify-center items-center ">
           <div className="flex flex-col justify-between items-center gap-10 ">
             <SalesIndexCardComponent

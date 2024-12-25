@@ -3,7 +3,7 @@ import { SalesMatrices } from "./salesMatrices";
 import { RentalMatrices } from "./rentalMatrices";
 import { OffPlanMatrices } from "./offplanMatrices";
 import { SupplyMatrices } from "./supplyMatrices";
-import { SalesIndexMatrices } from "./sales_index";
+import { SalesIndexMatrices } from "./sales_indexMatrices";
 
 export interface Matrix {
   key: string;

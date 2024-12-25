@@ -34,7 +34,7 @@ function MatricesSelector() {
         onClick={() => updateQueryParams("rentals")}
         className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
       >
-        rentals
+        Rentals
       </TabsTrigger>
       <TabsTrigger
         value="supply"

@@ -10,7 +10,7 @@ import React from "react";
 
 function ListingPage() {
   return (
-    <Layout page={"my-listings"} title="listings">
+    <Layout page={"my-listings"} title="Listings">
       <div className="flex w-full justify-center  items-center h-[calc(100vh-1rem)]">
         <Exceptions
           svg={<PremiumException />}

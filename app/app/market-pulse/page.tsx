@@ -24,16 +24,16 @@ function page() {
               Residential
             </TabsTrigger>
             <TabsTrigger
-              value="comercial"
+              value="commercial"
               className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
             >
-              Comercial
+              Commercial
             </TabsTrigger>
           </TabsList>
           <TabsContent value="residential" className="w-full">
             <MarketPulseList />
           </TabsContent>
-          <TabsContent value="comercial">
+          <TabsContent value="commercial">
             <Exceptions
               svg={<FlaskException />}
               title={"Coming Soon!"}

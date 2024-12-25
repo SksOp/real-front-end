@@ -68,6 +68,7 @@ function HomePage() {
         <HomeTotalAds />
         <HomeTopAreas />
         <HomePriceIndex />
+        <HomeTransactionValue />
         <HomeListing />
         <FrequentQuestions />
         <HomeClaimCard />

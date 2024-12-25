@@ -45,6 +45,14 @@ import {
   SalesValueProportion,
   SalesVolumeProportion,
 } from "./offplan";
+import {
+  FlatSalesIndex,
+  FlatSalesValue,
+  OverallSalesIndex,
+  OverallSalesValue,
+  VillaSalesIndex,
+  VillaSalesValue,
+} from "./sales_index";
 
 export const dashboards: Dashboard[] = [
   {
@@ -836,7 +844,6 @@ export const dashboards: Dashboard[] = [
       },
     ],
   },
-
   {
     key: "offplan_market_insights",
     name: "Offplan Market Insights",
@@ -899,6 +906,57 @@ export const dashboards: Dashboard[] = [
         key: "average_value_by_room",
         calculate: async (params) => {
           return await AverageValueByRoom();
+        },
+      },
+    ],
+  },
+  {
+    key: "sales_price_index",
+    name: "Sales Price Index",
+    description:
+      "Breakdown of property price ranges across Dubai’s sales market.",
+    type: "standard",
+    label: "new",
+    dashboard_filters: {
+      usage: null,
+      mode: "sales",
+    },
+    page_filters: [],
+    calculate_charts: [
+      {
+        key: "overall_sales_index",
+        calculate: async (params) => {
+          return await OverallSalesIndex();
+        },
+      },
+      {
+        key: "overall_sales_value",
+        calculate: async (params) => {
+          return await OverallSalesValue();
+        },
+      },
+      {
+        key: "villa_sales_index",
+        calculate: async (params) => {
+          return await VillaSalesIndex();
+        },
+      },
+      {
+        key: "villa_sales_value",
+        calculate: async (params) => {
+          return await VillaSalesValue();
+        },
+      },
+      {
+        key: "flat_sales_index",
+        calculate: async (params) => {
+          return await FlatSalesIndex();
+        },
+      },
+      {
+        key: "flat_sales_value",
+        calculate: async (params) => {
+          return await FlatSalesValue();
         },
       },
     ],
