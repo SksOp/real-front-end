@@ -1,7 +1,11 @@
 import axios, { all } from "axios";
 import { Dashboard } from "./types";
-import { RentalFilter, SalesFilter } from "./filters";
-import { CalculateMatrix } from "./utility";
+import { RentalFilter, SalesFilter, SupplyFilter } from "./filters";
+import {
+  CalculateMatrix,
+  CalculateOffplanMatrix,
+  CalculateSupplyMatrix,
+} from "./utility";
 import {
   SalesIndex,
   SalesPriceComparison,
@@ -22,6 +26,25 @@ import {
   RentalValueTrend,
   RentalVersions,
 } from "./rental";
+import {
+  DeliveredUnitsPerAreaDubai,
+  FuturePlannedSupply,
+  FuturePropertySupplyPerArea,
+  PlannedPropertiesByCompletionPercentage,
+  SupplyByPriceRanges,
+  YearlyCompletedUnits,
+  YearlyLaunchedProperties,
+} from "./supply";
+import {
+  AnnualPropertySalesValue,
+  AnnualPropertySalesVolume,
+  AverageValueByRoom,
+  MonthlyProperties,
+  OffPlanPriceIndex,
+  OffPlanPricePErSqft,
+  SalesValueProportion,
+  SalesVolumeProportion,
+} from "./offplan";
 
 export const dashboards: Dashboard[] = [
   {
@@ -747,6 +770,140 @@ export const dashboards: Dashboard[] = [
       },
     ],
   },
+
+  {
+    key: "supply_trends_dashboard",
+    name: "Supply Trends Dashboard",
+    description:
+      "Insights on property supply, including available inventory across various Dubai areas.",
+    type: "standard",
+    label: "new",
+    dashboard_filters: {
+      usage: null,
+      mode: "sales",
+    },
+    page_filters: SupplyFilter,
+    calculate_matrics: async (params) => {
+      console.log("params", params);
+      const sourceURL = `${BASE_URL}/api/projects/details`;
+
+      const matrixOutput = await CalculateSupplyMatrix(sourceURL, params);
+      return matrixOutput;
+    },
+    calculate_charts: [
+      {
+        key: "future_properties_per_area",
+        calculate: async (params) => {
+          return await FuturePropertySupplyPerArea(params);
+        },
+      },
+      {
+        key: "yearly_completed_units",
+        calculate: async (params) => {
+          return await YearlyCompletedUnits(params);
+        },
+      },
+      {
+        key: "yearly_launched_properties",
+        calculate: async (params) => {
+          return await YearlyLaunchedProperties(params);
+        },
+      },
+      {
+        key: "future_planned_supply",
+        calculate: async (params) => {
+          return await FuturePlannedSupply(params);
+        },
+      },
+      {
+        key: "supply_by_price_ranges",
+        calculate: async (params) => {
+          return await SupplyByPriceRanges(params);
+        },
+      },
+
+      {
+        key: "planned_percentage_completion",
+        calculate: async (params) => {
+          return await PlannedPropertiesByCompletionPercentage(params);
+        },
+      },
+      {
+        key: "delivered_units_per_area_dubai",
+        calculate: async (params) => {
+          return await DeliveredUnitsPerAreaDubai(params);
+        },
+      },
+    ],
+  },
+
+  {
+    key: "offplan_market_insights",
+    name: "Offplan Market Insights",
+    description:
+      "Analysis of offplan property sales trends, developer performance, and future inventory.",
+    type: "standard",
+    label: "new",
+    dashboard_filters: {
+      mode: "sales",
+    },
+    page_filters: [],
+    calculate_matrics: async (params) => {
+      const matrixOutput = await CalculateOffplanMatrix(params);
+      return matrixOutput;
+    },
+    calculate_charts: [
+      {
+        key: "monthly_properties",
+        calculate: async (params) => {
+          return await MonthlyProperties();
+        },
+      },
+      {
+        key: "annual_property_sales_volume",
+        calculate: async (params) => {
+          return await AnnualPropertySalesVolume();
+        },
+      },
+      {
+        key: "annual_property_sales_value",
+        calculate: async (params) => {
+          return await AnnualPropertySalesValue();
+        },
+      },
+      {
+        key: "sales_volume_proportion",
+        calculate: async (params) => {
+          return await SalesVolumeProportion();
+        },
+      },
+      {
+        key: "sales_value_proportion",
+        calculate: async (params) => {
+          return await SalesValueProportion();
+        },
+      },
+      {
+        key: "offplan_price_per_sqft",
+        calculate: async (params) => {
+          return await OffPlanPricePErSqft();
+        },
+      },
+      {
+        key: "offplan_price_index",
+        calculate: async (params) => {
+          return await OffPlanPriceIndex();
+        },
+      },
+      {
+        key: "average_value_by_room",
+        calculate: async (params) => {
+          return await AverageValueByRoom();
+        },
+      },
+    ],
+  },
+
   {
     key: "quarterly_market_insights",
     name: "Quarterly Market Insights",
@@ -827,6 +984,7 @@ export const dashboards: Dashboard[] = [
     page_filters: [],
     tag: "upcoming",
   },
+
   // {
   //   key: "custom_dashboard_builder",
   //   name: "Custom Dashboard Builder",

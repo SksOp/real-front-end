@@ -195,7 +195,9 @@ function DashboardDetailPage() {
 
                           <div className="grid grid-cols-2 gap-4  justify-items-center w-full">
                             {charts?.map((chart, index) =>
-                              index === 3 ? (
+                              index === 3 &&
+                              dashboard?.key !== "supply_trends_dashboard" &&
+                              dashboard?.key !== "offplan_market_insights" ? (
                                 <ChartWrapper
                                   title="Transactions Value Index"
                                   description="Analyze property value trends across low, medium, and high segments with detailed price distribution. Understand the market landscape and uncover opportunities for every budget range."
@@ -252,7 +254,9 @@ function DashboardDetailPage() {
                                   insights={chart?.insights}
                                   className={cn(
                                     "",
-                                    (index === 0 || index === 6) && "col-span-2"
+                                    (index === 0 ||
+                                      index === charts.length - 1) &&
+                                      "col-span-2"
                                   )}
                                 />
                               )

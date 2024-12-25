@@ -203,6 +203,190 @@ export const CalculateMatrix = async (
   }
 };
 
+export const CalculateSupplyMatrix = async (
+  url: string,
+  params?: {
+    [key: string]: string | number;
+  }
+) => {
+  console.log(params);
+  try {
+    console.log(params);
+    const response = await axios.get(url, {
+      params: params,
+    });
+
+    console.log("response", response.data);
+    const transactions = response.data.data[0];
+    const response2 = await axios.get(`${BASE_URL}/api/developers/total`, {
+      params: params,
+    });
+    const data = response2.data.data[0].developer_count;
+    console.log(data);
+    if (transactions.length === 0) {
+      throw new Error("No transactions found for the specified filters.");
+    }
+    console.log(transactions);
+    const number_of_projects_overall = transactions.total_projects_overall;
+    const number_of_projects_supply =
+      transactions.total_projects_new_supply_overall;
+    const number_of_villas = transactions.total_villas_overall;
+    const number_of_apartments = transactions.total_apartments_overall;
+    const total_units =
+      transactions.total_units_overall + transactions.total_villas_overall;
+    const properties_completion_rate =
+      transactions.breakdown[transactions.breakdown.length - 1]
+        ?.completed_projects /
+      transactions.breakdown[transactions.breakdown.length - 1]?.total_projects;
+
+    return [
+      {
+        key: "number_of_projects_overall",
+        title: "Number of Projects (Overall)",
+        value: number_of_projects_overall,
+      },
+      {
+        key: "number_of_projects_supply",
+        title: "Number of Projects (Supply)",
+        value: number_of_projects_supply,
+      },
+      {
+        key: "number_of_villas",
+        title: "Number of Villas",
+        value: number_of_villas,
+      },
+      {
+        key: "number_of_apartments",
+        title: "Number of Apartments",
+        value: number_of_apartments,
+      },
+      {
+        key: "total_units",
+        title: "Total Units",
+        value: total_units,
+      },
+      {
+        key: "properties_completion_rate",
+        title: "Properties Completion Rate",
+        value: String((properties_completion_rate * 100).toFixed(2)) + "%",
+      },
+      { key: "total_developers", title: "Total Developers", value: data },
+    ];
+  } catch (error) {
+    console.error("Error calculating metrics:", error);
+    return [
+      {
+        key: "number_of_projects_overall",
+        title: "Number of Projects (Overall)",
+        value: "N/A",
+      },
+      {
+        key: "number_of_projects_supply",
+        title: "Number of Projects (Supply)",
+        value: "N/A",
+      },
+      {
+        key: "number_of_villas",
+        title: "Number of Villas",
+        value: "N/A",
+      },
+      {
+        key: "number_of_apartments",
+        title: "Number of Apartments",
+        value: "N/A",
+      },
+    ];
+  }
+};
+
+export const CalculateOffplanMatrix = async (params: {
+  [key: string]: string | number;
+}) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`
+    );
+
+    const data = response.data.data.data[0];
+
+    const avg_value_unit = data.avg_worth_offplan_unit.toFixed(2);
+    const avg_value_villa = data.avg_worth_offplan_villa.toFixed(2);
+    const avg_price_per_sqft_villa =
+      data.avg_price_per_sqft_offplan_villa.toFixed(2);
+    const avg_price_per_sqft_unit =
+      data.avg_price_per_sqft_offplan_unit.toFixed(2);
+    const avg_price_overall = data.total_worth_offplan.toFixed(2);
+    const avg_price_per_sqft_overall =
+      data.avg_price_per_sqft_offplan.toFixed(2);
+    return [
+      {
+        key: "avg_value_unit",
+        title: "Average Value (Unit)",
+        value: avg_value_unit,
+      },
+      {
+        key: "avg_value_villa",
+        title: "Average Value (Villa)",
+        value: avg_value_villa,
+      },
+      {
+        key: "avg_price_per_sqft_villa",
+        title: "Average Price per SQFT (Villa)",
+        value: avg_price_per_sqft_villa,
+      },
+      {
+        key: "avg_price_per_sqft_unit",
+        title: "Average Price per SQFT (Unit)",
+        value: avg_price_per_sqft_unit,
+      },
+      {
+        key: "avg_price_overall",
+        title: "Average Price (Overall)",
+        value: avg_price_overall,
+      },
+      {
+        key: "avg_price_per_sqft_overall",
+        title: "Average Price per SQFT (Overall)",
+        value: avg_price_per_sqft_overall,
+      },
+    ];
+  } catch (error) {
+    console.error("Error calculating metrics:", error);
+    return [
+      {
+        key: "avg_value_unit",
+        title: "Average Value (Unit)",
+        value: "N/A",
+      },
+      {
+        key: "avg_value_villa",
+        title: "Average Value (Villa)",
+        value: "N/A",
+      },
+      {
+        key: "avg_price_per_sqft_villa",
+        title: "Average Price per SQFT (Villa)",
+        value: "N/A",
+      },
+      {
+        key: "avg_price_per_sqft_unit",
+        title: "Average Price per SQFT (Unit)",
+        value: "N/A",
+      },
+      {
+        key: "avg_price_overall",
+        title: "Average Price (Overall)",
+        value: "N/A",
+      },
+      {
+        key: "avg_price_per_sqft_overall",
+        title: "Average Price per SQFT (Overall)",
+        value: "N/A",
+      },
+    ];
+  }
+};
+
 export const CalculateCharts = async (
   type: "sales" | "rental",
   params: {
