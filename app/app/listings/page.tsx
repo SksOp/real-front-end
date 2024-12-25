@@ -1,11 +1,6 @@
 import Exceptions from "@/components/exceptions";
-import ListingSelector from "@/components/listing-selector";
-import PropertiesCard from "@/components/propertiesCard";
-import SecondaryNavbar from "@/components/secondaryNavbar";
-import { properties1 } from "@/constants/properties";
 import Layout from "@/layout/secondary";
 import { PremiumException } from "@/public/svg/exceptions";
-import Link from "next/link";
 import React from "react";
 
 function ListingPage() {

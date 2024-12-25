@@ -48,7 +48,12 @@ export const RentalMatrices: Matrix[] = [
         const result: MatrixData = {
           key: "average_rent_value",
           title: "Average Rent Value",
-          value: data1.value + data2.value,
+          value:
+            params.version_en === "New"
+              ? data1.value
+              : params.version_en === "Renew"
+              ? data2.value
+              : data1.value + data2.value,
         };
 
         return result;

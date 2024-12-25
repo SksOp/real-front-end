@@ -242,6 +242,7 @@ export const OffPlanMatrices: Matrix[] = [
               },
             },
             sub_charts: [],
+            otherInfo: ["offplan", "ready"],
             insights:
               "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
             data: chartData, // Calculated data will be here
@@ -285,25 +286,29 @@ export const OffPlanMatrices: Matrix[] = [
           const chartData = [
             {
               year: 2024,
-              value1:
+              value1: (
                 (data1.total_worth_offplan /
                   (data1.total_worth_offplan + data1.total_worth_ready)) *
-                100,
-              value2:
+                100
+              ).toFixed(2),
+              value2: (
                 (data1.total_worth_ready /
                   (data1.total_worth_offplan + data1.total_worth_ready)) *
-                100,
+                100
+              ).toFixed(2),
             },
             {
               year: 2023,
-              value1:
+              value1: (
                 (data2.total_worth_offplan /
                   (data2.total_worth_ready + data2.total_worth_offplan)) *
-                100,
-              value2:
+                100
+              ).toFixed(2),
+              value2: (
                 (data2.total_worth_ready /
                   (data2.total_worth_ready + data2.total_worth_offplan)) *
-                100,
+                100
+              ).toFixed(2),
             },
           ];
           return {
@@ -317,6 +322,10 @@ export const OffPlanMatrices: Matrix[] = [
               },
             },
             sub_charts: [],
+            otherInfo: [
+              { name: "offplan", value: "value1" },
+              { name: "ready", value: "value2" },
+            ],
             insights:
               "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
             data: chartData, // Calculated data will be here
