@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import SignupTrigger from "@/components/signupTrigger";
 import LoginTrigger from "@/components/loginTrigger";
 import CarouselAd from "@/components/carouselAd";
+import HomeClaimCard from "@/components/home-claim-card";
 
 const SignIn = () => {
   return (
@@ -55,6 +56,7 @@ const SignIn = () => {
         <LoginTrigger>
           <HomeListing />
         </LoginTrigger>
+        <HomeClaimCard />
         <FrequentQuestions />
         <SharingCard />
         <Footer />
@@ -62,6 +64,7 @@ const SignIn = () => {
       <div className="hidden pt-20 md:flex gap-3 w-full px-4 pb-0">
         <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-[calc(100vh-5rem)] overflow-y-auto md:flex flex-col gap-3 pb-4">
           <HomeIntro />
+          <HomeClaimCard />
           <FrequentQuestions />
           <SharingCard />
         </div>
