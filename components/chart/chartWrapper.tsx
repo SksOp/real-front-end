@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -7,23 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { toPng } from "html-to-image";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { ClassValue } from "clsx";
-import {
-  DownloadIcon,
-  Ellipsis,
-  InfoIcon,
-  ShareIcon,
-} from "@/public/svg/Indicator";
 import ChartException from "../chartException";
 import EllipsisMenu from "../ellipsisMenu";
+import { useRouter } from "next/navigation";
 
 interface ChartWrapperProps {
   title: string;
@@ -42,6 +32,23 @@ function ChartWrapper({
   viewAll = false,
   className,
 }: ChartWrapperProps) {
+  const router = useRouter();
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = async () => {
+    if (chartRef.current) {
+      try {
+        const dataUrl = await toPng(chartRef.current);
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `${title}.png`;
+        link.click();
+      } catch (error) {
+        console.error("Failed to download chart:", error);
+      }
+    }
+  };
+
   return (
     <Card
       className={cn(
@@ -56,11 +63,14 @@ function ChartWrapper({
           </CardTitle>
           <div className="flex justify-end items-center gap-2">
             {viewAll && (
-              <span className="text-sm font-semibold text-primary cursor-pointer">
+              <span
+                className="text-sm font-semibold text-primary cursor-pointer"
+                onClick={() => router.push("/app/market-pulse")}
+              >
                 View All
               </span>
             )}
-            <EllipsisMenu />
+            <EllipsisMenu handleDownload={handleDownload} />
           </div>
         </div>
         <CardDescription className="text-base text-accent font-normal line-clamp-2">
@@ -82,7 +92,7 @@ function ChartWrapper({
           </Tabs>
         )}
       </CardHeader>
-      <CardContent className="w-full p-0 mt-2 overflow-x-scroll">
+      <CardContent ref={chartRef} className="w-full p-0 mt-2 overflow-x-scroll">
         {children ?? <ChartException />}
       </CardContent>
     </Card>

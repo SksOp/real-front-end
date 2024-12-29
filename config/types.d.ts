@@ -61,7 +61,9 @@ export interface OutputField {
     | "line_chart"
     | "table"
     | "bar_chart"
-    | "two_charts";
+    | "two_charts"
+    | "two_metrics";
+  percentage?: string;
   chartConfig?: ChartConfig;
   calculateFrom?: string[];
   calculateValue?: (value: any) => any;
@@ -125,6 +127,7 @@ export interface ChartDescription {
     name: string;
     value: string;
   }[];
+  view_all?: boolean;
   sub_charts?: Dashboard.calculate_charts;
   insights?: string;
 }

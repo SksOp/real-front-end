@@ -13,6 +13,7 @@ import TransactionFairPrice from "./transaction-fairPrice";
 import LoadingWidget from "./loadingWidget";
 import { Spinner } from "./ui/spinner";
 import MatrixSkeleton from "./matrixSkeleton";
+import ChartException from "./chartException";
 
 function InsightDrawerView({
   location_name,
@@ -119,34 +120,42 @@ function InsightDrawerView({
           </TabsList>
           <TabsContent value="sales" className="w-full flex">
             <div className="grid grid-cols-2 gap-3 w-full">
-              {isLoading
-                ? Array.from({ length: 4 }).map((_, index) => (
-                    <MatrixSkeleton key={index} />
-                  ))
-                : salesMatrix.map((item, index) => (
-                    <MatrixCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                      growth={item.growth}
-                    />
-                  ))}
+              {isLoading ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <MatrixSkeleton key={index} />
+                ))
+              ) : salesMatrix[0].value === "N/A" ? (
+                <ChartException className="col-span-2" />
+              ) : (
+                salesMatrix.map((item, index) => (
+                  <MatrixCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                    growth={item.growth}
+                  />
+                ))
+              )}
             </div>
           </TabsContent>
           <TabsContent value="rental" className="w-full flex mt-0">
             <div className="grid grid-cols-2 gap-3 w-full">
-              {isLoading
-                ? Array.from({ length: 4 }).map((_, index) => (
-                    <MatrixSkeleton key={index} />
-                  ))
-                : rentalMatrix.map((item, index) => (
-                    <MatrixCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                      growth={item.growth}
-                    />
-                  ))}
+              {isLoading ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <MatrixSkeleton key={index} />
+                ))
+              ) : rentalMatrix[0].value === "N/A" ? (
+                <ChartException className="col-span-2" />
+              ) : (
+                rentalMatrix.map((item, index) => (
+                  <MatrixCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                    growth={item.growth}
+                  />
+                ))
+              )}
             </div>
           </TabsContent>
         </Tabs>
@@ -172,6 +181,7 @@ function InsightDrawerView({
             columns={chart.columns}
             description={chart.description}
             insights={chart.insights}
+            location={location_name}
             otherInfo={chart.otherInfo}
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}

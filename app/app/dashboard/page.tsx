@@ -18,8 +18,8 @@ function DashboardPage() {
   return (
     <Layout page="dashboards" title="Dashboards">
       <div className="flex w-full justify-center ">
-        <Tabs defaultValue={"standard"} className="flex flex-col w-full px-2">
-          <div className="flex w-full gap-5 pt-12 md:pt-20">
+        <Tabs defaultValue={"standard"} className="flex flex-col w-full px-2 ">
+          <div className="flex w-full gap-5 pt-12 md:pt-20 ">
             <DashboardSelector />
           </div>
           <div className="flex gap-5 w-full">

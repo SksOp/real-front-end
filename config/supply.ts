@@ -262,8 +262,10 @@ export const FuturePropertySupplyPerArea = async (params: {
           color: "hsl(var(--chart-1))",
         },
       },
+      view_all: true,
       otherInfo: [{ key: "insideText", value: true }],
       sub_charts: [],
+
       insights:
         "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
       data: chartData, // Calculated data will be here
@@ -316,6 +318,7 @@ export const DeliveredUnitsPerAreaDubai = async (params: {
       },
       otherInfo: [{ key: "insideText", value: true }],
       sub_charts: [],
+      view_all: true,
       insights:
         "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
       data: chartData, // Calculated data will be here

@@ -71,13 +71,23 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
   customGridProps = {},
   className,
 }) => {
-  const chartWidth = Math.max(data?.length * 30, 500);
-  const chartHeight = 350;
+  const maxValue = Math.max(
+    ...data.flatMap((item) => areas.map((area) => item[area.yAxisDataKey] || 0))
+  );
+  const yAxisPadding = maxValue * 0.1;
+  const yAxisDomain = [0, maxValue + yAxisPadding];
 
   const customTickFormatter = (value: any): string => {
     const result = tickFormatter(value);
     return result ? result.toString() : value.toString();
   };
+
+  const numberOfTicks = 5; // Change this to control the number of ticks
+  const tickInterval = Math.ceil(maxValue / numberOfTicks);
+  const yAxisTicks = Array.from(
+    { length: numberOfTicks + 1 },
+    (_, i) => i * tickInterval
+  );
 
   return (
     <ChartContainer
@@ -128,7 +138,7 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             axisLine={axisLine}
             stroke={"#C2C2C2"}
             tickFormatter={customTickFormatter}
-            tickCount={data?.length}
+            interval={"preserveStart"}
           />
           <YAxis
             tickLine={tickLine}
@@ -136,6 +146,8 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             stroke={"#C2C2C2"}
             axisLine={axisLine}
             tickFormatter={formatYAxisTick}
+            domain={yAxisDomain}
+            ticks={yAxisTicks}
           />
           <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
 

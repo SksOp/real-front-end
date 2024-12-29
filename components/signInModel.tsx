@@ -14,6 +14,7 @@ import {
 import { GoogleIcon } from "@/public/svg/auth";
 import SignupTrigger from "./signupTrigger";
 import LoginTrigger from "./loginTrigger";
+import { updateProfile } from "firebase/auth";
 
 function SignInModel() {
   const [email, setEmail] = useState("");
@@ -48,6 +49,7 @@ function SignInModel() {
     try {
       const user = await signUpWithEmail(email, password);
       console.log("User signed up:", user);
+      await updateProfile(user, { displayName: name });
       await sendVerificationEmail();
       // Clear form fields
       setEmail("");

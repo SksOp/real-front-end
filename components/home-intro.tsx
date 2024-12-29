@@ -20,7 +20,7 @@ function HomeIntro() {
   useEffect(() => {
     if (auth?.user) {
       const displayName = auth.user.displayName?.split(" ")[0];
-      setName(displayName || "Name");
+      setName(displayName || "");
     }
     const currentHour = new Date().getHours();
     console.log(currentHour);

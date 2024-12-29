@@ -72,7 +72,7 @@ function SidebarContent() {
         <Avatar>
           <AvatarImage src={user?.photoURL || ""} alt="User" />
           <AvatarFallback className="text-xs">
-            {user?.displayName && user?.displayName[0]}
+            {user?.displayName ? user?.displayName[0] : "😊"}
           </AvatarFallback>
         </Avatar>
         <div>
@@ -141,14 +141,14 @@ function SidebarContent() {
       </div>
       <Separator />
       <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
-        <Button
+        {/* <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
           onClick={handleAddToHomeScreen}
         >
           <AddToHomeIcon />
           Add to Home Screen
-        </Button>
+        </Button> */}
         {/* <div className="flex justify-between items-center hover:bg-primary/10 w-full">
           <Button
             variant="ghost"

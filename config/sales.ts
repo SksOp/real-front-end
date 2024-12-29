@@ -103,34 +103,44 @@ export const SalesValueTrend = async (params: {
     const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
       params: params,
     });
+
     console.log("response barrr", response.data);
-    const data = response.data.data.result.data;
-    console.log("data Transs", data);
+    const data = response.data.data.result.data || [];
 
     const totalValue = data.map((item: any) => ({
       year: item.Year,
-      value: item.Total_Value_of_Transaction.toFixed(2),
+      value: item.Total_Value_of_Transaction?.toFixed(2) || "0.00",
     }));
 
     const pricePerSqft = data.map((item: any) => ({
       year: item.Year,
-      value: item.average_Price_per_sqft.toFixed(2),
+      value: item.average_Price_per_sqft?.toFixed(2) || "0.00",
     }));
+
     console.log("totalValue", totalValue);
 
-    const lastYear = parseFloat(totalValue[totalValue.length - 1].value);
-    const secondLastYear = parseFloat(totalValue[totalValue.length - 2].value);
+    const lastYear =
+      totalValue.length > 0
+        ? parseFloat(totalValue[totalValue.length - 1].value)
+        : 0;
+    const secondLastYear =
+      totalValue.length > 1
+        ? parseFloat(totalValue[totalValue.length - 2].value)
+        : 0;
     const total = (lastYear + secondLastYear).toFixed(2);
-    const growth = (lastYear / (lastYear + secondLastYear)) * 100;
-    const insight = `
-          Dubai’s GMV grew by ${FormatValue(
-            growth.toFixed(2)
-          )}% this year, reaching new highs in luxury transactions.
-          Off-plan properties show the fastest growth in transaction value.
-          The total market value crossed AED ${FormatValue(
+    const growth =
+      lastYear > 0 && secondLastYear > 0
+        ? ((lastYear / (lastYear + secondLastYear)) * 100).toFixed(2)
+        : "0.00";
+
+    const insight =
+      totalValue.length > 1
+        ? `Dubai’s GMV grew by ${FormatValue(
+            growth
+          )}% this year, reaching new highs in luxury transactions. Off-plan properties show the fastest growth in transaction value. The total market value crossed AED ${FormatValue(
             lastYear
-          )}, up from AED ${FormatValue(secondLastYear)} last year.
-      `;
+          )}, up from AED ${FormatValue(secondLastYear)} last year.`
+        : "Insufficient data to generate insights.";
 
     return {
       name: "Transactions Value Trend",
@@ -153,7 +163,7 @@ export const SalesValueTrend = async (params: {
       },
       sub_charts: [],
       insights: insight,
-      data: totalValue, // Calculated data will be here
+      data: totalValue,
     };
   } catch (error) {
     console.error("Error calculating transactions value trend chart:", error);
@@ -161,7 +171,7 @@ export const SalesValueTrend = async (params: {
       name: "Transactions Value Trend",
       description:
         "Compare transactional total value and value per sqft over time.",
-      filters: ["Total Value", "Value per SQFT"],
+      filters: [],
       chart_type: "bar",
       chartConfig: {
         desktop: {
@@ -170,9 +180,8 @@ export const SalesValueTrend = async (params: {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
-      data: [], // Calculated data will be here
+      insights: "Insufficient data to generate insights.",
+      data: [],
     };
   }
 };
@@ -185,16 +194,14 @@ export const SalesTrend = async (params: {
     const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
       params: params,
     });
-    const data = response.data.data.result.data;
+    const data = response.data.data.result.data || [];
     console.log("chddd", data);
 
-    // Process yearly data
     const yearlyData = data.map((item: any) => ({
       year: item.Year,
-      value1: item.number_of_Row_Used,
+      value1: item.number_of_Row_Used || 0,
     }));
 
-    // Process monthly data for the current year
     const months = [
       "Jan",
       "Feb",
@@ -209,70 +216,65 @@ export const SalesTrend = async (params: {
       "Nov",
       "Dec",
     ];
-    const currentYearData = data[data.length - 1];
-    const monthlyData = currentYearData.month_data.map((item: any) => ({
-      year: months[parseInt(item.Month) - 1],
-      value1: item.number_of_Row_Used,
-    }));
-
-    // Ensure monthly data has 12 months (by adding data from the previous year if necessary)
-    let i = 11;
-    while (monthlyData.length !== 12) {
-      const prevYearData = data[data.length - 2];
+    const currentYearData = data[data.length - 1] || { month_data: [] };
+    const monthlyData =
+      currentYearData.month_data?.map((item: any) => ({
+        year: months[parseInt(item.Month) - 1],
+        value1: item.number_of_Row_Used || 0,
+      })) || [];
+    let lastMonth = parseInt(currentYearData.month_data[0].Month) - 1;
+    while (monthlyData.length < 12) {
+      const prevYearData = data[data.length - 2]?.month_data || [];
+      const missingMonth = prevYearData[11 - monthlyData.length];
       monthlyData.unshift({
-        year: months[parseInt(prevYearData.month_data[i].Month) - 1],
-        value1: prevYearData.month_data[i].number_of_Row_Used,
+        year: months[parseInt(missingMonth?.Month || lastMonth--) - 1],
+        value1: missingMonth?.number_of_Row_Used || 0,
       });
-      i--;
     }
 
-    // Process quarterly data for the last 3 years
     const quarterlyData = [];
-    for (let j = data.length - 3; j < data.length; j++) {
-      const yearData = data[j].month_data;
+    for (let j = Math.max(0, data.length - 3); j < data.length; j++) {
+      const yearData = data[j]?.month_data || [];
       for (let q = 0; q < 4; q++) {
         const startMonth = q * 3;
         const endMonth = startMonth + 3;
         const quarterMonths = yearData.slice(startMonth, endMonth);
 
         const quarterValue = quarterMonths.reduce(
-          (sum: number, item: any) => sum + item.number_of_Row_Used,
+          (sum: number, item: any) => sum + (item.number_of_Row_Used || 0),
           0
         );
 
         quarterlyData.push({
-          year: `Q${q + 1} ${data[j].Year}`,
+          year: `Q${q + 1} ${data[j]?.Year || ""}`,
           value1: quarterValue,
         });
       }
     }
 
     const totalTransactionsCurrentYear =
-      yearlyData[yearlyData.length - 1].value1;
+      yearlyData[yearlyData.length - 1]?.value1 || 0;
     const totalTransactionsPreviousYear =
-      yearlyData[yearlyData.length - 2].value1;
-    const totalGrowthPercentage = (
-      ((totalTransactionsCurrentYear - totalTransactionsPreviousYear) /
-        totalTransactionsPreviousYear) *
-      100
-    ).toFixed(2);
+      yearlyData[yearlyData.length - 2]?.value1 || 0;
+    const totalGrowthPercentage =
+      totalTransactionsPreviousYear > 0
+        ? (
+            ((totalTransactionsCurrentYear - totalTransactionsPreviousYear) /
+              totalTransactionsPreviousYear) *
+            100
+          ).toFixed(2)
+        : "0.00";
 
-    // Identify the month with the highest transactions
-    const busiestMonth = monthlyData.reduce((max: any, item: any) =>
-      item.value1 > max.value1 ? item : max
+    const busiestMonth = monthlyData.reduce(
+      (max: any, item: any) => (item.value1 > max.value1 ? item : max),
+      { year: "N/A", value1: 0 }
     );
-    const busiestMonthName = busiestMonth.year;
-    const busiestMonthTransactions = busiestMonth.value1;
 
-    // Highlight the year-on-year growth for context
-    const investorInterestGrowth = totalGrowthPercentage;
+    const insights =
+      yearlyData.length > 1
+        ? `Total transactions rose by ${totalGrowthPercentage}%, with off-plan sales growing at a remarkable rate. ${busiestMonth.year} marked the busiest month with over ${busiestMonth.value1} transactions.`
+        : "Insufficient data to generate insights.";
 
-    const insights = `Total transactions rose by ${totalGrowthPercentage}%, with off-plan sales growing at a remarkable rate (assuming 35% remains consistent).
-                  ${busiestMonthName} marked the busiest month with over ${busiestMonthTransactions} transactions.
-                  Year-on-year growth highlights increasing investor interest in Dubai’s market (${investorInterestGrowth}%).`;
-
-    console.log(yearlyData, monthlyData, quarterlyData);
-    // Will do the required calculation here and return the data to build graph
     return {
       name: "Sales Transactions Trend",
       description: "Compare number of transactions over time!",
@@ -294,7 +296,7 @@ export const SalesTrend = async (params: {
       },
       sub_charts: [],
       insights: insights,
-      data: monthlyData, // Calculated data will be here
+      data: monthlyData,
     };
   } catch (error) {
     console.error("Error calculating sales transactions trend chart:", error);
@@ -310,9 +312,8 @@ export const SalesTrend = async (params: {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
-      data: [], // Calculated data will be here
+      insights: "Insufficient data to generate insights.",
+      data: [],
     };
   }
 };

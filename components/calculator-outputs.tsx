@@ -19,6 +19,7 @@ import HomeAffordibilityCalculator from "./home-affordibility-calculator";
 import ChartException from "./chartException";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import LineChartComponent from "./chart/lineChart/lineChart";
+import MatrixCard from "./matrix-card";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -51,6 +52,18 @@ function CalculatorOutputs({
           value={value}
           percentage={percentage}
         />
+      );
+
+    case "two_metrics":
+      return (
+        <div className="flex gap-4 w-full">
+          <MatrixCard title={title} value={value} growth={percentage} />
+          <MatrixCard
+            title={secondary_output?.label ?? ""}
+            value={secondaryValue}
+            growth={output[secondary_output?.percentage ?? ""]}
+          />
+        </div>
       );
 
     case "comparison":

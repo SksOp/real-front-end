@@ -16,6 +16,7 @@ import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
 import InsightCard from "./insightCard";
 import StackedBarchart from "./chart/stackedChart/stackedChart";
+import DualBarchart from "./chart/dualbarchart/dualBarChart";
 
 interface DashboardChartsProps {
   dashboardType: "sales" | "rental" | null;
@@ -81,6 +82,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
 
     switch (type) {
       case "horizontal_bar":
+        data = data.length > 10 ? data.slice(0, 10) : data;
         return (
           <HorizontalBarChartComponent
             chartConfig={chartConfig}
@@ -102,7 +104,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
 
       case "dual_bar":
         return (
-          <Barchart
+          <DualBarchart
             chartConfig={chartConfig}
             data={selectedFilter?.data ?? data}
             xAxisDataKey={"year"}
@@ -195,7 +197,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           </TabsList>
         </Tabs>
       )}
-      <div className="overflow-scroll">
+      <div className="overflow-x-scroll">
         {renderChart(
           type,
           getSelectedFilterData(),

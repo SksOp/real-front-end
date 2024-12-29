@@ -23,6 +23,7 @@ interface TransactionInsightsChartProps {
   viewAll?: boolean;
   chartConfig: ChartConfig;
   data: any;
+  location?: string;
   subcharts?: any[];
   columns?: string[];
   filters?: any[];
@@ -40,6 +41,7 @@ function TransactionInsightsChart({
   description,
   chartConfig,
   data,
+  location,
   subcharts = [],
   columns = [],
   selectedFilter,
@@ -58,8 +60,6 @@ function TransactionInsightsChart({
     if (data?.length === 0 || !data) {
       return <ChartException />;
     }
-
-    const getLocationRow = () => {};
 
     switch (type) {
       case "bar":
@@ -115,10 +115,14 @@ function TransactionInsightsChart({
           />
         );
       case "comparison_table":
+        const locationRowIndex = data.findIndex(
+          (item) => item.name === location
+        );
+        console.log("comparison_table", data);
         return (
           <PriceChangesTable
             data={data}
-            selectedRow={3}
+            selectedRow={locationRowIndex}
             type={dashboardType || "sales"}
           />
         );

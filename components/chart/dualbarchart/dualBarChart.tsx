@@ -9,29 +9,23 @@ import {
   YAxis,
   ReferenceLine,
   Label,
+  LabelList,
+  LabelProps,
 } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 
-interface BarChartComponentProps {
+interface DualBarChartComponentProps {
   chartConfig: any; // Adjust this type according to the actual ChartConfig type
   data: any[]; // You can make this more specific if you know the shape of your data
   xAxisDataKey: string;
-  yAxisDataKey1: string;
-  yAxisDataKey2: string;
-  barColor1?: string;
-  barColor2?: string;
+  yAxisDataKeys: string[]; // Array of keys for multiple bars
+  barColors?: string[]; // Array of colors for each bar
   barRadius?: number;
   gridStroke?: string;
   tickColor?: string;
@@ -46,21 +40,34 @@ interface BarChartComponentProps {
   customGridProps?: Record<string, any>;
   referance?: string;
   referanceValue?: number;
+  showXAxis?: boolean;
+  showInsideLabel?: boolean;
+  className?: ClassValue;
 }
 
-const DualBarchart: React.FC<BarChartComponentProps> = ({
+const formatYAxisTick = (value: number): string => {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  } else {
+    return value.toString();
+  }
+};
+
+const DualBarchart: React.FC<DualBarChartComponentProps> = ({
   data,
   chartConfig,
   xAxisDataKey,
-  yAxisDataKey1,
-  yAxisDataKey2,
-  barColor1 = "#DDDAF9",
-  barColor2 = "#F2F2F2",
+  yAxisDataKeys,
+  barColors = ["#DDDAF9", "#F2F2F2"],
   barRadius = 4,
   gridStroke = "#F2F2F2",
   tickColor = "black",
   tickFontSize = "12px",
-  tickFormatter = (value) => value.slice(0, 3),
+  tickFormatter = (value) => value,
   tooltipContent = <Tooltip />,
   tickLine = false,
   tickMargin = 10,
@@ -70,81 +77,123 @@ const DualBarchart: React.FC<BarChartComponentProps> = ({
   customGridProps = {},
   referance,
   referanceValue,
+  showXAxis = true,
+  showInsideLabel = false,
+  className,
 }) => {
-  // Calculate chart width based on the number of data points
-  const chartWidth = Math.max(data.length * 30, 400); // 80 pixels per data point, minimum 500px width
-  const chartHeight = 250;
+  // Find the maximum value across all yAxisDataKeys
+  const maxValue = Math.max(
+    ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
+  );
 
-  const aspect = chartWidth / chartHeight;
+  // Add padding (e.g., 10%) to the Y-axis maximum value
+  const yAxisPadding = maxValue * 0.1;
+  const yAxisMax = maxValue + yAxisPadding;
 
-  // Custom tick rendering with customizable styles
-  const customTickFormatter = (value: any): string => {
-    const result = tickFormatter(value);
-    return result !== undefined ? result.toString() : "";
-  };
+  // Explicitly define ticks based on the max value and desired steps
+  const numberOfTicks = 5; // Change this to control the number of ticks
+  const tickInterval = Math.ceil(yAxisMax / numberOfTicks);
+  const yAxisTicks = Array.from(
+    { length: numberOfTicks + 1 },
+    (_, i) => i * tickInterval
+  );
 
   return (
-    <ChartContainer config={chartConfig}>
-      <ResponsiveContainer aspect={aspect} height={chartHeight}>
-        <BarChart data={data} margin={{ left: -50 }}>
+    <ChartContainer
+      config={chartConfig}
+      className={cn(
+        "min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-auto",
+        className
+      )} // Make the container horizontally scrollable
+    >
+      <ResponsiveContainer height={400}>
+        <BarChart
+          data={data}
+          margin={{ left: -15, top: 10 }}
+          barCategoryGap={30}
+          barGap={10}
+        >
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
             {...customGridProps}
           />
-          <XAxis
-            dataKey={xAxisDataKey}
-            tickLine={tickLine}
-            tickMargin={tickMargin}
-            axisLine={axisLine}
-            tickFormatter={customTickFormatter}
-            {...customXAxisProps}
-          />
+          {showXAxis ? (
+            <XAxis
+              dataKey={xAxisDataKey}
+              tickLine={tickLine}
+              tickMargin={tickMargin}
+              axisLine={axisLine}
+              tickFormatter={tickFormatter}
+              interval={"preserveStart"}
+              {...customXAxisProps}
+            />
+          ) : null}
           <YAxis
-            dataKey={yAxisDataKey1}
             tickLine={tickLine}
-            tickMargin={tickMargin}
+            tickFormatter={formatYAxisTick}
+            tickMargin={0}
             axisLine={axisLine}
+            domain={[0, yAxisMax]} // Use the padded Y-axis max
+            ticks={yAxisTicks} // Explicitly set ticks
           />
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <Tooltip cursor={false} content={<ChartTooltipContent />} />
 
-          <Bar
-            dataKey={yAxisDataKey1}
-            fill={barColor1}
-            radius={barRadius}
-            stroke={"#121212"}
-            barSize={30}
-            spacing={20}
-            {...customBarProps}
-          />
-          <Bar
-            dataKey={yAxisDataKey2}
-            fill={barColor2}
-            radius={barRadius}
-            stroke={"#121212"}
-            barSize={30}
-            spacing={20}
-            {...customBarProps}
-          />
+          {yAxisDataKeys.map((key, index) => (
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={barColors[index % barColors.length]}
+              radius={barRadius}
+              stroke={"#121212"}
+              overflow={"scroll"}
+              barSize={20}
+              {...customBarProps}
+            >
+              {!showXAxis && (
+                <LabelList
+                  dataKey={xAxisDataKey}
+                  position="insideBottomLeft"
+                  angle={-90}
+                  offset={18}
+                  fontSize={14}
+                  textBreakAll={false}
+                  className="fill-[--color-label] "
+                />
+              )}
+              {showInsideLabel && (
+                <LabelList
+                  dataKey={key}
+                  position="insideTop"
+                  angle={0}
+                  offset={8}
+                  fontSize={16}
+                  stroke="2"
+                  fill="#121212"
+                />
+              )}
+            </Bar>
+          ))}
 
           {referance && (
             <ReferenceLine
               y={referanceValue}
-              stroke="#353535"
+              stroke="hsl(var(--muted-foreground))"
               strokeDasharray="3 3"
               strokeWidth={1}
             >
               <Label
                 position="insideBottomLeft"
                 value={referance}
+                className="text-lg "
                 offset={10}
-                fill="hsl(var(--foreground))"
+                fill="#353535"
               />
               <Label
                 position="insideTopLeft"
                 value={referanceValue}
                 className="text-lg"
-                fill="hsl(var(--foreground))"
+                fill="#353535"
                 offset={10}
                 startOffset={100}
               />

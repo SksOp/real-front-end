@@ -85,8 +85,23 @@ function DashboardDetailPage() {
   }, [dashboard, filters]);
 
   return (
-    <Layout page="dashboards" title={dashboard?.name ?? ""} className="sticky">
-      <div className="flex flex-col w-full gap-3 md:hidden top-11">
+    <Layout
+      page="dashboards"
+      title={dashboard?.name ?? ""}
+      className={cn(
+        dashboard?.page_filters &&
+          dashboard?.page_filters.length > 0 &&
+          "sticky"
+      )}
+    >
+      <div
+        className={cn(
+          "flex flex-col w-full pt-8  md:hidden ",
+          dashboard?.page_filters &&
+            dashboard?.page_filters.length > 0 &&
+            "pt-0"
+        )}
+      >
         {dashboard?.tag === "upcoming" ? (
           <Exceptions
             svg={<FlaskException />}
@@ -125,6 +140,7 @@ function DashboardDetailPage() {
                     chartConfig={chart.chartConfig}
                     title={chart.name}
                     filters={chart.filters}
+                    viewAll={chart.view_all}
                     columns={chart?.columns}
                     otherInfo={chart.otherInfo}
                     subCharts={chart.sub_charts}
@@ -248,6 +264,7 @@ function DashboardDetailPage() {
                                   chartConfig={chart.chartConfig}
                                   title={chart.name}
                                   filters={chart.filters}
+                                  viewAll={chart.view_all}
                                   columns={chart?.columns}
                                   otherInfo={chart.otherInfo}
                                   subCharts={chart.sub_charts}

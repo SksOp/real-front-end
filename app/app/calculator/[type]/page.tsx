@@ -38,7 +38,7 @@ function CalculatorPage() {
     if (!calculator) return;
 
     const newInputValues = { ...inputValues };
-    let hasComputedChange = false; // Flag to track if any auto-computed value changes
+    let hasComputedChange = false;
 
     calculator.inputs.forEach((input) => {
       if (input.type === "read_only_auto_compute" && input.calculateFrom) {
@@ -46,25 +46,52 @@ function CalculatorPage() {
           (key) => inputValues[key]
         );
 
-        // Check if all dependencies (calculateFrom) are defined
         if (calculateFromValues.every((value) => value !== undefined)) {
           if (input.calculateValue) {
-            // Perform the computation using the provided calculateValue function
             const computedValue = input.calculateValue(calculateFromValues);
-
             const roundedValue = parseFloat(computedValue).toFixed(2);
 
-            // Only update if the computed value is different from the current value
             if (newInputValues[input.key] !== roundedValue) {
               newInputValues[input.key] = roundedValue;
-              hasComputedChange = true; // Flag that there's a change
+              hasComputedChange = true;
             }
           }
         }
+      } else if (input.type === "switch" && input.options) {
+        // Handle switch inputs with nested read_only_auto_compute
+        const switchValues = { ...newInputValues[input.key] };
+
+        input.options.forEach((nestedInput: any) => {
+          if (
+            nestedInput.type === "read_only_auto_compute" &&
+            nestedInput.calculateFrom
+          ) {
+            const calculateFromValues = nestedInput.calculateFrom.map(
+              (key: string) => switchValues[key]
+            );
+
+            if (
+              calculateFromValues.every((value: any) => value !== undefined)
+            ) {
+              if (nestedInput.calculateValue) {
+                const computedValue =
+                  nestedInput.calculateValue(calculateFromValues);
+                const roundedValue = parseFloat(computedValue).toFixed(2);
+
+                if (switchValues[nestedInput.key] !== roundedValue) {
+                  switchValues[nestedInput.key] = roundedValue;
+                  hasComputedChange = true;
+                }
+              }
+            }
+          }
+        });
+
+        // Update the nested switch values back to newInputValues
+        newInputValues[input.key] = switchValues;
       }
     });
 
-    // Only update the input values if any auto-computed value changed
     if (hasComputedChange) {
       setInputValues(newInputValues);
     }
@@ -139,6 +166,8 @@ function CalculatorPage() {
     }
     setIsLoading(false);
   };
+
+  const handleClearAll = () => {};
 
   return (
     <Layout page="calculators" title={calculator?.name ?? ""}>
@@ -240,6 +269,7 @@ function CalculatorPage() {
                       title={output.label}
                       value={results[output.key]}
                       secondary_output={output.secondary_output}
+                      percentage={results[output.percentage ?? ""]}
                       chartConfig={output?.chartConfig}
                       output={results}
                       secondaryValue={
@@ -308,7 +338,7 @@ function CalculatorPage() {
                       <Button
                         variant={"outline"}
                         className="text-secondary flex text-sm justify-center items-center gap-4 focus:bg-none font-normal w-1/4 h-14 rounded-xl border"
-                        // onClick={}
+                        onClick={handleClearAll}
                       >
                         Clear All
                       </Button>
@@ -348,6 +378,7 @@ function CalculatorPage() {
                           secondaryValue={
                             results[output?.secondary_output?.key ?? ""] ?? 0
                           }
+                          percentage={results[output.percentage ?? ""]}
                           subChart={output?.subChart}
                         />
                       ))

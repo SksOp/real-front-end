@@ -89,7 +89,7 @@ function HomeSalesIndex() {
               </h3>
             </LoginTrigger>
           )}
-          <EllipsisMenu />
+          <EllipsisMenu handleDownload={() => {}} />
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">

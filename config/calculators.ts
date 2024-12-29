@@ -611,6 +611,9 @@ export const Calculators: Calculator[] = [
         key: "holding_period",
         label: "Holding Period",
         type: "slider_with_text",
+        default_value: 10,
+        min: 1,
+        max: 40,
         is_mandatory: true,
       },
       {
@@ -633,7 +636,10 @@ export const Calculators: Calculator[] = [
           {
             key: "total_service_charge",
             label: "Total Service Charge",
-            type: "currency_text", // auto compute = property_size_sqft*service_charges_per_sqft
+            type: "read_only_auto_compute", // auto compute = property_size_sqft*service_charges_per_sqft
+            calculateFrom: ["property_size_sqft", "service_charges_per_sqft"],
+            calculateValue: (calculateFrom) =>
+              parseFloat(calculateFrom[0]) * parseFloat(calculateFrom[1]),
             is_mandatory: true,
           },
           {
@@ -689,7 +695,14 @@ export const Calculators: Calculator[] = [
       {
         key: "annualized_roi",
         label: "Annualized ROI",
-        type: "metric",
+        type: "two_metrics",
+        percentage: "annualized_percentage",
+        secondary_output: {
+          key: "total_roi",
+          label: "Total ROI",
+          type: "two_metrics",
+          percentage: "total_percentage",
+        },
       },
       {
         key: "annualized_capital_appreciation",
@@ -778,8 +791,14 @@ export const Calculators: Calculator[] = [
         });
       }
       console.log("breakdown: ", breakdown);
+
       const totalProfitPercentage = (
         (totalReturn / purchasePrice) *
+        100
+      ).toFixed(2);
+
+      const annualizedPercentage = (
+        (Math.pow(futurePropertyValue / purchasePrice, 1 / holdingPeriod) - 1) *
         100
       ).toFixed(2);
 
@@ -795,6 +814,9 @@ export const Calculators: Calculator[] = [
         annualized_roi: annualizedROI.toFixed(2),
         annualized_capital_appreciation:
           annualizedCapitalAppreciation.toFixed(2),
+        total_roi: totalReturn.toFixed(2),
+        annualized_percentage: annualizedPercentage,
+        total_percentage: totalProfitPercentage,
         annual_rental_income: annualRentalIncome.toFixed(2),
         total_rental_income: totalRentalIncome.toFixed(2),
         total_appreciation: totalCapitalAppreciation.toFixed(2),

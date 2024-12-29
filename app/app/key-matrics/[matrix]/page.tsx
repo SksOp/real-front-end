@@ -66,7 +66,7 @@ function MatrixDataPage() {
     >
       <div
         className={cn(
-          "flex flex-col w-full pt-8  md:hidden px-2",
+          "flex flex-col w-full pt-8  md:hidden ",
           selectedMatrix?.filters &&
             selectedMatrix?.filters.length > 0 &&
             "pt-0"

@@ -160,7 +160,9 @@ function Navbar({
                 className="text-sm flex items-center gap-1"
                 onClick={() => router.push("/app/key-matrics")}
               >
-                {selectedTab === "key-matrics" && <KeyMatricIcon />}
+                {selectedTab === "key-matrics" && (
+                  <KeyMatricIcon className="w-5 h-5" />
+                )}
                 Key Metrics
               </TabsTrigger>
               <TabsTrigger
