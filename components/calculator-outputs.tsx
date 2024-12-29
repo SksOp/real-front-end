@@ -17,6 +17,8 @@ import { Input } from "./ui/input";
 import { Slider } from "./ui/slider";
 import HomeAffordibilityCalculator from "./home-affordibility-calculator";
 import ChartException from "./chartException";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import LineChartComponent from "./chart/lineChart/lineChart";
 
 interface CalculatorOutputsProps {
   type: string;
@@ -25,7 +27,7 @@ interface CalculatorOutputsProps {
   value: any;
   chartConfig?: ChartConfig;
   subChart?: SubChart[];
-  secondaryValue?: number;
+  secondaryValue?: any;
   percentage?: number;
   output?: any;
 }
@@ -151,6 +153,49 @@ function CalculatorOutputs({
               ]}
               tickFormatter={(value) => value.toString()}
             />
+          )}
+        </ChartWrapper>
+      );
+    case "two_charts":
+      console.log("two_charts", value);
+      const keys2 = Object.keys(value[0]);
+      return (
+        <ChartWrapper title={title}>
+          {value?.length === 0 ? (
+            <ChartException />
+          ) : (
+            <>
+              {" "}
+              <Tabs defaultValue={"Payment"}>
+                <TabsList className="w-full gap-3 items-center overflow-scroll justify-start bg-background mb-4">
+                  {["Payment", "Balance"].map((filter) => (
+                    <TabsTrigger
+                      value={filter}
+                      className="rounded-full border border-muted text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+                    >
+                      {filter}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+                <TabsContent value="Payment" className="p-0 overflow-x-scroll">
+                  <StackedBarchart
+                    data={value}
+                    chartConfig={chartConfig}
+                    xAxisDataKey={keys2[0]}
+                    yAxisDataKeys={[keys2[1], keys2[2]]}
+                  />
+                </TabsContent>
+                <TabsContent value="Balance" className="p-0 overflow-x-auto">
+                  <AreaChartComponent
+                    data={secondaryValue}
+                    chartConfig={chartConfig}
+                    xAxisDataKey="Year"
+                    areas={[{ yAxisDataKey: "Balance", areaColor: "#8177E5" }]}
+                    tickFormatter={(value) => value.toString()}
+                  />
+                </TabsContent>
+              </Tabs>
+            </>
           )}
         </ChartWrapper>
       );

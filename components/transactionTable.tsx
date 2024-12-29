@@ -71,7 +71,9 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
         <div className="flex flex-col justify-start gap-2 w-1/6 items-start ">
           <Badge
             variant="outline"
-            className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1 truncate max-w-[150px]"
+            className={
+              "bg-[#CBE5FB] text-muted-foreground font-semibold py-1 truncate max-w-[150px]"
+            }
           >
             {areaName}
           </Badge>
@@ -113,7 +115,10 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             {badges.map((badge, index) => (
               <Badge
                 key={index}
-                className="bg-card border-0 py-0.5 px-2 text-muted-foreground font-normal text-xs"
+                className={cn(
+                  " border-0 py-0.5 px-2 text-muted-foreground font-normal text-xs",
+                  isMuted ? "bg-background" : "bg-card"
+                )}
                 variant="outline"
               >
                 {badge}

@@ -38,8 +38,8 @@ function SharingCard() {
       case "instagram":
         url = `https://www.instagram.com/?url=${encodedLink}`;
         break;
-      case "tiktok":
-        url = `https://www.tiktok.com/?url=${encodedLink}`;
+      case "telegram":
+        url = `https://t.me/share/url?url=${encodedLink}`;
         break;
       default:
         break;
@@ -96,9 +96,11 @@ function SharingCard() {
             className="object-cover cursor-pointer"
             onClick={() => handleShare("instagram")}
           />
-          <TiktokIcon
-            className="cursor-pointer"
-            onClick={() => handleShare("tiktok")}
+          <img
+            src="/imgs/sharing/telegram.svg"
+            alt="insights"
+            className="object-cover cursor-pointer"
+            onClick={() => handleShare("telegram")}
           />
         </div>
         <div className="flex gap-3 items-center justify-start">

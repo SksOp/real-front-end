@@ -164,7 +164,7 @@ function CalculatorPage() {
                 Inputs
               </AccordionTrigger>
               <AccordionContent className="flex flex-col items-start justify-center gap-5 w-full">
-                <CalculatorPropertySelector />
+                {/* <CalculatorPropertySelector /> */}
 
                 {calculator?.inputs.map((input) => (
                   <>
@@ -179,6 +179,7 @@ function CalculatorPage() {
                         onChange={(value) =>
                           handleInputChange(input.key, value)
                         }
+                        sliderText={input.sliderText}
                         min={input.min}
                         max={input.max}
                         step={input.step}
@@ -277,7 +278,7 @@ function CalculatorPage() {
                     Inputs
                   </h3>
                   <div className="flex flex-col items-start justify-center gap-5 w-full">
-                    <CalculatorPropertySelector />
+                    {/* <CalculatorPropertySelector /> */}
                     {calculator?.inputs.map((input) => (
                       <CalculatorInputs
                         key={input.key}
@@ -289,6 +290,7 @@ function CalculatorPage() {
                         onChange={(value) =>
                           handleInputChange(input.key, value)
                         }
+                        sliderText={input.sliderText}
                         min={input.min}
                         max={input.max}
                         step={input.step}

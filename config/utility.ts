@@ -70,7 +70,10 @@ export const CalculateMatrix = async (
     });
 
     console.log("response", response.data);
-    const transactions = response.data.data.data;
+    const transactions =
+      type === "sales"
+        ? response.data.data.result.data
+        : response.data.data.data;
 
     if (transactions.length === 0) {
       throw new Error("No transactions found for the specified filters.");
@@ -582,6 +585,14 @@ export const MarketPulseApi = async (pageNo?: number) => {
         ),
       };
     });
+
+    //sort the months
+    cardData.forEach((item: any) => {
+      item.monthly_transactions.sort((a: any, b: any) => {
+        return months.indexOf(a.year) - months.indexOf(b.year);
+      });
+    });
+
     console.log(cardData);
     return cardData;
   } catch (error) {

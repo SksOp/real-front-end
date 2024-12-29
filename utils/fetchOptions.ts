@@ -21,7 +21,7 @@ export const FetchAndStoreOptions = async (
     const response = await axios.get(apiUrl);
     const data = response.data;
     const uniqueData = data.data;
-
+    // const uniqueData = ["All", ...data.data];
     if (Array.isArray(uniqueData)) {
       localStorage.setItem(key, JSON.stringify(uniqueData));
       localStorage.setItem(`${key}_timestamp`, now.toString());

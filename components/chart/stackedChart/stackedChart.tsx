@@ -78,32 +78,45 @@ const StackedBarchart: React.FC<StackedBarChartComponentProps> = ({
   lineKey,
 }) => {
   const maxValue = Math.max(
-    ...data?.flatMap((item) => yAxisDataKeys?.map((key) => item[key]))
+    ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
   );
 
-  // Add some padding to the top of the chart
-  const yAxisDomain = [0, maxValue * 1.1]; // 10% padding
-  const chartWidth = Math.max(data?.length * 80, 400);
+  // Add padding (e.g., 10%) to the Y-axis maximum value
+  const yAxisPadding = maxValue * 0.1;
+  const yAxisMax = maxValue + yAxisPadding;
+
+  // Explicitly define ticks based on the max value and desired steps
+  const numberOfTicks = 5; // Change this to control the number of ticks
+  const tickInterval = Math.ceil(yAxisMax / numberOfTicks);
+  const yAxisTicks = Array.from(
+    { length: numberOfTicks + 1 },
+    (_, i) => i * tickInterval
+  );
   return (
     <ChartContainer
       config={chartConfig}
       className="min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-scroll "
     >
       <ResponsiveContainer width="100%" height={400}>
-        <ComposedChart data={data} margin={{ left: -10, top: 10 }} barGap={20}>
+        <ComposedChart
+          data={data}
+          margin={{ left: -10, top: 10 }}
+          barCategoryGap="20%"
+        >
           <XAxis
             dataKey={xAxisDataKey}
             tickLine={false}
             tickMargin={tickMargin}
             axisLine={axisLine}
             tickFormatter={tickFormatter}
-            interval={"preserveStart"}
           />
           <YAxis
             tickLine={tickLine}
             tickMargin={tickMargin}
             tickFormatter={formatYAxisTick}
             axisLine={axisLine}
+            domain={[0, yAxisMax]} // Use the padded Y-axis max
+            ticks={yAxisTicks}
           />
           {line && (
             <YAxis

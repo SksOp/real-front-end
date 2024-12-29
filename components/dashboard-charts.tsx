@@ -97,7 +97,6 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             xAxisDataKey={"year"}
             yAxisDataKeys={["value"]}
             showXAxis={otherInfo && otherInfo[0]?.value === "true"}
-            showInsideLabel={otherInfo && otherInfo[0]?.name === "offplan"}
           />
         );
 

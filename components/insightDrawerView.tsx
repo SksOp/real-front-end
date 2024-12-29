@@ -94,7 +94,7 @@ function InsightDrawerView({
       <div className="flex items-start justify-start gap-2">
         <LightBulbIcon className="w-8 h-8" />
         <h3 className="text-secondary text-base font-semibold">
-          Insights of {location_name}
+          Insights for {location_name}
         </h3>
       </div>
 

@@ -100,7 +100,12 @@ const Barchart: React.FC<BarChartComponentProps> = ({
       className="min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-scroll "
     >
       <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={10}>
+        <BarChart
+          data={data}
+          margin={{ left: -15, top: 10 }}
+          barGap={10}
+          barCategoryGap={15}
+        >
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}

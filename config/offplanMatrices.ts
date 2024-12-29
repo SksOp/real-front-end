@@ -322,10 +322,6 @@ export const OffPlanMatrices: Matrix[] = [
               },
             },
             sub_charts: [],
-            otherInfo: [
-              { name: "offplan", value: "value1" },
-              { name: "ready", value: "value2" },
-            ],
             insights:
               "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
             data: chartData, // Calculated data will be here

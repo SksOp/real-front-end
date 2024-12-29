@@ -52,7 +52,7 @@ function CalculatorCompareCard({
       <div className="flex items-start justify-start gap-2 w-1/2">
         <div
           className={cn(
-            "bg-green-400 flex-shrink-0 w-2 h-2 rounded-full mt-1",
+            "bg-[#8177E5] flex-shrink-0 w-2 h-2 rounded-full mt-1",
             color1
           )}
         />
@@ -61,7 +61,7 @@ function CalculatorCompareCard({
             {title1}
           </h3>
           <h3 className="text-secondary font-semibold text-lg line-clamp-2">
-            {formatValue(value1)} AED
+            {value1} AED
           </h3>
         </div>
       </div>
@@ -78,7 +78,7 @@ function CalculatorCompareCard({
             {title2}
           </h3>
           <h3 className="text-secondary font-semibold text-lg ">
-            {formatValue(value2)} AED
+            {value2} AED
           </h3>
         </div>
       </div>

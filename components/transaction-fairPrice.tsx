@@ -74,7 +74,7 @@ function TransactionFairPrice({
             )}
             <div className="flex flex-col w-1/3 gap-2">
               <h3 className="text-muted-foreground text-xs font-normal">
-                Fair Price
+                Fair Price (SQFT)
               </h3>
               <h2 className="text-secondary font-semibold text-sm ">
                 {fairPrice}

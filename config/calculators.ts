@@ -261,6 +261,7 @@ export const Calculators: Calculator[] = [
         key: "property_area",
         label: "Property Area",
         type: "slider",
+        sliderText: "SQFT",
         min: 50,
         max: 10000,
         step: 10,
@@ -294,7 +295,7 @@ export const Calculators: Calculator[] = [
         choose_project,
         property_type,
       } = inputs;
-      const current_year = new Date().getFullYear;
+      const current_year = new Date().getFullYear();
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
         const response = await axios.get(`${BASE_URL}/api/rental`, {
@@ -311,7 +312,7 @@ export const Calculators: Calculator[] = [
         if (rentalDatas.length === 0) {
           throw new Error("No transactions found for the specified filters.");
         }
-
+        console.log("rentalDatas Calc: ", rentalDatas);
         const totalValue = rentalDatas.reduce((sum: number, rents: any) => {
           const startDate = new Date(rents.START_DATE.value);
           const endDate = new Date(rents.END_DATE.value);
@@ -379,6 +380,7 @@ export const Calculators: Calculator[] = [
         key: "interest_rate",
         label: "Interest Rate",
         type: "slider",
+        sliderText: "%",
         min: 1,
         max: 10,
         step: 0.1,
@@ -390,6 +392,7 @@ export const Calculators: Calculator[] = [
         key: "mortgage_duration",
         label: "Mortgage Duration",
         type: "slider",
+        sliderText: "Years",
         min: 1,
         max: 30,
         step: 1,
@@ -414,10 +417,14 @@ export const Calculators: Calculator[] = [
           type: "comparison",
         },
       },
-
+      {
+        key: "grand_total",
+        label: "Grand Total",
+        type: "metric",
+      },
       {
         key: "total_payment_breakup_pie",
-        label: "Total Payment Breakup Pie",
+        label: "Total payment breakup",
         type: "pie_chart",
         chartConfig: {
           "Priciple Loan Amount": { color: "#FFC8C8" },
@@ -427,10 +434,16 @@ export const Calculators: Calculator[] = [
       {
         key: "amortization_stacked_bar_chart",
         label: "Payment amortisation",
-        type: "stacked_bar_chart",
+        type: "two_charts",
         chartConfig: {
           principal: { color: "#F0FCF3" },
           interest: { color: "#FFEDED" },
+        },
+        secondary_output: {
+          key: "balance_chart",
+          label: "Balance Chart",
+          type: "two_charts",
+          chartConfig: { Balance: { color: "#FFC8C8" } },
         },
         subChart: [
           {
@@ -464,6 +477,8 @@ export const Calculators: Calculator[] = [
 
       let balance = loan_amount;
       const amortizationSchedule = [];
+      const lineChartData = [];
+      const tableData = [];
       let totalInterest = 0;
       const currentYear = new Date().getFullYear();
       for (let year = 1; year <= mortgage_duration; year++) {
@@ -492,6 +507,15 @@ export const Calculators: Calculator[] = [
           Year: currentYear + year - 1,
           Principal: principalPaidYearly.toFixed(2),
           Interest: interestPaidYearly.toFixed(2),
+        });
+        lineChartData.push({
+          Year: currentYear + year - 1,
+          Balance: balance.toFixed(2),
+        });
+        tableData.push({
+          Year: currentYear + year - 1,
+          Principal: principalPaidYearly.toFixed(2),
+          Interest: interestPaidYearly.toFixed(2),
           Balance: balance.toFixed(2),
         });
 
@@ -499,10 +523,12 @@ export const Calculators: Calculator[] = [
       }
 
       // Calculating Total Payment
-      const totalPayment = loan_amount + totalInterest;
+      const totalPayment = loan_amount;
       const interestPercentage = ((totalInterest / totalPayment) * 100).toFixed(
         2
       );
+
+      const grandTotal = parseFloat(down_payment) + totalInterest + loan_amount;
 
       const insights = `Your monthly payment: AED ${FormatValue(
         emi_payment_monthly.toFixed(2)
@@ -516,6 +542,7 @@ export const Calculators: Calculator[] = [
         emi: emi_payment_monthly.toFixed(2),
         total_interest: totalInterest.toFixed(2),
         total_principal: totalPayment.toFixed(2),
+        grand_total: grandTotal.toFixed(2),
         total_payment_breakup_pie: [
           {
             name: "Priciple Loan Amount",
@@ -529,9 +556,10 @@ export const Calculators: Calculator[] = [
           },
         ],
         amortization_stacked_bar_chart: amortizationSchedule,
+        balance_chart: lineChartData,
         amortization_table: {
           columns: ["Year", "Principal", "Interest", "Balance"],
-          data: amortizationSchedule,
+          data: tableData,
         },
         insight: insights,
       };
@@ -586,26 +614,26 @@ export const Calculators: Calculator[] = [
         is_mandatory: true,
       },
       {
-        key: "purchase_cost",
-        label: "Purchase Cost",
+        key: "annual_operating_expenses",
+        label: "Annual Operating Expenses (AED)",
         type: "switch",
         options: [
           {
-            key: "property_size",
-            label: "Property Size",
+            key: "property_size_sqft",
+            label: "Property Size (SQFT)",
             type: "value",
             is_mandatory: true,
           },
           {
             key: "service_charges_per_sqft",
-            label: "Service Charges per Sqft",
+            label: "Service Charges (SQFT)",
             type: "currency_text",
             is_mandatory: true,
           },
           {
             key: "total_service_charge",
             label: "Total Service Charge",
-            type: "currency_text",
+            type: "currency_text", // auto compute = property_size_sqft*service_charges_per_sqft
             is_mandatory: true,
           },
           {
@@ -631,8 +659,9 @@ export const Calculators: Calculator[] = [
       },
 
       {
-        key: "annual_operating_expenses",
-        label: "Annual Operating Expenses (AED)",
+        key: "purchase_cost",
+        label: "Purchase Cost",
+
         type: "switch",
         options: [
           {
@@ -642,15 +671,9 @@ export const Calculators: Calculator[] = [
             is_mandatory: true,
           },
           {
-            key: "dubai_land_department_fees",
-            label: "Dubai Land Department fees",
-            type: "currency_text",
-            is_mandatory: true,
-          },
-          {
             key: "other_fee",
             label: "Other Fee",
-            type: "slider_with_text",
+            type: "currency_text",
             max: 10000,
             min: 1000,
             step: 100,
@@ -810,6 +833,7 @@ export const Calculators: Calculator[] = [
         key: "rent_duration",
         label: "How long you are planning to rent (years)?",
         type: "slider",
+        sliderText: "Years",
         min: 1,
         max: 30,
         step: 1,
@@ -820,6 +844,7 @@ export const Calculators: Calculator[] = [
         key: "mortgage_rate",
         label: "Mortgage rate?",
         type: "slider",
+        sliderText: "%",
         min: 3,
         max: 10,
         step: 0.1,
@@ -885,7 +910,8 @@ export const Calculators: Calculator[] = [
           monthlyRate *
           Math.pow(1 + monthlyRate, numberOfPayments)) /
         (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
-      const totalBuyPayment = monthlyBuyPayment * (holdingPeriod * 12);
+      const totalBuyPayment =
+        monthlyBuyPayment * (holdingPeriod * 12) + downPayment;
 
       const annualCosts = [];
       let remainingLoanAmount = loanAmount;
@@ -1056,6 +1082,7 @@ export const Calculators: Calculator[] = [
         key: "mortgage_duration",
         label: "Mortgage Duration",
         type: "slider",
+        sliderText: "Years",
         min: 1,
         max: 30,
         step: 1,
@@ -1069,11 +1096,11 @@ export const Calculators: Calculator[] = [
         label: "Monthly Payment",
         type: "variable_output",
       },
-      {
-        key: "insight",
-        label: "Insight",
-        type: "insights",
-      },
+      // {
+      //   key: "insight",
+      //   label: "Insight",
+      //   type: "insights",
+      // },
     ],
     calculate: (inputs) => {
       const {

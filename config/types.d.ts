@@ -23,6 +23,7 @@ export interface InputField {
   searchable?: boolean;
   calculateFrom?: string[];
   calculateValue?: (value: any) => any;
+  sliderText?: string;
   min?: number;
   max?: number;
   step?: number;
@@ -59,11 +60,13 @@ export interface OutputField {
     | "stacked_bar_chart"
     | "line_chart"
     | "table"
-    | "bar_chart";
+    | "bar_chart"
+    | "two_charts";
   chartConfig?: ChartConfig;
   calculateFrom?: string[];
   calculateValue?: (value: any) => any;
   subChart?: SubChart[];
+  isWrapped?: boolean;
 }
 
 export interface Calculator {

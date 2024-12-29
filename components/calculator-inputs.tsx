@@ -35,6 +35,7 @@ interface CalculatorInputsProps {
   searchable?: boolean;
   value: any;
   onChange: (value: any) => void;
+  sliderText?: string;
   min?: number;
   max?: number;
   step?: number;
@@ -53,6 +54,7 @@ function CalculatorInputs({
   searchable,
   value,
   onChange,
+  sliderText,
   min = 0,
   max = 100,
   step = 1,
@@ -207,7 +209,7 @@ function CalculatorInputs({
                 )}%)`,
               }}
             >
-              {value}
+              {`${value}${sliderText ? " " + sliderText : "%"}`}
             </div>
             <Slider
               value={[value]}

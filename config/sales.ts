@@ -104,7 +104,7 @@ export const SalesValueTrend = async (params: {
       params: params,
     });
     console.log("response barrr", response.data);
-    const data = response.data.data.data;
+    const data = response.data.data.result.data;
     console.log("data Transs", data);
 
     const totalValue = data.map((item: any) => ({
@@ -185,7 +185,7 @@ export const SalesTrend = async (params: {
     const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
       params: params,
     });
-    const data = response.data.data.data;
+    const data = response.data.data.result.data;
     console.log("chddd", data);
 
     // Process yearly data
