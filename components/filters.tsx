@@ -22,7 +22,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { XIcon } from "lucide-react";
 
 function Filters({
   selectOptions,
@@ -31,7 +30,7 @@ function Filters({
 }: {
   selectOptions: PageFilter[];
   selectedFilters: { [key: string]: string | number };
-  onChange: (key: string, value: string) => void;
+  onChange: (key: string, value: string | null) => void;
 }) {
   const [filterOptions, setFilterOptions] = useState<{
     [key: string]: string[];
@@ -50,7 +49,7 @@ function Filters({
           );
           setFilterOptions((prev) => ({
             ...prev,
-            [filter.key]: response,
+            [filter.key]: ["All", ...response],
           }));
         } catch (error) {
           console.error(`Failed to fetch options for ${filter.key}`, error);
@@ -64,7 +63,10 @@ function Filters({
       } else if (filter.options && !filterOptions[filter.key]) {
         setFilterOptions((prev) => ({
           ...prev,
-          [filter.key]: filter.options ?? [],
+          [filter.key]: [
+            ...(filter.key !== "end_year" ? ["All"] : []),
+            ...(filter.options || []),
+          ],
         }));
       }
     });
@@ -75,11 +77,11 @@ function Filters({
   };
 
   const handleOptionChange = (key: string, value: string) => {
-    onChange(key, value);
-  };
-
-  const clearIndividualFilter = (key: string) => {
-    delete selectedFilters[key];
+    if (value === "All") {
+      onChange(key, null); // Remove key-value pair
+    } else {
+      onChange(key, value);
+    }
   };
 
   return (
@@ -110,15 +112,6 @@ function Filters({
                       {select.label}
                     </DrawerTitle>
                   </div>
-                  {selectedFilters[select.key] && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => clearIndividualFilter(select.key)}
-                    >
-                      Clear
-                    </Button>
-                  )}
                 </DrawerHeader>
                 {select.searchable && (
                   <Input
@@ -132,7 +125,7 @@ function Filters({
                 )}
                 <div className="space-y-4 overflow-y-scroll mt-2">
                   <RadioGroup
-                    value={selectedFilters[select.key]?.toString()}
+                    value={selectedFilters[select.key]?.toString() || "All"}
                     onValueChange={(value) =>
                       handleOptionChange(select.key, value)
                     }
@@ -212,7 +205,7 @@ function Filters({
                 )}
                 <div className="space-y-4 overflow-y-scroll mt-2 max-h-[600px]">
                   <RadioGroup
-                    value={selectedFilters[select.key]?.toString()}
+                    value={selectedFilters[select.key]?.toString() || "All"}
                     onValueChange={(value) =>
                       handleOptionChange(select.key, value)
                     }
@@ -245,15 +238,6 @@ function Filters({
                         ))
                     ) : (
                       <div>Loading options...</div>
-                    )}
-                    {selectedFilters[select.key] && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => clearIndividualFilter(select.key)}
-                      >
-                        Clear
-                      </Button>
                     )}
                   </RadioGroup>
                 </div>
