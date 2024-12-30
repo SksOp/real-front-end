@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -30,12 +30,28 @@ import Barchart from "./chart/barchart/barchart";
 import LoginTrigger from "./loginTrigger";
 import { useAuth } from "@/lib/auth";
 import EllipsisMenu from "./ellipsisMenu";
+import { toPng } from "html-to-image";
 
 function HomeVolumeIndex() {
   const [volume, setVolume] = React.useState<ChartDescription>();
   const [value, setValue] = React.useState<ChartDescription>();
   const router = useRouter();
   const auth = useAuth();
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = async () => {
+    if (chartRef.current) {
+      try {
+        const dataUrl = await toPng(chartRef.current);
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `volume.png`;
+        link.click();
+      } catch (error) {
+        console.error("Failed to download chart:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +101,7 @@ function HomeVolumeIndex() {
               </h3>
             </LoginTrigger>
           )}
-          <EllipsisMenu />
+          <EllipsisMenu handleDownload={handleDownload} />
         </div>
       </div>
       <Card className=" rounded-xl bg-background rounded-t-none w-full px-3 pb-4 flex flex-col gap-3">

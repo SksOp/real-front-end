@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Drawer,
   DrawerClose,
@@ -10,7 +9,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import FilterIcons from "./filter-icons";
@@ -24,6 +22,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { XIcon } from "lucide-react";
 
 function Filters({
   selectOptions,
@@ -79,9 +78,14 @@ function Filters({
     onChange(key, value);
   };
 
+  const clearIndividualFilter = (key: string) => {
+    delete selectedFilters[key];
+  };
+
   return (
     <nav className="w-full bg-background sticky z-20 top-0">
       <div className="w-full rounded-md overflow-scroll">
+        {/* Mobile Drawer */}
         <div className="flex items-center justify-start space-x-2 py-2 px-2 md:hidden">
           {selectOptions.map((select, index) => (
             <Drawer key={index}>
@@ -99,11 +103,22 @@ function Filters({
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="max-h-[60%] p-2">
-                <DrawerHeader className="flex justify-start items-center gap-2">
-                  <FilterIcons option={select.label} />
-                  <DrawerTitle className="font-light text-lg text-secondary">
-                    {select.label}
-                  </DrawerTitle>
+                <DrawerHeader className="flex justify-between items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <FilterIcons option={select.label} />
+                    <DrawerTitle className="font-light text-lg text-secondary">
+                      {select.label}
+                    </DrawerTitle>
+                  </div>
+                  {selectedFilters[select.key] && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => clearIndividualFilter(select.key)}
+                    >
+                      Clear
+                    </Button>
+                  )}
                 </DrawerHeader>
                 {select.searchable && (
                   <Input
@@ -159,6 +174,7 @@ function Filters({
             </Drawer>
           ))}
         </div>
+        {/* Desktop Dropdown */}
         <div className="hidden items-center justify-start space-x-2 py-2 px-2 md:flex">
           {selectOptions.map((select, index) => (
             <DropdownMenu key={index}>
@@ -176,11 +192,13 @@ function Filters({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="max-h-[600px] p-2">
-                <div className="flex justify-start items-center gap-2">
-                  <FilterIcons option={select.label} />
-                  <h3 className="font-semibold text-base text-secondary">
-                    {select.label}
-                  </h3>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <FilterIcons option={select.label} />
+                    <h3 className="font-semibold text-base text-secondary">
+                      {select.label}
+                    </h3>
+                  </div>
                 </div>
                 {select.searchable && (
                   <Input
@@ -227,6 +245,15 @@ function Filters({
                         ))
                     ) : (
                       <div>Loading options...</div>
+                    )}
+                    {selectedFilters[select.key] && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => clearIndividualFilter(select.key)}
+                      >
+                        Clear
+                      </Button>
                     )}
                   </RadioGroup>
                 </div>

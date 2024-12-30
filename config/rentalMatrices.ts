@@ -53,7 +53,7 @@ export const RentalMatrices: Matrix[] = [
               ? data1.value
               : params.version_en === "Renew"
               ? data2.value
-              : data1.value + data2.value,
+              : Number(data1.value) + Number(data2.value),
         };
 
         return result;
