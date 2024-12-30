@@ -584,9 +584,12 @@ export const SalesPriceComparison = async (params: {
     console.log("compare data", data);
     const chartData = data.map((item: any) => ({
       name: item.AREA_EN,
-      avgPrice: item.avg_trans_value.toFixed(2),
-      pricePerSqFt: item.avg_price_per_sqft.toFixed(2),
-      transactions: item.num_sales.toFixed(2),
+      avgPrice: item.avg_trans_value_current.toFixed(2),
+      pricePerSqFt: item.avg_price_per_sqft_current.toFixed(2),
+      transactions: item.num_sales_current.toFixed(2),
+      avgPriceGrowth: item.growth_rate_avg_trans_value.toFixed(2),
+      pricePerSqFtGrowth: item.growth_rate_avg_price_per_sqft.toFixed(2),
+      transactionsGrowth: item.growth_rate_count_transactions.toFixed(2),
     }));
 
     return {

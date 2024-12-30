@@ -119,35 +119,44 @@ function DashboardDetailPage() {
             />
             <main ref={navRef}>
               <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
-                <div className="grid grid-cols-2 gap-3 w-full">
-                  {matrixData?.map((item, index) => (
-                    <MatrixCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                      growth={parseInt(String(item.growth))}
-                    />
-                  ))}
-                </div>
-                {charts?.map((chart, index) => (
-                  <DashboardCharts
-                    dashboardType={
-                      dashboard?.dashboard_filters?.mode || "sales"
-                    }
-                    key={index}
-                    type={chart.chart_type}
-                    data={chart.data}
-                    chartConfig={chart.chartConfig}
-                    title={chart.name}
-                    filters={chart.filters}
-                    viewAll={chart.view_all}
-                    columns={chart?.columns}
-                    otherInfo={chart.otherInfo}
-                    subCharts={chart.sub_charts}
-                    insights={chart.insights}
-                    description={chart.description}
-                  />
-                ))}
+                {loading ? (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Spinner />
+                    <div className="ml-2">Loading...</div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-2 gap-3 w-full">
+                      {matrixData?.map((item, index) => (
+                        <MatrixCard
+                          key={index}
+                          title={item.title}
+                          value={item.value}
+                          growth={parseInt(String(item.growth))}
+                        />
+                      ))}
+                    </div>
+                    {charts?.map((chart, index) => (
+                      <DashboardCharts
+                        dashboardType={
+                          dashboard?.dashboard_filters?.mode || "sales"
+                        }
+                        key={index}
+                        type={chart.chart_type}
+                        data={chart.data}
+                        chartConfig={chart.chartConfig}
+                        title={chart.name}
+                        filters={chart.filters}
+                        viewAll={chart.view_all}
+                        columns={chart?.columns}
+                        otherInfo={chart.otherInfo}
+                        subCharts={chart.sub_charts}
+                        insights={chart.insights}
+                        description={chart.description}
+                      />
+                    ))}
+                  </>
+                )}
 
                 <Feedback />
               </div>

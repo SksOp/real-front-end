@@ -59,6 +59,8 @@ function InsightDrawerView({
       const presentYear = date.getFullYear();
       setIsLoading(true);
       // Fetch Sales Matrix Data
+      try {
+      } catch (error) {}
       const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
         presentYear - 1
       }&end_year=${presentYear}&location=${location_name}`;

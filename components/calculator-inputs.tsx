@@ -295,7 +295,7 @@ function CalculatorInputs({
                 default_value={input?.default_value}
                 additionalTexts={input?.helper_text}
                 placeholder={input?.placeholder ?? "enter value"}
-                value={value[input?.key]}
+                value={value && value[input?.key]}
                 onChange={(newValue) =>
                   onChange({
                     ...value,

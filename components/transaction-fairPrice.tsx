@@ -27,7 +27,7 @@ function TransactionFairPrice({
         const fairPriceResponse = `${FormatValue(
           data.quartiles[0].average.toFixed(2)
         )} - ${FormatValue(data.quartiles[3].average.toFixed(2))}`;
-        setAvgPrice(FormatValue(data.q1_q2_average.toFixed(2)));
+        setAvgPrice(FormatValue(data.q2_q3_average.toFixed(2)));
         setFairPrice(fairPriceResponse);
       } catch (e) {
         console.error("error getting transaction", e);

@@ -4,12 +4,16 @@ import { Badge } from "./ui/badge";
 import { CircularDownIcon, CircularUpIcon } from "@/public/svg/Indicator";
 import { cn } from "@/lib/utils";
 import { FormatValue } from "@/utils/formatNumbers";
+import GrowthIndicator from "./growthIndicator";
 
 interface PriceTableRowProps {
   name: string;
   avgPrice: string;
   pricePerSqFt: string;
   transactions: string;
+  avgPriceGrowth?: string;
+  pricePerSqFtGrowth?: string;
+  transactionsGrowth?: string;
   isMuted?: boolean;
   isSelected?: boolean;
   type?: "sales" | "rental";
@@ -21,6 +25,9 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
   avgPrice,
   pricePerSqFt,
   transactions,
+  avgPriceGrowth,
+  pricePerSqFtGrowth,
+  transactionsGrowth,
   isMuted,
   isSelected,
   type = "sales",
@@ -49,36 +56,37 @@ const PriceTableRow: React.FC<PriceTableRowProps> = ({
             <h3 className="text-[0.813rem] text-muted-foreground font-semibold max-w-14  break-words">
               {type === "sales" ? "Average price" : "Average rent"}
             </h3>
-            <div className="flex gap-1 justify-start items-center">
+            <div className="flex flex-col gap-1 justify-start items-start">
               <h2 className="text-base text-secondary/90 font-medium">
                 {FormatValue(avgPrice)}
               </h2>
-              <span className="text-red-600 text-[0.813rem] font-semibold">
-                21%
-              </span>
-              <CircularDownIcon />
+              {avgPriceGrowth && <GrowthIndicator growth={avgPriceGrowth} />}
             </div>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 ml-4 justify-center">
             <h3 className="text-[0.813rem] text-muted-foreground font-semibold max-w-16  break-words">
               {type === "sales" ? "Price Per sq. ft" : "Renewal rate"}
             </h3>
-            <h2 className="text-base text-secondary/90 font-medium">
-              {FormatValue(pricePerSqFt)}
-            </h2>
+            <div className="flex flex-col gap-1 justify-start items-start">
+              <h2 className="text-base text-secondary/90 font-medium">
+                {FormatValue(pricePerSqFt)}
+              </h2>
+              {pricePerSqFtGrowth && (
+                <GrowthIndicator growth={pricePerSqFtGrowth} />
+              )}
+            </div>
           </div>
           <div className="w-1/3 flex flex-col items-start gap-2 justify-center">
             <h3 className="text-[0.813rem] text-muted-foreground font-semibold max-w-24  break-words">
               {"No. of transactions"}
             </h3>
-            <div className="flex gap-1 justify-start items-center">
+            <div className="flex flex-col gap-1 justify-start items-start">
               <h2 className="text-base text-secondary/90 font-medium">
                 {FormatValue(transactions)}
               </h2>
-              <span className="text-green-600 text-[0.813rem] font-semibold">
-                21%
-              </span>
-              <CircularUpIcon className="w-4 h-4" />
+              {transactionsGrowth && (
+                <GrowthIndicator growth={transactionsGrowth} />
+              )}
             </div>
           </div>
         </div>
@@ -110,6 +118,9 @@ const PriceChangesTable: React.FC<PriceChangesTableProps> = ({
               avgPrice={row.avgPrice}
               pricePerSqFt={row.pricePerSqFt}
               transactions={row.transactions}
+              avgPriceGrowth={row.avgPriceGrowth}
+              pricePerSqFtGrowth={row.pricePerSqFtGrowth}
+              transactionsGrowth={row.transactionsGrowth}
               isMuted={index % 2 === 0}
               isSelected={selectedRow === index}
               type={type}
