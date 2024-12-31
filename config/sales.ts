@@ -876,6 +876,28 @@ export const SalesSegmentation = async (params: {
       ];
     }
 
+    const insights = `
+      Residential transactions account for ${(
+        (residentialTotalData[0]?.total_residential /
+          (residentialTotalData[0]?.total_residential +
+            commercialTotalData[0]?.total_commercial)) *
+        100
+      ).toFixed(2)}%, while commercial properties hold ${(
+      (commercialTotalData[0]?.total_commercial /
+        (residentialTotalData[0]?.total_residential +
+          commercialTotalData[0]?.total_commercial)) *
+      100
+    ).toFixed(2)}%.
+    `;
+
+    const insightsaleVsReSale = `
+        Resale properties account for ${(
+          (allData.resale / (allData.resale + allData.first_sale)) *
+          100
+        ).toFixed(2)}% of total transactions.
+        Off-plan sales are driving growth in first-sale transactions, up by 20%.
+    `;
+
     return {
       name: "Sales Segmentation",
       description:
@@ -895,6 +917,7 @@ export const SalesSegmentation = async (params: {
           name: "Sales Type",
           chart_type: "horizontal_bar",
           chartConfig: {},
+
           filters: [
             { key: "all", label: "All", data: allData.free_hold_en },
             {
@@ -908,9 +931,8 @@ export const SalesSegmentation = async (params: {
               data: commercialData.free_hold_en,
             },
           ],
+          insights: insightsaleVsReSale,
           data: allData?.free_hold_en, // Calculated data will be here
-          insights:
-            "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
         },
         {
           key: "property_status",
@@ -930,6 +952,7 @@ export const SalesSegmentation = async (params: {
               data: commercialData.offplan_en,
             },
           ],
+
           data: allData?.offplan_en, // Calculated data will be here
         },
         {
@@ -993,6 +1016,7 @@ export const SalesSegmentation = async (params: {
           data: allData.rooms_en, // Calculated data will be here
         },
       ],
+      insights: insights,
       data: chartData, // Calculated data will be here
     };
   } catch (error) {

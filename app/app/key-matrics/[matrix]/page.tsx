@@ -32,9 +32,18 @@ function MatrixDataPage() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "all";
 
-  const handleFilterChange = (filterKey: string, value: string) => {
+  const handleFilterChange = (filterKey: string, value: string | null) => {
     setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters, [filterKey]: value };
+      const updatedFilters = { ...prevFilters };
+
+      if (value === null) {
+        // Remove the filter key if the value is null
+        delete updatedFilters[filterKey];
+      } else {
+        // Update the filter key with the new value
+        updatedFilters[filterKey] = value;
+      }
+
       console.log("Updated filters", updatedFilters);
       return updatedFilters;
     });

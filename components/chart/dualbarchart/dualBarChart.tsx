@@ -107,12 +107,7 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
       )} // Make the container horizontally scrollable
     >
       <ResponsiveContainer height={400}>
-        <BarChart
-          data={data}
-          margin={{ left: -15, top: 10 }}
-          barCategoryGap={30}
-          barGap={10}
-        >
+        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={10}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -147,7 +142,6 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
               radius={barRadius}
               stroke={"#121212"}
               overflow={"scroll"}
-              barSize={20}
               {...customBarProps}
             >
               {!showXAxis && (
