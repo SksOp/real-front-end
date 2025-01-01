@@ -21,6 +21,7 @@ import HomeClaimCard from "@/components/home-claim-card";
 import HomeIntroCard from "@/components/home-introCard";
 import HomeToolbox from "@/components/home-toolbox";
 import HomeUsecase from "@/components/home-usecase";
+import HomeKeypilot from "@/components/home-keypilot";
 
 const SignIn = () => {
   return (
@@ -28,21 +29,10 @@ const SignIn = () => {
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-4">
         <HomeIntroCard />
         <HomeTransactionCard />
+        <CarouselAd />
         <HomeToolbox />
         <HomeUsecase />
-        <HomeInsights />
-        <CarouselAd />
-        <HomeSalesIndex />
-        <HomeTotalAds />
-        <HomeTopAreas />
-        <HomePriceIndex />
-        <HomeTransactionValue />
-        <LoginTrigger>
-          <HomeListing />
-        </LoginTrigger>
-        <HomeClaimCard />
-        <FrequentQuestions />
-        <SharingCard />
+        <HomeKeypilot />
         <Footer />
       </div>
       <div className="hidden pt-20 md:flex gap-3 w-full px-4 pb-0">

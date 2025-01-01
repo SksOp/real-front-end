@@ -30,10 +30,12 @@ function Footer() {
           </p>
         </div>
       </div>
-      <div className="hidden bg-[#282828] md:flex flex-col gap-2 w-full justify-center items-center pt-6 pb-10">
-        <h1 className="text-[1.438rem] font-bold text-white pt-2">Keypilot.</h1>
+      <div className="hidden bg-[#F2F2F2] md:flex flex-col gap-2 w-full justify-center items-center pt-6 pb-10">
+        <h1 className="text-[1.438rem] font-bold text-[#161616] pt-2">
+          Keypilot.
+        </h1>
         <div className="flex flex-col gap-4 justify-center items-center">
-          <div className="text-[#F2F2F2] font-normal text-xs">
+          <div className="text-[#161616] font-normal text-xs">
             <TermsTrigger>
               <span>Terms of Use</span>
             </TermsTrigger>{" "}
@@ -44,7 +46,7 @@ function Footer() {
             </PrivacyTrigger>{" "}
             | Feedback | Contact
           </div>
-          <p className="text-[#C2C2C2] font-normal text-xs">
+          <p className="text-[#161616] font-normal text-sm">
             &#169; 2024 copy rights reserved.
           </p>
         </div>

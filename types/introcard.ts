@@ -5,6 +5,6 @@ export interface IntroCardProps {
   description: string;
   avatar: React.ReactNode;
   linkto: string;
-  avatarBg: ClassValue;
+  avatarBg?: ClassValue;
   soon?: boolean;
 }
