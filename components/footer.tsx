@@ -8,7 +8,7 @@ function Footer() {
   const router = useRouter();
   return (
     <>
-      <div className="w-full py-2 md:hidden">
+      <div className="w-full py-2 md:hidden ">
         <h1 className="text-xl font-bold border-t pt-2">Keypilot.</h1>
         <div className="flex flex-col gap-4 w-full items-center justify-center">
           <h3

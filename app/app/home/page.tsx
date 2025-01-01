@@ -10,22 +10,27 @@ import FrequentQuestions from "@/components/frequent-questions";
 import HomeClaimCard from "@/components/home-claim-card";
 import HomeInsights from "@/components/home-insights";
 import HomeIntro from "@/components/home-intro";
+import HomeKeypilot from "@/components/home-keypilot";
 import HomeListing from "@/components/home-listing";
 import HomePriceIndex from "@/components/home-price-index";
 import HomeSalesIndex from "@/components/home-sales-index";
+import HomeToolbox from "@/components/home-toolbox";
 import HomeTopAreas from "@/components/home-top-areas";
 import HomeTotalAds from "@/components/home-total-ads";
 import HomeTransactionCard from "@/components/home-transaction-card";
 import HomeTransactionList from "@/components/home-transaction-list";
 import HomeTransactionValue from "@/components/home-transaction-value";
+import HomeUsecase from "@/components/home-usecase";
 import HomeVolumeIndex from "@/components/home-volume-index";
 import InsightCard from "@/components/insightCard";
 import SecondaryChartWrapper from "@/components/secondaryChartWrapper";
 import SharingCard from "@/components/sharingCard";
 import { SalesIndex, SalesPriceRanges } from "@/config/sales";
 import { ChartDescription } from "@/config/types";
+import { KeypilotItems } from "@/constants/keypilot";
 import Layout from "@/layout/home";
 import { useAuth } from "@/lib/auth";
+import { InsightLogo } from "@/public/svg/toolbox";
 import React, { useEffect, useState } from "react";
 
 function HomePage() {
@@ -62,17 +67,13 @@ function HomePage() {
           </h1>
         </div>
         <HomeTransactionCard />
-        <HomeInsights />
         <CarouselAd />
-        <HomeSalesIndex />
-        <HomeTotalAds />
-        <HomeTopAreas />
-        <HomePriceIndex />
-        <HomeTransactionValue />
-        <HomeListing />
-        <FrequentQuestions />
+        <HomeToolbox />
+        <HomeUsecase />
+        <HomeKeypilot />
+        {/* <FrequentQuestions />
         <HomeClaimCard />
-        <SharingCard />
+        <SharingCard /> */}
         <Footer />
       </div>
       <div className="hidden pt-20 md:flex gap-3 w-full px-4 pb-0">

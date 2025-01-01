@@ -8,6 +8,7 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import SignupTrigger from "./signupTrigger";
+import { cn } from "@/lib/utils";
 
 interface HomeCarousalItemProps {
   title: string;
@@ -23,7 +24,12 @@ function HomeCarousalItem({
   btn = false,
 }: HomeCarousalItemProps) {
   return (
-    <Card className="bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between h-[180px] overflow-hidden">
+    <Card
+      className={cn(
+        "bg-[#F7F6F8] rounded-2xl py-5 px-4 flex flex-row items-center justify-between h-[180px] overflow-hidden",
+        btn && "h-[200px]"
+      )}
+    >
       {/* Text Section */}
       <div className="flex flex-col gap-3 max-w-[60%]">
         <CardHeader className="p-0">

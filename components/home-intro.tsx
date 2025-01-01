@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import HomeCarousalItem from "./home-Carousal-item";
 import { useAuth } from "@/lib/auth";
 import CarouselAd from "./carouselAd";
+import { Card } from "./ui/card";
 
 function HomeIntro() {
   const auth = useAuth();
@@ -34,7 +35,7 @@ function HomeIntro() {
   }, [auth]);
 
   return (
-    <div className="w-full p-4 ">
+    <Card className="border rounded-xl bg-background w-full px-3 py-4 flex flex-col gap-3">
       <div className="flex flex-col gap-8">
         {name ? (
           <div className="flex flex-col gap-4">
@@ -63,7 +64,7 @@ function HomeIntro() {
 
         <CarouselAd />
       </div>
-    </div>
+    </Card>
   );
 }
 

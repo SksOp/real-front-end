@@ -10,6 +10,7 @@ import { BASE_URL } from "@/config/constant";
 import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
 import MatrixSkeleton from "./matrixSkeleton";
+import SignupTrigger from "./signupTrigger";
 
 interface MatrixCardProps {
   title: string;
@@ -149,9 +150,20 @@ function HomeTransactionCard() {
         </Tabs>
         <CardFooter className="flex gap-1 justify-start items-center p-0">
           <Info size={16} className="stroke-accent" />
-          <h3 className="text-sm font-normal truncate text-accent">
-            2024 data in comparison with previous year is shown.
-          </h3>
+          {auth.user ? (
+            <h3 className="text-sm font-normal truncate text-accent">
+              2024 data in comparison with previous year is shown.
+            </h3>
+          ) : (
+            <h3 className="text-sm font-normal truncate text-accent flex gap-1">
+              Don't have account?{" "}
+              <SignupTrigger>
+                <span className="text-primary font-semibold">
+                  Create account
+                </span>
+              </SignupTrigger>
+            </h3>
+          )}
         </CardFooter>
       </CardContent>
     </Card>

@@ -18,34 +18,18 @@ import SignupTrigger from "@/components/signupTrigger";
 import LoginTrigger from "@/components/loginTrigger";
 import CarouselAd from "@/components/carouselAd";
 import HomeClaimCard from "@/components/home-claim-card";
+import HomeIntroCard from "@/components/home-introCard";
+import HomeToolbox from "@/components/home-toolbox";
+import HomeUsecase from "@/components/home-usecase";
 
 const SignIn = () => {
   return (
     <div>
       <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-4">
-        <div className="flex flex-col gap-5 pl-1">
-          <h3 className="text-2xl bg-gradient-to-t from-[#121212] to-[#6E5BFF] text-transparent bg-clip-text font-bold">
-            Join Dubai’s Top 1% Broker Club. Put Your Success on Copilot!
-          </h3>
-          <p className="text-muted-foreground text-base font-normal">
-            This app helps you plan how to move up the ladder and be the top
-            broker!
-          </p>
-          <div className="flex items-center justify-start gap-2">
-            <div className="flex justify-start items-center gap-2 ">
-              <SignupTrigger>
-                <Button>Join Now </Button>
-              </SignupTrigger>
-
-              <LoginTrigger>
-                <Button variant={"outline"} className="">
-                  Sign In
-                </Button>
-              </LoginTrigger>
-            </div>
-          </div>
-        </div>
+        <HomeIntroCard />
         <HomeTransactionCard />
+        <HomeToolbox />
+        <HomeUsecase />
         <HomeInsights />
         <CarouselAd />
         <HomeSalesIndex />
