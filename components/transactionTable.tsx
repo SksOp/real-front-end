@@ -20,6 +20,7 @@ import {
   NoDataException,
   SelectDataException,
 } from "@/public/svg/exceptions";
+import LoadingWidget from "./loadingWidget";
 
 interface TransactionTableRowProps {
   transactionId: string;
@@ -224,10 +225,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   return (
     <div className="flex h-full flex-col rounded-xl gap-3 w-full">
       {loading ? (
-        <div className="flex  items-center justify-center">
-          <Spinner />
-          <div className="ml-2">Loading...</div>
-        </div>
+        <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
       ) : (
         <>
           <div className="border rounded-xl w-full">

@@ -14,7 +14,13 @@ import IntoCard from "./intoCard";
 import { TransactionInsightLogo } from "@/public/svg/insights";
 import HomeMatrics from "./home-matrics";
 import { HomeMatricsItems } from "@/constants/homeItems";
-import { SalesDashboards } from "@/constants/dashboards";
+import {
+  GenericGrowthDashboards,
+  PeriodicDashboards,
+  RentalDashboards,
+  SalesDashboards,
+  SupplyAndOffPlanDashboards,
+} from "@/constants/dashboards";
 import { ClassValue } from "clsx";
 
 function DashboardData({ className }: { className?: ClassValue }) {
@@ -97,23 +103,23 @@ function DashboardData({ className }: { className?: ClassValue }) {
           className={className}
         />
         <HomeMatrics
-          title="Sales Insights"
-          items={SalesDashboards}
+          title="Rental Insights"
+          items={RentalDashboards}
           className={className}
         />
         <HomeMatrics
-          title="Sales Insights"
-          items={SalesDashboards}
+          title="Current/Planned Supply(Ready & Offplan)"
+          items={SupplyAndOffPlanDashboards}
           className={className}
         />
         <HomeMatrics
-          title="Sales Insights"
-          items={SalesDashboards}
+          title="Periodic Dashboards"
+          items={PeriodicDashboards}
           className={className}
         />
         <HomeMatrics
-          title="Sales Insights"
-          items={SalesDashboards}
+          title="Generic Growth Dashboards"
+          items={GenericGrowthDashboards}
           className={className}
         />
       </TabsContent>

@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner"; // Import Spinner component
+import LoadingWidget from "@/components/loadingWidget";
 
 function MatrixDataPage() {
   const { matrix } = useParams<{ matrix: string }>();
@@ -88,10 +89,7 @@ function MatrixDataPage() {
         />
 
         {loading ? ( // Display loading indicator when loading is true
-          <div className="flex h-full items-center justify-center">
-            <Spinner />
-            <div className="ml-2">Loading...</div>
-          </div>
+          <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
         ) : (
           selectedChart && (
             <div className="">
@@ -141,10 +139,7 @@ function MatrixDataPage() {
               />
 
               {loading ? ( // Display loading indicator when loading is true
-                <div className="flex h-full items-center justify-center">
-                  <Spinner />
-                  <div className="ml-2">Loading...</div>
-                </div>
+                <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
               ) : (
                 selectedChart && (
                   <>

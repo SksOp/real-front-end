@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import InsightDrawerView from "./insightDrawerView";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Spinner } from "./ui/spinner";
+import LoadingWidget from "./loadingWidget";
 
 function MarketPulseList() {
   const [activeTab, setActiveTab] = useState("sales");
@@ -146,10 +147,7 @@ function MarketPulseList() {
           ))}
           <div ref={mobileLastElementRef}>
             {isSalesLoading && (
-              <div className="flex items-center justify-center">
-                <Spinner />
-                <div className="ml-2">Loading...</div>
-              </div>
+              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
             {!hasMoreSales && <p>No more sales transactions</p>}
           </div>
@@ -170,10 +168,7 @@ function MarketPulseList() {
           ))}
           <div ref={desktopLastElementRef}>
             {isSalesLoading && (
-              <div className="flex items-center justify-center">
-                <Spinner />
-                <div className="ml-2">Loading...</div>
-              </div>
+              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
             {!hasMoreSales && <p>No more sales transactions</p>}
           </div>
@@ -196,10 +191,7 @@ function MarketPulseList() {
           ))}
           <div ref={mobileLastElementRef}>
             {isRentalLoading && (
-              <div className="flex items-center justify-center">
-                <Spinner />
-                <div className="ml-2">Loading...</div>
-              </div>
+              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
             {!hasMoreRentals && <p>No more rental transactions</p>}
           </div>
@@ -220,10 +212,7 @@ function MarketPulseList() {
           ))}
           <div ref={desktopLastElementRef}>
             {isRentalLoading && (
-              <div className="flex items-center justify-center">
-                <Spinner />
-                <div className="ml-2">Loading...</div>
-              </div>
+              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
             {!hasMoreRentals && <p>No more rental transactions</p>}
           </div>

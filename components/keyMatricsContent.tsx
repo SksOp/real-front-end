@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { Spinner } from "./ui/spinner";
 import DashboardCharts from "./dashboard-charts";
 import MatrixCard from "./matrix-card";
+import LoadingWidget from "./loadingWidget";
 
 function KeyMatricsContent({ matrix }: { matrix: string }) {
   const [selectedMatrix, setSelectedMatrix] = useState<Matrix | null>(
@@ -61,10 +62,7 @@ function KeyMatricsContent({ matrix }: { matrix: string }) {
       />
 
       {loading ? ( // Display loading indicator when loading is true
-        <div className="flex h-full items-center justify-center">
-          <Spinner />
-          <div className="ml-2">Loading...</div>
-        </div>
+        <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
       ) : (
         selectedChart && (
           <>

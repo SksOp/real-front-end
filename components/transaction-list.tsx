@@ -97,12 +97,7 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
       ))}
       {/* Loader or End of List */}
       <div ref={lastElementRef}>
-        {isLoading && (
-          <div className="flex  items-center justify-center">
-            <Spinner />
-            <div className="ml-2">Loading...</div>
-          </div>
-        )}
+        {isLoading && <LoadingWidget className="min-h-[calc(100vh-10rem)]" />}
         {!hasMore && <p>No more transactions</p>}
       </div>
     </div>

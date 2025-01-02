@@ -10,6 +10,7 @@ import DashboardSelector from "@/components/dashboard-selector";
 import Feedback from "@/components/feedback";
 import Filters from "@/components/filters";
 import InsightCard from "@/components/insightCard";
+import LoadingWidget from "@/components/loadingWidget";
 import MatrixCard from "@/components/matrix-card";
 import SecondaryChartWrapper from "@/components/secondaryChartWrapper";
 import SharingCard from "@/components/sharingCard";
@@ -208,10 +209,7 @@ function ExplorePage() {
               onChange={handleFilterChange}
             />
             {loading ? (
-              <div className="flex h-full w-full items-center justify-center">
-                <Spinner />
-                <div className="ml-2">Loading...</div>
-              </div>
+              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             ) : (
               <>
                 <div className="grid grid-cols-2 gap-3 w-full">
@@ -344,10 +342,7 @@ function ExplorePage() {
                     onChange={handleFilterChange}
                   />
                   {loading ? (
-                    <div className="flex h-full w-full  items-center justify-center">
-                      <Spinner />
-                      <div className="ml-2">Loading...</div>
-                    </div>
+                    <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
                   ) : (
                     <>
                       <div className="grid grid-cols-2 gap-3 w-full">

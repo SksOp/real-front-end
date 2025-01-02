@@ -29,6 +29,8 @@ import {
   SelectDataException,
 } from "@/public/svg/exceptions";
 import { Separator } from "@/components/ui/separator";
+import { MainLogo } from "@/public/svg/logo";
+import LoadingWidget from "@/components/loadingWidget";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
@@ -135,10 +137,7 @@ function DashboardDetailPage() {
             <main ref={navRef}>
               <div className="bg-gradient-to-b from-background to-[#FAFAFA] px-3 mb-4 flex flex-col gap-3">
                 {loading ? (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <Spinner />
-                    <div className="ml-2">Loading...</div>
-                  </div>
+                  <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
                 ) : (
                   <>
                     <div className="grid grid-cols-2 gap-3 w-full">
@@ -170,10 +169,9 @@ function DashboardDetailPage() {
                         description={chart.description}
                       />
                     ))}
+                    <Feedback />
                   </>
                 )}
-
-                <Feedback />
               </div>
             </main>
           </>
@@ -210,7 +208,7 @@ function DashboardDetailPage() {
                   />
                   {loading ? (
                     <div className="flex h-full  items-center justify-center">
-                      <Spinner />
+                      <MainLogo className="animate-spin-slow" />
                       <div className="ml-2">Loading...</div>
                     </div>
                   ) : (

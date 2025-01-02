@@ -34,7 +34,7 @@ import React from "react";
 function HomePage() {
   return (
     <Layout page="home">
-      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-3">
+      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden pt-14 px-3 flex flex-col gap-3">
         <HomeIntroCard />
         <HomeTransactionCard />
         <CarouselAd />

@@ -92,7 +92,7 @@ function Navbar({
           className="flex items-center justify-start gap-3 cursor-pointer"
           onClick={() => router.push("/app/home")}
         >
-          <MainLogo />
+          <MainLogo className="w-6 h-6 animate-spin-slow" />
           <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
         </div>
         <Sheet>
@@ -110,7 +110,7 @@ function Navbar({
             className="flex items-center justify-start gap-3 cursor-pointer"
             onClick={() => router.push("/app/home")}
           >
-            <MainLogo />
+            <MainLogo className="w-8 h-8 animate-spin-slow" />
             <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
           </div>
           <Tabs

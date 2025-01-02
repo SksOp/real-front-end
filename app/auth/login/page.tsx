@@ -26,7 +26,7 @@ import HomeKeypilot from "@/components/home-keypilot";
 const SignIn = () => {
   return (
     <div>
-      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden mt-20 px-3 flex flex-col gap-4">
+      <div className="w-full bg-gradient-to-b from-background to-[#FAFAFA] md:hidden pt-14 px-3 flex flex-col gap-4">
         <HomeIntroCard />
         <HomeTransactionCard />
         <CarouselAd />

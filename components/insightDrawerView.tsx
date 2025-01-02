@@ -166,10 +166,7 @@ function InsightDrawerView({
       <TransactionFairPrice priceperSqft={priceperSqft} />
 
       {isLoading ? (
-        <div className="flex  items-center justify-center">
-          <Spinner />
-          <div className="ml-2">Loading...</div>
-        </div>
+        <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
       ) : (
         currentChartData.map((chart, index) => (
           <TransactionInsightsChart

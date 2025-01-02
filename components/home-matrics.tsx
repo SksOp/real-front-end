@@ -17,7 +17,7 @@ function HomeMatrics({ title, items, className }: HomeMatricsProps) {
       <h3 className="text-secondary font-semibold text-sm">{title}</h3>
       <div
         className={cn(
-          "md:grid grid-cols-3 flex flex-col w-full gap-4",
+          "md:grid grid-cols-3 lg:grid-cols-4 flex flex-col w-full gap-4",
           className
         )}
       >
