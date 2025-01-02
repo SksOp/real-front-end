@@ -83,18 +83,18 @@ function MatricesData({ className }: { className?: ClassValue }) {
     sales_index: "Sales Index Listings",
   };
 
-  const MatrixOpener = (item: IntroCardProps) => {
-    <KeyMatricsTrigger matrix={item.key ?? "#"}>
-      <IntoCard
-        title={item.title}
-        description={item.description}
-        avatar={item.avatar}
-        avatarBg={item.avatarBg}
-        linkto={item.key ?? "#"}
-        soon={item.soon}
-      />
-    </KeyMatricsTrigger>;
-  };
+  // const MatrixOpener = (item: IntroCardProps) => {
+  //   <KeyMatricsTrigger matrix={item.key ?? "#"}>
+  //     <IntoCard
+  //       title={item.title}
+  //       description={item.description}
+  //       avatar={item.avatar}
+  //       avatarBg={item.avatarBg}
+  //       linkto={item.key ?? "#"}
+  //       soon={item.soon}
+  //     />
+  //   </KeyMatricsTrigger>;
+  // };
 
   return (
     <div className="w-full p-2">

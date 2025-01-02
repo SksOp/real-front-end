@@ -1,7 +1,7 @@
 import { ClassValue } from "clsx";
 
 export interface IntroCardProps {
-  key?: string;
+  key?: string | number;
   title: string;
   description: string;
   avatar: React.ReactNode;
