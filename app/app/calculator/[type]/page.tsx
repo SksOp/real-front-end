@@ -289,7 +289,7 @@ function CalculatorPage() {
         <div className="flex gap-5 w-full pt-12 md:pt-20 px-2">
           {/* Calculator Selector */}
           <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
-            <CalculatorSelector />
+            <CalculatorSelector className="md:flex flex-col gap-3" />
           </div>
           {calculator?.tag === "upcoming" ? (
             <Exceptions

@@ -17,7 +17,7 @@ function IntoCard({
   const router = useRouter();
   return (
     <Card
-      className="flex flex-row items-center gap-4 px-4 py-5 bg-[#F7F6F8] rounded-2xl shadow-none"
+      className="flex flex-row items-center gap-4 px-4 py-5 bg-[#F7F6F8] rounded-2xl shadow-none cursor-pointer"
       onClick={() => router.push(linkto)}
     >
       <div
@@ -28,7 +28,7 @@ function IntoCard({
       >
         {avatar}
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 w-full">
         <div className="flex justify-between items-center w-full">
           <h3 className="text-base font-semibold text-black">{title}</h3>
           {soon && (

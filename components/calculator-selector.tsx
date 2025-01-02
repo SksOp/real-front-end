@@ -4,8 +4,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 import DataCards from "./data-cards";
+import { SalesDashboards } from "@/constants/dashboards";
+import HomeMatrics from "./home-matrics";
+import { CalculatorsItems } from "@/constants/calculators";
+import { ClassValue } from "clsx";
 
-function CalculatorSelector() {
+function CalculatorSelector({ className }: { className?: ClassValue }) {
   const { type } = useParams<{ type: string }>();
   const [selectedCalculator, setSelectedCalculator] = React.useState<
     string | null
@@ -38,8 +42,12 @@ function CalculatorSelector() {
     createLink(calculator)
   );
   return (
-    <div className="md:flex md:flex-col grid grid-cols-2 md:border rounded-xl  justify-items-stretch items-stretch gap-3 p-2">
-      {allCalculators}
+    <div className="flex flex-col gap-3 mt-0 ">
+      <HomeMatrics
+        title="Sales Insights"
+        items={CalculatorsItems}
+        className={className}
+      />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Sales Value Estimator",
     description:
       "Estimate current property sales value based on market trends and attributes.",
-    linkto: "#",
+    linkto: "/app/calculator/sales_value_estimator",
     avatar: <SalesValueIcon />,
     avatarBg: "bg-[#F8CBDB]",
   },
@@ -23,7 +23,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Rental Value Estimator",
     description:
       "Calculate the optimal rental price using property features and market benchmarks.",
-    linkto: "#",
+    linkto: "/app/calculator/sales_value_estimator",
     avatar: <RentalInsightLogo />,
     avatarBg: "bg-[#A6E5FF]",
   },
@@ -31,7 +31,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Mortgage Payment Calculator",
     description:
       "Calculate mortgage payments, rates, and affordability for property financing.",
-    linkto: "#",
+    linkto: "/app/calculator/mortgage_payment_calculator",
     avatar: <MortgageInsightLogo />,
     avatarBg: "bg-[#F7CFB4]",
   },
@@ -39,7 +39,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Investment ROI Estimator",
     description:
       "Estimate property investment returns and future profitability for better decision-making.",
-    linkto: "#",
+    linkto: "/app/calculator/investment_roi_calculator",
     avatar: <ROIIcon />,
     avatarBg: "bg-[#C5DCFF]",
   },
@@ -47,7 +47,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Rent vs Buy Comparison Tool",
     description:
       "Compare financial benefits of renting versus buying a property over time.",
-    linkto: "#",
+    linkto: "/app/calculator/rent_vs_buy_comparison_tool",
     avatar: <RentVsBuyIcon />,
     avatarBg: "bg-[#F9F09D]",
   },
@@ -55,7 +55,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Home Affordability Calculator",
     description:
       "Assess the budget and affordability of purchasing a property based on finances.",
-    linkto: "#",
+    linkto: "/app/calculator/home_affordability_calculator",
     avatar: <HomeAffIcon />,
     avatarBg: "bg-[#BAF1CA]",
   },

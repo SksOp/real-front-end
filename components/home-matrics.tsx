@@ -29,6 +29,7 @@ function HomeMatrics({ title, items, className }: HomeMatricsProps) {
             avatar={item.avatar}
             avatarBg={item.avatarBg}
             linkto={item.linkto}
+            soon={item.soon}
           />
         ))}
       </div>

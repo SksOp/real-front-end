@@ -90,10 +90,7 @@ function DashboardData({ className }: { className?: ClassValue }) {
 
   return (
     <div className="w-full">
-      <TabsContent
-        value="standard"
-        className={"md:flex md:flex-col gap-3 mt-0 "}
-      >
+      <TabsContent value="standard" className={"flex flex-col gap-3 mt-0 "}>
         <HomeMatrics
           title="Sales Insights"
           items={SalesDashboards}
@@ -120,7 +117,7 @@ function DashboardData({ className }: { className?: ClassValue }) {
           className={className}
         />
       </TabsContent>
-      <TabsContent value="custom" className={"md:flex md:flex-col gap-3 mt-0 "}>
+      <TabsContent value="custom" className={"flex flex-col gap-3 mt-0 "}>
         {yourDashboards.length > 0 ? (
           yourDashboards
         ) : (
