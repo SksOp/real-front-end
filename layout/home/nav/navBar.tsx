@@ -20,6 +20,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import {
   Sheet,
   SheetContent,
   SheetTitle,
@@ -114,7 +121,7 @@ function Navbar({
             <TabsList>
               <TabsTrigger
                 value="home"
-                className="text-sm flex items-center gap-1"
+                className="text-sm flex items-center gap-1 rounded-sm"
                 onClick={() => router.push("/app/home")}
               >
                 {selectedTab === "home" && (
@@ -124,7 +131,7 @@ function Navbar({
               </TabsTrigger>
               <TabsTrigger
                 value="dashboards"
-                className="text-sm flex items-center gap-1"
+                className="text-sm flex items-center gap-1 rounded-sm"
                 onClick={() => router.push("/app/dashboard")}
               >
                 {selectedTab === "dashboards" && <DashboardIcon />}
@@ -133,7 +140,7 @@ function Navbar({
 
               <TabsTrigger
                 value="calculators"
-                className="text-sm flex items-center gap-1"
+                className="text-sm flex items-center gap-1 rounded-sm"
                 onClick={() => router.push("/app/calculator")}
               >
                 {selectedTab === "calculators" && <CalculatorIcon />}
@@ -141,23 +148,31 @@ function Navbar({
               </TabsTrigger>
               <TabsTrigger
                 value="transactions"
-                className="text-sm flex items-center gap-1"
+                className="text-sm flex items-center gap-1 rounded-sm"
                 onClick={() => router.push("/app/transactions")}
               >
                 {selectedTab === "transactions" && <TransactionIcon />}
                 Transactions
               </TabsTrigger>
-              <TabsTrigger
+              {/* <TabsTrigger
                 value="my-listings"
-                className="text-sm flex items-center gap-1"
+                className="text-sm flex items-center gap-1 rounded-sm"
                 onClick={() => router.push("/app/listings")}
               >
                 {selectedTab === "my-listings" && <MyPropertiesIcon />}
                 My Properties
+              </TabsTrigger> */}
+              <TabsTrigger
+                value="market-pulse"
+                className="text-sm flex items-center gap-1 rounded-sm"
+                onClick={() => router.push("/app/market-pulse")}
+              >
+                {selectedTab === "market-pulse" && <MarketPulseIcon />}
+                Market Pulse
               </TabsTrigger>
               <TabsTrigger
                 value="key-matrics"
-                className="text-sm flex items-center gap-1"
+                className="text-sm flex items-center gap-1 rounded-sm"
                 onClick={() => router.push("/app/key-matrics")}
               >
                 {selectedTab === "key-matrics" && (
@@ -165,21 +180,42 @@ function Navbar({
                 )}
                 Key Metrics
               </TabsTrigger>
-              <TabsTrigger
-                value="market-pulse"
-                className="text-sm flex items-center gap-1"
-                onClick={() => router.push("/app/market-pulse")}
-              >
-                {selectedTab === "market-pulse" && <MarketPulseIcon />}
-                Market Pulse
-              </TabsTrigger>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm text-secondary font-medium focus:bg-none data-[active]:bg-none  hover:bg-none">
+                      More (7+)
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      {" "}
+                      <ul className="grid  gap-3 p-4  md:grid-cols-2 w-[300px] ">
+                        <li className="text-sm text-secondary font-medium">
+                          My Properties
+                        </li>
+                        <li className="text-sm text-secondary font-medium">
+                          My Properties
+                        </li>
+                        <li className="text-sm text-secondary font-medium">
+                          My Properties
+                        </li>
+                        <li className="text-sm text-secondary font-medium">
+                          My Properties
+                        </li>
+                        <li className="text-sm text-secondary font-medium">
+                          My Properties
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </TabsList>
           </Tabs>
         </div>
         <div className="flex items-center justify-end gap-6">
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar className="w-6 h-6">
+              <Avatar className="w-6 h-6 border-2 border-primary">
                 <AvatarImage src={user?.photoURL || ""} alt="User" />
                 <AvatarFallback className="text-xs">
                   {user?.displayName && user?.displayName[0]}
@@ -259,7 +295,12 @@ function Navbar({
               </Card>
             </DropdownMenuContent>
           </DropdownMenu>
-          <SettingIcon />
+          <div
+            className="cursor-pointer"
+            onClick={() => router.push("/app/settings")}
+          >
+            <SettingIcon />
+          </div>
         </div>
       </div>
       {/* <div className="flex justify-start items-center gap-4"> */}

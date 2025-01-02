@@ -6,6 +6,36 @@ interface Props {
   className?: ClassValue;
 }
 
+export function ChartExceptionImage({ className }: Props) {
+  return (
+    <svg
+      className={cn("", className)}
+      width="100"
+      height="100"
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M49.9997 91.6693C73.0115 91.6693 91.6664 73.0145 91.6664 50.0026C91.6664 26.9907 73.0115 8.33594 49.9997 8.33594C26.9878 8.33594 8.33301 26.9907 8.33301 50.0026C8.33301 73.0145 26.9878 91.6693 49.9997 91.6693Z"
+        fill="#EFEEFC"
+        stroke="#584DCB"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M91.6663 8.33594L8.33301 91.6693"
+        stroke="#584DCB"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-dasharray="6 6"
+      />
+    </svg>
+  );
+}
+
 export function SelectDataException({ className }: Props) {
   return (
     <svg
