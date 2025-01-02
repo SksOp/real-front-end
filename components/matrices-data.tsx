@@ -5,8 +5,20 @@ import React from "react";
 import KeyMatricesCard from "./keyMatricesCard";
 import Link from "next/link";
 import { TabsContent } from "./ui/tabs";
+import HomeMatrics from "./home-matrics";
+import {
+  OffplanMatrices,
+  RentalsMatrices,
+  SalesIndexMatrices,
+  SalesMatrices,
+  SupplyMatrices,
+} from "@/constants/keyMatrics";
+import { ClassValue } from "clsx";
+import IntoCard from "./intoCard";
+import KeyMatricsTrigger from "./key-matricsTrigger";
+import { IntroCardProps } from "@/types/introcard";
 
-function MatricesData() {
+function MatricesData({ className }: { className?: ClassValue }) {
   const { matrix } = useParams<{ matrix: string }>();
   const [selectedMatrix, setSelectedMatrix] = React.useState<Matrix | null>(
     KeyMatrices.find((m) => m.key === matrix) || null
@@ -71,32 +83,84 @@ function MatricesData() {
     sales_index: "Sales Index Listings",
   };
 
+  const MatrixOpener = (item: IntroCardProps) => {
+    <KeyMatricsTrigger matrix={item.key ?? "#"}>
+      <IntoCard
+        title={item.title}
+        description={item.description}
+        avatar={item.avatar}
+        avatarBg={item.avatarBg}
+        linkto={item.key ?? "#"}
+        soon={item.soon}
+      />
+    </KeyMatricsTrigger>;
+  };
+
   return (
     <div className="w-full p-2">
-      <h3 className="text-secondary font-semibold text-base pl-2 mb-2">
-        {tabNames[tab]} ({filteredMatrices.length})
-      </h3>
-      <div className="w-full md:border rounded-xl p-2">
-        <TabsContent value="all" className="flex flex-col  gap-3   mt-0">
-          {allMatrices}
-        </TabsContent>
-        <TabsContent value="sales" className="flex flex-col  gap-3  mt-0">
-          {salesMatrices}
-        </TabsContent>
+      <TabsContent value="all" className={"flex flex-col gap-3 mt-0 "}>
+        <HomeMatrics
+          title="Sales Metrics"
+          items={SalesMatrices}
+          className={className}
+        />
+        <HomeMatrics
+          title="Rental Metrics"
+          items={RentalsMatrices}
+          className={className}
+        />
+        <HomeMatrics
+          title="Offplan Metrics"
+          items={OffplanMatrices}
+          className={className}
+        />
+        <HomeMatrics
+          title="Supply Metrics"
+          items={SupplyMatrices}
+          className={className}
+        />
+        <HomeMatrics
+          title="Index Metrics"
+          items={SalesIndexMatrices}
+          className={className}
+        />
+      </TabsContent>
+      <TabsContent value="sales" className={"flex flex-col gap-3 mt-0 "}>
+        <HomeMatrics
+          title="Sales Metrics"
+          items={SalesMatrices}
+          className={className}
+        />
+      </TabsContent>
 
-        <TabsContent value="rentals" className="flex flex-col  gap-3  mt-0">
-          {rentalsMatrices}
-        </TabsContent>
-        <TabsContent value="supply" className="flex flex-col  gap-3   mt-0">
-          {supplyMatrices}
-        </TabsContent>
-        <TabsContent value="offplan" className="flex flex-col  gap-3  mt-0">
-          {offplanMatrices}
-        </TabsContent>
-        <TabsContent value="sales_index" className="flex flex-col  gap-3  mt-0">
-          {salesIndexMatrices}
-        </TabsContent>
-      </div>
+      <TabsContent value="rentals" className={"flex flex-col gap-3 mt-0 "}>
+        <HomeMatrics
+          title="Rental Metrics"
+          items={RentalsMatrices}
+          className={className}
+        />
+      </TabsContent>
+      <TabsContent value="supply" className={"flex flex-col gap-3 mt-0 "}>
+        <HomeMatrics
+          title="Supply Metrics"
+          items={SupplyMatrices}
+          className={className}
+        />
+      </TabsContent>
+      <TabsContent value="offplan" className={"flex flex-col gap-3 mt-0 "}>
+        <HomeMatrics
+          title="Offplan Metrics"
+          items={OffplanMatrices}
+          className={className}
+        />
+      </TabsContent>
+      <TabsContent value="sales_index" className={"flex flex-col gap-3 mt-0 "}>
+        <HomeMatrics
+          title="Index Metrics"
+          items={SalesIndexMatrices}
+          className={className}
+        />
+      </TabsContent>
     </div>
   );
 }

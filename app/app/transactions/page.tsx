@@ -144,7 +144,7 @@ function TransactionPage() {
             filters={filters}
           />
         </div>
-        <div className="w-1/3  max-h-full overflow-y-auto ">
+        <div className="w-1/3  max-h-full overflow-y-auto border rounded-xl">
           {selectedRow ? (
             <InsightDrawerView
               priceperSqft={getPricePerSqft()}

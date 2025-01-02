@@ -19,7 +19,16 @@ function KeyMatricesPage() {
 
   return (
     <Layout page="key-matrics" title="Key Metrics">
-      <div className="flex w-full justify-center ">
+      <div className="flex w-full justify-center pt-12  md:pt-20 px-4 ">
+        <Tabs
+          defaultValue={tab}
+          className="flex flex-col gap-4   w-full md:p-3 md:pb-0 border-0 md:border rounded-xl"
+        >
+          <MatricesSelector />
+          <MatricesData />
+        </Tabs>
+      </div>
+      {/* <div className="flex w-full justify-center ">
         <Tabs defaultValue={tab} className="flex flex-col w-full ">
           <div className="flex w-full items-center justify-center gap-5 mt-14 md:mt-20 md:mb-2">
             <MatricesSelector />
@@ -37,7 +46,7 @@ function KeyMatricesPage() {
             </div>
           </div>
         </Tabs>
-      </div>
+      </div> */}
     </Layout>
   );
 }

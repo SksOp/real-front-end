@@ -23,7 +23,7 @@ function HomeMatrics({ title, items, className }: HomeMatricsProps) {
       >
         {items.map((item, index) => (
           <IntoCard
-            key={index}
+            key={String(index)}
             title={item.title}
             description={item.description}
             avatar={item.avatar}
