@@ -10,8 +10,14 @@ import { cn } from "@/lib/utils";
 import Exceptions from "./exceptions";
 import { NoDataException, PremiumException } from "@/public/svg/exceptions";
 import { ExploreIcon } from "@/public/svg/mortageCalculatorIcon";
+import IntoCard from "./intoCard";
+import { TransactionInsightLogo } from "@/public/svg/insights";
+import HomeMatrics from "./home-matrics";
+import { HomeMatricsItems } from "@/constants/homeItems";
+import { SalesDashboards } from "@/constants/dashboards";
+import { ClassValue } from "clsx";
 
-function DashboardData() {
+function DashboardData({ className }: { className?: ClassValue }) {
   const { type } = useParams<{ type: string }>();
   const pathname = usePathname();
   const [selectedDashboard, setSelectedDashboard] = React.useState<
@@ -67,21 +73,12 @@ function DashboardData() {
         onClick={() => setSelectedDashboard(dashboard.key)}
         shallow={true}
       >
-        <DataCards
-          tag={dashboard.tag}
-          className={
-            selectedDashboard === dashboard.key
-              ? "border border-secondary rounded-lg bg-[#FEF8F5] h-full"
-              : "bg-[#FFFEFA] h-full"
-          }
-        >
-          <h3 className="text-secondary font-semibold text-sm">
-            {dashboard.name}
-          </h3>
-          <p className="text-base text-muted-foreground font-normal leading-6">
-            {dashboard.description}
-          </p>
-        </DataCards>
+        <IntoCard
+          title={dashboard.name}
+          description={dashboard.description}
+          avatar={<TransactionInsightLogo />}
+          linkto={`/app/dashboard/${dashboard.key}`}
+        />
       </Link>
     );
 
@@ -92,17 +89,38 @@ function DashboardData() {
   console.log(yourDashboards.length);
 
   return (
-    <div className="w-full md:border rounded-xl p-2">
+    <div className="w-full">
       <TabsContent
         value="standard"
-        className="md:flex md:flex-col grid grid-cols-2 justify-items-stretch gap-3 mt-0 items-stretch"
+        className={"md:flex md:flex-col gap-3 mt-0 "}
       >
-        {allDashboards}
+        <HomeMatrics
+          title="Sales Insights"
+          items={SalesDashboards}
+          className={className}
+        />
+        <HomeMatrics
+          title="Sales Insights"
+          items={SalesDashboards}
+          className={className}
+        />
+        <HomeMatrics
+          title="Sales Insights"
+          items={SalesDashboards}
+          className={className}
+        />
+        <HomeMatrics
+          title="Sales Insights"
+          items={SalesDashboards}
+          className={className}
+        />
+        <HomeMatrics
+          title="Sales Insights"
+          items={SalesDashboards}
+          className={className}
+        />
       </TabsContent>
-      <TabsContent
-        value="custom"
-        className="md:flex md:flex-col grid grid-cols-2 gap-3  mt-0"
-      >
+      <TabsContent value="custom" className={"md:flex md:flex-col gap-3 mt-0 "}>
         {yourDashboards.length > 0 ? (
           yourDashboards
         ) : (

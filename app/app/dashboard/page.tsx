@@ -12,45 +12,25 @@ import Layout from "@/layout/secondary";
 import ChartException from "@/components/chartException";
 import Exceptions from "@/components/exceptions";
 import { SelectDataException } from "@/public/svg/exceptions";
+import HomeMatrics from "@/components/home-matrics";
+import {
+  HomeAgencyItems,
+  HomeMatricsItems,
+  HomeToolsItems,
+} from "@/constants/homeItems";
 
 function DashboardPage() {
   const router = useRouter();
   return (
     <Layout page="dashboards" title="Dashboards">
-      <div className="flex w-full justify-center ">
-        <Tabs defaultValue={"standard"} className="flex flex-col w-full px-2 ">
-          <div className="flex w-full gap-5 pt-12 md:pt-20 ">
-            <DashboardSelector />
-          </div>
-          <div className="flex gap-5 w-full">
-            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto ">
-              <DashboardData />
-            </div>
-            <div className="md:flex md:flex-col hidden flex-grow items-center justify-center gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              <Exceptions
-                svg={<SelectDataException />}
-                title="No data available for the selected filter"
-                description="No data for the selected criteria. try changing the filters."
-              />
-            </div>
-          </div>
+      <div className="flex w-full justify-center pt-12  md:pt-20 px-4 ">
+        <Tabs
+          defaultValue={"standard"}
+          className="flex flex-col gap-4   w-full md:p-3 md:pb-0 border-0 md:border rounded-xl"
+        >
+          <DashboardSelector />
+          <DashboardData />
         </Tabs>
-        {/* <div className="grid grid-cols-2 md:grid-cols-1 md:w-[30%] gap-3 px-3 pt-16 mb-4">
-          {dashboards.map((card) => (
-            <DataCards
-              key={card.key}
-              bgColor="bg-[#FFFEFA]"
-              onClick={() => router.push(`/app/dashboard/${card.key}`)}
-            >
-              <h3 className="text-secondary font-semibold text-sm">
-                {card.name}
-              </h3>
-              <p className="text-base text-muted-foreground font-normal leading-6">
-                {card.description}
-              </p>
-            </DataCards>
-          ))}
-        </div> */}
       </div>
     </Layout>
   );

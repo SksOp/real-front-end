@@ -28,6 +28,7 @@ import {
   NoDataException,
   SelectDataException,
 } from "@/public/svg/exceptions";
+import { Separator } from "@/components/ui/separator";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
@@ -179,16 +180,18 @@ function DashboardDetailPage() {
         )}
       </div>
 
-      <div className="md:flex w-full justify-between hidden ">
-        <Tabs defaultValue={"standard"} className="flex flex-col w-full px-2">
-          <div className="flex w-full items-center justify-center gap-5 mt-16 pb-2 md:mt-20">
-            <DashboardSelector />
-          </div>
+      <div className="md:flex w-full justify-between hidden pt-12  md:pt-20 px-4 ">
+        <Tabs
+          defaultValue={"standard"}
+          className="flex flex-col gap-4 w-full md:p-3 md:pb-0 border-0 md:border rounded-xl"
+        >
           <div className="flex gap-5 w-full">
-            <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
-              <DashboardData />
+            <div className="md:w-1/3 md:max-w-md w-full max-h-[calc(100vh-7rem)] overflow-y-auto">
+              <DashboardSelector />
+              <DashboardData className="md:flex flex-col gap-3" />
             </div>
-            <div className="md:flex md:flex-col md:w-2/3 hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto">
+            <Separator orientation="vertical" />
+            <div className="md:flex md:flex-col md:w-2/3 hidden flex-grow items-center justify-start gap-3 max-h-[calc(100vh-7rem)] overflow-y-auto">
               {dashboard?.tag === "upcoming" ? (
                 <Exceptions
                   svg={<FlaskException />}
