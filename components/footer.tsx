@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import TermsTrigger from "./termsTrigger";
 import PrivacyTrigger from "./privacyTrigger";
+import { MainLogo } from "@/public/svg/logo";
 
 function Footer() {
   const router = useRouter();
@@ -10,7 +11,11 @@ function Footer() {
     <>
       <div className="w-full py-2 md:hidden ">
         <div className="flex flex-col gap-4 w-full items-center justify-center border-t">
-          <h1 className="text-xl font-bold  pt-2">Keypilot.</h1>
+          <div className="flex gap-1 items-center justify-center pt-2">
+            <MainLogo className="w-5 h-5 animate-spin-slow " />
+            <h1 className="text-xl font-bold  ">Keypilot.</h1>
+          </div>
+
           <h3
             className="text-secondary font-normal text-xs"
             onClick={() => router.push("/support/terms")}
@@ -30,10 +35,14 @@ function Footer() {
           </p>
         </div>
       </div>
-      <div className="hidden bg-[#F2F2F2] md:flex flex-col gap-2 w-full justify-center items-center pt-6 pb-10">
-        <h1 className="text-[1.438rem] font-bold text-[#161616] pt-2">
-          Keypilot.
-        </h1>
+      <div className="hidden bg-[#F2F2F2] md:flex flex-col gap-2 w-full justify-center items-center pt-6 rounded-t-2xl pb-10">
+        <div className="flex gap-1 items-center justify-center pt-2">
+          <MainLogo className="w-5 h-5 animate-spin-slow " />
+          <h1 className="text-[1.438rem] font-bold text-[#161616] ">
+            Keypilot.
+          </h1>
+        </div>
+
         <div className="flex flex-col gap-4 justify-center items-center">
           <div className="text-[#161616] font-normal text-xs">
             <TermsTrigger>
