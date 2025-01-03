@@ -104,7 +104,11 @@ export const HomeToolsItems: IntroCardProps[] = [
       "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
     linkto: "#",
     avatar: (
-      <img src="/imgs/ai.svg" alt="ai" className="w-8 h-8 object-cover" />
+      <img
+        src="/imgs/ai.svg"
+        alt="ai"
+        className="w-8 h-8 object-cover animate-spin-slow"
+      />
     ),
   },
   {

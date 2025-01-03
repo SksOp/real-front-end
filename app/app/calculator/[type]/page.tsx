@@ -69,7 +69,7 @@ function CalculatorPage() {
             const calculateFromValues = nestedInput.calculateFrom.map(
               (key: string) => switchValues[key]
             );
-
+            console.log("calculateFromValues", calculateFromValues);
             if (
               calculateFromValues.every((value: any) => value !== undefined)
             ) {
@@ -275,6 +275,7 @@ function CalculatorPage() {
                       secondaryValue={
                         results[output?.secondary_output?.key ?? ""] ?? 0
                       }
+                      grouped_output={output.grouped_output}
                       subChart={output?.subChart}
                     />
                   ))}
@@ -357,7 +358,7 @@ function CalculatorPage() {
 
               <div className="md:flex md:flex-col w-1/3  hidden flex-grow gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
                 {showOutput ? (
-                  <div className="flex flex-col items-start justify-start gap-4 w-full mt-4">
+                  <div className="flex flex-col items-start justify-start gap-4 w-full mt-4 ">
                     <h3 className="text-lg font-semibold text-secondary">
                       {calculator?.outputTitle
                         ? calculator?.outputTitle
@@ -378,6 +379,7 @@ function CalculatorPage() {
                           secondaryValue={
                             results[output?.secondary_output?.key ?? ""] ?? 0
                           }
+                          grouped_output={output.grouped_output}
                           percentage={results[output.percentage ?? ""]}
                           subChart={output?.subChart}
                         />

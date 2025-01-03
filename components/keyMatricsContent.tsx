@@ -8,6 +8,7 @@ import { Spinner } from "./ui/spinner";
 import DashboardCharts from "./dashboard-charts";
 import MatrixCard from "./matrix-card";
 import LoadingWidget from "./loadingWidget";
+import MatricsDescription from "./matrics-description";
 
 function KeyMatricsContent({ matrix }: { matrix: string | number }) {
   const [selectedMatrix, setSelectedMatrix] = useState<Matrix | null>(
@@ -54,7 +55,7 @@ function KeyMatricsContent({ matrix }: { matrix: string | number }) {
     fetchMatrixData();
   }, [matrix, filters]);
   return (
-    <div className="w-full pt-4">
+    <div className="w-full pt-4 flex flex-col gap-3">
       <Filters
         selectOptions={selectedMatrix?.filters || []}
         selectedFilters={filters}
@@ -65,7 +66,7 @@ function KeyMatricsContent({ matrix }: { matrix: string | number }) {
         <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
       ) : (
         selectedChart && (
-          <>
+          <div className="flex flex-col gap-3">
             {/* If selectedChart is of type ChartDescription */}
             {"chart_type" in selectedChart ? (
               <DashboardCharts
@@ -90,7 +91,10 @@ function KeyMatricsContent({ matrix }: { matrix: string | number }) {
                 growth={parseInt(String(selectedChart?.growth))}
               />
             )}
-          </>
+            <MatricsDescription
+              description={selectedMatrix?.description ?? ""}
+            />
+          </div>
         )
       )}
     </div>

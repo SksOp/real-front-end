@@ -89,7 +89,13 @@ export const ToolboxItems: ToolboxItem[] = [
   },
   {
     title: "Ask AI",
-    svg: <img src="/imgs/ai.svg" alt="ai" className="w-8 h-8 object-cover" />,
+    svg: (
+      <img
+        src="/imgs/ai.svg"
+        alt="ai"
+        className="w-8 h-8 object-cover animate-spin-slow"
+      />
+    ),
     linkto: "/app/ask-ai",
   },
   {

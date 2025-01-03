@@ -20,11 +20,14 @@ import ChartException from "./chartException";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import LineChartComponent from "./chart/lineChart/lineChart";
 import MatrixCard from "./matrix-card";
+import MatrixRow from "./threeData.tsx";
+import ThreeData from "./threeData.tsx";
 
 interface CalculatorOutputsProps {
   type: string;
   title: string;
   secondary_output?: OutputField;
+  grouped_output?: OutputField[];
   value: any;
   chartConfig?: ChartConfig;
   subChart?: SubChart[];
@@ -37,6 +40,7 @@ function CalculatorOutputs({
   type,
   title,
   secondary_output,
+  grouped_output,
   value,
   secondaryValue = 0,
   chartConfig,
@@ -74,6 +78,38 @@ function CalculatorOutputs({
           value1={value}
           value2={secondaryValue}
         />
+      );
+
+    case "three_metrics":
+      return (
+        <ThreeData
+          title1={title}
+          title2={secondary_output?.label ?? ""}
+          title3={secondary_output?.secondary_output?.label ?? ""}
+          value1={value}
+          value2={secondaryValue}
+          value3={output[secondary_output?.secondary_output?.key ?? ""]}
+        />
+      );
+
+    case "grouped_output":
+      return (
+        <div className="flex flex-col gap-3 w-full">
+          <h3 className="text-secondary font-semibold text-sm">{title}</h3>
+          {grouped_output?.map((item) => (
+            <CalculatorOutputs
+              key={item.key}
+              type={item.type}
+              title={item.label}
+              value={output[item.key ?? 0]}
+              chartConfig={item.chartConfig}
+              percentage={output[item.percentage ?? ""]}
+              output={output}
+              secondary_output={item.secondary_output}
+              secondaryValue={output[item?.secondary_output?.key ?? ""] ?? 0}
+            />
+          ))}
+        </div>
       );
 
     case "variable_output":
@@ -169,6 +205,7 @@ function CalculatorOutputs({
           )}
         </ChartWrapper>
       );
+
     case "two_charts":
       console.log("two_charts", value);
       const keys2 = Object.keys(value[0]);

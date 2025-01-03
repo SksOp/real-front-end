@@ -50,6 +50,7 @@ export interface OutputField {
   key: string;
   label: string;
   secondary_output?: OutputField;
+  grouped_output?: OutputField[];
   type:
     | "metric"
     | "comparison"
@@ -62,7 +63,9 @@ export interface OutputField {
     | "table"
     | "bar_chart"
     | "two_charts"
-    | "two_metrics";
+    | "two_metrics"
+    | "three_metrics"
+    | "grouped_output";
   percentage?: string;
   chartConfig?: ChartConfig;
   calculateFrom?: string[];

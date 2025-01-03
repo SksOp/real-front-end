@@ -579,13 +579,6 @@ export const Calculators: Calculator[] = [
         is_mandatory: false,
       },
       {
-        key: "transaction_type",
-        label: "Transaction Type",
-        type: "radio",
-        options: ["Cash", "Mortgage"],
-        is_mandatory: true,
-      },
-      {
         key: "purchase_price",
         label: "Purchase Price",
         type: "currency_text",
@@ -683,8 +676,43 @@ export const Calculators: Calculator[] = [
             max: 10000,
             min: 1000,
             step: 100,
-            default_value: 3400,
             helper_text: "Including Broker fee, Legel fee, Extro fee etc.",
+            is_mandatory: true,
+          },
+        ],
+        is_mandatory: false,
+      },
+
+      {
+        key: "mortgage",
+        label: "Mortgage",
+        type: "switch",
+        options: [
+          {
+            key: "down_payment",
+            label: "Down Payment",
+            type: "currency_text",
+            is_mandatory: true,
+          },
+          {
+            key: "mortgage_tenure",
+            label: "Mortgage Tenure",
+            type: "slider",
+            sliderText: "years",
+            default_value: 10,
+            min: 1,
+            max: 40,
+            is_mandatory: true,
+          },
+          {
+            key: "interest_rate",
+            label: "Interest Rate",
+            type: "slider",
+            sliderText: "%",
+            min: 1,
+            max: 10,
+            step: 0.1,
+            default_value: 4.5,
             is_mandatory: true,
           },
         ],
@@ -693,47 +721,108 @@ export const Calculators: Calculator[] = [
     ],
     outputs: [
       {
-        key: "annualized_roi",
-        label: "Annualized ROI",
-        type: "two_metrics",
-        percentage: "annualized_percentage",
-        secondary_output: {
-          key: "total_roi",
-          label: "Total ROI",
-          type: "two_metrics",
-          percentage: "total_percentage",
-        },
-      },
-      {
-        key: "annualized_capital_appreciation",
-        label: "Annualised Capital Appreciation",
-        type: "comparison",
-        secondary_output: {
-          key: "annual_rental_income",
-          label: "Annual Rental Income",
-          type: "comparison",
-        },
-      },
-      {
-        key: "roi_growth_over_time",
-        label: "ROI growth overtime",
-        type: "line_chart",
-        chartConfig: {
-          rental_income: { color: "#8177E5" },
-          capital_appreciation: { color: "#121212" },
-        },
-      },
-      {
-        key: "total_rental_income",
-        label: "Total Rental Income",
-        type: "comparison",
+        key: "roi_before_expenses_and_mortgage",
+        label: "ROI (Before Expenses / Mortgage)",
+        type: "grouped_output",
+        grouped_output: [
+          {
+            key: "annualized_roi",
+            label: "Annualized ROI",
+            type: "two_metrics",
+            percentage: "annualized_percentage",
+            secondary_output: {
+              key: "total_roi",
+              label: "Total ROI",
+              type: "two_metrics",
+              percentage: "total_percentage",
+            },
+          },
+          {
+            key: "annualized_capital_appreciation",
+            label: "Annualised Capital Appreciation",
+            type: "comparison",
+            secondary_output: {
+              key: "annual_rental_income",
+              label: "Annual Rental Income",
+              type: "comparison",
+            },
+          },
+          {
+            key: "roi_growth_over_time",
+            label: "ROI growth overtime",
+            type: "line_chart",
+            chartConfig: {
+              rental_income: { color: "#8177E5" },
+              capital_appreciation: { color: "#121212" },
+            },
+          },
+          {
+            key: "total_rental_income",
+            label: "Total Rental Income",
+            type: "comparison",
 
-        secondary_output: {
-          key: "total_appreciation",
-          label: "Total Capital Appreciation",
-          type: "comparison",
-        },
+            secondary_output: {
+              key: "total_appreciation",
+              label: "Total Capital Appreciation",
+              type: "comparison",
+            },
+          },
+        ],
       },
+
+      {
+        key: "roi_after_expenses",
+        label: "ROI After Expenses",
+        type: "grouped_output",
+        grouped_output: [
+          {
+            key: "total_annual_expenses",
+            label: "Total Annual Expenses (AED)",
+            type: "three_metrics",
+            secondary_output: {
+              key: "total_monthly_expenses",
+              label: "Total Monthly Expenses (AED)",
+              type: "three_metrics",
+              secondary_output: {
+                key: "initial_purchage_cost",
+                label: "Initial Purchage Cost (AED)",
+                type: "three_metrics",
+              },
+            },
+          },
+          {
+            key: "total_roi_after_expenses",
+            label: "Total ROI (After Expenses)",
+            type: "metric",
+            percentage: "total_roi_after_expenses_percentage",
+          },
+        ],
+      },
+
+      {
+        key: "roi_after_mortgage",
+        label: "ROI After Mortgage",
+        type: "grouped_output",
+        grouped_output: [
+          {
+            key: "monthly_mortgage_payment",
+            label: "Monthly Mortgage Payment",
+            type: "comparison",
+            secondary_output: {
+              key: "total_interest_paid",
+              label: "Total Interest Paid In Mortgage",
+              type: "comparison",
+            },
+          },
+          {
+            key: "total_roi_after_mortgage",
+            label: "Total ROI (After Expenses & Mortgage)",
+            type: "metric",
+            percentage: "total_roi_after_mortgage_percentage",
+          },
+        ],
+      },
+
       {
         key: "insights",
         label: "Insight",
@@ -746,13 +835,53 @@ export const Calculators: Calculator[] = [
         annual_appreciation_rate,
         holding_period,
         annual_rental_income,
+        annual_operating_expenses,
+        purchase_cost,
+        mortgage,
       } = inputs;
       // i think code should be something like below: Property Value at Year N=Initial Property Price×(1+Annual Appreciation Rate) power N
+
+      const totalServiceCharge = parseFloat(
+        annual_operating_expenses["total_service_charge"]
+      );
+      const maintenanceCosts =
+        parseFloat(annual_operating_expenses["maintenance_costs"]) || 0;
+      const propertyManagementFees =
+        parseFloat(annual_operating_expenses["property_management_fees"]) || 0;
+      const insuranceCosts =
+        parseFloat(annual_operating_expenses["insaurance_costs"]) || 0;
+      const dldFee = parseFloat(purchase_cost["dld_fee"]) || 0;
+      const otherFee = parseFloat(purchase_cost["other_fee"]) || 0;
+      const mortgageTenure = parseFloat(mortgage["mortgage_tenure"]) || 0;
+      const interestRate = parseFloat(mortgage["interest_rate"]) || 0;
+      const downPayment = parseFloat(mortgage["down_payment"]) || 0;
+
+      const loanAmount = purchase_price - downPayment;
+      const monthlyInterestRate = interestRate / 12 / 100;
+      const totalPayments = mortgageTenure * 12;
+
+      console.log("annual_operating_expenses: ", maintenanceCosts);
+      const totalAnnualExpenses =
+        totalServiceCharge +
+        maintenanceCosts +
+        propertyManagementFees +
+        insuranceCosts;
+      const totalMonthlyExpenses = totalAnnualExpenses / 12;
+      const initial_purchage_cost = dldFee + otherFee;
 
       const purchasePrice = parseFloat(purchase_price);
       const annualAppreciationRate = parseFloat(annual_appreciation_rate) / 100; // Convert % to decimal
       const holdingPeriod = parseInt(holding_period);
       const annualRentalIncome = parseFloat(annual_rental_income);
+
+      const monthlyMortgagePayment =
+        (loanAmount *
+          monthlyInterestRate *
+          Math.pow(1 + monthlyInterestRate, totalPayments)) /
+        (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
+
+      const totalInterestPaid =
+        monthlyMortgagePayment * totalPayments - loanAmount;
 
       // Calculate the total property value at the end of the holding period
       // Property Value at Year N = Initial Property Price × (1 + Annual Appreciation Rate)^N
@@ -774,6 +903,27 @@ export const Calculators: Calculator[] = [
       // Calculate the annualized capital appreciation
       const annualizedCapitalAppreciation =
         totalCapitalAppreciation / holdingPeriod;
+
+      const total_roi_after_expenses =
+        purchasePrice +
+        totalRentalIncome +
+        totalCapitalAppreciation -
+        totalAnnualExpenses * holdingPeriod -
+        initial_purchage_cost;
+
+      const total_roi_after_expenses_percentage =
+        (total_roi_after_expenses / purchasePrice) * 100;
+
+      const totalROIAfterMortgage =
+        purchasePrice +
+        totalRentalIncome +
+        totalCapitalAppreciation -
+        totalAnnualExpenses * holdingPeriod -
+        initial_purchage_cost -
+        totalInterestPaid;
+
+      const totalROIAfterMortgagePercentage =
+        (totalROIAfterMortgage / purchasePrice) * 100;
 
       // Calculate the annual rental income (this is just the same as annual_rental_income)
       const annualRentalIncomePerYear = totalRentalIncome / holdingPeriod;
@@ -815,6 +965,17 @@ export const Calculators: Calculator[] = [
         annualized_capital_appreciation:
           annualizedCapitalAppreciation.toFixed(2),
         total_roi: totalReturn.toFixed(2),
+        total_annual_expenses: totalAnnualExpenses.toFixed(2),
+        total_monthly_expenses: totalMonthlyExpenses.toFixed(2),
+        initial_purchage_cost: initial_purchage_cost.toFixed(2),
+        total_roi_after_expenses: total_roi_after_expenses.toFixed(2),
+        total_roi_after_expenses_percentage:
+          total_roi_after_expenses_percentage.toFixed(2),
+        total_roi_after_mortgage: totalROIAfterMortgage.toFixed(2),
+        total_roi_after_mortgage_percentage:
+          totalROIAfterMortgagePercentage.toFixed(2),
+        monthly_mortgage_payment: monthlyMortgagePayment.toFixed(2),
+        total_interest_paid: totalInterestPaid.toFixed(2),
         annualized_percentage: annualizedPercentage,
         total_percentage: totalProfitPercentage,
         annual_rental_income: annualRentalIncome.toFixed(2),
