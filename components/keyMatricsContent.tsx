@@ -9,7 +9,7 @@ import DashboardCharts from "./dashboard-charts";
 import MatrixCard from "./matrix-card";
 import LoadingWidget from "./loadingWidget";
 
-function KeyMatricsContent({ matrix }: { matrix: string }) {
+function KeyMatricsContent({ matrix }: { matrix: string | number }) {
   const [selectedMatrix, setSelectedMatrix] = useState<Matrix | null>(
     KeyMatrices.find((m) => m.key === matrix) || null
   );
@@ -54,7 +54,7 @@ function KeyMatricsContent({ matrix }: { matrix: string }) {
     fetchMatrixData();
   }, [matrix, filters]);
   return (
-    <div className="w-full">
+    <div className="w-full pt-4">
       <Filters
         selectOptions={selectedMatrix?.filters || []}
         selectedFilters={filters}

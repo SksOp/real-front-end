@@ -9,8 +9,8 @@ function Footer() {
   return (
     <>
       <div className="w-full py-2 md:hidden ">
-        <h1 className="text-xl font-bold border-t pt-2">Keypilot.</h1>
-        <div className="flex flex-col gap-4 w-full items-center justify-center">
+        <div className="flex flex-col gap-4 w-full items-center justify-center border-t">
+          <h1 className="text-xl font-bold  pt-2">Keypilot.</h1>
           <h3
             className="text-secondary font-normal text-xs"
             onClick={() => router.push("/support/terms")}

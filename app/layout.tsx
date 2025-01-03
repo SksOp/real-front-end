@@ -6,6 +6,8 @@ import Head from "next/head";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
 import GoogleAnalytics from "@/components/googleAnalytics";
+import LoadingWidget from "@/components/loadingWidget";
+import { Suspense } from "react";
 const inter = Inter({ subsets: ["greek"], display: "swap" });
 
 export const metadata: Metadata = {

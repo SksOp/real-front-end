@@ -1,6 +1,6 @@
 import React from "react";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
 import KeyMatricsContent from "./keyMatricsContent";
@@ -10,7 +10,7 @@ function KeyMatricsTrigger({
   children,
   className,
 }: {
-  matrix: string;
+  matrix: string | number;
   children: React.ReactNode;
   className?: ClassValue;
 }) {
@@ -21,7 +21,7 @@ function KeyMatricsTrigger({
           <DrawerTrigger className={cn("", className)}>
             {children}
           </DrawerTrigger>
-          <DrawerContent className="max-h-[80vh] p-0 ">
+          <DrawerContent className="min-h-[80vh] p-0 px-2">
             <KeyMatricsContent matrix={matrix} />
           </DrawerContent>
         </Drawer>

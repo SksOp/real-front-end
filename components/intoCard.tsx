@@ -18,7 +18,7 @@ function IntoCard({
   return (
     <Card
       className="flex flex-row items-center gap-4 px-4 py-5 bg-[#F7F6F8] rounded-2xl shadow-none cursor-pointer"
-      onClick={() => router.push(linkto)}
+      onClick={() => linkto && router.push(linkto)}
     >
       <div
         className={cn(
@@ -40,7 +40,9 @@ function IntoCard({
             </Badge>
           )}
         </div>
-        <p className="text-sm font-normal text-[#7A7A7A]">{description}</p>
+        <p className="text-sm font-normal text-[#7A7A7A] line-clamp-2">
+          {description}
+        </p>
       </div>
     </Card>
   );

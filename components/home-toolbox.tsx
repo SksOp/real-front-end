@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ToolboxItems } from "@/constants/toolboxItems";
+import ToolboxItemView from "./toolboxItemView";
 
 function HomeToolbox() {
   return (
@@ -12,15 +13,7 @@ function HomeToolbox() {
       </CardHeader>
       <CardContent className="p-0 w-full grid grid-cols-3 gap-4">
         {ToolboxItems.map((item, index) => (
-          <div
-            key={index}
-            className="px-4 py-5 border border-[#E2E7EC] flex flex-col gap-3 items-center justify-center rounded-2xl hover:bg-[#EFEEFC] hover:border-[#B6B1F0]"
-          >
-            <div>{item.svg}</div>
-            <h3 className="text-sm font-normal text-[#334155] text-center">
-              {item.title}
-            </h3>
-          </div>
+          <ToolboxItemView key={index} {...item} />
         ))}
       </CardContent>
     </Card>

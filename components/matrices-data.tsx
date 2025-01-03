@@ -5,7 +5,6 @@ import React from "react";
 import KeyMatricesCard from "./keyMatricesCard";
 import Link from "next/link";
 import { TabsContent } from "./ui/tabs";
-import HomeMatrics from "./home-matrics";
 import {
   OffplanMatrices,
   RentalsMatrices,
@@ -17,6 +16,7 @@ import { ClassValue } from "clsx";
 import IntoCard from "./intoCard";
 import KeyMatricsTrigger from "./key-matricsTrigger";
 import { IntroCardProps } from "@/types/introcard";
+import KeyMatrics from "./keyMatrics";
 
 function MatricesData({ className }: { className?: ClassValue }) {
   const { matrix } = useParams<{ matrix: string }>();
@@ -99,34 +99,34 @@ function MatricesData({ className }: { className?: ClassValue }) {
   return (
     <div className="w-full p-2">
       <TabsContent value="all" className={"flex flex-col gap-3 mt-0 "}>
-        <HomeMatrics
+        <KeyMatrics
           title="Sales Metrics"
           items={SalesMatrices}
           className={className}
         />
-        <HomeMatrics
+        <KeyMatrics
           title="Rental Metrics"
           items={RentalsMatrices}
           className={className}
         />
-        <HomeMatrics
+        <KeyMatrics
           title="Offplan Metrics"
           items={OffplanMatrices}
           className={className}
         />
-        <HomeMatrics
+        <KeyMatrics
           title="Supply Metrics"
           items={SupplyMatrices}
           className={className}
         />
-        <HomeMatrics
+        <KeyMatrics
           title="Index Metrics"
           items={SalesIndexMatrices}
           className={className}
         />
       </TabsContent>
       <TabsContent value="sales" className={"flex flex-col gap-3 mt-0 "}>
-        <HomeMatrics
+        <KeyMatrics
           title="Sales Metrics"
           items={SalesMatrices}
           className={className}
@@ -134,28 +134,28 @@ function MatricesData({ className }: { className?: ClassValue }) {
       </TabsContent>
 
       <TabsContent value="rentals" className={"flex flex-col gap-3 mt-0 "}>
-        <HomeMatrics
+        <KeyMatrics
           title="Rental Metrics"
           items={RentalsMatrices}
           className={className}
         />
       </TabsContent>
       <TabsContent value="supply" className={"flex flex-col gap-3 mt-0 "}>
-        <HomeMatrics
+        <KeyMatrics
           title="Supply Metrics"
           items={SupplyMatrices}
           className={className}
         />
       </TabsContent>
       <TabsContent value="offplan" className={"flex flex-col gap-3 mt-0 "}>
-        <HomeMatrics
+        <KeyMatrics
           title="Offplan Metrics"
           items={OffplanMatrices}
           className={className}
         />
       </TabsContent>
       <TabsContent value="sales_index" className={"flex flex-col gap-3 mt-0 "}>
-        <HomeMatrics
+        <KeyMatrics
           title="Index Metrics"
           items={SalesIndexMatrices}
           className={className}
