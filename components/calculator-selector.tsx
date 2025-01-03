@@ -44,7 +44,7 @@ function CalculatorSelector({ className }: { className?: ClassValue }) {
   return (
     <div className="flex flex-col gap-3 mt-0 ">
       <HomeMatrics
-        title="Sales Insights"
+        title="All Calculators"
         items={CalculatorsItems}
         className={className}
       />

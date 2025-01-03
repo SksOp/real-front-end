@@ -80,7 +80,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
   ];
 
   const footerItems = [
-    { icon: <AddToHomeIcon />, label: "Add to Home Screen" },
+    // { icon: <AddToHomeIcon />, label: "Add to Home Screen" },
     { icon: <SupportIcon />, label: "Support" },
     {
       icon: <PrivacyIcon />,
@@ -99,7 +99,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
       <nav className="w-full bg-background fixed flex justify-between shadow-[0px_4px_4px_0px_rgba(0,0,0,0.03)] items-center z-50 px-5 py-4 top-0 ">
         <div className="flex justify-between items-center w-full md:hidden">
           <div className="flex items-center justify-start gap-3">
-            <MainLogo />
+            <MainLogo className="w-6 h-6 animate-spin-slow" />
             <h1 className="text-xl text-secondary font-bold">Keypilot.</h1>{" "}
           </div>
           <Sheet>
@@ -132,7 +132,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
         <div className=" justify-between items-center w-full hidden md:flex">
           <div className="md:flex justify-start gap-16 hidden">
             <div className="flex items-center justify-start gap-3">
-              <MainLogo />
+              <MainLogo className="w-8 h-8 animate-spin-slow" />
               <h1 className="text-xl text-secondary font-bold">
                 Keypilot.
               </h1>{" "}
