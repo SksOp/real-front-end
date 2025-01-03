@@ -10,7 +10,13 @@ import MatrixCard from "./matrix-card";
 import LoadingWidget from "./loadingWidget";
 import MatricsDescription from "./matrics-description";
 
-function KeyMatricsContent({ matrix }: { matrix: string | number }) {
+function KeyMatricsContent({
+  matrix,
+  description,
+}: {
+  matrix: string | number;
+  description?: string;
+}) {
   const [selectedMatrix, setSelectedMatrix] = useState<Matrix | null>(
     KeyMatrices.find((m) => m.key === matrix) || null
   );
@@ -91,9 +97,7 @@ function KeyMatricsContent({ matrix }: { matrix: string | number }) {
                 growth={parseInt(String(selectedChart?.growth))}
               />
             )}
-            <MatricsDescription
-              description={selectedMatrix?.description ?? ""}
-            />
+            <MatricsDescription description={description ?? ""} />
           </div>
         )
       )}

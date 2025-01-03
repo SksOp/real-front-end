@@ -35,6 +35,7 @@ interface ExceptionsProps {
   svg: React.ReactNode;
   title: string;
   description: string;
+  children?: React.ReactNode;
   buttonText?: string;
   onClick?: () => void;
   className?: ClassValue;
@@ -44,6 +45,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({
   svg,
   title,
   description,
+  children,
   buttonText,
   onClick,
   className,
@@ -56,10 +58,11 @@ const Exceptions: React.FC<ExceptionsProps> = ({
         <div className="flex items-center justify-center mb-4">{svg}</div>
         <h1 className={cn("text-lg font-bold mb-2")}>{title}</h1>
         <h3 className={cn("text-sm mb-4 opacity-50")}>{description}</h3>
+        <div className="mb-4">{children}</div>
         {buttonText && (
           <Button
             variant="outline"
-            className="text-base font-normal text-secondary gap-2 hover:bg-none"
+            className="text-base font-normal text-secondary gap-2 hover:bg-none "
           >
             <WhatsAppIcon className="w-5 h-5" />
             {buttonText}

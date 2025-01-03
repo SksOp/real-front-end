@@ -11,7 +11,7 @@ function ProjectPage() {
           svg={<Projects />}
           title="Projects & Developers"
           description="Full list of all the projects and developers along with insights will be released soon!"
-          buttonText="Whatsapp Support"
+          buttonText="Request Access"
         />
       </div>
     </Layout>

@@ -30,13 +30,14 @@ export const ToolboxItems: ToolboxItem[] = [
   {
     title: "Calculators",
     svg: <CalculatorLogo />,
-    linkto: "/app/calculators",
+    linkto: "/app/calculator",
   },
   {
-    title: "Transactions",
-    svg: <TransactionsLogo />,
-    linkto: "/app/transactions",
+    title: "Key Metrics",
+    svg: <KeyMatricsLogo />,
+    linkto: "/app/key-metrics",
   },
+
   {
     title: "My Properties",
     svg: <MyPropertiesLogo />,
@@ -58,9 +59,9 @@ export const ToolboxItems: ToolboxItem[] = [
     linkto: "/app/key-metrics",
   },
   {
-    title: "Market Pulse",
-    svg: <MarketPulseLogo />,
-    linkto: "/app/market-pulse",
+    title: "Transactions",
+    svg: <TransactionsLogo />,
+    linkto: "/app/transactions",
   },
   {
     title: "Leaderboard",
@@ -70,7 +71,7 @@ export const ToolboxItems: ToolboxItem[] = [
   {
     title: "My Teams",
     svg: <TeamsLogo />,
-    linkto: "/app/teams",
+    linkto: "/app/my-teams",
   },
   {
     title: "Real Drive",
@@ -80,7 +81,7 @@ export const ToolboxItems: ToolboxItem[] = [
   {
     title: "Daily Reports",
     svg: <ReportsLogo />,
-    linkto: "/app/reports",
+    linkto: "/app/daily-reports",
   },
   {
     title: "Map View",

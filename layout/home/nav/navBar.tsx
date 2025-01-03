@@ -171,11 +171,11 @@ function Navbar({
                 Market Pulse
               </TabsTrigger>
               <TabsTrigger
-                value="key-matrics"
+                value="key-metrics"
                 className="text-sm flex items-center gap-1 rounded-sm"
-                onClick={() => router.push("/app/key-matrics")}
+                onClick={() => router.push("/app/key-metrics")}
               >
-                {selectedTab === "key-matrics" && (
+                {selectedTab === "key-metrics" && (
                   <KeyMatricIcon className="w-5 h-5" />
                 )}
                 Key Metrics

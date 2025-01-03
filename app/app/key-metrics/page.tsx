@@ -18,7 +18,7 @@ function KeyMatricesPage() {
   const tab = searchParams.get("tab") || "all";
 
   return (
-    <Layout page="key-matrics" title="Key Metrics">
+    <Layout page="key-metrics" title="Key Metrics">
       <div className="flex w-full justify-center pt-12  md:pt-20 px-4 ">
         <Tabs
           defaultValue={tab}

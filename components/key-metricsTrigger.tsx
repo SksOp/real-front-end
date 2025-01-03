@@ -3,15 +3,17 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
-import KeyMatricsContent from "./keyMatricsContent";
+import KeyMatricsContent from "./keyMetricsContent";
 
 function KeyMatricsTrigger({
   matrix,
   children,
+  description,
   className,
 }: {
   matrix: string | number;
   children: React.ReactNode;
+  description?: string;
   className?: ClassValue;
 }) {
   return (
@@ -30,7 +32,7 @@ function KeyMatricsTrigger({
         <Sheet>
           <SheetTrigger className={cn("", className)}>{children}</SheetTrigger>
           <SheetContent className="  overflow-y-scroll">
-            <KeyMatricsContent matrix={matrix} />
+            <KeyMatricsContent matrix={matrix} description={description} />
           </SheetContent>
         </Sheet>
       </div>

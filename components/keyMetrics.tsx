@@ -4,7 +4,7 @@ import { HomeMatricsItems } from "@/constants/homeItems";
 import { IntroCardProps } from "@/types/introcard";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
-import KeyMatricsTrigger from "./key-matricsTrigger";
+import KeyMatricsTrigger from "./key-metricsTrigger";
 
 interface HomeMatricsProps {
   title: string;
@@ -23,7 +23,11 @@ function KeyMatrics({ title, items, className }: HomeMatricsProps) {
         )}
       >
         {items.map((item, index) => (
-          <KeyMatricsTrigger matrix={item.key ?? ""} className="text-left">
+          <KeyMatricsTrigger
+            matrix={item.key ?? ""}
+            description={item.description}
+            className="text-left"
+          >
             <IntoCard
               key={String(index)}
               title={item.title}

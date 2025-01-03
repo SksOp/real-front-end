@@ -1,6 +1,6 @@
 import Exceptions from "@/components/exceptions";
 import Layout from "@/layout/secondary";
-import { PremiumException } from "@/public/svg/exceptions";
+import { PremiumException, Properties } from "@/public/svg/exceptions";
 import React from "react";
 
 function ListingPage() {
@@ -8,12 +8,18 @@ function ListingPage() {
     <Layout page={"my-listings"} title="Listings">
       <div className="flex w-full justify-center  items-center h-[calc(100vh-1rem)]">
         <Exceptions
-          svg={<PremiumException />}
-          title="This Is for Premium Users"
-          description="This feature is only available for registered brokers."
-          buttonText="Whatsapp Support"
+          svg={<Properties />}
+          title="My Properties"
+          description="Automatically bring all your online listed properties and manually add your own; see detailed insights."
+          buttonText="Request Access"
           className="col-span-2"
-        />
+        >
+          <div className="flex gap-2 items-center justify-center">
+            <img src="/pf.png" alt="pf" />
+            <img src="/bayut.png" alt="pf" />
+            <img src="/dub.png" alt="pf" className="" />
+          </div>
+        </Exceptions>
         {/* <div className=" w-full flex flex-col gap-3 mt-16 md:mt-20">
           <h3 className="text-secondary font-semibold text-base pl-2">
             My listings ({properties1.length})

@@ -2,7 +2,7 @@
 import { KeyMatrices, Matrix } from "@/config/matrices";
 import { useParams, useSearchParams } from "next/navigation";
 import React from "react";
-import KeyMatricesCard from "./keyMatricesCard";
+import KeyMatricesCard from "./keyMetricsCard";
 import Link from "next/link";
 import { TabsContent } from "./ui/tabs";
 import {
@@ -14,9 +14,8 @@ import {
 } from "@/constants/keyMatrics";
 import { ClassValue } from "clsx";
 import IntoCard from "./intoCard";
-import KeyMatricsTrigger from "./key-matricsTrigger";
 import { IntroCardProps } from "@/types/introcard";
-import KeyMatrics from "./keyMatrics";
+import KeyMatrics from "./keyMetrics";
 
 function MatricesData({ className }: { className?: ClassValue }) {
   const { matrix } = useParams<{ matrix: string }>();
@@ -29,7 +28,7 @@ function MatricesData({ className }: { className?: ClassValue }) {
 
   const createLink = (matrix: Matrix) => (
     <Link
-      href={`/app/key-matrics/${matrix.key}?tab=${tab}`}
+      href={`/app/key-metrics/${matrix.key}?tab=${tab}`}
       onClick={() => setSelectedMatrix(matrix)}
     >
       <KeyMatricesCard

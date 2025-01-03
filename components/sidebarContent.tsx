@@ -125,7 +125,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/key-matrics")}
+          onClick={() => router.push("/app/key-metrics")}
         >
           <KeyMatricIcon />
           Key Matrics
