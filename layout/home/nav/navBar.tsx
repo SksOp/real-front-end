@@ -189,20 +189,38 @@ function Navbar({
                     <NavigationMenuContent>
                       {" "}
                       <ul className="grid  gap-3 p-4  md:grid-cols-2 w-[300px] ">
-                        <li className="text-sm text-secondary font-medium">
-                          My Properties
+                        <li
+                          className="text-sm text-secondary font-medium cursor-pointer"
+                          onClick={() => router.push("/app/developers")}
+                        >
+                          Developers
                         </li>
-                        <li className="text-sm text-secondary font-medium">
-                          My Properties
+                        <li
+                          className="text-sm text-secondary font-medium cursor-pointer"
+                          onClick={() => router.push("/app/projects")}
+                        >
+                          Projects
                         </li>
-                        <li className="text-sm text-secondary font-medium">
-                          My Properties
+                        <li
+                          className="text-sm text-secondary font-medium cursor-pointer"
+                          onClick={() => router.push("/app/leaderboard")}
+                        >
+                          Leaderboard
                         </li>
-                        <li className="text-sm text-secondary font-medium">
-                          My Properties
+                        <li className="text-sm text-secondary font-medium cursor-pointer">
+                          Agency Settings
                         </li>
-                        <li className="text-sm text-secondary font-medium">
-                          My Properties
+                        <li
+                          className="text-sm text-secondary font-medium cursor-pointer"
+                          onClick={() => router.push("/app/daily-reports")}
+                        >
+                          Daily Reports
+                        </li>
+                        <li
+                          className="text-sm text-secondary font-medium cursor-pointer"
+                          onClick={() => router.push("/app/ask-ai")}
+                        >
+                          Keypilot AI
                         </li>
                       </ul>
                     </NavigationMenuContent>
