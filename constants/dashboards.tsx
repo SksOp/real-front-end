@@ -32,7 +32,7 @@ export const SalesDashboards: IntroCardProps[] = [
     description:
       "Analyze sales transactions, values, and trends across the Dubai property market.",
     avatar: <CashLogo />,
-    linkto: "/app/dashboard/cash_transactions_overview",
+    linkto: "/app/dashboard/sales_transactions_overview",
     avatarBg: "bg-[#F8CBDB]",
   },
   {
