@@ -227,6 +227,7 @@ function CalculatorPage() {
                         title={input.label}
                         value={inputValues[input.key]}
                         searchable={input.searchable}
+                        sliderText={input.sliderText}
                         onChange={(value) =>
                           handleInputChange(input.key, value)
                         }

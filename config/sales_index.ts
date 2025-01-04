@@ -39,7 +39,7 @@ export const OverallSalesIndex = async () => {
     const quarterlyData = data.quarterly[12].months.map(
       (quarter: any, idx: number) => {
         return {
-          year: idx + 1,
+          year: `Q${idx + 1}`,
           value1: quarter.all_quarterly_index,
         };
       }
@@ -130,7 +130,7 @@ export const OverallSalesValue = async () => {
     const quarterlyData = data.quarterly[12].months.map(
       (quarter: any, idx: number) => {
         return {
-          year: idx + 1,
+          year: `Q${idx + 1}`,
           value1: quarter.all_quarterly_price_index,
         };
       }
@@ -221,7 +221,7 @@ export const VillaSalesIndex = async () => {
     const quarterlyData = data.quarterly[12].months.map(
       (quarter: any, idx: number) => {
         return {
-          year: idx + 1,
+          year: `Q${idx + 1}`,
           value1: quarter.villa_quarterly_index,
         };
       }
@@ -312,7 +312,7 @@ export const VillaSalesValue = async () => {
     const quarterlyData = data.quarterly[12].months.map(
       (quarter: any, idx: number) => {
         return {
-          year: idx + 1,
+          year: `Q${idx + 1}`,
           value1: quarter.villa_quarterly_price_index,
         };
       }
@@ -403,7 +403,7 @@ export const FlatSalesIndex = async () => {
     const quarterlyData = data.quarterly[12].months.map(
       (quarter: any, idx: number) => {
         return {
-          year: idx + 1,
+          year: `Q${idx + 1}`,
           value1: quarter.flat_quarterly_index,
         };
       }
@@ -494,7 +494,7 @@ export const FlatSalesValue = async () => {
     const quarterlyData = data.quarterly[12].months.map(
       (quarter: any, idx: number) => {
         return {
-          year: idx + 1,
+          year: `Q${idx + 1}`,
           value1: quarter.flat_quarterly_price_index,
         };
       }

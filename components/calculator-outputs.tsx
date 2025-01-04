@@ -60,7 +60,7 @@ function CalculatorOutputs({
 
     case "two_metrics":
       return (
-        <div className="flex gap-4 w-full">
+        <div className="flex gap-2 md:gap-4 w-full">
           <MatrixCard title={title} value={value} growth={percentage} />
           <MatrixCard
             title={secondary_output?.label ?? ""}

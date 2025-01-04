@@ -31,10 +31,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { MainLogo } from "@/public/svg/logo";
 import LoadingWidget from "@/components/loadingWidget";
+import { useAuth } from "@/lib/auth";
 
 function DashboardDetailPage() {
   const navRef = useRef<HTMLElement | null>(null);
   const { type } = useParams();
+  const auth = useAuth();
   const [dashboard, setDashboard] = useState<Dashboard | undefined>(
     dashboards.find((item) => item.key === type)
   );
@@ -69,9 +71,10 @@ function DashboardDetailPage() {
   useEffect(() => {
     const fetchMatrixData = async () => {
       const date = new Date();
+      const token = await auth.user?.getIdToken(true);
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
 
-      const matrixOutput = await dashboard?.calculate_matrics?.(filters);
+      const matrixOutput = await dashboard?.calculate_matrics?.(filters, token);
       if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
         setMatrixData(matrixOutput);
       }
@@ -79,11 +82,12 @@ function DashboardDetailPage() {
 
     const fetchChartsData = async () => {
       const date = new Date();
+      const token = await auth.user?.getIdToken(true);
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
       if (dashboard?.calculate_charts) {
         const allCharts = await Promise.all(
           dashboard.calculate_charts.map(async (chart) => {
-            return await chart.calculate(filters);
+            return await chart.calculate(filters, token);
           })
         );
         setCharts(allCharts);

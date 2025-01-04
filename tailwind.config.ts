@@ -44,7 +44,7 @@ const config = {
           foreground: "hsl(var(--secondary-foreground))",
           100: "#dedede",
           200: "#bebebe",
-          300: "#9d9d9d",
+          300: "#919191",
           400: "#7d7d7d",
           500: "#353535",
           600: "#4a4a4a",

@@ -23,11 +23,7 @@ function KeyMatrics({ title, items, className }: HomeMatricsProps) {
         )}
       >
         {items.map((item, index) => (
-          <KeyMatricsTrigger
-            matrix={item.key ?? ""}
-            description={item.description}
-            className="text-left"
-          >
+          <KeyMatricsTrigger matrix={item} className="text-left">
             <IntoCard
               key={String(index)}
               title={item.title}

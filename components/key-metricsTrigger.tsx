@@ -1,19 +1,18 @@
 import React from "react";
-import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "./ui/drawer";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
 import KeyMatricsContent from "./keyMetricsContent";
+import { IntroCardProps } from "@/types/introcard";
 
 function KeyMatricsTrigger({
   matrix,
   children,
-  description,
   className,
 }: {
-  matrix: string | number;
+  matrix: IntroCardProps;
   children: React.ReactNode;
-  description?: string;
   className?: ClassValue;
 }) {
   return (
@@ -23,8 +22,14 @@ function KeyMatricsTrigger({
           <DrawerTrigger className={cn("", className)}>
             {children}
           </DrawerTrigger>
-          <DrawerContent className="min-h-[80vh] p-0 px-2">
-            <KeyMatricsContent matrix={matrix} />
+          <DrawerContent className="min-h-[80vh] p-0 px-2 pt-2">
+            <DrawerTitle className="text-secondary text-base font-semibold text-center">
+              {matrix.title}
+            </DrawerTitle>
+            <KeyMatricsContent
+              matrix={matrix.key ?? ""}
+              description={matrix.description}
+            />
           </DrawerContent>
         </Drawer>
       </div>
@@ -32,7 +37,11 @@ function KeyMatricsTrigger({
         <Sheet>
           <SheetTrigger className={cn("", className)}>{children}</SheetTrigger>
           <SheetContent className="  overflow-y-scroll">
-            <KeyMatricsContent matrix={matrix} description={description} />
+            <SheetTitle>{matrix.title}</SheetTitle>
+            <KeyMatricsContent
+              matrix={matrix.key ?? ""}
+              description={matrix.description}
+            />
           </SheetContent>
         </Sheet>
       </div>

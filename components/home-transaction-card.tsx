@@ -11,6 +11,8 @@ import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
 import MatrixSkeleton from "./matrixSkeleton";
 import SignupTrigger from "./signupTrigger";
+import { CalculateMatrixSales } from "@/config/salesMatrix";
+import { CalculateMatrixRental } from "@/config/rentalMatrix";
 
 interface MatrixCardProps {
   title: string;
@@ -34,27 +36,36 @@ function HomeTransactionCard() {
     const fetchTransactions = async () => {
       const date = new Date();
       const presentYear = date.getFullYear();
+
       setIsLoading(true);
-      const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}`;
-      const matrixOutputSales = await CalculateMatrix(sourceURLSales, "sales");
+      const token = await auth?.user?.getIdToken(true);
+      const matrixOutputSales = await CalculateMatrixSales(
+        {
+          start_year: presentYear - 1,
+          end_year: presentYear,
+        },
+        token
+      );
       setSalesMatrix(matrixOutputSales);
-      const sourceURLMortgage = `${BASE_URL}/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}&group_en=Mortgage`;
-      const matrixOutputMortgage = await CalculateMatrix(
-        sourceURLMortgage,
-        "sales"
+
+      const matrixOutputMortgage = await CalculateMatrixSales(
+        {
+          start_year: presentYear - 1,
+          end_year: presentYear,
+          group_en: "Mortgage",
+        },
+        token
       );
       setMortageMatrix(matrixOutputMortgage);
-      const sourceURLRental = `${BASE_URL}/api/rental/average?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}`;
-      const matrixOutputRental = await CalculateMatrix(
-        sourceURLRental,
-        "rental"
+
+      const matrixOutputRental = await CalculateMatrixRental(
+        {
+          start_year: presentYear - 1,
+          end_year: presentYear,
+        },
+        token
       );
+
       setRentalMatrix(matrixOutputRental);
       setIsLoading(false);
     };

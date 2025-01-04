@@ -841,26 +841,32 @@ export const Calculators: Calculator[] = [
       } = inputs;
       // i think code should be something like below: Property Value at Year N=Initial Property Price×(1+Annual Appreciation Rate) power N
 
-      const totalServiceCharge = parseFloat(
-        annual_operating_expenses["total_service_charge"]
-      );
-      const maintenanceCosts =
-        parseFloat(annual_operating_expenses["maintenance_costs"]) || 0;
-      const propertyManagementFees =
-        parseFloat(annual_operating_expenses["property_management_fees"]) || 0;
-      const insuranceCosts =
-        parseFloat(annual_operating_expenses["insaurance_costs"]) || 0;
-      const dldFee = parseFloat(purchase_cost["dld_fee"]) || 0;
-      const otherFee = parseFloat(purchase_cost["other_fee"]) || 0;
-      const mortgageTenure = parseFloat(mortgage["mortgage_tenure"]) || 0;
-      const interestRate = parseFloat(mortgage["interest_rate"]) || 0;
-      const downPayment = parseFloat(mortgage["down_payment"]) || 0;
+      const parseToFloat = (value: string) => {
+        return value ? parseFloat(value) || 0 : 0;
+      };
 
+      const totalServiceCharge = parseToFloat(
+        annual_operating_expenses?.["total_service_charge"]
+      );
+      const maintenanceCosts = parseToFloat(
+        annual_operating_expenses?.["maintenance_costs"]
+      );
+      const propertyManagementFees = parseToFloat(
+        annual_operating_expenses?.["property_management_fees"]
+      );
+      const insuranceCosts = parseToFloat(
+        annual_operating_expenses?.["insaurance_costs"]
+      );
+      const dldFee = parseToFloat(purchase_cost?.["dld_fee"]);
+      const otherFee = parseToFloat(purchase_cost?.["other_fee"]);
+      const mortgageTenure = parseToFloat(mortgage?.["mortgage_tenure"]);
+      const interestRate = parseToFloat(mortgage?.["interest_rate"]);
+      const downPayment = parseToFloat(mortgage?.["down_payment"]);
       const loanAmount = purchase_price - downPayment;
       const monthlyInterestRate = interestRate / 12 / 100;
       const totalPayments = mortgageTenure * 12;
+      console.log("totalPayments: ", mortgageTenure);
 
-      console.log("annual_operating_expenses: ", maintenanceCosts);
       const totalAnnualExpenses =
         totalServiceCharge +
         maintenanceCosts +
@@ -910,7 +916,6 @@ export const Calculators: Calculator[] = [
         totalCapitalAppreciation -
         totalAnnualExpenses * holdingPeriod -
         initial_purchage_cost;
-
       const total_roi_after_expenses_percentage =
         (total_roi_after_expenses / purchasePrice) * 100;
 

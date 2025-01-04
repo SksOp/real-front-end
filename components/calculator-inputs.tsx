@@ -296,6 +296,7 @@ function CalculatorInputs({
                 additionalTexts={input?.helper_text}
                 placeholder={input?.placeholder ?? "enter value"}
                 value={value && value[input?.key]}
+                sliderText={input?.sliderText}
                 onChange={(newValue) =>
                   onChange({
                     ...value,

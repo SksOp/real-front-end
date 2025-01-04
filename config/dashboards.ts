@@ -53,6 +53,7 @@ import {
   VillaSalesIndex,
   VillaSalesValue,
 } from "./sales_index";
+import { CalculateMatrixSales } from "./salesMatrix";
 
 export const dashboards: Dashboard[] = [
   {
@@ -115,56 +116,55 @@ export const dashboards: Dashboard[] = [
 
     page_filters: SalesFilter,
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      const matrixOutput = await CalculateMatrixSales(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
-        calculate: async (params) => {
-          return await SalesTypeChart(params);
+        calculate: async (params, token) => {
+          return await SalesTypeChart(params, token);
         },
       },
       {
         key: "transactions_value_trend",
-        calculate: async (params) => {
-          return SalesValueTrend(params);
+        calculate: async (params, token) => {
+          return SalesValueTrend(params, token);
         },
       },
       {
         key: "sales_transactions_trend",
-        calculate: async (params) => {
-          return await SalesTrend(params);
+        calculate: async (params, token) => {
+          return await SalesTrend(params, token);
         },
       },
       {
         key: "sales_index",
-        calculate: async (params) => {
-          return await SalesIndex(params);
+        calculate: async (params, token) => {
+          return await SalesIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
-          return await SalesSimilarData(params);
+        calculate: async (params, token) => {
+          return await SalesSimilarData(params, token);
         },
       },
       {
         key: "price_Comparison",
-        calculate: async (params) => {
-          return await SalesPriceComparison(params);
+        calculate: async (params, token) => {
+          return await SalesPriceComparison(params, token);
         },
       },
       {
         key: "sales_segmentation",
-        calculate: async (params) => {
-          return await SalesSegmentation(params);
+        calculate: async (params, token) => {
+          return await SalesSegmentation(params, token);
         },
       },
     ],
@@ -182,65 +182,64 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: SalesFilter.slice(1),
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const date = new Date();
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.group_en = "Sales";
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      const matrixOutput = await CalculateMatrixSales(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return await SalesTypeChart(params);
+          return await SalesTypeChart(params, token);
         },
       },
       {
         key: "transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return SalesValueTrend(params);
+          return SalesValueTrend(params, token);
         },
       },
       {
         key: "sales_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return await SalesTrend(params);
+          return await SalesTrend(params, token);
         },
       },
       {
         key: "sales_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return await SalesIndex(params);
+          return await SalesIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return await SalesSimilarData(params);
+          return await SalesSimilarData(params, token);
         },
       },
       {
         key: "price_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return await SalesPriceComparison(params);
+          return await SalesPriceComparison(params, token);
         },
       },
       {
         key: "sales_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Sales";
-          return await SalesSegmentation(params);
+          return await SalesSegmentation(params, token);
         },
       },
     ],
@@ -259,65 +258,64 @@ export const dashboards: Dashboard[] = [
 
     page_filters: SalesFilter.slice(1),
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const date = new Date();
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.group_en = "Mortgage";
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      const matrixOutput = await CalculateMatrixSales(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesTypeChart(params);
+          return await SalesTypeChart(params, token);
         },
       },
       {
         key: "transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return SalesValueTrend(params);
+          return SalesValueTrend(params, token);
         },
       },
       {
         key: "sales_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesTrend(params);
+          return await SalesTrend(params, token);
         },
       },
       {
         key: "sales_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesIndex(params);
+          return await SalesIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesSimilarData(params);
+          return await SalesSimilarData(params, token);
         },
       },
       {
         key: "price_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesPriceComparison(params);
+          return await SalesPriceComparison(params, token);
         },
       },
       {
         key: "sales_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesSegmentation(params);
+          return await SalesSegmentation(params, token);
         },
       },
     ],
@@ -335,64 +333,63 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: SalesFilter.slice(1),
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.group_en = "Gifts";
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      const matrixOutput = await CalculateMatrixSales(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return await SalesTypeChart(params);
+          return await SalesTypeChart(params, token);
         },
       },
       {
         key: "transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return SalesValueTrend(params);
+          return SalesValueTrend(params, token);
         },
       },
       {
         key: "sales_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return await SalesTrend(params);
+          return await SalesTrend(params, token);
         },
       },
       {
         key: "sales_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return await SalesIndex(params);
+          return await SalesIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return await SalesSimilarData(params);
+          return await SalesSimilarData(params, token);
         },
       },
       {
         key: "price_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return await SalesPriceComparison(params);
+          return await SalesPriceComparison(params, token);
         },
       },
       {
         key: "sales_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return await SalesSegmentation(params);
+          return await SalesSegmentation(params, token);
         },
       },
     ],
@@ -411,64 +408,63 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: [...SalesFilter.slice(0, 1), ...SalesFilter.slice(2)],
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.usage_en = "Residential";
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      const matrixOutput = await CalculateMatrixSales(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await SalesTypeChart(params);
+          return await SalesTypeChart(params, token);
         },
       },
       {
         key: "transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return SalesValueTrend(params);
+          return SalesValueTrend(params, token);
         },
       },
       {
         key: "sales_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await SalesTrend(params);
+          return await SalesTrend(params, token);
         },
       },
       {
         key: "sales_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await SalesIndex(params);
+          return await SalesIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await SalesSimilarData(params);
+          return await SalesSimilarData(params, token);
         },
       },
       {
         key: "price_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await SalesPriceComparison(params);
+          return await SalesPriceComparison(params, token);
         },
       },
       {
         key: "sales_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          const data = await SalesSegmentation(params);
+          const data = await SalesSegmentation(params, token);
           data.sub_charts.map((item) => {
             item.filters = [item.filters[1]];
           });
@@ -490,64 +486,63 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: [...SalesFilter.slice(0, 1), ...SalesFilter.slice(2)],
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.usage_en = "Commercial";
-      const sourceURL = `${BASE_URL}/api/transaction/trends`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+      const matrixOutput = await CalculateMatrixSales(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "transactions_type",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await SalesTypeChart(params);
+          return await SalesTypeChart(params, token);
         },
       },
       {
         key: "transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return SalesValueTrend(params);
+          return SalesValueTrend(params, token);
         },
       },
       {
         key: "sales_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await SalesTrend(params);
+          return await SalesTrend(params, token);
         },
       },
       {
         key: "sales_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await SalesIndex(params);
+          return await SalesIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await SalesSimilarData(params);
+          return await SalesSimilarData(params, token);
         },
       },
       {
         key: "price_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await SalesPriceComparison(params);
+          return await SalesPriceComparison(params, token);
         },
       },
       {
         key: "sales_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          const data = await SalesSegmentation(params);
+          const data = await SalesSegmentation(params, token);
           data.sub_charts.map((item) => {
             item.filters = [item.filters[2]];
           });
@@ -570,7 +565,7 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: RentalFilter,
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
@@ -637,7 +632,7 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: RentalFilter,
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
@@ -714,7 +709,7 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: RentalFilter,
 
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
@@ -791,7 +786,7 @@ export const dashboards: Dashboard[] = [
       mode: "sales",
     },
     page_filters: SupplyFilter,
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       console.log("params", params);
       const sourceURL = `${BASE_URL}/api/projects/details`;
 
@@ -855,7 +850,7 @@ export const dashboards: Dashboard[] = [
       mode: "sales",
     },
     page_filters: [],
-    calculate_matrics: async (params) => {
+    calculate_matrics: async (params, token) => {
       const matrixOutput = await CalculateOffplanMatrix(params);
       return matrixOutput;
     },

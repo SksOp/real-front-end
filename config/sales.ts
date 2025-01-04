@@ -1,17 +1,19 @@
 import axios from "axios";
 import { BASE_URL } from "./constant";
 import { FormatValue } from "@/utils/formatNumbers";
+import ApiService from "@/utils/apiService";
 
-export const SalesTypeChart = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesTypeChart = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/transaction/types`, {
-      params: params,
-    });
+    const response = await ApiService("transaction", "types", params, token);
     // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.data;
+    const data = response.result;
     console.log("data Transs", data);
     const totalSalesSum = data.reduce(
       (acc: number, curr: any) => acc + curr.types.group_en.total_sales,
@@ -95,17 +97,18 @@ export const SalesTypeChart = async (params: {
   }
 };
 
-export const SalesValueTrend = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesValueTrend = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year) - 9;
-    const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
-      params: params,
-    });
+    const response = await ApiService("transaction", "trends", params, token);
 
-    console.log("response barrr", response.data);
-    const data = response.data.data.result.data || [];
+    console.log("response barrr", response.result);
+    const data = response.result || [];
 
     const totalValue = data.map((item: any) => ({
       year: item.Year,
@@ -186,15 +189,16 @@ export const SalesValueTrend = async (params: {
   }
 };
 
-export const SalesTrend = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesTrend = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year) - 9;
-    const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
-      params: params,
-    });
-    const data = response.data.data.result.data || [];
+    const response = await ApiService("transaction", "trends", params, token);
+    const data = response.result || [];
     console.log("chddd", data);
 
     const yearlyData = data.map((item: any) => ({
@@ -318,18 +322,21 @@ export const SalesTrend = async (params: {
   }
 };
 
-export const SalesPriceRanges = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesPriceRanges = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const responseRange = await axios.get(
-      `${BASE_URL}/api/transaction/salesIndex`,
-      {
-        params: params,
-      }
+    const response = await ApiService(
+      "transaction",
+      "salesIndex",
+      params,
+      token
     );
-    const rangeData = responseRange.data.data.data[0];
+    const rangeData = response.result[0];
     console.log("rangeData", rangeData);
 
     const chartData = [
@@ -426,21 +433,22 @@ export const SalesPriceRanges = async (params: {
   }
 };
 
-export const SalesIndex = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesIndex = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/transaction/index`, {
-      params: params,
-    });
+    const response = await ApiService("transaction", "index", params, token);
 
     // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.quartiles;
+    const data = response.result.quartiles;
     console.log("percentile25", data);
     const percentile25 = data[0].max;
     const percentile75 = data[3].min;
-    const priceRangeData = await SalesPriceRanges(params);
+    const priceRangeData = await SalesPriceRanges(params, token);
 
     // Corrected general insight
     const insight = `
@@ -500,17 +508,18 @@ export const SalesIndex = async (params: {
   }
 };
 
-export const SalesSimilarData = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesSimilarData = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/transaction/last`, {
-      params: params,
-    });
+    const response = await ApiService("transaction", "last", params, token);
 
     // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.data;
+    const data = response.result;
     const chartcolumns = ["Date", "Sell Price", "Area (ft)"];
     let totalValue = 0;
     const chartData = data.map((item: any) => {
@@ -570,17 +579,18 @@ export const SalesSimilarData = async (params: {
   }
 };
 
-export const SalesPriceComparison = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesPriceComparison = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/transaction/comp`, {
-      params: params,
-    });
+    const response = await ApiService("transaction", "comp", params, token);
     // Will do the required calculation here and return the data to build graph
 
-    const data = response.data.data.data;
+    const data = response.result;
     console.log("compare data", data);
     const chartData = data.map((item: any) => ({
       name: item.AREA_EN,
@@ -618,17 +628,18 @@ export const SalesPriceComparison = async (params: {
   }
 };
 
-export const SalesSegmentation = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SalesSegmentation = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/transaction/types`, {
-      params: params,
-    });
+    const response = await ApiService("transaction", "types", params, token);
     // // Will do the required calculation here and return the data to build graph
 
-    const data = response.data.data.data;
+    const data = response.result;
     console.log("data Transs", data);
     const commercialTotalData = data.filter(
       (item: any) => item?.USAGE_EN === "Commercial"

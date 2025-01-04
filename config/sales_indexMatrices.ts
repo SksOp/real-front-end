@@ -51,7 +51,7 @@ export const SalesIndexMatrices: Matrix[] = [
           const quarterlyData = data.quarterly[12].months.map(
             (quarter: any, idx: number) => {
               return {
-                year: idx + 1,
+                year: `Q${idx + 1}`,
                 value1: quarter.all_quarterly_index,
               };
             }
@@ -154,7 +154,7 @@ export const SalesIndexMatrices: Matrix[] = [
           const quarterlyData = data.quarterly[12].months.map(
             (quarter: any, idx: number) => {
               return {
-                year: idx + 1,
+                year: `Q${idx + 1}`,
                 value1: quarter.all_quarterly_price_index,
               };
             }
@@ -254,7 +254,7 @@ export const SalesIndexMatrices: Matrix[] = [
           const quarterlyData = data.quarterly[12].months.map(
             (quarter: any, idx: number) => {
               return {
-                year: idx + 1,
+                year: `Q${idx + 1}`,
                 value1: quarter.villa_quarterly_index,
               };
             }
@@ -354,7 +354,7 @@ export const SalesIndexMatrices: Matrix[] = [
           const quarterlyData = data.quarterly[12].months.map(
             (quarter: any, idx: number) => {
               return {
-                year: idx + 1,
+                year: `Q${idx + 1}`,
                 value1: quarter.villa_quarterly_price_index,
               };
             }
@@ -454,7 +454,7 @@ export const SalesIndexMatrices: Matrix[] = [
           const quarterlyData = data.quarterly[12].months.map(
             (quarter: any, idx: number) => {
               return {
-                year: idx + 1,
+                year: `Q${idx + 1}`,
                 value1: quarter.flat_quarterly_index,
               };
             }
@@ -554,7 +554,7 @@ export const SalesIndexMatrices: Matrix[] = [
           const quarterlyData = data.quarterly[12].months.map(
             (quarter: any, idx: number) => {
               return {
-                year: idx + 1,
+                year: `Q${idx + 1}`,
                 value1: quarter.flat_quarterly_price_index,
               };
             }

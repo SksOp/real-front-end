@@ -49,7 +49,7 @@ export const SalesDashboards: IntroCardProps[] = [
       "Track and analyze property transactions gifted, highlighting market behavior and trends.",
     avatar: <GiftsLogo />,
     linkto: "/app/dashboard/gifts_transactions_insights",
-    avatarBg: "Yellow/yellow-300",
+    avatarBg: "bg-[#F9F09D]",
   },
   {
     title: "Residential Sales",
@@ -57,7 +57,7 @@ export const SalesDashboards: IntroCardProps[] = [
       "Analysis of residential property sales, including pricing, volumes, and market activity.",
     avatar: <ResidentialLogo />,
     linkto: "/app/dashboard/residential_sales",
-    avatarBg: "Primary/Primary-200",
+    avatarBg: "bg-[#DDDAF9]",
   },
   {
     title: "Commercial Sales",
@@ -148,7 +148,7 @@ export const PeriodicDashboards: IntroCardProps[] = [
       "Annual overview of market performance, transactions, growth, and other vital metrics.",
     avatar: <AnnualInsightsLogo />,
     linkto: "/app/dashboard/annual_market_insights",
-    avatarBg: "Yellow/yellow-300",
+    avatarBg: "bg-[#F9F09D]",
     soon: true,
   },
 ];
@@ -168,7 +168,7 @@ export const GenericGrowthDashboards: IntroCardProps[] = [
     description: "Overview of dubai population segmentation and growth trends",
     avatar: <PopulationLogo />,
     linkto: "/app/dashboard/dubai_population_insights",
-    avatarBg: "Primary/Primary-300",
+    avatarBg: "bg-[#B6B1F0]",
     soon: true,
   },
   {

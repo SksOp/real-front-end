@@ -129,8 +129,8 @@ function DashboardData({ className }: { className?: ClassValue }) {
         ) : (
           <Exceptions
             svg={<PremiumException />}
-            title="This Is for Premium Users"
-            description="Custom Dashboard is only available for registered brokers."
+            title="This feature isn’t yet enabled for your agency."
+            description="Don't worry, it's free! You or your agency admin can contact us to enable this feature. Branding, custom dashboards, tons of other features tailored for agency;"
             className="col-span-2"
             buttonText="Whatsapp Support"
           />

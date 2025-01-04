@@ -54,9 +54,9 @@ export const ToolboxItems: ToolboxItem[] = [
     linkto: "/app/projects",
   },
   {
-    title: "Key Metrics",
-    svg: <KeyMatricsLogo />,
-    linkto: "/app/key-metrics",
+    title: "Market Pulse",
+    svg: <MarketPulseLogo />,
+    linkto: "/app/market-pulse",
   },
   {
     title: "Transactions",

@@ -8,7 +8,7 @@ function HomeKeypilot() {
     <Card className="border rounded-2xl bg-background w-full py-4 px-3 flex flex-col gap-4">
       <CardHeader className="p-0 w-full flex flex-col gap-4">
         <CardTitle className="text-secondary font-semibold text-lg">
-          Insights by usecases
+          Keypilot for Success
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0 w-full flex flex-col gap-4">

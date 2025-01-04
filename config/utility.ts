@@ -55,6 +55,7 @@ export const CalculateMatrix = async (
   }
 ) => {
   console.log(params);
+
   try {
     if (!params) {
       params = {};
