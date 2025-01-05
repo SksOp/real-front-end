@@ -1,16 +1,18 @@
 import axios from "axios";
 import { ChartDescription } from "./types";
 import { BASE_URL } from "./constant";
+import ApiService from "@/utils/apiService";
 
-export const RentalVersions = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalVersions = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/rental/segment`, {
-      params: params,
-    });
-    const data = response.data.data.data;
+    const response = await ApiService("rental", "segment", params, token);
+    const data = response.result;
 
     const totalNewVersion = data.reduce(
       (acc: number, curr: any) => acc + curr.types.version_en.new_version,
@@ -58,16 +60,16 @@ export const RentalVersions = async (params: {
   }
 };
 
-export const RentalValueTrend = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalValueTrend = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year) - 9;
-    const response = await axios.get(`${BASE_URL}/api/rental/average`, {
-      params: params,
-    });
-    console.log("response barrr", response.data);
-    const data = response.data.data.data;
+    const response = await ApiService("rental", "segment", params, token);
+    const data = response.result;
     console.log("data Transs", data);
 
     const avgRents = data.map((item: any) => ({
@@ -167,15 +169,16 @@ export const RentalValueTrend = async (params: {
   }
 };
 
-export const RentalTrend = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalTrend = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year) - 9;
-    const response = await axios.get(`${BASE_URL}/api/rental/average`, {
-      params: params,
-    });
-    const data = response.data.data.data;
+    const response = await ApiService("rental", "average", params, token);
+    const data = response.result;
     console.log("chddd", data);
     const date = new Date();
     const end_year = date.getFullYear();
@@ -319,16 +322,16 @@ export const RentalTrend = async (params: {
   }
 };
 
-export const RentalPriceRange = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalPriceRange = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const responseRange = await axios.get(`${BASE_URL}/api/rental/rentIndex`, {
-      params: params,
-    });
-
-    const rangeData = responseRange.data.data.data[0];
+    const response = await ApiService("rental", "rentIndex", params, token);
+    const rangeData = response.result[0];
     console.log("rangeData", rangeData);
     const chartData = [
       {
@@ -415,16 +418,17 @@ export const RentalPriceRange = async (params: {
   }
 };
 
-export const RentalIndex = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalIndex = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/rental/index`, {
-      params: params,
-    });
+    const response = await ApiService("rental", "index", params, token);
 
     // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.quartiles;
+    const data = response.result.quartiles;
     console.log("percentile25", data);
     const percentile25 = data[0].max;
     const percentile75 = data[3].min;
@@ -488,17 +492,18 @@ export const RentalIndex = async (params: {
   }
 };
 
-export const RentalSimilarData = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalSimilarData = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/rental/last`, {
-      params: params,
-    });
+    const response = await ApiService("rental", "last", params, token);
 
     // Will do the required calculation here and return the data to build graph
-    const data = response.data.data.data;
+    const data = response.result;
     const chartcolumns = ["Date", "Rent Price", "Sub Property"];
     const chartData = data.map((item: any) => {
       // Inline date formatting
@@ -560,17 +565,18 @@ export const RentalSimilarData = async (params: {
   }
 };
 
-export const RentalComparison = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalComparison = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/rental/comp`, {
-      params: params,
-    });
+    const response = await ApiService("rental", "comp", params, token);
     // Will do the required calculation here and return the data to build graph
 
-    const data = response.data.data.data;
+    const data = response.result;
     console.log("compare data", data);
     const chartData = data.map((item: any) => ({
       name: item.AREA_EN,
@@ -608,17 +614,18 @@ export const RentalComparison = async (params: {
   }
 };
 
-export const RentalSegmentation = async (params: {
-  [key: string]: string | number;
-}) => {
+export const RentalSegmentation = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     params.start_year = Number(params?.end_year);
-    const response = await axios.get(`${BASE_URL}/api/rental/segment`, {
-      params: params,
-    });
+    const response = await ApiService("rental", "segment", params, token);
     // // Will do the required calculation here and return the data to build graph
 
-    const data = response.data.data.data;
+    const data = response.result;
     console.log("data Transs", response);
     const commercialTotalData = data.filter(
       (item: any) => item.USAGE_EN === "Commercial"

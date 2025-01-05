@@ -1,11 +1,12 @@
 import axios from "axios";
 import { BASE_URL } from "./constant";
 import { FormatValue } from "@/utils/formatNumbers";
+import ApiService from "@/utils/apiService";
 
-export const OverallSalesIndex = async () => {
+export const OverallSalesIndex = async (token?: string | null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/index?type=all`);
-    const data = response.data;
+    const response = await ApiService("index", "", { type: "all" }, token);
+    const data = response.result;
     console.log("data", data);
     const yearlyData = data.yearly.map((year: any) => {
       return {
@@ -93,10 +94,10 @@ export const OverallSalesIndex = async () => {
   }
 };
 
-export const OverallSalesValue = async () => {
+export const OverallSalesValue = async (token?: string | null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/index?type=all`);
-    const data = response.data;
+    const response = await ApiService("index", "", { type: "all" }, token);
+    const data = response.result;
     console.log("data", data);
     const yearlyData = data.yearly.map((year: any) => {
       return {
@@ -184,10 +185,10 @@ export const OverallSalesValue = async () => {
   }
 };
 
-export const VillaSalesIndex = async () => {
+export const VillaSalesIndex = async (token?: string | null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/index?type=all`);
-    const data = response.data;
+    const response = await ApiService("index", "", { type: "all" }, token);
+    const data = response.result;
     console.log("data", data);
     const yearlyData = data.yearly.map((year: any) => {
       return {
@@ -275,10 +276,10 @@ export const VillaSalesIndex = async () => {
   }
 };
 
-export const VillaSalesValue = async () => {
+export const VillaSalesValue = async (token?: string | null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/index?type=all`);
-    const data = response.data;
+    const response = await ApiService("index", "", { type: "all" }, token);
+    const data = response.result;
     console.log("data", data);
     const yearlyData = data.yearly.map((year: any) => {
       return {
@@ -366,10 +367,10 @@ export const VillaSalesValue = async () => {
   }
 };
 
-export const FlatSalesIndex = async () => {
+export const FlatSalesIndex = async (token?: string | null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/index?type=all`);
-    const data = response.data;
+    const response = await ApiService("index", "", { type: "all" }, token);
+    const data = response.result;
     console.log("data", data);
     const yearlyData = data.yearly.map((year: any) => {
       return {
@@ -457,10 +458,10 @@ export const FlatSalesIndex = async () => {
   }
 };
 
-export const FlatSalesValue = async () => {
+export const FlatSalesValue = async (token?: string | null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/index?type=all`);
-    const data = response.data;
+    const response = await ApiService("index", "", { type: "all" }, token);
+    const data = response.result;
     console.log("data", data);
     const yearlyData = data.yearly.map((year: any) => {
       return {

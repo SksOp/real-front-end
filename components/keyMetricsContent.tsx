@@ -9,6 +9,7 @@ import DashboardCharts from "./dashboard-charts";
 import MatrixCard from "./matrix-card";
 import LoadingWidget from "./loadingWidget";
 import MatricsDescription from "./matrics-description";
+import { useAuth } from "@/lib/auth";
 
 function KeyMatricsContent({
   matrix,
@@ -28,6 +29,7 @@ function KeyMatricsContent({
   );
   const [loading, setLoading] = useState<boolean>(false); // Add loading state
   const searchParams = useSearchParams();
+  const auth = useAuth();
   const tab = searchParams.get("tab") || "all";
 
   const handleFilterChange = (filterKey: string, value: string | null) => {

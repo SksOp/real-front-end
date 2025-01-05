@@ -6,6 +6,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import InsightDrawerView from "./insightDrawerView";
 import LoadingWidget from "./loadingWidget";
 import { Spinner } from "./ui/spinner";
+import { useAuth } from "@/lib/auth";
 
 interface TransactionsListProps {
   selectedTab: string;
@@ -20,6 +21,7 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const [hasMore, setHasMore] = useState(true); // Check if more data is available
   const observer = useRef<IntersectionObserver | null>(null); // Ref for the observer
+  const auth = useAuth();
 
   // Observe the last element
   const lastElementRef = useRef<HTMLDivElement | null>(null);
@@ -27,15 +29,20 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
   const fetchTransactions = useCallback(async () => {
     setIsLoading(true);
     try {
+      const token = await auth.user?.getIdToken(true);
       const response =
         selectedTab === "sales"
-          ? await SalesTransactionApi(page, filters)
+          ? await SalesTransactionApi(page, filters, token)
           : selectedTab === "mortgage"
-          ? await SalesTransactionApi(page, {
-              ...filters,
-              group_en: "Mortgage",
-            })
-          : await RentalTransactionApi(page, filters);
+          ? await SalesTransactionApi(
+              page,
+              {
+                ...filters,
+                group_en: "Mortgage",
+              },
+              token
+            )
+          : await RentalTransactionApi(page, filters, token);
 
       setTransactions((prev) =>
         page === 1 ? response.transactions : [...prev, ...response.transactions]
@@ -80,7 +87,7 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
   }, [isLoading, hasMore]);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 w-full">
       {transactions.map((transaction, index) => (
         <Drawer key={index}>
           <DrawerTrigger>
@@ -96,9 +103,9 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
         </Drawer>
       ))}
       {/* Loader or End of List */}
-      <div ref={lastElementRef}>
+      <div ref={lastElementRef} className="w-full text-center">
         {isLoading && <LoadingWidget className="min-h-[calc(100vh-10rem)]" />}
-        {!hasMore && <p>No more transactions</p>}
+        {/* {!hasMore && <p>No more transactions</p>} */}
       </div>
     </div>
   );

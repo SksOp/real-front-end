@@ -1,16 +1,17 @@
 import axios from "axios";
 import { BASE_URL } from "./constant";
 import { FormatValue } from "@/utils/formatNumbers";
+import ApiService from "@/utils/apiService";
 
-export const YearlyCompletedUnits = async (params: {
-  [key: string]: string | number;
-}) => {
+export const YearlyCompletedUnits = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/projects/details`, {
-      params: params,
-    });
-
-    const data = response.data.data[0]?.breakdown;
+    const response = await ApiService("projects", "details", params, token);
+    const data = response.result[0]?.breakdown;
     console.log(data);
     const chartData = data.map((item: any) => {
       return {
@@ -55,15 +56,16 @@ export const YearlyCompletedUnits = async (params: {
   }
 };
 
-export const YearlyLaunchedProperties = async (params: {
-  [key: string]: string | number;
-}) => {
+export const YearlyLaunchedProperties = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/projects/details`, {
-      params: params,
-    });
+    const response = await ApiService("projects", "details", params, token);
 
-    const data = response.data.data[0]?.breakdown;
+    const data = response.result[0]?.breakdown;
 
     const chartData = data.map((item: any) => {
       return {
@@ -110,18 +112,18 @@ export const YearlyLaunchedProperties = async (params: {
   }
 };
 
-export const FuturePlannedSupply = async (params: {
-  [key: string]: string | number;
-}) => {
+export const FuturePlannedSupply = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/projects/details?start_year=2024&end_year=100000`,
-      {
-        params: params,
-      }
-    );
+    params.start_year = 2024;
+    params.end_year = 100000;
+    const response = await ApiService("projects", "details", params, token);
 
-    const data = response.data.data[0]?.breakdown;
+    const data = response.result[0]?.breakdown;
     const chartData = data.map((item: any) => {
       return {
         year: item.year,
@@ -165,9 +167,12 @@ export const FuturePlannedSupply = async (params: {
   }
 };
 
-export const SupplyByPriceRanges = async (params: {
-  [key: string]: string | number;
-}) => {
+export const SupplyByPriceRanges = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
     // const response = await axios.get(
     //   `${BASE_URL}/api/projects/price-range`,
@@ -234,15 +239,21 @@ export const SupplyByPriceRanges = async (params: {
   }
 };
 
-export const FuturePropertySupplyPerArea = async (params: {
-  [key: string]: string | number;
-}) => {
+export const FuturePropertySupplyPerArea = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/projects/futureSupply`, {
-      params: params,
-    });
+    const response = await ApiService(
+      "projects",
+      "futureSupply",
+      params,
+      token
+    );
 
-    const data = response.data.data;
+    const data = response.result;
 
     const chartData = data.map((item: any) => {
       return {
@@ -288,15 +299,21 @@ export const FuturePropertySupplyPerArea = async (params: {
   }
 };
 
-export const DeliveredUnitsPerAreaDubai = async (params: {
-  [key: string]: string | number;
-}) => {
+export const DeliveredUnitsPerAreaDubai = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/projects/delveredUnits`, {
-      params: params,
-    });
+    const response = await ApiService(
+      "projects",
+      "delveredUnits",
+      params,
+      token
+    );
 
-    const data = response.data.data;
+    const data = response.result;
 
     const chartData = data.map((item: any) => {
       return {
@@ -341,15 +358,16 @@ export const DeliveredUnitsPerAreaDubai = async (params: {
   }
 };
 
-export const PlannedPropertiesByCompletionPercentage = async (params: {
-  [key: string]: string | number;
-}) => {
+export const PlannedPropertiesByCompletionPercentage = async (
+  params: {
+    [key: string]: string | number;
+  },
+  token?: string | null
+) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/projects/compPercent`, {
-      params: params,
-    });
+    const response = await ApiService("projects", "compPercent", params, token);
 
-    const data = response.data.data;
+    const data = response.result;
 
     const colors = [
       "#EFEEFC",

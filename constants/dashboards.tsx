@@ -48,7 +48,7 @@ export const SalesDashboards: IntroCardProps[] = [
     description:
       "Track and analyze property transactions gifted, highlighting market behavior and trends.",
     avatar: <GiftsLogo />,
-    linkto: "/app/dashboard/gifts_transactions_insights",
+    linkto: "/app/dashboard/gift_transactions_insights",
     avatarBg: "bg-[#F9F09D]",
   },
   {
@@ -56,7 +56,7 @@ export const SalesDashboards: IntroCardProps[] = [
     description:
       "Analysis of residential property sales, including pricing, volumes, and market activity.",
     avatar: <ResidentialLogo />,
-    linkto: "/app/dashboard/residential_sales",
+    linkto: "/app/dashboard/residential_sales_breakdown",
     avatarBg: "bg-[#DDDAF9]",
   },
   {
@@ -64,7 +64,7 @@ export const SalesDashboards: IntroCardProps[] = [
     description:
       "Track and analyze sales in the commercial property sector including offices and shops.",
     avatar: <CommercialLogo />,
-    linkto: "/app/dashboard/commercial_sales",
+    linkto: "/app/dashboard/commercial_sales_breakdown",
     avatarBg: "bg-[#F5D0FE]",
   },
   {
@@ -91,7 +91,7 @@ export const RentalDashboards: IntroCardProps[] = [
     description:
       "In-depth look into rental transactions for residential properties, including rates and trends.",
     avatar: <RentalLogo />,
-    linkto: "/app/dashboard/residential_rentals",
+    linkto: "/app/dashboard/residential_rentals_analysis",
     avatarBg: "bg-[#A6E5FF]",
   },
   {
@@ -99,7 +99,7 @@ export const RentalDashboards: IntroCardProps[] = [
     description:
       "Analysis of commercial property rentals including warehouses, offices, and retail units.",
     avatar: <RentalLogo />,
-    linkto: "/app/dashboard/commercial_rentals",
+    linkto: "/app/dashboard/commercial_rentals_overview",
     avatarBg: "bg-[#A6E5FF]",
   },
 ];
@@ -176,7 +176,7 @@ export const GenericGrowthDashboards: IntroCardProps[] = [
     description:
       "Insights aroud dubai GDP, in correlation with the real estate market performance",
     avatar: <GdpLogo />,
-    linkto: "/app/dashboard/dubai_gdp_overview",
+    linkto: "/app/dashboard/dubai_GDP_overview",
     avatarBg: "bg-[#F7CFB4]",
     soon: true,
   },

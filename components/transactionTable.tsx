@@ -21,6 +21,7 @@ import {
   SelectDataException,
 } from "@/public/svg/exceptions";
 import LoadingWidget from "./loadingWidget";
+import { useAuth } from "@/lib/auth";
 
 interface TransactionTableRowProps {
   transactionId: string;
@@ -184,6 +185,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   filters,
   onRowSelect,
 }) => {
+  const auth = useAuth();
   const [pageIndex, setPageIndex] = useState(1);
   const [transactions, setTransactions] =
     useState<TransactionTableRowProps[]>(data);
@@ -192,17 +194,22 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   const fetchTransactions = async (page: number) => {
     setLoading(true); // Start loading
     try {
+      const token = await auth.user?.getIdToken(true);
       if (selectedTab === "sales") {
-        const response = await SalesTransactionApi(page, filters);
+        const response = await SalesTransactionApi(page, filters, token);
         setTransactions(response.transactions);
       } else if (selectedTab === "rental") {
-        const response = await RentalTransactionApi(page, filters);
+        const response = await RentalTransactionApi(page, filters, token);
         setTransactions(response.transactions);
       } else if (selectedTab === "mortgage") {
-        const response = await SalesTransactionApi(page, {
-          ...filters,
-          group_en: "Mortgage",
-        });
+        const response = await SalesTransactionApi(
+          page,
+          {
+            ...filters,
+            group_en: "Mortgage",
+          },
+          token
+        );
         setTransactions(response.transactions);
       }
     } catch (error) {

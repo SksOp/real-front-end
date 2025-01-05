@@ -14,9 +14,9 @@ import React from "react";
 function page() {
   return (
     <Layout page="market-pulse" title="Market Pulse">
-      <div className="flex flex-col gap-3 px-3 md:px-8 md:py-16 py-8">
-        <Tabs defaultValue="residential">
-          <TabsList className=" flex  items-center justify-center md:justify-start gap-3 ">
+      <div className="flex flex-col gap-3 px-3 md:px-8 md:py-16 py-8 w-full">
+        <Tabs defaultValue="residential" className="w-full">
+          <TabsList className=" flex  items-center justify-center md:justify-start gap-3 w-full">
             <TabsTrigger
               value="residential"
               className="flex text-secondary text-sm  justify-center items-center gap-2 w-1/2 md:w-fit translate-y-0.5"
@@ -33,7 +33,7 @@ function page() {
           <TabsContent value="residential" className="w-full">
             <MarketPulseList />
           </TabsContent>
-          <TabsContent value="commercial">
+          <TabsContent value="commercial" className="w-full">
             <Exceptions
               svg={<FlaskException />}
               title={"Coming Soon!"}

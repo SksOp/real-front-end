@@ -2,11 +2,6 @@ import axios, { all } from "axios";
 import { Dashboard } from "./types";
 import { RentalFilter, SalesFilter, SupplyFilter } from "./filters";
 import {
-  CalculateMatrix,
-  CalculateOffplanMatrix,
-  CalculateSupplyMatrix,
-} from "./utility";
-import {
   SalesIndex,
   SalesPriceComparison,
   SalesPriceRanges,
@@ -54,6 +49,9 @@ import {
   VillaSalesValue,
 } from "./sales_index";
 import { CalculateMatrixSales } from "./salesMatrix";
+import { CalculateMatrixRental } from "./rentalMatrix";
+import { CalculateSupplyMatrix } from "./supplyMatrix";
+import { CalculateOffplanMatrix } from "./offplanMatrix";
 
 export const dashboards: Dashboard[] = [
   {
@@ -569,52 +567,51 @@ export const dashboards: Dashboard[] = [
       console.log("params", params);
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
-      const sourceURL = `${BASE_URL}/api/rental/average`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+      const matrixOutput = await CalculateMatrixRental(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "rental_version",
-        calculate: async (params) => {
-          return await RentalVersions(params);
+        calculate: async (params, token) => {
+          return await RentalVersions(params, token);
         },
       },
       {
         key: "rental_transactions_value_trend",
-        calculate: async (params) => {
-          return RentalValueTrend(params);
+        calculate: async (params, token) => {
+          return RentalValueTrend(params, token);
         },
       },
       {
         key: "rental_transactions_trend",
-        calculate: async (params) => {
-          return await RentalTrend(params);
+        calculate: async (params, token) => {
+          return await RentalTrend(params, token);
         },
       },
       {
         key: "rental_index",
-        calculate: async (params) => {
-          return await RentalIndex(params);
+        calculate: async (params, token) => {
+          return await RentalIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
-          return await RentalSimilarData(params);
+        calculate: async (params, token) => {
+          return await RentalSimilarData(params, token);
         },
       },
       {
         key: "rent_Comparison",
-        calculate: async (params) => {
-          return await RentalComparison(params);
+        calculate: async (params, token) => {
+          return await RentalComparison(params, token);
         },
       },
       {
         key: "rental_segmentation",
-        calculate: async (params) => {
-          return await RentalSegmentation(params);
+        calculate: async (params, token) => {
+          return await RentalSegmentation(params, token);
         },
       },
     ],
@@ -637,59 +634,58 @@ export const dashboards: Dashboard[] = [
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.usage_en = "Residential";
-      const sourceURL = `${BASE_URL}/api/rental/average`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+      const matrixOutput = await CalculateMatrixRental(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "rental_version",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await RentalVersions(params);
+          return await RentalVersions(params, token);
         },
       },
       {
         key: "rental_transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return RentalValueTrend(params);
+          return RentalValueTrend(params, token);
         },
       },
       {
         key: "rental_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await RentalTrend(params);
+          return await RentalTrend(params, token);
         },
       },
       {
         key: "rental_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await RentalIndex(params);
+          return await RentalIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await RentalSimilarData(params);
+          return await RentalSimilarData(params, token);
         },
       },
       {
         key: "rent_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return await RentalComparison(params);
+          return await RentalComparison(params, token);
         },
       },
       {
         key: "rental_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Residential";
-          const data = await RentalSegmentation(params);
+          const data = await RentalSegmentation(params, token);
           data.sub_charts = [];
           return data;
         },
@@ -714,59 +710,58 @@ export const dashboards: Dashboard[] = [
       const presentYear = params?.end_year;
       params.start_year = Number(presentYear) - 1;
       params.usage_en = "Commercial";
-      const sourceURL = `${BASE_URL}/api/rental/average`;
-      const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+      const matrixOutput = await CalculateMatrixRental(params, token);
       return matrixOutput;
     },
 
     calculate_charts: [
       {
         key: "rental_version",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await RentalVersions(params);
+          return await RentalVersions(params, token);
         },
       },
       {
         key: "rental_transactions_value_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return RentalValueTrend(params);
+          return RentalValueTrend(params, token);
         },
       },
       {
         key: "rental_transactions_trend",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await RentalTrend(params);
+          return await RentalTrend(params, token);
         },
       },
       {
         key: "rental_index",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await RentalIndex(params);
+          return await RentalIndex(params, token);
         },
       },
       {
         key: "similar_transactions",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await RentalSimilarData(params);
+          return await RentalSimilarData(params, token);
         },
       },
       {
         key: "rent_Comparison",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return await RentalComparison(params);
+          return await RentalComparison(params, token);
         },
       },
       {
         key: "rental_segmentation",
-        calculate: async (params) => {
+        calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          const data = await RentalSegmentation(params);
+          const data = await RentalSegmentation(params, token);
           data.sub_charts = [];
           return data;
         },
@@ -788,53 +783,51 @@ export const dashboards: Dashboard[] = [
     page_filters: SupplyFilter,
     calculate_matrics: async (params, token) => {
       console.log("params", params);
-      const sourceURL = `${BASE_URL}/api/projects/details`;
-
-      const matrixOutput = await CalculateSupplyMatrix(sourceURL, params);
+      const matrixOutput = await CalculateSupplyMatrix(params, token);
       return matrixOutput;
     },
     calculate_charts: [
       {
         key: "future_properties_per_area",
-        calculate: async (params) => {
-          return await FuturePropertySupplyPerArea(params);
+        calculate: async (params, token) => {
+          return await FuturePropertySupplyPerArea(params, token);
         },
       },
       {
         key: "yearly_completed_units",
-        calculate: async (params) => {
-          return await YearlyCompletedUnits(params);
+        calculate: async (params, token) => {
+          return await YearlyCompletedUnits(params, token);
         },
       },
       {
         key: "yearly_launched_properties",
-        calculate: async (params) => {
-          return await YearlyLaunchedProperties(params);
+        calculate: async (params, token) => {
+          return await YearlyLaunchedProperties(params, token);
         },
       },
       {
         key: "future_planned_supply",
-        calculate: async (params) => {
-          return await FuturePlannedSupply(params);
+        calculate: async (params, token) => {
+          return await FuturePlannedSupply(params, token);
         },
       },
       {
         key: "supply_by_price_ranges",
-        calculate: async (params) => {
-          return await SupplyByPriceRanges(params);
+        calculate: async (params, token) => {
+          return await SupplyByPriceRanges(params, token);
         },
       },
 
       {
         key: "planned_percentage_completion",
-        calculate: async (params) => {
-          return await PlannedPropertiesByCompletionPercentage(params);
+        calculate: async (params, token) => {
+          return await PlannedPropertiesByCompletionPercentage(params, token);
         },
       },
       {
         key: "delivered_units_per_area_dubai",
-        calculate: async (params) => {
-          return await DeliveredUnitsPerAreaDubai(params);
+        calculate: async (params, token) => {
+          return await DeliveredUnitsPerAreaDubai(params, token);
         },
       },
     ],
@@ -851,56 +844,56 @@ export const dashboards: Dashboard[] = [
     },
     page_filters: [],
     calculate_matrics: async (params, token) => {
-      const matrixOutput = await CalculateOffplanMatrix(params);
+      const matrixOutput = await CalculateOffplanMatrix(params, token);
       return matrixOutput;
     },
     calculate_charts: [
       {
         key: "monthly_properties",
-        calculate: async (params) => {
-          return await MonthlyProperties();
+        calculate: async (params, token) => {
+          return await MonthlyProperties(token);
         },
       },
       {
         key: "annual_property_sales_volume",
-        calculate: async (params) => {
-          return await AnnualPropertySalesVolume();
+        calculate: async (params, token) => {
+          return await AnnualPropertySalesVolume(token);
         },
       },
       {
         key: "annual_property_sales_value",
-        calculate: async (params) => {
-          return await AnnualPropertySalesValue();
+        calculate: async (params, token) => {
+          return await AnnualPropertySalesValue(token);
         },
       },
       {
         key: "sales_volume_proportion",
-        calculate: async (params) => {
-          return await SalesVolumeProportion();
+        calculate: async (params, token) => {
+          return await SalesVolumeProportion(token);
         },
       },
       {
         key: "sales_value_proportion",
-        calculate: async (params) => {
-          return await SalesValueProportion();
+        calculate: async (params, token) => {
+          return await SalesValueProportion(token);
         },
       },
       {
         key: "offplan_price_per_sqft",
-        calculate: async (params) => {
-          return await OffPlanPricePErSqft();
+        calculate: async (params, token) => {
+          return await OffPlanPricePErSqft(token);
         },
       },
       {
         key: "offplan_price_index",
-        calculate: async (params) => {
-          return await OffPlanPriceIndex();
+        calculate: async (params, token) => {
+          return await OffPlanPriceIndex(token);
         },
       },
       {
         key: "average_value_by_room",
-        calculate: async (params) => {
-          return await AverageValueByRoom();
+        calculate: async (params, token) => {
+          return await AverageValueByRoom(token);
         },
       },
     ],
@@ -920,38 +913,38 @@ export const dashboards: Dashboard[] = [
     calculate_charts: [
       {
         key: "overall_sales_index",
-        calculate: async (params) => {
-          return await OverallSalesIndex();
+        calculate: async (params, token) => {
+          return await OverallSalesIndex(token);
         },
       },
       {
         key: "overall_sales_value",
-        calculate: async (params) => {
-          return await OverallSalesValue();
+        calculate: async (params, token) => {
+          return await OverallSalesValue(token);
         },
       },
       {
         key: "villa_sales_index",
-        calculate: async (params) => {
-          return await VillaSalesIndex();
+        calculate: async (params, token) => {
+          return await VillaSalesIndex(token);
         },
       },
       {
         key: "villa_sales_value",
-        calculate: async (params) => {
-          return await VillaSalesValue();
+        calculate: async (params, token) => {
+          return await VillaSalesValue(token);
         },
       },
       {
         key: "flat_sales_index",
-        calculate: async (params) => {
-          return await FlatSalesIndex();
+        calculate: async (params, token) => {
+          return await FlatSalesIndex(token);
         },
       },
       {
         key: "flat_sales_value",
-        calculate: async (params) => {
-          return await FlatSalesValue();
+        calculate: async (params, token) => {
+          return await FlatSalesValue(token);
         },
       },
     ],

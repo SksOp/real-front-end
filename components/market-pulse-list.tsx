@@ -8,8 +8,10 @@ import InsightDrawerView from "./insightDrawerView";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Spinner } from "./ui/spinner";
 import LoadingWidget from "./loadingWidget";
+import { useAuth } from "@/lib/auth";
 
 function MarketPulseList() {
+  const auth = useAuth();
   const [activeTab, setActiveTab] = useState("sales");
 
   // States for sales data
@@ -75,7 +77,8 @@ function MarketPulseList() {
     const fetchSalesTransactions = async () => {
       setIsSalesLoading(true);
       try {
-        const response = await MarketPulseApi(salesPage);
+        const token = await auth.user?.getIdToken(true);
+        const response = await MarketPulseApi(salesPage, token);
         if (response && response.length > 0) {
           setSalesTransactions((prev) => [...prev, ...response]);
         } else {
@@ -97,7 +100,8 @@ function MarketPulseList() {
     const fetchRentalTransactions = async () => {
       setIsRentalLoading(true);
       try {
-        const response = await MarketPulseRentalApi(rentalPage);
+        const token = await auth.user?.getIdToken(true);
+        const response = await MarketPulseRentalApi(rentalPage, token);
         if (response && response.length > 0) {
           setRentalTransactions((prev) => [...prev, ...response]);
         } else {
@@ -115,7 +119,11 @@ function MarketPulseList() {
   }, [rentalPage, activeTab]);
 
   return (
-    <Tabs defaultValue="sales" onValueChange={(value) => setActiveTab(value)}>
+    <Tabs
+      defaultValue="sales"
+      onValueChange={(value) => setActiveTab(value)}
+      className="w-full"
+    >
       <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll">
         <TabsTrigger
           value="sales"
@@ -131,7 +139,7 @@ function MarketPulseList() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="sales" className="w-full mt-1">
-        <div className="flex flex-col gap-3 md:hidden">
+        <div className="flex flex-col gap-3  w-full md:hidden ">
           {salesTransactions.map((transaction, index) => (
             <Drawer key={index}>
               <DrawerTrigger>
@@ -145,11 +153,11 @@ function MarketPulseList() {
               </DrawerContent>
             </Drawer>
           ))}
-          <div ref={mobileLastElementRef}>
+          <div ref={mobileLastElementRef} className="w-full text-center">
             {isSalesLoading && (
               <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
-            {!hasMoreSales && <p>No more sales transactions</p>}
+            {/* {!hasMoreSales && <p>No more sales transactions</p>} */}
           </div>
         </div>
         <div className="hidden md:grid md:grid-cols-3 md:gap-4">
@@ -166,16 +174,16 @@ function MarketPulseList() {
               </SheetContent>
             </Sheet>
           ))}
-          <div ref={desktopLastElementRef}>
+          <div ref={desktopLastElementRef} className="col-span-3">
             {isSalesLoading && (
-              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
+              <LoadingWidget className="min-h-[calc(100vh-10rem)] w-full" />
             )}
-            {!hasMoreSales && <p>No more sales transactions</p>}
+            {/* {!hasMoreSales && <p>No more sales transactions</p>} */}
           </div>
         </div>
       </TabsContent>
       <TabsContent value="rental" className="w-full mt-1">
-        <div className="flex flex-col gap-3 md:hidden">
+        <div className="flex flex-col gap-3 w-full md:hidden">
           {rentalTransactions.map((transaction, index) => (
             <Drawer key={index}>
               <DrawerTrigger>
@@ -189,11 +197,11 @@ function MarketPulseList() {
               </DrawerContent>
             </Drawer>
           ))}
-          <div ref={mobileLastElementRef}>
+          <div ref={mobileLastElementRef} className="w-full text-center">
             {isRentalLoading && (
-              <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
+              <LoadingWidget className="min-h-[calc(100vh-10rem)]  w-full" />
             )}
-            {!hasMoreRentals && <p>No more rental transactions</p>}
+            {/* {!hasMoreRentals && <p>No more rental transactions</p>} */}
           </div>
         </div>
         <div className="hidden md:grid md:grid-cols-3 md:gap-4">
@@ -210,11 +218,11 @@ function MarketPulseList() {
               </SheetContent>
             </Sheet>
           ))}
-          <div ref={desktopLastElementRef}>
+          <div ref={desktopLastElementRef} className="col-span-3">
             {isRentalLoading && (
               <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
-            {!hasMoreRentals && <p>No more rental transactions</p>}
+            {/* {!hasMoreRentals && <p>No more rental transactions</p>} */}
           </div>
         </div>
       </TabsContent>

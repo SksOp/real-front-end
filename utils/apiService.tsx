@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default async function ApiService(
   route: string,
-  subroute: string,
+  subroute?: string,
   params?: { [key: string]: string | number },
   token?: string | null
 ): Promise<ApiResponse> {
@@ -20,12 +20,15 @@ export default async function ApiService(
       };
     }
 
-    const response = await axios.get(`${BASE_URL}/api/${route}/${subroute}`, {
-      params,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/api/${route}/${subroute ?? ""}`,
+      {
+        params,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in ApiService:", error);

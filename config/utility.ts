@@ -21,6 +21,7 @@ import {
 } from "./sales";
 import { BASE_URL } from "./constant";
 import { FormatValue } from "@/utils/formatNumbers";
+import ApiService from "@/utils/apiService";
 
 export const ConvertedParams = (params: { [key: string]: string | number }) => {
   const convertedParams: { [key: string]: string } = {};
@@ -485,21 +486,21 @@ export const CalculateCharts = async (
 
 export const SalesTransactionApi = async (
   pageNo?: number,
-  params?: { [key: string]: string | number }
+  params?: { [key: string]: string | number },
+  token?: string
 ) => {
   try {
-    console.log(params);
     pageNo = pageNo || 1;
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/pages/${pageNo}`,
-      {
-        params: params,
-      }
+    const response = await ApiService(
+      "transaction",
+      `pages/${pageNo}`,
+      params,
+      token
     );
 
-    console.log("response", response.data.data);
+    console.log("response", response.result);
 
-    const transactionData = response.data.data.map((transaction: any) => {
+    const transactionData = response.result.data.map((transaction: any) => {
       const date = transaction?.INSTANCE_DATE?.value
         ? new Date(transaction.INSTANCE_DATE.value)
         : null;
@@ -526,7 +527,7 @@ export const SalesTransactionApi = async (
     });
 
     const data = {
-      totalPages: response.data.total_pages,
+      totalPages: response.result.total_pages,
       transactions: transactionData,
     };
     console.log(data);
@@ -542,17 +543,19 @@ export const SalesTransactionApi = async (
 
 export const RentalTransactionApi = async (
   pageNo?: number,
-  params?: { [key: string]: string | number }
+  params?: { [key: string]: string | number },
+  token?: string | null
 ) => {
   try {
     pageNo = pageNo || 1;
-    const response = await axios.get(`${BASE_URL}/api/rental/pages/${pageNo}`, {
-      params: params,
-    });
+    const response = await ApiService(
+      "rental",
+      `pages/${pageNo}`,
+      params,
+      token
+    );
 
-    console.log("response", response.data.data);
-
-    const transactionData = response.data.data.map((transaction: any) => {
+    const transactionData = response.result.data.map((transaction: any) => {
       const date = transaction?.START_DATE?.value
         ? new Date(transaction.START_DATE.value)
         : null;
@@ -586,7 +589,7 @@ export const RentalTransactionApi = async (
     });
 
     const data = {
-      totalPages: response.data.total_pages,
+      totalPages: response.result.total_pages,
       transactions: transactionData,
     };
     console.log(data);
@@ -600,14 +603,17 @@ export const RentalTransactionApi = async (
   }
 };
 
-export const MarketPulseApi = async (pageNo?: number) => {
+export const MarketPulseApi = async (pageNo?: number, token?: string) => {
   try {
     pageNo = pageNo || 1;
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/marketPulse/pages/${pageNo}`
+    const response = await ApiService(
+      "transaction",
+      `marketPulse/pages/${pageNo}`,
+      {},
+      token
     );
 
-    console.log("response market pulse", response.data.data);
+    console.log("response market pulse", response.result);
 
     const months = [
       "Jan",
@@ -624,7 +630,7 @@ export const MarketPulseApi = async (pageNo?: number) => {
       "Dec",
     ];
 
-    const cardData = response.data.data.data.map((transaction: any) => {
+    const cardData = response.result.map((transaction: any) => {
       return {
         area_name: transaction?.area_name || "N/A",
         total_supply: transaction?.total_projects_new_supply,
@@ -650,14 +656,17 @@ export const MarketPulseApi = async (pageNo?: number) => {
   }
 };
 
-export const MarketPulseRentalApi = async (pageNo?: number) => {
+export const MarketPulseRentalApi = async (pageNo?: number, token?: string) => {
   try {
     pageNo = pageNo || 1;
-    const response = await axios.get(
-      `${BASE_URL}/api/rental/marketPulse/pages/${pageNo}`
+    const response = await ApiService(
+      "rental",
+      `marketPulse/pages/${pageNo}`,
+      {},
+      token
     );
 
-    console.log("response", response.data.data);
+    console.log("response", response.result);
 
     const months = [
       "Jan",
@@ -674,7 +683,7 @@ export const MarketPulseRentalApi = async (pageNo?: number) => {
       "Dec",
     ];
 
-    const cardData = response.data.data.data.map((transaction: any) => {
+    const cardData = response.result.map((transaction: any) => {
       return {
         area_name: transaction?.area_name || "N/A",
         total_supply: transaction?.units_from_unit_dataSet,

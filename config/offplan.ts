@@ -2,14 +2,18 @@ import axios from "axios";
 import { BASE_URL } from "./constant";
 import { FormatValue } from "@/utils/formatNumbers";
 import { SalesIndex } from "./sales";
+import ApiService from "@/utils/apiService";
 
-export const MonthlyProperties = async () => {
+export const MonthlyProperties = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_year=2024&end_year=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2024, end_year: 2024 },
+      token
     );
 
-    const data = response.data.data.data[0]?.month;
+    const data = response.result[0]?.month;
     console.log(data);
     const months = [
       "Jan",
@@ -64,13 +68,16 @@ export const MonthlyProperties = async () => {
   }
 };
 
-export const AnnualPropertySalesVolume = async () => {
+export const AnnualPropertySalesVolume = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_year=2010&end_year=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2010, end_year: 2024 },
+      token
     );
 
-    const data = response.data.data.data;
+    const data = response.result;
     const chartData = data.map((item: any) => {
       return {
         year: item.year,
@@ -112,13 +119,16 @@ export const AnnualPropertySalesVolume = async () => {
   }
 };
 
-export const AnnualPropertySalesValue = async () => {
+export const AnnualPropertySalesValue = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_year=2010&end_year=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2010, end_year: 2024 },
+      token
     );
 
-    const data = response.data.data.data;
+    const data = response.result;
     const chartData = data.map((item: any) => {
       return {
         year: item.year,
@@ -160,14 +170,17 @@ export const AnnualPropertySalesValue = async () => {
   }
 };
 
-export const SalesVolumeProportion = async () => {
+export const SalesVolumeProportion = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_year=2023&end_year=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2023, end_year: 2024 },
+      token
     );
 
-    const data1 = response.data.data.data[0];
-    const data2 = response.data.data.data[1];
+    const data1 = response.result[0];
+    const data2 = response.result[1];
 
     const chartData = [
       {
@@ -230,14 +243,17 @@ export const SalesVolumeProportion = async () => {
   }
 };
 
-export const SalesValueProportion = async () => {
+export const SalesValueProportion = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_year=2023&end_year=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2023, end_year: 2024 },
+      token
     );
 
-    const data1 = response.data.data.data[0];
-    const data2 = response.data.data.data[1];
+    const data1 = response.result[0];
+    const data2 = response.result[1];
 
     const chartData = [
       {
@@ -300,12 +316,15 @@ export const SalesValueProportion = async () => {
   }
 };
 
-export const OffPlanPricePErSqft = async () => {
+export const OffPlanPricePErSqft = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_year=2024&end_year=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2024, end_year: 2024 },
+      token
     );
-    const data = response.data.data.data[0];
+    const data = response.result[0];
 
     const chartData = [
       {
@@ -354,18 +373,21 @@ export const OffPlanPricePErSqft = async () => {
   }
 };
 
-export const OffPlanPriceIndex = async () => {
-  const data = await SalesIndex({ IS_OFFPLAN_EN: "Off-Plan" });
+export const OffPlanPriceIndex = async (token?: string | null) => {
+  const data = await SalesIndex({ IS_OFFPLAN_EN: "Off-Plan" }, token);
   data.sub_charts = [];
   return data;
 };
 
-export const AverageValueByRoom = async () => {
+export const AverageValueByRoom = async (token?: string | null) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/transaction/offplan?start_date=2024&end_date=2024`
+    const response = await ApiService(
+      "transaction",
+      "offplan",
+      { start_year: 2024, end_year: 2024 },
+      token
     );
-    const data = response.data.data.data[0];
+    const data = response.result[0];
     const chartsData = [
       {
         name: "Studio",
