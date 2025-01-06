@@ -11,6 +11,7 @@ import {
 import { MatrixData } from "./types";
 import { CalculateMatrix } from "./utility";
 import { BASE_URL } from "./constant";
+import { CalculateMatrixRental } from "./rentalMatrix";
 
 export const RentalMatrices: Matrix[] = [
   {
@@ -22,10 +23,9 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "total_sales_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/rental/average`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+        const matrixOutput = await CalculateMatrixRental(params, token);
         return matrixOutput[2];
       },
     },
@@ -39,10 +39,9 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "average_rent_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/rental/average`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+        const matrixOutput = await CalculateMatrixRental(params, token);
         const data1 = matrixOutput[0];
         const data2 = matrixOutput[1];
         const result: MatrixData = {
@@ -69,10 +68,9 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "number_of_rental_transactions",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/rental/average`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+        const matrixOutput = await CalculateMatrixRental(params, token);
         return matrixOutput[2];
       },
     },
@@ -85,10 +83,9 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "renewal_ratio",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/rental/average`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "rental", params);
+        const matrixOutput = await CalculateMatrixRental(params, token);
         return matrixOutput[3];
       },
     },
@@ -102,8 +99,8 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "rental_value_trend",
-      calculate: async (params) => {
-        return await RentalValueTrend(params);
+      calculate: async (params, token) => {
+        return await RentalValueTrend(params, token);
       },
     },
   },
@@ -116,8 +113,8 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "rental_transactions_trend",
-      calculate: async (params) => {
-        return await RentalTrend(params);
+      calculate: async (params, token) => {
+        return await RentalTrend(params, token);
       },
     },
   },
@@ -130,8 +127,8 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "rental_price_range_distribution",
-      calculate: async (params) => {
-        return await RentalPriceRange(params);
+      calculate: async (params, token) => {
+        return await RentalPriceRange(params, token);
       },
     },
   },
@@ -144,8 +141,8 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "residential_vs_commercial_rental",
-      calculate: async (params) => {
-        const data = await RentalSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await RentalSegmentation(params, token);
         data.sub_charts = [];
         return data;
       },
@@ -160,8 +157,8 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "property_type_rental",
-      calculate: async (params) => {
-        const data = await RentalSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await RentalSegmentation(params, token);
         const extractChart = data.sub_charts[2];
         return extractChart;
       },
@@ -175,8 +172,8 @@ export const RentalMatrices: Matrix[] = [
     filters: RentalFilter,
     calculate_charts: {
       key: "property_subtype_rental",
-      calculate: async (params) => {
-        const data = await RentalSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await RentalSegmentation(params, token);
         const extractChart = data.sub_charts[3];
         return extractChart;
       },

@@ -451,31 +451,32 @@ export const CalculateCharts = async (
   type: "sales" | "rental",
   params: {
     [key: string]: string | number;
-  }
+  },
+  token?: string | null
 ) => {
   const allCharts: ChartDescription[] = [];
   console.log(params);
   if (type === "sales") {
     const charts = await Promise.all([
-      SalesTypeChart(params),
-      SalesValueTrend(params),
-      SalesTrend(params),
-      SalesIndex(params),
-      SalesSimilarData(params),
-      SalesPriceComparison(params),
-      SalesSegmentation(params),
+      SalesTypeChart(params, token),
+      SalesValueTrend(params, token),
+      SalesTrend(params, token),
+      SalesIndex(params, token),
+      SalesSimilarData(params, token),
+      SalesPriceComparison(params, token),
+      SalesSegmentation(params, token),
     ]);
 
     allCharts.push(...charts);
   } else {
     const charts = await Promise.all([
-      RentalVersions(params),
-      RentalValueTrend(params),
-      RentalTrend(params),
-      RentalIndex(params),
-      RentalSimilarData(params),
-      RentalComparison(params),
-      RentalSegmentation(params),
+      RentalVersions(params, token),
+      RentalValueTrend(params, token),
+      RentalTrend(params, token),
+      RentalIndex(params, token),
+      RentalSimilarData(params, token),
+      RentalComparison(params, token),
+      RentalSegmentation(params, token),
     ]);
 
     allCharts.push(...charts);

@@ -14,9 +14,12 @@ export interface Matrix {
   filters?: PageFilter[];
   calculate_charts?: {
     key: string;
-    calculate: (params: {
-      [key: string]: string | number;
-    }) => Promise<ChartDescription> | Promise<MatrixData>;
+    calculate: (
+      params: {
+        [key: string]: string | number;
+      },
+      token?: string | null
+    ) => Promise<ChartDescription> | Promise<MatrixData>;
   };
 }
 

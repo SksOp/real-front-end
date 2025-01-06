@@ -14,6 +14,9 @@ import LoadingWidget from "./loadingWidget";
 import { Spinner } from "./ui/spinner";
 import MatrixSkeleton from "./matrixSkeleton";
 import ChartException from "./chartException";
+import { CalculateMatrixSales } from "@/config/salesMatrix";
+import { useAuth } from "@/lib/auth";
+import { CalculateMatrixRental } from "@/config/rentalMatrix";
 
 function InsightDrawerView({
   location_name,
@@ -22,6 +25,7 @@ function InsightDrawerView({
   location_name: string;
   priceperSqft?: number;
 }) {
+  const auth = useAuth();
   const [selectedFilter, setSelectedFilter] = React.useState<string>("sales");
   const [salesMatrix, setSalesMatrix] = React.useState<MatrixData[]>([]);
   const [rentalMatrix, setRentalMatrix] = React.useState<MatrixData[]>([]);
@@ -34,10 +38,11 @@ function InsightDrawerView({
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const getAllChartData = async () => {
-    const year = new Date().getFullYear();
+    const year = 2024;
+    const token = await auth.user?.getIdToken(true);
     let params = { end_year: year, location: location_name };
-    const allChartsSales = await CalculateCharts("sales", params);
-    const allChartsRental = await CalculateCharts("rental", params);
+    const allChartsSales = await CalculateCharts("sales", params, token);
+    const allChartsRental = await CalculateCharts("rental", params, token);
 
     allChartsSales.shift();
     allChartsRental.shift();
@@ -58,22 +63,18 @@ function InsightDrawerView({
       const date = new Date();
       const presentYear = date.getFullYear();
       setIsLoading(true);
+      const token = await auth.user?.getIdToken(true);
       // Fetch Sales Matrix Data
-      try {
-      } catch (error) {}
-      const sourceURLSales = `${BASE_URL}/api/transaction/trends?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}&location=${location_name}`;
-      const matrixOutputSales = await CalculateMatrix(sourceURLSales, "sales");
+      const matrixOutputSales = await CalculateMatrixSales(
+        { start_year: presentYear - 1, end_year: presentYear },
+        token
+      );
       setSalesMatrix(matrixOutputSales);
 
       // Fetch Rental Matrix Data
-      const sourceURLRental = `${BASE_URL}/api/rental/average?start_year=${
-        presentYear - 1
-      }&end_year=${presentYear}&location=${location_name}`;
-      const matrixOutputRental = await CalculateMatrix(
-        sourceURLRental,
-        "rental"
+      const matrixOutputRental = await CalculateMatrixRental(
+        { start_year: presentYear - 1, end_year: presentYear },
+        token
       );
       setRentalMatrix(matrixOutputRental);
       setIsLoading(false);
@@ -163,7 +164,9 @@ function InsightDrawerView({
         </Tabs>
       </ChartWrapper>
 
-      <TransactionFairPrice priceperSqft={priceperSqft} />
+      {selectedFilter === "sales" && (
+        <TransactionFairPrice priceperSqft={priceperSqft} />
+      )}
 
       {isLoading ? (
         <LoadingWidget className="min-h-[calc(100vh-10rem)]" />

@@ -10,6 +10,8 @@ import MatrixCard from "./matrix-card";
 import LoadingWidget from "./loadingWidget";
 import MatricsDescription from "./matrics-description";
 import { useAuth } from "@/lib/auth";
+import Exceptions from "./exceptions";
+import { ChartExceptionImage, NoDataException } from "@/public/svg/exceptions";
 
 function KeyMatricsContent({
   matrix,
@@ -52,11 +54,15 @@ function KeyMatricsContent({
   useEffect(() => {
     const fetchMatrixData = async () => {
       setLoading(true); // Set loading to true before fetching data
+      const token = await auth.user?.getIdToken(true);
       const matrixData = KeyMatrices.find((m) => m.key === matrix);
       setSelectedMatrix(matrixData || null);
       const date = new Date();
       if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
-      const chartData = await matrixData?.calculate_charts?.calculate(filters);
+      const chartData = await matrixData?.calculate_charts?.calculate(
+        filters,
+        token
+      );
       setSelectedChart(chartData || null);
       setLoading(false); // Set loading to false after fetching data
     };
@@ -72,36 +78,41 @@ function KeyMatricsContent({
 
       {loading ? ( // Display loading indicator when loading is true
         <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
+      ) : selectedChart ? (
+        <div className="flex flex-col gap-3">
+          {/* If selectedChart is of type ChartDescription */}
+          {"chart_type" in selectedChart ? (
+            <DashboardCharts
+              dashboardType={"sales"}
+              type={selectedChart.chart_type}
+              data={selectedChart.data}
+              chartConfig={selectedChart.chartConfig}
+              title={selectedChart.name}
+              filters={selectedChart.filters}
+              columns={selectedChart?.columns}
+              otherInfo={selectedChart.otherInfo}
+              subCharts={selectedChart.sub_charts}
+              insights={selectedChart.insights}
+              description={selectedChart.description}
+            />
+          ) : (
+            /* If selectedChart is of type MatrixData */
+            <MatrixCard
+              key={selectedMatrix?.key}
+              title={selectedChart?.title}
+              value={selectedChart?.value}
+              growth={parseInt(String(selectedChart?.growth))}
+            />
+          )}
+          <MatricsDescription description={description ?? ""} />
+        </div>
       ) : (
-        selectedChart && (
-          <div className="flex flex-col gap-3">
-            {/* If selectedChart is of type ChartDescription */}
-            {"chart_type" in selectedChart ? (
-              <DashboardCharts
-                dashboardType={"sales"}
-                type={selectedChart.chart_type}
-                data={selectedChart.data}
-                chartConfig={selectedChart.chartConfig}
-                title={selectedChart.name}
-                filters={selectedChart.filters}
-                columns={selectedChart?.columns}
-                otherInfo={selectedChart.otherInfo}
-                subCharts={selectedChart.sub_charts}
-                insights={selectedChart.insights}
-                description={selectedChart.description}
-              />
-            ) : (
-              /* If selectedChart is of type MatrixData */
-              <MatrixCard
-                key={selectedMatrix?.key}
-                title={selectedChart?.title}
-                value={selectedChart?.value}
-                growth={parseInt(String(selectedChart?.growth))}
-              />
-            )}
-            <MatricsDescription description={description ?? ""} />
-          </div>
-        )
+        <Exceptions
+          svg={<ChartExceptionImage />}
+          title="No data available for the selected filter"
+          description="No data for the selected criteria. try changing the filters."
+          className="col-span-2"
+        />
       )}
     </div>
   );

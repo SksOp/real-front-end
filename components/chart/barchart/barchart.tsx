@@ -135,6 +135,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
               radius={barRadius}
               stroke={"#121212"}
               overflow={"scroll"}
+              maxBarSize={300}
               {...customBarProps}
             >
               {!showXAxis && (

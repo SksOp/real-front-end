@@ -68,7 +68,7 @@ export const RentalValueTrend = async (
 ) => {
   try {
     params.start_year = Number(params?.end_year) - 9;
-    const response = await ApiService("rental", "segment", params, token);
+    const response = await ApiService("rental", "average", params, token);
     const data = response.result;
     console.log("data Transs", data);
 

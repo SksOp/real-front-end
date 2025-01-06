@@ -10,6 +10,7 @@ import {
   SalesValueTrend,
 } from "./sales";
 import { BASE_URL } from "./constant";
+import { CalculateMatrixSales } from "./salesMatrix";
 
 export const SalesMatrices: Matrix[] = [
   {
@@ -21,10 +22,9 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "total_sales_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+        const matrixOutput = await CalculateMatrixSales(params, token);
         return matrixOutput[2];
       },
     },
@@ -38,11 +38,9 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "average_sales_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+        const matrixOutput = await CalculateMatrixSales(params, token);
         return matrixOutput[0];
       },
     },
@@ -56,11 +54,9 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "average_price_per_sqft",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+        const matrixOutput = await CalculateMatrixSales(params, token);
         return matrixOutput[1];
       },
     },
@@ -74,11 +70,9 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "total_sales_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+        const matrixOutput = await CalculateMatrixSales(params, token);
         return matrixOutput[3];
       },
     },
@@ -92,8 +86,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "transaction_type",
-      calculate: async (params) => {
-        return await SalesTypeChart(params);
+      calculate: async (params, token) => {
+        return await SalesTypeChart(params, token);
       },
     },
   },
@@ -106,8 +100,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "transaction_value_trend",
-      calculate: async (params) => {
-        return await SalesValueTrend(params);
+      calculate: async (params, token) => {
+        return await SalesValueTrend(params, token);
       },
     },
   },
@@ -120,8 +114,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "number_of_transactions_trend",
-      calculate: async (params) => {
-        return await SalesTrend(params);
+      calculate: async (params, token) => {
+        return await SalesTrend(params, token);
       },
     },
   },
@@ -134,8 +128,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "sales_price_index",
-      calculate: async (params) => {
-        const data = await SalesIndex(params);
+      calculate: async (params, token) => {
+        const data = await SalesIndex(params, token);
         data.sub_charts = [];
         return data;
       },
@@ -150,8 +144,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "sales_price_range_distribution",
-      calculate: async (params) => {
-        return await SalesPriceRanges(params);
+      calculate: async (params, token) => {
+        return await SalesPriceRanges(params, token);
       },
     },
   },
@@ -164,8 +158,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "residential_vs_commercial",
-      calculate: async (params) => {
-        const data = await SalesSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await SalesSegmentation(params, token);
         data.sub_charts = [];
         return data;
       },
@@ -180,8 +174,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "freehold_vs_leasehold",
-      calculate: async (params) => {
-        const data = await SalesSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await SalesSegmentation(params, token);
         const extractChart = data.sub_charts[3];
         return extractChart;
       },
@@ -195,8 +189,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "first_sale_vs_resale",
-      calculate: async (params) => {
-        const data = await SalesSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await SalesSegmentation(params, token);
         const extractChart = data.sub_charts[1];
         return extractChart;
       },
@@ -211,8 +205,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "property_type",
-      calculate: async (params) => {
-        const data = await SalesSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await SalesSegmentation(params, token);
         const extractChart = data.sub_charts[2];
         return extractChart;
       },
@@ -227,8 +221,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "property_type",
-      calculate: async (params) => {
-        const data = await SalesSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await SalesSegmentation(params, token);
         const extractChart = data.sub_charts[4];
         return extractChart;
       },
@@ -243,8 +237,8 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "property_type",
-      calculate: async (params) => {
-        const data = await SalesSegmentation(params);
+      calculate: async (params, token) => {
+        const data = await SalesSegmentation(params, token);
         const extractChart = data.sub_charts[4];
         return extractChart;
       },
@@ -258,12 +252,10 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "total_sales_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.group_en = "Mortgage";
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+        const matrixOutput = await CalculateMatrixSales(params, token);
         return matrixOutput[3];
       },
     },
@@ -276,12 +268,10 @@ export const SalesMatrices: Matrix[] = [
     filters: SalesFilter,
     calculate_charts: {
       key: "total_sales_value",
-      calculate: async (params) => {
+      calculate: async (params, token) => {
         params.group_en = "Mortgage";
         params.start_year = Number(params.end_year) - 1;
-        const sourceURL = `${BASE_URL}/api/transaction/trends`;
-
-        const matrixOutput = await CalculateMatrix(sourceURL, "sales", params);
+        const matrixOutput = await CalculateMatrixSales(params, token);
         return matrixOutput[2];
       },
     },
