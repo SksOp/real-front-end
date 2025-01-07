@@ -66,14 +66,22 @@ function InsightDrawerView({
       const token = await auth.user?.getIdToken(true);
       // Fetch Sales Matrix Data
       const matrixOutputSales = await CalculateMatrixSales(
-        { start_year: presentYear - 1, end_year: presentYear },
+        {
+          start_year: presentYear - 1,
+          end_year: presentYear,
+          location: location_name,
+        },
         token
       );
       setSalesMatrix(matrixOutputSales);
 
       // Fetch Rental Matrix Data
       const matrixOutputRental = await CalculateMatrixRental(
-        { start_year: presentYear - 1, end_year: presentYear },
+        {
+          start_year: presentYear - 1,
+          end_year: presentYear,
+          location: location_name,
+        },
         token
       );
       setRentalMatrix(matrixOutputRental);
@@ -165,7 +173,7 @@ function InsightDrawerView({
       </ChartWrapper>
 
       {selectedFilter === "sales" && (
-        <TransactionFairPrice priceperSqft={priceperSqft} />
+        <TransactionFairPrice location_name={location_name} />
       )}
 
       {isLoading ? (

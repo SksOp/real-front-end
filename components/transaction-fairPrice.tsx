@@ -6,35 +6,49 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import { BASE_URL } from "@/config/constant";
 import { FormatValue } from "@/utils/formatNumbers";
+import ApiService from "@/utils/apiService";
+import { useAuth } from "@/lib/auth";
+import { Skeleton } from "./ui/skeleton";
 
 interface TransactionFairPriceProps {
-  priceperSqft?: number;
+  location_name: string;
   className?: string;
 }
 
 function TransactionFairPrice({
-  priceperSqft,
+  location_name,
   className,
 }: TransactionFairPriceProps) {
-  const [avgPrice, setAvgPrice] = React.useState<number | string>(0);
-  const [fairPrice, setFairPrice] = React.useState<string>("");
+  const [avgPrice, setAvgPrice] = React.useState<number | string>("");
+  const [fairPrice, setFairPrice] = React.useState<number | string>("");
+  const [smartPrice, setSmartPrice] = React.useState<number | string>("");
+  const auth = useAuth();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/transaction/index`);
-        const data = response.data.data;
-        const fairPriceResponse = `${FormatValue(
-          data.quartiles[0].average.toFixed(2)
-        )} - ${FormatValue(data.quartiles[3].average.toFixed(2))}`;
-        setAvgPrice(FormatValue(data.q2_q3_average.toFixed(2)));
-        setFairPrice(fairPriceResponse);
+        setIsLoading(true);
+        const token = await auth.user?.getIdToken(true);
+        const response = await ApiService(
+          "transaction",
+          "index",
+          {
+            location: location_name,
+          },
+          token
+        );
+        const data = response.result;
+        setAvgPrice(FormatValue(data.overall_average.toFixed(2)));
+        setFairPrice(FormatValue(data.fair_sqft.toFixed(2)));
+        setSmartPrice(FormatValue(data.smart_sqft.toFixed(2)));
+        setIsLoading(false);
       } catch (e) {
         console.error("error getting transaction", e);
       }
     };
     fetchTransactions();
-  }, []);
+  }, [location_name]);
   return (
     <div className="bg-gradient-to-r w-full from-[#5681EB] to-[#D36774] p-[2px] rounded-xl">
       <Card
@@ -58,27 +72,38 @@ function TransactionFairPrice({
               <h3 className="text-muted-foreground text-xs font-normal">
                 Avg Price
               </h3>
-              <h2 className="text-secondary font-semibold text-sm ">
-                {avgPrice}
-              </h2>
-            </div>
-            {priceperSqft && (
-              <div className="flex flex-col w-1/3 gap-2">
-                <h3 className="text-muted-foreground text-xs font-normal">
-                  Smart Avg per Sqft
-                </h3>
+              {isLoading ? (
+                <Skeleton className="h-3 w-[60%]" />
+              ) : (
                 <h2 className="text-secondary font-semibold text-sm ">
-                  {priceperSqft}
+                  {avgPrice}
                 </h2>
-              </div>
-            )}
+              )}
+            </div>
+            <div className="flex flex-col w-1/3 gap-2">
+              <h3 className="text-muted-foreground text-xs font-normal">
+                Smart Avg per Sqft
+              </h3>
+              {isLoading ? (
+                <Skeleton className="h-3 w-[60%]" />
+              ) : (
+                <h2 className="text-secondary font-semibold text-sm ">
+                  {smartPrice}
+                </h2>
+              )}
+            </div>
+
             <div className="flex flex-col w-1/3 gap-2">
               <h3 className="text-muted-foreground text-xs font-normal">
                 Fair Price (SQFT)
               </h3>
-              <h2 className="text-secondary font-semibold text-sm ">
-                {fairPrice}
-              </h2>
+              {isLoading ? (
+                <Skeleton className="h-3 w-[60%]" />
+              ) : (
+                <h2 className="text-secondary font-semibold text-sm ">
+                  {fairPrice}
+                </h2>
+              )}
             </div>
           </div>{" "}
         </div>
