@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import LogInModel from "./logInModel";
@@ -12,6 +13,7 @@ function LoginTrigger({
   children: React.ReactNode;
   className?: ClassValue;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div className="md:hidden w-full">

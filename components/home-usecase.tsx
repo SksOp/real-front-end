@@ -6,8 +6,11 @@ import { InsightLogo } from "@/public/svg/toolbox";
 import { SalesInsightLogo } from "@/public/svg/insights";
 import { useCaseItems } from "@/constants/useCases";
 import { CalculatorsItems } from "@/constants/calculators";
+import { useAuth } from "@/lib/auth";
+import LoginTrigger from "./loginTrigger";
 
 function HomeUsecase() {
+  const auth = useAuth();
   return (
     <Tabs className="w-full " defaultValue="insights">
       <Card className="border rounded-2xl bg-background w-full py-4 px-3 flex flex-col gap-4">
@@ -35,33 +38,65 @@ function HomeUsecase() {
             value={"insights"}
             className="p-0 w-full flex flex-col gap-4 mt-0"
           >
-            {useCaseItems.map((item, index) => (
-              <IntoCard
-                key={index}
-                title={item.title}
-                description={item.description}
-                avatar={item.avatar}
-                avatarBg={item.avatarBg}
-                linkto={item.linkto}
-                soon={item.soon}
-              />
-            ))}
+            {useCaseItems.map((item, index) =>
+              auth.user ? (
+                <IntoCard
+                  key={index}
+                  title={item.title}
+                  description={item.description}
+                  avatar={item.avatar}
+                  avatarBg={item.avatarBg}
+                  linkto={item.linkto}
+                  soon={item.soon}
+                />
+              ) : (
+                <LoginTrigger
+                  key={index}
+                  className="w-full p-0 h-full text-left"
+                >
+                  <IntoCard
+                    key={index}
+                    title={item.title}
+                    description={item.description}
+                    avatar={item.avatar}
+                    avatarBg={item.avatarBg}
+                    soon={item.soon}
+                  />
+                </LoginTrigger>
+              )
+            )}
           </TabsContent>
           <TabsContent
             value={"calculators"}
             className="p-0 w-full flex flex-col gap-4 mt-0"
           >
-            {CalculatorsItems.map((item, index) => (
-              <IntoCard
-                key={index}
-                title={item.title}
-                description={item.description}
-                avatar={item.avatar}
-                avatarBg={item.avatarBg}
-                linkto={item.linkto}
-                soon={item.soon}
-              />
-            ))}
+            {CalculatorsItems.map((item, index) =>
+              auth.user ? (
+                <IntoCard
+                  key={index}
+                  title={item.title}
+                  description={item.description}
+                  avatar={item.avatar}
+                  avatarBg={item.avatarBg}
+                  linkto={item.linkto}
+                  soon={item.soon}
+                />
+              ) : (
+                <LoginTrigger
+                  key={index}
+                  className="w-full p-0 h-full text-left"
+                >
+                  <IntoCard
+                    key={index}
+                    title={item.title}
+                    description={item.description}
+                    avatar={item.avatar}
+                    avatarBg={item.avatarBg}
+                    soon={item.soon}
+                  />
+                </LoginTrigger>
+              )
+            )}
           </TabsContent>
         </CardContent>
       </Card>

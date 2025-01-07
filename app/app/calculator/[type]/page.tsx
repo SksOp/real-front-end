@@ -19,6 +19,7 @@ import { XIcon } from "lucide-react";
 import Exceptions from "@/components/exceptions";
 import { FlaskException, SelectDataException } from "@/public/svg/exceptions";
 import MatrixSkeleton from "@/components/matrixSkeleton";
+import { Separator } from "@/components/ui/separator";
 
 function CalculatorPage() {
   const [showOutput, setShowOutput] = useState<boolean>(false);
@@ -167,7 +168,15 @@ function CalculatorPage() {
     setIsLoading(false);
   };
 
-  const handleClearAll = () => {};
+  const handleClearAll = () => {
+    setInputValues({
+      ...inputValues,
+      ...Object.fromEntries(Object.keys(inputValues).map((key) => [key, ""])),
+    });
+    setResults({});
+    setShowOutput(false);
+    setActiveAccordion("input");
+  };
 
   return (
     <Layout page="calculators" title={calculator?.name ?? ""}>
@@ -287,12 +296,13 @@ function CalculatorPage() {
         )}
       </div>
 
-      <div className="md:flex w-full justify-between hidden ">
-        <div className="flex gap-5 w-full pt-12 md:pt-20 px-2">
+      <div className="md:flex w-full justify-between hidden pt-12 md:pt-20 px-2">
+        <div className="flex gap-5 w-full border-0  md:border rounded-xl">
           {/* Calculator Selector */}
-          <div className="md:w-1/3 md:max-w-md w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
+          <div className="md:w-1/3 md:max-w-md p-4 w-full md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
             <CalculatorSelector className="md:flex flex-col gap-3" />
           </div>
+          <Separator orientation="vertical" />{" "}
           {calculator?.tag === "upcoming" ? (
             <Exceptions
               svg={<FlaskException />}
@@ -304,7 +314,7 @@ function CalculatorPage() {
             />
           ) : (
             <>
-              <div className="md:flex md:flex-col md:w-[45%] hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto px-2">
+              <div className="md:flex md:flex-col p-4 md:w-[45%] hidden flex-grow items-center justify-start gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto px-2">
                 <div className="flex flex-col gap-3 w-full pt-2 ">
                   <h3 className="text-lg font-semibold text-secondary">
                     Inputs
@@ -356,8 +366,8 @@ function CalculatorPage() {
                   </div>
                 </div>
               </div>
-
-              <div className="md:flex md:flex-col w-1/3  hidden flex-grow gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
+              <Separator orientation="vertical" />
+              <div className="md:flex md:flex-col w-1/3 p-4  hidden flex-grow gap-3 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
                 {showOutput ? (
                   <div className="flex flex-col items-start justify-start gap-4 w-full mt-4 ">
                     <h3 className="text-lg font-semibold text-secondary">

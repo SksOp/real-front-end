@@ -41,6 +41,7 @@ function HomePage() {
         <HomeToolbox />
         <HomeUsecase />
         <HomeKeypilot />
+        <FrequentQuestions />
         {/* <FrequentQuestions />
         <HomeClaimCard />
         <SharingCard /> */}

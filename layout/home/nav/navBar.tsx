@@ -183,46 +183,54 @@ function Navbar({
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-sm text-secondary font-medium focus:bg-none data-[active]:bg-none  hover:bg-none">
+                    <NavigationMenuTrigger className="text-sm text-secondary font-medium ">
                       More (7+)
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       {" "}
-                      <ul className="grid  gap-3 p-4  md:grid-cols-2 w-[300px] ">
-                        <li
+                      <div className="grid  gap-3 p-4  md:grid-cols-2 w-[300px] ">
+                        <Button
                           className="text-sm text-secondary font-medium cursor-pointer"
+                          variant={"ghost"}
                           onClick={() => router.push("/app/developers")}
                         >
                           Developers
-                        </li>
-                        <li
+                        </Button>
+                        <Button
                           className="text-sm text-secondary font-medium cursor-pointer"
+                          variant={"ghost"}
                           onClick={() => router.push("/app/projects")}
                         >
                           Projects
-                        </li>
-                        <li
+                        </Button>
+                        <Button
                           className="text-sm text-secondary font-medium cursor-pointer"
+                          variant={"ghost"}
                           onClick={() => router.push("/app/leaderboard")}
                         >
                           Leaderboard
-                        </li>
-                        <li className="text-sm text-secondary font-medium cursor-pointer">
+                        </Button>
+                        <Button
+                          variant={"ghost"}
+                          className="text-sm text-secondary font-medium cursor-pointer"
+                        >
                           Agency Settings
-                        </li>
-                        <li
+                        </Button>
+                        <Button
+                          variant={"ghost"}
                           className="text-sm text-secondary font-medium cursor-pointer"
                           onClick={() => router.push("/app/daily-reports")}
                         >
                           Daily Reports
-                        </li>
-                        <li
+                        </Button>
+                        <Button
+                          variant={"ghost"}
                           className="text-sm text-secondary font-medium cursor-pointer"
                           onClick={() => router.push("/app/ask-ai")}
                         >
                           Keypilot AI
-                        </li>
-                      </ul>
+                        </Button>
+                      </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 </NavigationMenuList>
