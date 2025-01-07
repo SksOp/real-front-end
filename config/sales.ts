@@ -591,8 +591,10 @@ export const SalesPriceComparison = async (
     // Will do the required calculation here and return the data to build graph
 
     const data = response.result;
+    const comparisonData = data.comparison.result;
+    const priceChangeData = data.priceChange.result;
     console.log("compare data", data);
-    const chartData = data.map((item: any) => ({
+    const chartDataComp = comparisonData.map((item: any) => ({
       name: item.AREA_EN,
       avgPrice: item.avg_trans_value_current.toFixed(2),
       pricePerSqFt: item.avg_price_per_sqft_current.toFixed(2),
@@ -601,18 +603,38 @@ export const SalesPriceComparison = async (
       pricePerSqFtGrowth: item.growth_rate_avg_price_per_sqft.toFixed(2),
       transactionsGrowth: item.growth_rate_count_transactions.toFixed(2),
     }));
+    const capitalizeFirstLetter = (str: string | undefined): string =>
+      str
+        ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+        : "Unknown";
+
+    const chartDataProp = priceChangeData.map((item: any) => ({
+      name: `${capitalizeFirstLetter(
+        item.IS_OFFPLAN_EN
+      )} ${capitalizeFirstLetter(item.PROP_TYPE_EN)}`,
+      avgPrice: (item.avg_current_price || 0).toFixed(2),
+      pricePerSqFt: (item.avg_current_price_per_sqft || 0).toFixed(2),
+      transactions: (item.total_current_count_transactions || 0).toFixed(2),
+      avgPriceGrowth: (item.avg_price_growth || 0).toFixed(2),
+      pricePerSqFtGrowth: (item.avg_price_per_sqft_growth || 0).toFixed(2),
+      transactionsGrowth: (item.transaction_count_growth || 0).toFixed(2),
+    }));
 
     return {
       name: "Price Comparison",
       chart_type: "comparison_table",
       filters: [
-        { key: "area", label: "By Area", data: chartData },
-        { key: "property_type", label: "By Property Type", data: chartData },
+        { key: "area", label: "By Area", data: chartDataComp },
+        {
+          key: "property_type",
+          label: "By Property Type",
+          data: chartDataProp,
+        },
       ],
       chartConfig: {},
       sub_metrics: [],
       view_more: true,
-      data: chartData, // Calculated data will be here
+      data: chartDataComp, // Calculated data will be here
     };
   } catch (error) {
     console.error("Error calculating price comparison chart:", error);
