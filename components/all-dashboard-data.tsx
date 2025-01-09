@@ -80,6 +80,7 @@ function DashboardData({ className }: { className?: ClassValue }) {
         shallow={true}
       >
         <IntoCard
+          key={dashboard.key}
           title={dashboard.name}
           description={dashboard.description}
           avatar={<TransactionInsightLogo />}

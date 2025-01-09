@@ -22,6 +22,7 @@ import {
 } from "@/public/svg/exceptions";
 import LoadingWidget from "./loadingWidget";
 import { useAuth } from "@/lib/auth";
+import ChartException from "./chartException";
 
 interface TransactionTableRowProps {
   transactionId: string;
@@ -254,12 +255,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                 </TableBody>
               </Table>
             ) : (
-              <Exceptions
-                svg={<FetchError />}
-                title="Something Went Wrong!"
-                description="This doesn’t happen often, you can let our support know."
-                buttonText="Whatsapp Support"
-              />
+              <ChartException className="h-[60vh]" />
             )}
           </div>
           <Pagination className="flex items-center justify-end bg-background px-6 py-3.5 ">

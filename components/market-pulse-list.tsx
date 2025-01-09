@@ -9,6 +9,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Spinner } from "./ui/spinner";
 import LoadingWidget from "./loadingWidget";
 import { useAuth } from "@/lib/auth";
+import ChartException from "./chartException";
 
 function MarketPulseList() {
   const auth = useAuth();
@@ -158,7 +159,7 @@ function MarketPulseList() {
             {isSalesLoading && (
               <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
-            {/* {!hasMoreSales && <p>No more sales transactions</p>} */}
+            {!hasMoreSales && <ChartException />}
           </div>
         </div>
         <div className="hidden md:grid md:grid-cols-3 md:gap-4">
@@ -179,7 +180,7 @@ function MarketPulseList() {
             {isSalesLoading && (
               <LoadingWidget className="min-h-[calc(100vh-10rem)] w-full" />
             )}
-            {/* {!hasMoreSales && <p>No more sales transactions</p>} */}
+            {!hasMoreSales && <ChartException />}
           </div>
         </div>
       </TabsContent>
@@ -202,7 +203,7 @@ function MarketPulseList() {
             {isRentalLoading && (
               <LoadingWidget className="min-h-[calc(100vh-10rem)]  w-full" />
             )}
-            {/* {!hasMoreRentals && <p>No more rental transactions</p>} */}
+            {!hasMoreRentals && <ChartException />}
           </div>
         </div>
         <div className="hidden md:grid md:grid-cols-3 md:gap-4">
@@ -223,7 +224,7 @@ function MarketPulseList() {
             {isRentalLoading && (
               <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
             )}
-            {/* {!hasMoreRentals && <p>No more rental transactions</p>} */}
+            {!hasMoreRentals && <ChartException />}
           </div>
         </div>
       </TabsContent>

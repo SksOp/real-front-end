@@ -4,6 +4,7 @@ import SignInModel from "./signInModel";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
 function SignupTrigger({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
     <>
       <div className=" md:hidden">
@@ -15,7 +16,7 @@ function SignupTrigger({ children }: { children: React.ReactNode }) {
         </Drawer>
       </div>
       <div className="md:block hidden">
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger>{children}</DialogTrigger>
           <DialogContent className="max-h-[75vh]  overflow-y-scroll">
             <SignInModel />

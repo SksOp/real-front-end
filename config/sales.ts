@@ -283,13 +283,13 @@ export const SalesTrend = async (
       name: "Sales Transactions Trend",
       description: "Compare number of transactions over time!",
       filters: [
+        { key: "yearly", label: "Yearly", data: yearlyData },
         { key: "monthly", label: "Monthly", data: monthlyData },
         {
           key: "quarterly",
           label: "Quarterly",
           data: quarterlyData,
         },
-        { key: "yearly", label: "Yearly", data: yearlyData },
       ],
       chart_type: "line",
       chartConfig: {
@@ -300,7 +300,7 @@ export const SalesTrend = async (
       },
       sub_charts: [],
       insights: insights,
-      data: monthlyData,
+      data: yearlyData,
     };
   } catch (error) {
     console.error("Error calculating sales transactions trend chart:", error);

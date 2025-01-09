@@ -7,6 +7,7 @@ import InsightDrawerView from "./insightDrawerView";
 import LoadingWidget from "./loadingWidget";
 import { Spinner } from "./ui/spinner";
 import { useAuth } from "@/lib/auth";
+import ChartException from "./chartException";
 
 interface TransactionsListProps {
   selectedTab: string;
@@ -105,7 +106,7 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
       {/* Loader or End of List */}
       <div ref={lastElementRef} className="w-full text-center">
         {isLoading && <LoadingWidget className="min-h-[calc(100vh-10rem)]" />}
-        {/* {!hasMore && <p>No more transactions</p>} */}
+        {!hasMore && <ChartException />}
       </div>
     </div>
   );

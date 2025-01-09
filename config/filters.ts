@@ -193,3 +193,16 @@ export const ExploreFilterOptionsRental = [
     source: `${BASE_URL}/api/constants?type=property_type_rental`,
   },
 ];
+
+export const MarketPulseFilterOptions: PageFilter[] = [
+  {
+    key: "Transaction Type",
+    label: "Transaction Type",
+    options: ["Sales", "Rental"],
+  },
+  {
+    key: "usage_en",
+    label: "Usage",
+    source: `${BASE_URL}/api/constants?type=usage_en`,
+  },
+];
