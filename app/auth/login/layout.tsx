@@ -13,12 +13,22 @@ import { KeyMatricIcon, MarketPulseIcon } from "@/public/svg/navIcons";
 import {
   AddToHomeIcon,
   CalculatorIcon,
+  DailyReportsIcon,
   DashboardIcon,
+  DevelopersIcon,
+  KeyDriveIcon,
+  LeaderboardIcon,
+  MapViewIcon,
   MyPropertiesIcon,
+  MyTeamsIcon,
+  PortfolioIcon,
   PrivacyIcon,
+  ProjectsIcon,
   SupportIcon,
   TNCIcon,
   TransactionIcon,
+  UpdateIcon,
+  VersionIcon,
 } from "@/public/svg/sidebarIcons";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -79,6 +89,28 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
     { icon: <MarketPulseIcon />, label: "Market Pulse" },
   ];
 
+  const middleItems = [
+    { icon: <MyPropertiesIcon />, label: "My Properties" },
+    { icon: <DevelopersIcon />, label: "Developers" },
+    { icon: <ProjectsIcon />, label: "Projects" },
+    { icon: <LeaderboardIcon />, label: "Leaderboard" },
+    { icon: <MyTeamsIcon />, label: "My Teams" },
+    { icon: <KeyDriveIcon />, label: "Key Drive" },
+    { icon: <DailyReportsIcon />, label: "Daily Reports" },
+    { icon: <MapViewIcon />, label: "Map View" },
+    { icon: <PortfolioIcon />, label: "Portfolio Website" },
+    {
+      icon: (
+        <img
+          src="/imgs/ai.svg"
+          alt="ai"
+          className="w-5 h-5 object-cover animate-spin-slow"
+        />
+      ),
+      label: "Ask AI",
+    },
+  ];
+
   const footerItems = [
     // { icon: <AddToHomeIcon />, label: "Add to Home Screen" },
     { icon: <SupportIcon />, label: "Support" },
@@ -124,7 +156,30 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
                 <Separator />
                 {renderNavItems({ items: navItems })}
                 <Separator />
+                {renderNavItems({ items: middleItems })}
+                <Separator />
                 {renderNavItems({ items: footerItems })}
+                <Separator />
+                <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start items-center flex gap-3 text-secondary-300 font-normal text-sm px-2"
+                  >
+                    <UpdateIcon />
+                    <div className="flex flex-col gap-1 items-start">
+                      <h3>Last updated at:</h3>
+                      <h3>23/DEC/2024 10:10:11</h3>
+                    </div>
+                  </Button>
+
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start items-center flex gap-3 text-secondary-300 font-normal text-sm px-2"
+                  >
+                    <VersionIcon />
+                    Version: 10.1
+                  </Button>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

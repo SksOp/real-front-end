@@ -39,14 +39,14 @@ function MarketPulseList() {
     observer.current = new IntersectionObserver(
       (entries) => {
         const targetEntry = entries.find((entry) => entry.isIntersecting);
-        if (targetEntry) {
-          if (activeTab === "sales" && hasMoreSales && !isSalesLoading) {
+        if (
+          targetEntry &&
+          ((activeTab === "sales" && hasMoreSales && !isSalesLoading) ||
+            (activeTab === "rental" && hasMoreRentals && !isRentalLoading))
+        ) {
+          if (activeTab === "sales") {
             setSalesPage((prev) => prev + 1);
-          } else if (
-            activeTab === "rental" &&
-            hasMoreRentals &&
-            !isRentalLoading
-          ) {
+          } else if (activeTab === "rental") {
             setRentalPage((prev) => prev + 1);
           }
         }
@@ -75,6 +75,7 @@ function MarketPulseList() {
   // Fetch sales transactions
   useEffect(() => {
     const fetchSalesTransactions = async () => {
+      if (salesTransactions.length >= (salesPage - 1) * 9) return;
       setIsSalesLoading(true);
       try {
         const token = await auth.user?.getIdToken(true);
@@ -98,6 +99,7 @@ function MarketPulseList() {
   // Fetch rental transactions
   useEffect(() => {
     const fetchRentalTransactions = async () => {
+      if (rentalTransactions.length >= (rentalPage - 1) * 9) return;
       setIsRentalLoading(true);
       try {
         const token = await auth.user?.getIdToken(true);
@@ -117,7 +119,6 @@ function MarketPulseList() {
 
     if (activeTab === "rental") fetchRentalTransactions();
   }, [rentalPage, activeTab]);
-
   return (
     <Tabs
       defaultValue="sales"

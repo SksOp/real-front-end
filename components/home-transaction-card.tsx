@@ -43,6 +43,7 @@ function HomeTransactionCard() {
         {
           start_year: presentYear - 1,
           end_year: presentYear,
+          usage_en: "Residential",
         },
         token
       );
@@ -52,6 +53,7 @@ function HomeTransactionCard() {
         {
           start_year: presentYear - 1,
           end_year: presentYear,
+          usage_en: "Residential",
           group_en: "Mortgage",
         },
         token
@@ -62,6 +64,7 @@ function HomeTransactionCard() {
         {
           start_year: presentYear - 1,
           end_year: presentYear,
+          usage_en: "Residential",
         },
         token
       );
@@ -108,10 +111,10 @@ function HomeTransactionCard() {
               Rental
             </TabsTrigger>
             <TabsTrigger
-              value="mortage"
+              value="mortgage"
               className="rounded-full border border-muted text-sm text-center font-normal text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
-              Mortage
+              Mortgage
             </TabsTrigger>
           </TabsList>
           <TabsContent value="sales" className="w-full flex">
@@ -146,7 +149,7 @@ function HomeTransactionCard() {
                   ))}
             </div>
           </TabsContent>
-          <TabsContent value="mortage" className="w-full flex  mt-0">
+          <TabsContent value="mortgage" className="w-full flex  mt-0">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
               {mortageMatrix.map((item, index) => (
                 <MatrixCard

@@ -54,6 +54,8 @@ import {
   SupportIcon,
   TNCIcon,
   TransactionIcon,
+  UpdateIcon,
+  VersionIcon,
 } from "@/public/svg/sidebarIcons";
 import { ClassValue } from "clsx";
 import { User } from "firebase/auth";
@@ -213,6 +215,7 @@ function Navbar({
                         <Button
                           variant={"ghost"}
                           className="text-sm text-secondary font-medium cursor-pointer"
+                          onClick={() => router.push("/app/agency-settings")}
                         >
                           Agency Settings
                         </Button>
@@ -317,13 +320,28 @@ function Navbar({
                     <LogoutIcon />
                     Sign Out
                   </Button>
+
+                  <Button
+                    variant={"ghost"}
+                    className="text-secondary-500 text-sm font-normal gap-1"
+                  >
+                    <UpdateIcon />
+                    Last Updated at: 23/DEC/2024 10:10:11
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    className="text-secondary-500 text-sm font-normal gap-1"
+                  >
+                    <VersionIcon />
+                    Version: 1.0.1
+                  </Button>
                 </CardContent>
               </Card>
             </DropdownMenuContent>
           </DropdownMenu>
           <div
             className="cursor-pointer"
-            onClick={() => router.push("/app/settings")}
+            onClick={() => router.push("/app/agency-settings")}
           >
             <SettingIcon />
           </div>

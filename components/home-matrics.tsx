@@ -4,6 +4,8 @@ import { HomeMatricsItems } from "@/constants/homeItems";
 import { IntroCardProps } from "@/types/introcard";
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
+import { useAuth } from "@/lib/auth";
+import LoginTrigger from "./loginTrigger";
 
 interface HomeMatricsProps {
   title: string;
@@ -12,6 +14,7 @@ interface HomeMatricsProps {
 }
 
 function HomeMatrics({ title, items, className }: HomeMatricsProps) {
+  const auth = useAuth();
   return (
     <div className="flex flex-col gap-3 w-full">
       <h3 className="text-secondary font-semibold text-sm">{title}</h3>
@@ -21,17 +24,30 @@ function HomeMatrics({ title, items, className }: HomeMatricsProps) {
           className
         )}
       >
-        {items.map((item, index) => (
-          <IntoCard
-            key={String(index)}
-            title={item.title}
-            description={item.description}
-            avatar={item.avatar}
-            avatarBg={item.avatarBg}
-            linkto={item.linkto}
-            soon={item.soon}
-          />
-        ))}
+        {items.map((item, index) =>
+          auth.user ? (
+            <IntoCard
+              key={String(index)}
+              title={item.title}
+              description={item.description}
+              avatar={item.avatar}
+              avatarBg={item.avatarBg}
+              linkto={item.linkto}
+              soon={item.soon}
+            />
+          ) : (
+            <LoginTrigger className="text-left">
+              <IntoCard
+                key={String(index)}
+                title={item.title}
+                description={item.description}
+                avatar={item.avatar}
+                avatarBg={item.avatarBg}
+                soon={item.soon}
+              />
+            </LoginTrigger>
+          )
+        )}
       </div>
     </div>
   );

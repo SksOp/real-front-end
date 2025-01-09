@@ -28,7 +28,7 @@ function SecondaryNavbar({
         className
       )}
     >
-      <div onClick={() => router.back()}>
+      <div onClick={() => router.push("/app/home")}>
         <BackIcon />
       </div>
       <h3 className="absolute left-1/2 transform -translate-x-1/2 text-secondary max-w-[70%] font-semibold text-base truncate">

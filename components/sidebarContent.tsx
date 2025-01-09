@@ -171,7 +171,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/developers")}
+          onClick={() => router.push("/app/leaderboard")}
         >
           <LeaderboardIcon />
           Leaderboard
@@ -179,7 +179,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/projects")}
+          onClick={() => router.push("/app/my-teams")}
         >
           <MyTeamsIcon />
           My Teams
@@ -187,7 +187,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/developers")}
+          onClick={() => router.push("/app/real-drive")}
         >
           <KeyDriveIcon />
           Key Drive
@@ -195,7 +195,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/projects")}
+          onClick={() => router.push("/app/daily-reports")}
         >
           <DailyReportsIcon />
           Daily Reports
@@ -203,7 +203,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/developers")}
+          onClick={() => router.push("/app/map-view")}
         >
           <MapViewIcon />
           Map View
@@ -211,7 +211,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/projects")}
+          onClick={() => router.push("/app/agent-portfolio")}
         >
           <PortfolioIcon />
           Portfolio Website
@@ -219,7 +219,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/projects")}
+          onClick={() => router.push("/app/ask-ai")}
         >
           <img
             src="/imgs/ai.svg"
@@ -230,7 +230,7 @@ function SidebarContent() {
         </Button>
       </div>
       <Separator />
-      <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
+      <div className="flex flex-col gap-1 justify-start items-center w-full ">
         {/* <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
@@ -297,7 +297,9 @@ function SidebarContent() {
           <LogoutIcon />
           Logout
         </Button>
-
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary-300 font-normal text-sm px-2"
