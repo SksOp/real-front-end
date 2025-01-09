@@ -47,6 +47,7 @@ function CalculatorSelector({ className }: { className?: ClassValue }) {
         title="All Calculators"
         items={CalculatorsItems}
         className={className}
+        selectedCard={selectedCalculator}
       />
     </div>
   );

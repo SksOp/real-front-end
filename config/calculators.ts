@@ -784,8 +784,8 @@ export const Calculators: Calculator[] = [
               label: "Total Monthly Expenses (AED)",
               type: "three_metrics",
               secondary_output: {
-                key: "initial_purchage_cost",
-                label: "Initial Purchage Cost (AED)",
+                key: "initial_purchase_cost",
+                label: "Initial Purchase Cost (AED)",
                 type: "three_metrics",
               },
             },
@@ -1316,7 +1316,7 @@ export const Calculators: Calculator[] = [
     },
   },
   {
-    key: "incenstive_calculator",
+    key: "incentive_calculator",
     name: "Incentive Calculator",
     description:
       "Calculate agent incentives based on sales performance and targets.",

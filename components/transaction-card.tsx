@@ -49,7 +49,7 @@ interface TransactionCardProps {
   pricePerSqFt: string;
   badges: string[];
   bathrooms: number;
-  bedrooms: number;
+  bedrooms: string;
   area: number;
   tag: string;
   selectedTab?: string;
@@ -140,12 +140,14 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
           ))}
         </div>
         <div className="flex w-full justify-start items-center gap-6 ">
-          <div className="flex gap-1 justify-start items-center">
-            <BedIcon className="w-4 h-4" />
-            <p className="text-muted-foreground font-normal text-xs">
-              {props.bedrooms}{" "}
-            </p>
-          </div>
+          {props.bedrooms !== "N/A" && (
+            <div className="flex gap-1 justify-start items-center">
+              <BedIcon className="w-4 h-4" />
+              <p className="text-muted-foreground font-normal text-xs">
+                {props.bedrooms}{" "}
+              </p>
+            </div>
+          )}
           {/* <div className="flex gap-1 justify-start items-center">
             <BathIcon className="w-4 h-4" />
             <p className="text-muted-foreground font-normal text-xs">

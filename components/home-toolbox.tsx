@@ -14,12 +14,12 @@ function HomeToolbox() {
           Broker’s toolbox
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-0 w-full grid grid-cols-3 gap-4  h-full">
+      <CardContent className="p-0 w-full grid grid-cols-3 gap-4 ">
         {ToolboxItems.map((item, index) =>
           auth.user ? (
             <ToolboxItemView key={index} {...item} />
           ) : (
-            <LoginTrigger key={index} className="w-full p-0 h-full ">
+            <LoginTrigger key={index} className="w-full p-0  ">
               <ToolboxItemView key={index} title={item.title} svg={item.svg} />
             </LoginTrigger>
           )

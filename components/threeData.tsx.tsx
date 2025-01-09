@@ -24,7 +24,7 @@ function ThreeData({
     <Card className="border rounded-lg bg-background p-4 flex items-center justify-between gap-5 w-full">
       <div className="flex items-start justify-start gap-2 w-1/3">
         <div className="flex flex-col gap-1 ">
-          <h3 className="text-muted-foreground text-sm font-normal line-clamp-2 max-w-[150px]">
+          <h3 className="text-muted-foreground text-sm font-normal  ">
             {title1}
           </h3>
           <h3 className="text-secondary font-semibold text-lg ">{value1}</h3>
@@ -33,7 +33,7 @@ function ThreeData({
       <div className="h-16 bg-border shrink-0  w-[1px]" />
       <div className="flex items-start justify-start gap-2 w-1/3">
         <div className="flex flex-col gap-1">
-          <h3 className="text-muted-foreground text-sm font-normal line-clamp-2 max-w-[150px]">
+          <h3 className="text-muted-foreground text-sm font-normal  ">
             {title2}
           </h3>
           <h3 className="text-secondary font-semibold text-lg ">{value2}</h3>
@@ -42,7 +42,7 @@ function ThreeData({
       <div className="h-16 bg-border shrink-0  w-[1px]" />
       <div className="flex items-start justify-start gap-2 w-1/3">
         <div className="flex flex-col gap-1">
-          <h3 className="text-muted-foreground text-sm font-normal line-clamp-2 max-w-[150px]">
+          <h3 className="text-muted-foreground text-sm font-normal  ">
             {title3}
           </h3>
           <h3 className="text-secondary font-semibold text-lg ">{value3}</h3>

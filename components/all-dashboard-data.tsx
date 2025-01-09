@@ -101,26 +101,31 @@ function DashboardData({ className }: { className?: ClassValue }) {
           title="Sales Insights"
           items={SalesDashboards}
           className={className}
+          selectedCard={selectedDashboard}
         />
         <HomeMatrics
           title="Rental Insights"
           items={RentalDashboards}
           className={className}
+          selectedCard={selectedDashboard}
         />
         <HomeMatrics
           title="Current/Planned Supply(Ready & Offplan)"
           items={SupplyAndOffPlanDashboards}
           className={className}
+          selectedCard={selectedDashboard}
         />
         <HomeMatrics
           title="Periodic Dashboards"
           items={PeriodicDashboards}
           className={className}
+          selectedCard={selectedDashboard}
         />
         <HomeMatrics
           title="Generic Growth Dashboards"
           items={GenericGrowthDashboards}
           className={className}
+          selectedCard={selectedDashboard}
         />
       </TabsContent>
       <TabsContent value="custom" className={"flex flex-col gap-3 mt-0 "}>

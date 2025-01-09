@@ -12,15 +12,10 @@ import InsightCard from "./insightCard";
 import Barchart from "./chart/barchart/barchart";
 import EstimationCard from "./estimationCard";
 import AreaChartComponent from "./chart/areachart/area";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Slider } from "./ui/slider";
 import HomeAffordibilityCalculator from "./home-affordibility-calculator";
 import ChartException from "./chartException";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import LineChartComponent from "./chart/lineChart/lineChart";
 import MatrixCard from "./matrix-card";
-import MatrixRow from "./threeData.tsx";
 import ThreeData from "./threeData.tsx";
 
 interface CalculatorOutputsProps {

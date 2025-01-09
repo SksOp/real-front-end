@@ -11,7 +11,7 @@ function ToolboxItemView({ title, svg, linkto }: ToolboxItemProps) {
   const router = useRouter();
   return (
     <div
-      className="px-4 py-5 border border-[#E2E7EC] flex flex-col gap-3 items-center justify-center rounded-2xl hover:bg-[#EFEEFC] hover:border-[#B6B1F0]"
+      className="h-[7rem] px-4 py-5 border border-[#E2E7EC] flex flex-col gap-3 items-center justify-center rounded-2xl hover:bg-[#EFEEFC] hover:border-[#B6B1F0]"
       onClick={() => linkto && router.push(linkto)}
     >
       <div>{svg}</div>

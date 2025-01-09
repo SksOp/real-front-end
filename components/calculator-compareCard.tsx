@@ -57,7 +57,7 @@ function CalculatorCompareCard({
           )}
         />
         <div className="flex flex-col gap-1 ">
-          <h3 className="text-muted-foreground text-sm font-normal line-clamp-2 max-w-[140px]">
+          <h3 className="text-muted-foreground text-sm font-normal line-clamp-3 max-w-[140px]">
             {title1}
           </h3>
           <h3 className="text-secondary font-semibold text-lg ">
@@ -74,7 +74,7 @@ function CalculatorCompareCard({
           )}
         />
         <div className="flex flex-col gap-1">
-          <h3 className="text-muted-foreground text-sm font-normal line-clamp-2 max-w-[140px]">
+          <h3 className="text-muted-foreground text-sm font-normal line-clamp-3  max-w-[140px]">
             {title2}
           </h3>
           <h3 className="text-secondary font-semibold text-lg ">

@@ -10,15 +10,15 @@ export default async function ApiService(
   token?: string | null
 ): Promise<ApiResponse> {
   try {
-    if (!token) {
-      return {
-        timestamp: new Date(),
-        status: "error",
-        message: "Authentication error. Please log in.",
-        responseStatus: 401,
-        result: null,
-      };
-    }
+    // if (!token) {
+    //   return {
+    //     timestamp: new Date(),
+    //     status: "error",
+    //     message: "Authentication error. Please log in.",
+    //     responseStatus: 401,
+    //     result: null,
+    //   };
+    // }
 
     const response = await axios.get(
       `${BASE_URL}/api/${route}/${subroute ?? ""}`,

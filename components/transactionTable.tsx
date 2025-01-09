@@ -31,7 +31,7 @@ interface TransactionTableRowProps {
   pricePerSqFt: string;
   badges: string[];
   bathrooms: number;
-  bedrooms: number;
+  bedrooms: string;
   area: number;
   tag: string;
   selectedTab: string;
@@ -128,12 +128,14 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
             ))}
           </div>
           <div className="flex w-full justify-start items-center gap-6 pl-2">
-            <div className="flex gap-1 justify-start items-center">
-              <BedIcon className="w-4 h-4" />
-              <p className="text-muted-foreground font-normal text-xs">
-                {bedrooms}
-              </p>
-            </div>
+            {bedrooms !== "N/A" && (
+              <div className="flex gap-1 justify-start items-center">
+                <BedIcon className="w-4 h-4" />
+                <p className="text-muted-foreground font-normal text-xs">
+                  {bedrooms}
+                </p>
+              </div>
+            )}
             {/* <div className="flex gap-1 justify-start items-center">
               <BathIcon className="w-4 h-4" />
               <p className="text-muted-foreground font-normal text-xs">

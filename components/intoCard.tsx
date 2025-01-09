@@ -13,11 +13,15 @@ function IntoCard({
   avatar,
   linkto,
   soon = false,
+  selected = false,
 }: IntroCardProps) {
   const router = useRouter();
   return (
     <Card
-      className="flex flex-row items-center gap-4 px-4 py-5 bg-[#F7F6F8] rounded-2xl shadow-none cursor-pointer"
+      className={cn(
+        "flex flex-row items-center gap-4 px-4 py-5 bg-[#F7F6F8] rounded-2xl shadow-none cursor-pointer",
+        selected && "border border-primary-700"
+      )}
       onClick={() => linkto && router.push(linkto)}
     >
       <div

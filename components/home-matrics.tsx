@@ -11,9 +11,15 @@ interface HomeMatricsProps {
   title: string;
   items: IntroCardProps[];
   className?: ClassValue;
+  selectedCard?: string | null;
 }
 
-function HomeMatrics({ title, items, className }: HomeMatricsProps) {
+function HomeMatrics({
+  title,
+  items,
+  className,
+  selectedCard,
+}: HomeMatricsProps) {
   const auth = useAuth();
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -34,6 +40,7 @@ function HomeMatrics({ title, items, className }: HomeMatricsProps) {
               avatarBg={item.avatarBg}
               linkto={item.linkto}
               soon={item.soon}
+              selected={selectedCard === item.key ? true : false}
             />
           ) : (
             <LoginTrigger className="text-left">

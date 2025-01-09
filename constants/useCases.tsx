@@ -12,6 +12,7 @@ import { IntroCardProps } from "@/types/introcard";
 
 export const useCaseItems: IntroCardProps[] = [
   {
+    key: "overall_market_transactions",
     title: "Sales Insights",
     description:
       "All sales related insights including bench marking for advanced user friendly insights.",
@@ -20,6 +21,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#F8CBDB]",
   },
   {
+    key: "rental_market_trends",
     title: "Rental Insights",
     description:
       "Rental data insights with complete market overview. Various usecases covered.",
@@ -28,6 +30,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#A6E5FF]",
   },
   {
+    key: "mortgage_transactions_analysis",
     title: "Mortgage Analytics",
     description:
       "Mortgage trends & complete market overview. Advanced filters and segmentation.",
@@ -36,6 +39,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#F7CFB4]",
   },
   {
+    key: "supply_trends_dashboard",
     title: "Supply Analysis",
     description:
       "Overview of current and upcoming supply in comparison with the demand and price.",
@@ -44,6 +48,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#CBD5E1]",
   },
   {
+    key: "offplan_market_insights",
     title: "Offplan Analysis",
     description:
       "Keep yourself updated on offplan properties and selling prices. A detailed analysis.",
@@ -52,6 +57,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#D9F99D]",
   },
   {
+    key: "transactions",
     title: "Transaction Insights",
     description:
       "Not just a raw transaction. Detailed insights for every transactions.",
@@ -60,6 +66,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#A6E5FF]",
   },
   {
+    key: "market-pulse",
     title: "Area Performance",
     description:
       "Compare the top performing area’s, both from sales and rental perspective.",
@@ -68,6 +75,7 @@ export const useCaseItems: IntroCardProps[] = [
     avatarBg: "bg-[#F9F09D]",
   },
   {
+    key: "price_index",
     title: "Price Indexes",
     description:
       "DLD provided index ranges segmented by property types. All index compared.",
