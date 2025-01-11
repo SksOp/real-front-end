@@ -216,8 +216,7 @@ export const SupplyByPriceRanges = async (
         "1M to 2M": { color: "#FCF8D1" },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -277,8 +276,6 @@ export const FuturePropertySupplyPerArea = async (
       otherInfo: [{ key: "insideText", value: true }],
       sub_charts: [],
 
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -336,8 +333,6 @@ export const DeliveredUnitsPerAreaDubai = async (
       otherInfo: [{ key: "insideText", value: true }],
       sub_charts: [],
       view_all: true,
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -409,8 +404,6 @@ export const PlannedPropertiesByCompletionPercentage = async (
         "90-100": { color: "#FFE2E2" },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
       data: chartData, // Calculated data will be here
     };
   } catch (error) {

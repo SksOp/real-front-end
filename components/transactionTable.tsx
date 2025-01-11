@@ -171,6 +171,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
 
 interface TransactionTableProps {
   data: TransactionTableRowProps[];
+  setData: (data: TransactionTableRowProps[]) => void;
   totalPages: number;
   filters: {
     [key: string]: string | number;
@@ -182,6 +183,7 @@ interface TransactionTableProps {
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
   data,
+  setData,
   selectedTab,
   selectedRow,
   totalPages,
@@ -190,8 +192,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 }) => {
   const auth = useAuth();
   const [pageIndex, setPageIndex] = useState(1);
-  const [transactions, setTransactions] =
-    useState<TransactionTableRowProps[]>(data);
   const [loading, setLoading] = useState(false); // New loading state
 
   const fetchTransactions = async (page: number) => {
@@ -200,10 +200,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       const token = await auth.user?.getIdToken(true);
       if (selectedTab === "sales") {
         const response = await SalesTransactionApi(page, filters, token);
-        setTransactions(response.transactions);
+        setData(response.transactions);
       } else if (selectedTab === "rental") {
         const response = await RentalTransactionApi(page, filters, token);
-        setTransactions(response.transactions);
+        setData(response.transactions);
       } else if (selectedTab === "mortgage") {
         const response = await SalesTransactionApi(
           page,
@@ -213,7 +213,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           },
           token
         );
-        setTransactions(response.transactions);
+        setData(response.transactions);
       }
     } catch (error) {
       console.error("Error fetching transactions:", error);
@@ -232,6 +232,11 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     }
   };
 
+  const handleSelect = (index: string) => {
+    console.log("Selected row:", index);
+    onRowSelect?.(index);
+  };
+
   return (
     <div className="flex h-full flex-col rounded-xl gap-3 w-full">
       {loading ? (
@@ -239,17 +244,17 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       ) : (
         <>
           <div className="border rounded-xl w-full">
-            {transactions.length > 0 ? (
+            {data.length > 0 ? (
               <Table>
                 <TableBody>
-                  {transactions?.map((row, index) => (
+                  {data?.map((row, index) => (
                     <TransactionTableRow
                       key={index}
                       {...row}
                       selectedTab={selectedTab}
                       isMuted={index % 2 === 0}
                       isSelected={selectedRow === row.transactionId}
-                      onClick={() => onRowSelect?.(row.transactionId)}
+                      onClick={() => handleSelect(row.transactionId)}
                     />
                   ))}
                 </TableBody>

@@ -27,6 +27,9 @@ function MarketPulseList() {
   const [isRentalLoading, setIsRentalLoading] = useState(false);
   const [hasMoreRentals, setHasMoreRentals] = useState(true);
 
+  const salesIds = useRef(new Set());
+  const rentalIds = useRef(new Set());
+
   // Refs for the last elements
   const mobileLastElementRef = useRef<HTMLDivElement | null>(null);
   const desktopLastElementRef = useRef<HTMLDivElement | null>(null);
@@ -76,13 +79,21 @@ function MarketPulseList() {
   // Fetch sales transactions
   useEffect(() => {
     const fetchSalesTransactions = async () => {
-      if (salesTransactions.length >= (salesPage - 1) * 9) return;
       setIsSalesLoading(true);
       try {
         const token = await auth.user?.getIdToken(true);
         const response = await MarketPulseApi(salesPage, token);
-        if (response && response.length > 0) {
-          setSalesTransactions((prev) => [...prev, ...response]);
+
+        if (response?.length > 0) {
+          const uniqueSales = response.filter(
+            (transaction: any) => !salesIds.current.has(transaction.area_name)
+          );
+
+          uniqueSales.forEach((transaction: any) =>
+            salesIds.current.add(transaction.area_name)
+          );
+
+          setSalesTransactions((prev) => [...prev, ...uniqueSales]);
         } else {
           setHasMoreSales(false);
         }
@@ -100,13 +111,21 @@ function MarketPulseList() {
   // Fetch rental transactions
   useEffect(() => {
     const fetchRentalTransactions = async () => {
-      if (rentalTransactions.length >= (rentalPage - 1) * 9) return;
       setIsRentalLoading(true);
       try {
         const token = await auth.user?.getIdToken(true);
         const response = await MarketPulseRentalApi(rentalPage, token);
-        if (response && response.length > 0) {
-          setRentalTransactions((prev) => [...prev, ...response]);
+
+        if (response?.length > 0) {
+          const uniqueRentals = response.filter(
+            (transaction: any) => !rentalIds.current.has(transaction.area_name)
+          );
+
+          uniqueRentals.forEach((transaction: any) =>
+            rentalIds.current.add(transaction.area_name)
+          );
+
+          setRentalTransactions((prev) => [...prev, ...uniqueRentals]);
         } else {
           setHasMoreRentals(false);
         }
@@ -120,9 +139,10 @@ function MarketPulseList() {
 
     if (activeTab === "rental") fetchRentalTransactions();
   }, [rentalPage, activeTab]);
+
   return (
     <Tabs
-      defaultValue="sales"
+      defaultValue={activeTab}
       onValueChange={(value) => setActiveTab(value)}
       className="w-full"
     >

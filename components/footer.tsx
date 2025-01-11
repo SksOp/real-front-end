@@ -4,9 +4,12 @@ import React from "react";
 import TermsTrigger from "./termsTrigger";
 import PrivacyTrigger from "./privacyTrigger";
 import { MainLogo } from "@/public/svg/logo";
+import Link from "next/link";
 
 function Footer() {
   const router = useRouter();
+  const whatsappContactUrl =
+    "https://wa.me/<phone_number>?text=Hello%20Keypilot%20support";
   return (
     <>
       <div className="w-full py-2 md:hidden ">
@@ -28,8 +31,15 @@ function Footer() {
           >
             Privacy Policy
           </h3>
-          <h3 className="text-secondary font-normal text-xs">Feedback</h3>
-          <h3 className="text-secondary font-normal text-xs">Contact</h3>
+          {/* <h3 className="text-secondary font-normal text-xs">Feedback</h3> */}
+          <Link
+            href={whatsappContactUrl}
+            target="_blank"
+            className="text-secondary font-normal text-xs"
+          >
+            Contact via WhatsApp
+          </Link>
+
           <p className="text-accent font-normal text-xs">
             &#169; 2024 copy rights reserved.
           </p>
@@ -53,7 +63,14 @@ function Footer() {
               {" "}
               <span>Privacy Policy</span>
             </PrivacyTrigger>{" "}
-            | Feedback | Contact
+            |{" "}
+            <Link
+              href={whatsappContactUrl}
+              target="_blank"
+              className="text-secondary font-normal text-xs"
+            >
+              Contact
+            </Link>
           </div>
           <p className="text-[#161616] font-normal text-sm">
             &#169; 2024 copy rights reserved.

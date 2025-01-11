@@ -28,6 +28,7 @@ function TransactionPage() {
   const [transactions, setTransactions] = React.useState<any[]>([]);
   const [MatrixDataPage, setMatrixDataPage] = React.useState<any[]>([]);
   const [totalPages, setTotalPages] = React.useState(0);
+  const [locationName, setLocationName] = React.useState<string | null>(null);
   const [filters, setFilters] = React.useState<{
     [key: string]: string | number;
   }>({});
@@ -96,19 +97,18 @@ function TransactionPage() {
     fetchTransactions();
   }, [selectedTab, filters]);
 
-  const getLocationname = () => {
-    return transactions.find(
-      (transaction) => transaction.transactionId === selectedRow
-    )?.areaName;
-  };
+  useEffect(() => {
+    const getLocationname = () => {
+      console.log("Selected Row main", selectedRow);
+      return transactions.find(
+        (transaction) => transaction.transactionId === selectedRow
+      )?.areaName;
+    };
 
-  const getPricePerSqft = () => {
-    if (selectedTab === "rental") return;
-    return transactions.find(
-      (transaction) => transaction.transactionId === selectedRow
-    )?.pricePerSqFt;
-  };
-  console.log("filters", filters);
+    setLocationName(getLocationname());
+    console.log("Location Name", locationName);
+  }, [transactions, selectedRow]);
+
   return (
     <Layout page="transactions" title="Transactions">
       <div className="flex flex-col gap-3 px-3  pt-12 md:hidden">
@@ -142,15 +142,13 @@ function TransactionPage() {
             onRowSelect={(index) => setSelectedRow(index)}
             totalPages={totalPages}
             data={transactions}
+            setData={setTransactions}
             filters={filters}
           />
         </div>
         <div className="w-1/3  max-h-full overflow-y-auto border rounded-xl">
-          {selectedRow ? (
-            <InsightDrawerView
-              priceperSqft={getPricePerSqft()}
-              location_name={getLocationname()}
-            />
+          {selectedRow && locationName ? (
+            <InsightDrawerView location_name={locationName || ""} />
           ) : (
             <Exceptions
               svg={<SelectDataException />}

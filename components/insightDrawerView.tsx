@@ -18,13 +18,7 @@ import { CalculateMatrixSales } from "@/config/salesMatrix";
 import { useAuth } from "@/lib/auth";
 import { CalculateMatrixRental } from "@/config/rentalMatrix";
 
-function InsightDrawerView({
-  location_name,
-  priceperSqft,
-}: {
-  location_name: string;
-  priceperSqft?: number;
-}) {
+function InsightDrawerView({ location_name }: { location_name: string }) {
   const auth = useAuth();
   const [selectedFilter, setSelectedFilter] = React.useState<string>("sales");
   const [salesMatrix, setSalesMatrix] = React.useState<MatrixData[]>([]);

@@ -21,7 +21,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     key: "dashboard",
     title: "Dashboards",
     description:
-      "Tailor your dashboard to track your focus areas with ease and precision.",
+      "Customizable dashboards tailored for Dubai’s property market insights and trends.",
     linkto: "/app/dashboard",
     avatar: <DashboardsIcon />,
     avatarBg: "bg-[#F7CFB4]",
@@ -30,7 +30,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     key: "calculator",
     title: "Calculators",
     description:
-      "Share insights with colleagues, landlords, or customers to keep everyone in the loop.",
+      "Advanced calculators, AI estimators, and ROI tools for brokers in Dubai.",
     linkto: "/app/calculator",
     avatar: <CalculatorsIcon />,
     avatarBg: "bg-[#F8CBDB]",
@@ -39,7 +39,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     key: "transactions",
     title: "Transaction",
     description:
-      "Not just a raw transaction. Detailed insights for every transactions.",
+      "Sales and rental transaction data with actionable, advanced market insights.",
     linkto: "/app/transactions",
     avatar: <TransactionsIcon />,
     avatarBg: "bg-[#A6E5FF]",
@@ -48,7 +48,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     key: "market-pulse",
     title: "Area Performance",
     description:
-      "Compare the top performing area’s, both from sales and rental perspective.",
+      "Compare area performance with supply, demand, and growth trends.",
     linkto: "/app/market-pulse",
     avatar: <AreaIcon />,
     avatarBg: "bg-[#F9F09D]",
@@ -57,7 +57,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     key: "key-metrics",
     title: "Key Metrics",
     description:
-      "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
+      "Comprehensive view of Dubai property metrics, including advanced market data.",
     linkto: "/app/key-metrics",
     avatar: <KeyMatricsIcon />,
     avatarBg: "bg-[#DDDAF9]",
@@ -65,7 +65,8 @@ export const HomeMatricsItems: IntroCardProps[] = [
   {
     key: "listings",
     title: "My Properties",
-    description: "Browse from hundreds of projects listed with us.",
+    description:
+      "All your properties with AI-powered insights, accessible in one place.",
     linkto: "/app/listings",
     avatar: <MyPropertiesIcon />,
     avatarBg: "bg-[#F5D0FE]",
@@ -77,7 +78,7 @@ export const HomeToolsItems: IntroCardProps[] = [
     key: "projects",
     title: "Projects",
     description:
-      "Tailor your dashboard to track your focus areas with ease and precision.",
+      "Explore past and future Dubai projects with timelines and progress tracking.",
     linkto: "/app/projects",
     avatar: <ProjectsIcon />,
     avatarBg: "bg-[#CBD5E1]",
@@ -86,7 +87,7 @@ export const HomeToolsItems: IntroCardProps[] = [
     key: "developers",
     title: "Developers",
     description:
-      "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
+      "Details of all Dubai developers and their associated projects.",
     linkto: "/app/developers",
     avatar: <DevelopersIcon />,
     avatarBg: "bg-[#FECACA99]",
@@ -95,7 +96,7 @@ export const HomeToolsItems: IntroCardProps[] = [
     key: "leaderboard",
     title: "Leader board",
     description:
-      "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
+      "Track your performance and actionable plans to join Dubai’s top brokers.",
     linkto: "/app/leaderboard",
     avatar: <LeaderBoardIcon />,
     avatarBg: "bg-[#D9F99D]",
@@ -104,7 +105,7 @@ export const HomeToolsItems: IntroCardProps[] = [
     key: "map-view",
     title: "Map View",
     description:
-      "Tailor your dashboard to track your focus areas with ease and precision.",
+      "Visualize property insights and analytics intuitively through a dynamic map.",
     linkto: "/app/map-view",
     avatar: <MapViewIcon />,
     avatarBg: "bg-[#A7F3D0]",
@@ -113,7 +114,7 @@ export const HomeToolsItems: IntroCardProps[] = [
     key: "ask-ai",
     title: "AI Assistant",
     description:
-      "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
+      "Ask your AI-powered property expert anything about Dubai real estate.",
     linkto: "/app/ask-ai",
     avatar: (
       <img
@@ -127,7 +128,7 @@ export const HomeToolsItems: IntroCardProps[] = [
     key: "agent-portfolio",
     title: "Agent Portfolio",
     description:
-      "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
+      "Build an impressive, feature-rich real estate portfolio for customer success.",
     linkto: "/app/agent-portfolio",
     avatar: <AgentIcon />,
     avatarBg: "bg-[#BFDBFE]",
@@ -139,7 +140,7 @@ export const HomeAgencyItems: IntroCardProps[] = [
     key: "my-teams",
     title: "My Team & Colleagues",
     description:
-      "Shared insights with everyone in the team. Better way to collaborate.",
+      "Collaborate and manage your agency’s team with advanced tools.",
     linkto: "/app/my-teams",
     avatar: <TeamIcon />,
     avatarBg: "bg-[#F5D0FE]",
@@ -148,7 +149,7 @@ export const HomeAgencyItems: IntroCardProps[] = [
     key: "real-drive",
     title: "REAL Drive",
     description:
-      "Register for the daily market updates, insights delivered right to your inbox/whatsapp.",
+      "Centralize real estate documents and templates; store agency-specific files too.",
     linkto: "/app/real-drive",
     avatar: <DriveIcon />,
     avatarBg: "bg-[#FED7AA]",
@@ -157,7 +158,7 @@ export const HomeAgencyItems: IntroCardProps[] = [
     key: "daily-reports",
     title: "Daily Reports",
     description:
-      "Browse through our expert agents profile with reviews and testimonials.",
+      "Custom dashboards and daily KPIs delivered to your inbox or WhatsApp.",
     linkto: "/app/daily-reports",
     avatar: <ReportsIcon />,
     avatarBg: "bg-[#BAF1CA]",

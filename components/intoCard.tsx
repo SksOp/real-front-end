@@ -34,7 +34,9 @@ function IntoCard({
       </div>
       <div className="flex flex-col gap-1 w-full">
         <div className="flex justify-between items-center w-full">
-          <h3 className="text-base font-semibold text-black">{title}</h3>
+          <h3 className="text-base font-semibold text-black line-clamp-1">
+            {title}
+          </h3>
           {soon && (
             <Badge
               variant={"outline"}

@@ -43,6 +43,7 @@ const SignIn = () => {
       <div className="hidden pt-20 md:flex gap-3 w-full px-4 pb-0">
         <div className="w-1/4 min-w-[220px] hidden border rounded-xl p-2 max-h-[calc(100vh-6rem)] overflow-y-auto md:flex flex-col gap-3 pb-4">
           <HomeIntro />
+          <HomeKeypilot />
           <FrequentQuestions />
           <HomeClaimCard />
           <Feedback />
