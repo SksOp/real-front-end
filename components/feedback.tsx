@@ -18,12 +18,14 @@ import {
 import { BASE_URL } from "@/config/constant";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
+import { useAuth } from "@/lib/auth";
 
 function Feedback() {
   const [selectedFeedback, setSelectedFeedback] = useState<number | null>(null);
   const [feedbackText, setFeedbackText] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { toast } = useToast();
+  const auth = useAuth();
 
   const handleFeedbackClick = (index: number) => {
     setSelectedFeedback(index);
@@ -31,10 +33,19 @@ function Feedback() {
 
   const handleFeedbackSubmit = async () => {
     try {
-      await axios.post(`${BASE_URL}/api/feedback?type=feedback`, {
-        rating: selectedFeedback,
-        feedback: feedbackText,
-      });
+      const token = await auth.user?.getIdToken(true);
+      await axios.post(
+        `${BASE_URL}/api/feedback?type=feedback`,
+        {
+          rating: selectedFeedback,
+          feedback: feedbackText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast({
         title: "Feedback Submitted",
         description: "Thank you for your feedback",

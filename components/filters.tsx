@@ -16,12 +16,13 @@ import { PageFilter } from "@/config/types";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { FetchAndStoreOptions } from "@/utils/fetchOptions";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { FetchAndStoreOptions } from "@/utils/fetchOptions";
+import { useAuth } from "@/lib/auth";
 
 function Filters({
   selectOptions,
@@ -38,14 +39,17 @@ function Filters({
   const [searchQueries, setSearchQueries] = useState<{ [key: string]: string }>(
     {}
   );
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchOptions = async (filter: PageFilter) => {
       if (filter.source) {
         try {
+          const token = await auth.user?.getIdToken(true);
           const response = await FetchAndStoreOptions(
             filter.key,
-            filter.source
+            filter.source,
+            token
           );
           setFilterOptions((prev) => ({
             ...prev,

@@ -83,7 +83,8 @@ export interface Calculator {
   outputs: OutputField[];
   tag?: string;
   calculate: (
-    inputs: Record<string, any>
+    inputs: Record<string, any>,
+    token?: string | null
   ) => Record<string, any> | Promise<Record<string, any>>;
 }
 

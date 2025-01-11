@@ -3,6 +3,7 @@ import axios from "axios";
 export const FetchAndStoreOptions = async (
   key: string,
   apiUrl: string,
+  token?: string | null,
   expirationTime: number = 24 * 60 * 60 * 1000
 ) => {
   const now = new Date().getTime();
@@ -18,7 +19,11 @@ export const FetchAndStoreOptions = async (
   }
 
   try {
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = response.data;
     const uniqueData = data.data.result;
     // const uniqueData = ["All", ...data.data];

@@ -111,46 +111,34 @@ export const Calculators: Calculator[] = [
       { key: "insights", label: "Insights", type: "insights" },
     ],
     calculate: async (inputs) => {
-      const { usage_type, choose_location, property_type, property_area } =
-        inputs;
+      const {
+        usage_type,
+        choose_location,
+        property_type,
+        property_area,
+        choose_project,
+        no_of_bedrooms,
+      } = inputs;
       const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
-        const response = await axios.get(`${BASE_URL}/api/transaction/trends`, {
-          params: {
+        const response = await axios.post(
+          `${BASE_URL}/api/calculator/transaction`,
+          {
             start_year: current_year,
             end_year: current_year,
             location: choose_location,
-            property_type: property_type,
-            usage_type: usage_type,
-          },
-        });
-
-        //step 2: calculate the average value based on the above filter [per sqft value]
-        const transactions = response.data.data.data;
-        if (transactions?.length === 0) {
-          throw new Error("No transactions found for the specified filters.");
-        }
-        console.log("transactions: ", transactions);
-        const totalValue = transactions.reduce(
-          (sum: number, transaction: any) => {
-            const sqftValue = transaction.Total_area_in_meter * 10.764;
-            const pricePerft =
-              transaction.Total_Value_of_Transaction / sqftValue;
-            return sum + pricePerft;
-          },
-          0
+            propType: property_type,
+            usage: usage_type,
+            project: choose_project,
+            prop_sub_type: "",
+            room: "",
+            IS_OFFPLAN_EN: "",
+          }
         );
 
-        const totalConfidence = transactions.reduce(
-          (sum: number, transaction: any) => {
-            return sum + transaction.number_of_Row_Used;
-          },
-          0
-        );
-
-        const averageValuePerSqft = totalValue / transactions.length;
-        const confidenceValue = totalConfidence;
+        const averageValuePerSqft = response.data.result.avg_price_per_sqft;
+        const confidenceValue = response.data.result.row_used;
         console.log(confidenceValue);
         //step 3: multiply the psqft value with property_area to get the estimated_sales_value
         const estimated_sales_value = averageValuePerSqft * property_area;
@@ -166,8 +154,8 @@ export const Calculators: Calculator[] = [
       } catch (error) {
         console.error(`Error fetching data :`, error);
         return {
-          estimated_sales_value: "Data not found for the specified filters.",
-          insights: `Cannot calculate the estimated sales value.`,
+          estimated_sales_value: "N/A",
+          insights: "N/A",
         };
       }
       //step 4: exception: when the query by sending developer and project returns more than 25 values, average of this value is also displayed in the UI, ill show you how in the design.

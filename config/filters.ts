@@ -46,7 +46,7 @@ export const SalesFilter: PageFilter[] = [
   {
     key: "end_year",
     label: "Year",
-    options: ["2024", "2023", "2022", "2021", "2020"],
+    options: ["12", "2024", "2023", "2022", "2021", "2020"],
   },
 ];
 

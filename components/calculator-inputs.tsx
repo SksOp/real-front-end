@@ -21,6 +21,7 @@ import CalculatorSwitchCard from "./calculator-switch-card";
 import { Card } from "./ui/card";
 import axios from "axios";
 import { FetchAndStoreOptions } from "@/utils/fetchOptions";
+import { useAuth } from "@/lib/auth";
 
 interface CalculatorInputsProps {
   uniqueKey: string;
@@ -62,11 +63,14 @@ function CalculatorInputs({
   const [fetchedOptions, setFetchedOptions] = useState<
     (string | number)[] | InputField[]
   >(options || []);
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchOptions = async () => {
       if (source) {
-        const data = await FetchAndStoreOptions(uniqueKey, source);
+        const token = await auth.user?.getIdToken(true);
+        const data = await FetchAndStoreOptions(uniqueKey, source, token);
+        console.log(title, data);
         if (Array.isArray(data) && data?.length > 0) setFetchedOptions(data);
       }
     };
