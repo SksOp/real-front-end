@@ -16,10 +16,9 @@ import {
 } from "@/public/svg/social";
 import { useToast } from "./ui/use-toast";
 
-function SharingCard() {
+function SharingCard({ link }: { link?: string }) {
   const { toast } = useToast();
-  const shareLink =
-    "https://keypilot/Property_10435903?page=1&position=9&term=copy&origin=search&related_id=10435903";
+  const shareLink = "https://www.keypilot.io";
 
   const handleShare = (platform: string) => {
     const encodedLink = encodeURIComponent(shareLink);
@@ -104,8 +103,8 @@ function SharingCard() {
           />
         </div>
         <div className="flex gap-3 items-center justify-start">
-          <h3 className="truncate rounded-lg text-sm border px-3 py-4 bg-card">
-            {shareLink}
+          <h3 className="truncate rounded-lg text-sm border px-3 py-4 bg-card w-full">
+            {link ?? shareLink}
           </h3>
           <div
             className="rounded-lg flex items-center justify-center gap-4 border p-4 cursor-pointer"

@@ -161,7 +161,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
               tag === "First" || tag === "New" ? "bg-[#8177E5]" : "bg-[#509BDC]"
             )}
           >
-            {tag}
+            {tag === "Renewed" ? "Renew" : tag}
           </Badge>
         </div>
       </TableCell>

@@ -96,7 +96,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
                 : "bg-[#509BDC]"
             )}
           >
-            {props.tag}
+            {props.tag === "Renewed" ? "Renew" : props.tag}
           </div>
         </div>
         <h1 className="text-secondary text-sm font-semibold flex gap-1 items-center justify-start">

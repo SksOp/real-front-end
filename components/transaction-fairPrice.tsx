@@ -39,9 +39,12 @@ function TransactionFairPrice({
           token
         );
         const data = response.result;
+        const fairPrice = `${FormatValue(
+          data.quartiles[0].avg_sqft_value.toFixed(2)
+        )} - ${FormatValue(data.quartiles[3].avg_sqft_value.toFixed(2))}`;
         setAvgPrice(FormatValue(data.overall_average.toFixed(2)));
-        setFairPrice(FormatValue(data.fair_sqft.toFixed(2)));
-        setSmartPrice(FormatValue(data.smart_sqft.toFixed(2)));
+        setFairPrice(fairPrice);
+        setSmartPrice(FormatValue(data.fair_sqft.toFixed(2)));
         setIsLoading(false);
       } catch (e) {
         console.error("error getting transaction", e);
@@ -70,7 +73,7 @@ function TransactionFairPrice({
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col w-1/3 gap-2">
               <h3 className="text-muted-foreground text-xs font-normal">
-                Avg Price
+                Avg Price (Per Unit)
               </h3>
               {isLoading ? (
                 <Skeleton className="h-3 w-[60%]" />
@@ -82,7 +85,7 @@ function TransactionFairPrice({
             </div>
             <div className="flex flex-col w-1/3 gap-2">
               <h3 className="text-muted-foreground text-xs font-normal">
-                Smart Avg per Sqft
+                Smart Avg (SQFT)
               </h3>
               {isLoading ? (
                 <Skeleton className="h-3 w-[60%]" />

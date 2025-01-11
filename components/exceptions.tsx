@@ -1,8 +1,10 @@
+"use client";
 import React from "react";
 import { Button } from "./ui/button";
 import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/public/svg/social";
+import { useAuth } from "@/lib/auth";
 
 /**
  * Exceptions Component
@@ -50,6 +52,21 @@ const Exceptions: React.FC<ExceptionsProps> = ({
   onClick,
   className,
 }) => {
+  const auth = useAuth();
+
+  const sendWhatsAppMessage = () => {
+    const name = auth.user?.displayName ?? "User Name"; // Replace or dynamically assign user data
+    const email = auth.user?.email ?? "user@example.com";
+    const feature_name = title ?? "your concern here";
+
+    const message = `Hello 👋, I would like to request access to ${feature_name}. My name is ${name} and my email is ${email}. Thanks, ${name}`;
+    const whatsappUrl = `https://wa.me/<phone_number>?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <div
       className={cn("flex items-center justify-center h-[79.9vh] ", className)}
@@ -63,6 +80,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({
           <Button
             variant="outline"
             className="text-base font-normal text-secondary gap-2 hover:bg-none "
+            onClick={onClick || sendWhatsAppMessage}
           >
             <WhatsAppIcon className="w-5 h-5" />
             {buttonText}

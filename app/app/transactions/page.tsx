@@ -152,8 +152,8 @@ function TransactionPage() {
           ) : (
             <Exceptions
               svg={<SelectDataException />}
-              title="Selected details will showup here."
-              description="any drill down insights / selection will be shown here."
+              title="Select a transaction to see insights."
+              description="Detailed analysis for the selected transactions will be displayed here."
             />
           )}
         </div>

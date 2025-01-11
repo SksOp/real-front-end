@@ -131,7 +131,7 @@ function SidebarContent() {
           onClick={() => router.push("/app/key-metrics")}
         >
           <KeyMatricIcon />
-          Key Matrics
+          Key Metrics
         </Button>
         <Button
           variant="ghost"
@@ -300,7 +300,7 @@ function SidebarContent() {
       </div>
       <Separator />
       <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
-        <Button
+        {/* <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary-300 font-normal text-sm px-2"
         >
@@ -309,7 +309,7 @@ function SidebarContent() {
             <h3>Last updated at:</h3>
             <h3>23/DEC/2024 10:10:11</h3>
           </div>
-        </Button>
+        </Button> */}
 
         <Button
           variant="ghost"

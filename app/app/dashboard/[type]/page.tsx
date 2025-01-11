@@ -174,6 +174,9 @@ function DashboardDetailPage() {
                       />
                     ))}
                     <Feedback />
+                    <SharingCard
+                      link={`https://www.keypilot.io/app/dashboard/${dashboard?.key}`}
+                    />
                   </>
                 )}
               </div>
@@ -211,10 +214,7 @@ function DashboardDetailPage() {
                     onChange={handleFilterChange}
                   />
                   {loading ? (
-                    <div className="flex h-full  items-center justify-center">
-                      <MainLogo className="animate-spin-slow" />
-                      <div className="ml-2">Loading...</div>
-                    </div>
+                    <LoadingWidget className="min-h-[calc(100vh-10rem)]" />
                   ) : (
                     <>
                       {matrixData && matrixData[3].value === "N/A" ? (
@@ -308,7 +308,9 @@ function DashboardDetailPage() {
                               )
                             )}{" "}
                             <Feedback />
-                            <SharingCard />
+                            <SharingCard
+                              link={`https://www.keypilot.io/app/dashboard/${dashboard?.key}`}
+                            />
                           </div>
                         </div>
                       )}

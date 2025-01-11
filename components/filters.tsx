@@ -157,7 +157,9 @@ function Filters({
                                 htmlFor={`${select.key}-${option}`}
                                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                               >
-                                {option}
+                                {option === "12" && select.label === "Year"
+                                  ? "Last 12 months"
+                                  : option}
                               </Label>
                             </div>
                           </DrawerClose>
@@ -236,7 +238,9 @@ function Filters({
                               htmlFor={`${select.key}-${option}`}
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              {option}
+                              {option === "12" && select.label === "Year"
+                                ? "Last 12 months"
+                                : option}
                             </Label>
                           </div>
                         ))

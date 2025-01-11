@@ -112,7 +112,7 @@ function HomeTransactionCard() {
             </TabsTrigger>
             <TabsTrigger
               value="mortgage"
-              className="rounded-full border border-muted text-sm text-center font-normal text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
+              className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Mortgage
             </TabsTrigger>

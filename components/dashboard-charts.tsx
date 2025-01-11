@@ -109,6 +109,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
             data={selectedFilter?.data ?? data}
             xAxisDataKey={"year"}
             yAxisDataKeys={["value1", "value2"]}
+            className=""
           />
         );
 
@@ -197,7 +198,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           </TabsList>
         </Tabs>
       )}
-      <div className="overflow-x-scroll">
+      <div className="overflow-x-scroll w-full">
         {renderChart(
           type,
           getSelectedFilterData(),

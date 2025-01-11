@@ -10,7 +10,6 @@ import {
   ReferenceLine,
   Label,
   LabelList,
-  LabelProps,
 } from "recharts";
 import {
   ChartContainer,
@@ -21,11 +20,11 @@ import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
 
 interface DualBarChartComponentProps {
-  chartConfig: any; // Adjust this type according to the actual ChartConfig type
-  data: any[]; // You can make this more specific if you know the shape of your data
+  chartConfig: any;
+  data: any[];
   xAxisDataKey: string;
-  yAxisDataKeys: string[]; // Array of keys for multiple bars
-  barColors?: string[]; // Array of colors for each bar
+  yAxisDataKeys: string[];
+  barColors?: string[];
   barRadius?: number;
   gridStroke?: string;
   tickColor?: string;
@@ -46,15 +45,10 @@ interface DualBarChartComponentProps {
 }
 
 const formatYAxisTick = (value: number): string => {
-  if (value >= 1000000000) {
-    return (value / 1000000000).toFixed(0) + "B";
-  } else if (value >= 1000000) {
-    return (value / 1000000).toFixed(0) + "M";
-  } else if (value >= 1000) {
-    return (value / 1000).toFixed(0) + "K";
-  } else {
-    return value.toString();
-  }
+  if (value >= 1e9) return (value / 1e9).toFixed(0) + "B";
+  if (value >= 1e6) return (value / 1e6).toFixed(0) + "M";
+  if (value >= 1e3) return (value / 1e3).toFixed(0) + "K";
+  return value.toString();
 };
 
 const DualBarchart: React.FC<DualBarChartComponentProps> = ({
@@ -81,22 +75,7 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
   showInsideLabel = false,
   className,
 }) => {
-  // Find the maximum value across all yAxisDataKeys
-  const maxValue = Math.max(
-    ...data.flatMap((item) => yAxisDataKeys.map((key) => item[key]))
-  );
-
-  // Add padding (e.g., 10%) to the Y-axis maximum value
-  const yAxisPadding = maxValue * 0.1;
-  const yAxisMax = maxValue + yAxisPadding;
-
-  // Explicitly define ticks based on the max value and desired steps
-  const numberOfTicks = 5; // Change this to control the number of ticks
-  const tickInterval = Math.ceil(yAxisMax / numberOfTicks);
-  const yAxisTicks = Array.from(
-    { length: numberOfTicks + 1 },
-    (_, i) => i * tickInterval
-  );
+  const minBarWidth = 45;
 
   return (
     <ChartContainer
@@ -104,16 +83,21 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
       className={cn(
         "min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-auto",
         className
-      )} // Make the container horizontally scrollable
+      )}
     >
-      <ResponsiveContainer height={400}>
-        <BarChart data={data} margin={{ left: -15, top: 10 }} barGap={10}>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart
+          data={data}
+          margin={{ left: -15, top: 10 }}
+          barGap={10}
+          barCategoryGap={30}
+        >
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
             {...customGridProps}
           />
-          {showXAxis ? (
+          {showXAxis && (
             <XAxis
               dataKey={xAxisDataKey}
               tickLine={tickLine}
@@ -123,14 +107,13 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
               interval={"preserveStart"}
               {...customXAxisProps}
             />
-          ) : null}
+          )}
           <YAxis
             tickLine={tickLine}
             tickFormatter={formatYAxisTick}
             tickMargin={0}
             axisLine={axisLine}
-            domain={[0, yAxisMax]} // Use the padded Y-axis max
-            ticks={yAxisTicks} // Explicitly set ticks
+            domain={[0, "auto"]}
           />
           <Tooltip cursor={false} content={<ChartTooltipContent />} />
 
@@ -141,7 +124,7 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
               fill={barColors[index % barColors.length]}
               radius={barRadius}
               stroke={"#121212"}
-              overflow={"scroll"}
+              barSize={minBarWidth}
               {...customBarProps}
             >
               {!showXAxis && (
@@ -151,8 +134,6 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
                   angle={-90}
                   offset={18}
                   fontSize={14}
-                  textBreakAll={false}
-                  className="fill-[--color-label] "
                 />
               )}
               {showInsideLabel && (
@@ -162,37 +143,10 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
                   angle={0}
                   offset={8}
                   fontSize={16}
-                  stroke="2"
-                  fill="#121212"
                 />
               )}
             </Bar>
           ))}
-
-          {referance && (
-            <ReferenceLine
-              y={referanceValue}
-              stroke="hsl(var(--muted-foreground))"
-              strokeDasharray="3 3"
-              strokeWidth={1}
-            >
-              <Label
-                position="insideBottomLeft"
-                value={referance}
-                className="text-lg "
-                offset={10}
-                fill="#353535"
-              />
-              <Label
-                position="insideTopLeft"
-                value={referanceValue}
-                className="text-lg"
-                fill="#353535"
-                offset={10}
-                startOffset={100}
-              />
-            </ReferenceLine>
-          )}
         </BarChart>
       </ResponsiveContainer>
     </ChartContainer>

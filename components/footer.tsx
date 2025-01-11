@@ -1,15 +1,33 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TermsTrigger from "./termsTrigger";
 import PrivacyTrigger from "./privacyTrigger";
 import { MainLogo } from "@/public/svg/logo";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth";
 
 function Footer() {
   const router = useRouter();
-  const whatsappContactUrl =
-    "https://wa.me/<phone_number>?text=Hello%20Keypilot%20support";
+  const auth = useAuth();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [concern, setConcern] = useState("");
+
+  const whatsappContactUrl = `https://wa.me/<phone_number>?text=Hello%20%F0%9F%91%8B%2C%20my%20name%20is%20${encodeURIComponent(
+    name
+  )}%20and%20my%20email%20is%20${encodeURIComponent(
+    email
+  )}.%0AI%20need%20help%20with%20${encodeURIComponent(
+    concern
+  )}.%0AThanks%2C%20${encodeURIComponent(name)}`;
+
+  useEffect(() => {
+    setName(auth.user?.displayName ?? "name");
+    setEmail(auth.user?.email ?? "email");
+    setConcern("Your concern here");
+  }, []);
+
   return (
     <>
       <div className="w-full py-2 md:hidden ">

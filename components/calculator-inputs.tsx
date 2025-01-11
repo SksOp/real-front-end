@@ -125,7 +125,7 @@ function CalculatorInputs({
             {renderOptionalLabel()}
           </Label>
           <Input
-            type="text"
+            type="number"
             className="border rounded-lg bg-card"
             placeholder={placeholder || ""}
             value={value}
@@ -241,9 +241,11 @@ function CalculatorInputs({
             {renderOptionalLabel()}
           </Label>
           <Input
-            type="text"
+            type="number"
             className="border rounded-lg bg-card"
             placeholder={placeholder || ""}
+            max={max}
+            min={min}
             value={value}
             onChange={(e) => onChange(e.target.value)}
           />
@@ -268,7 +270,7 @@ function CalculatorInputs({
           <div className="flex items-center border border-input rounded-lg bg-card focus-within:ring-ring focus-within:ring-2 focus-within:outline-none">
             <span className="px-2 text-sm text-accent">AED</span>
             <Input
-              type="text"
+              type="number"
               className="focus-visible:ring-0 border-0 bg-card focus-visible:ring-offset-0 px-1"
               placeholder={placeholder || ""}
               value={value}

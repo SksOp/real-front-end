@@ -85,7 +85,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
     { icon: <TransactionIcon />, label: "Sales Transactions" },
     { icon: <TransactionIcon />, label: "Rental Transactions" },
     { icon: <MyPropertiesIcon />, label: "My Properties" },
-    { icon: <KeyMatricIcon />, label: "Key Matrics" },
+    { icon: <KeyMatricIcon />, label: "Key Metrics" },
     { icon: <MarketPulseIcon />, label: "Market Pulse" },
   ];
 
@@ -161,7 +161,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
                 {renderNavItems({ items: footerItems })}
                 <Separator />
                 <div className="flex flex-col gap-1 justify-start items-center w-full  pb-4">
-                  <Button
+                  {/* <Button
                     variant="ghost"
                     className="w-full justify-start items-center flex gap-3 text-secondary-300 font-normal text-sm px-2"
                   >
@@ -170,7 +170,7 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
                       <h3>Last updated at:</h3>
                       <h3>23/DEC/2024 10:10:11</h3>
                     </div>
-                  </Button>
+                  </Button> */}
 
                   <Button
                     variant="ghost"

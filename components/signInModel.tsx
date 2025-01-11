@@ -37,7 +37,7 @@ function SignInModel() {
 
       return;
     }
-    if (!email || !password) {
+    if (!email || !password || !name) {
       toast({
         title: "Uh oh! Something went wrong.",
         description: "Please fill in all the required fields.",
@@ -119,7 +119,7 @@ function SignInModel() {
         {/* Name Input */}
         <div className="flex flex-col gap-3 w-full max-w-sm">
           <Label htmlFor="name" className="text-secondary font-normal text-sm">
-            Name
+            Name <span className="text-red-500">*</span>
           </Label>
           <Input
             type="text"

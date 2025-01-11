@@ -321,13 +321,13 @@ function Navbar({
                     Sign Out
                   </Button>
 
-                  <Button
-                    variant={"ghost"}
-                    className="text-secondary-500 text-sm font-normal gap-1"
-                  >
-                    <UpdateIcon />
-                    Last Updated at: 23/DEC/2024 10:10:11
-                  </Button>
+                  {/* <Button
+                      variant={"ghost"}
+                      className="text-secondary-500 text-sm font-normal gap-1"
+                    >
+                      <UpdateIcon />
+                      Last Updated at: 23/DEC/2024 10:10:11
+                    </Button> */}
                   <Button
                     variant={"ghost"}
                     className="text-secondary-500 text-sm font-normal gap-1"
