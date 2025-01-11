@@ -404,6 +404,7 @@ export const PlannedPropertiesByCompletionPercentage = async (
         "90-100": { color: "#FFE2E2" },
       },
       sub_charts: [],
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {

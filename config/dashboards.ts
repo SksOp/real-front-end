@@ -790,7 +790,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "future_properties_per_area",
         calculate: async (params, token) => {
-          return await FuturePropertySupplyPerArea(params, token);
+          return (await FuturePropertySupplyPerArea(params, token)) as any;
         },
       },
       {

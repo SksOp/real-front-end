@@ -168,10 +168,7 @@ function MarketPulseList() {
                 <MarketPulseCard type={activeTab} {...transaction} />
               </DrawerTrigger>
               <DrawerContent className="max-h-[80vh] p-0 ">
-                <InsightDrawerView
-                  priceperSqft={transaction.avg_price_per_sqft}
-                  location_name={transaction.area_name}
-                />
+                <InsightDrawerView location_name={transaction.area_name} />
               </DrawerContent>
             </Drawer>
           ))}
@@ -189,10 +186,7 @@ function MarketPulseList() {
                 <MarketPulseCard type={activeTab} {...transaction} />
               </SheetTrigger>
               <SheetContent className="p-0 max-h-full min-w-[30%] overflow-y-auto pb-2">
-                <InsightDrawerView
-                  priceperSqft={transaction.avg_price_per_sqft}
-                  location_name={transaction.area_name}
-                />
+                <InsightDrawerView location_name={transaction.area_name} />
               </SheetContent>
             </Sheet>
           ))}
@@ -212,10 +206,7 @@ function MarketPulseList() {
                 <MarketPulseCard type={activeTab} {...transaction} />
               </DrawerTrigger>
               <DrawerContent className="max-h-[80vh] p-0 ">
-                <InsightDrawerView
-                  priceperSqft={transaction.avg_price_per_sqft}
-                  location_name={transaction.area_name}
-                />
+                <InsightDrawerView location_name={transaction.area_name} />
               </DrawerContent>
             </Drawer>
           ))}
@@ -233,10 +224,7 @@ function MarketPulseList() {
                 <MarketPulseCard type={activeTab} {...transaction} />
               </SheetTrigger>
               <SheetContent className="p-0 max-h-full min-w-[30%] overflow-y-auto pb-2">
-                <InsightDrawerView
-                  priceperSqft={transaction.avg_price_per_sqft}
-                  location_name={transaction.area_name}
-                />
+                <InsightDrawerView location_name={transaction.area_name} />
               </SheetContent>
             </Sheet>
           ))}

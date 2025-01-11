@@ -232,7 +232,7 @@ export const SupplyMatrices: Matrix[] = [
     calculate_charts: {
       key: "future_property_supply_per_area",
       calculate: async (params, token) => {
-        return await FuturePropertySupplyPerArea(params, token);
+        return (await FuturePropertySupplyPerArea(params, token)) as any;
       },
     },
   },
