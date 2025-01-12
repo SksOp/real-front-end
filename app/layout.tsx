@@ -5,9 +5,8 @@ import RootProvider from "./root-provider";
 import Head from "next/head";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
-import GoogleAnalytics from "@/components/googleAnalytics";
-import LoadingWidget from "@/components/loadingWidget";
-import { Suspense } from "react";
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 const inter = Inter({ subsets: ["greek"], display: "swap" });
 
 export const metadata: Metadata = {
@@ -45,10 +44,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content=" Keypilot" />
         <link rel="manifest" href="/manifest.ts" />
       </Head>
-      <GoogleAnalytics />
+
       <body className={cn(inter.className, "select-none")}>
         <RootProvider>{children}</RootProvider>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_MEASUREMENT_ID ?? ""} />
     </html>
   );
 }
