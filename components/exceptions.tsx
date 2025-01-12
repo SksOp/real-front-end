@@ -60,7 +60,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({
     const feature_name = title ?? "your concern here";
 
     const message = `Hello 👋, I would like to request access to ${feature_name}. My name is ${name} and my email is ${email}. Thanks, ${name}`;
-    const whatsappUrl = `https://wa.me/<phone_number>?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/+971508864725?text=${encodeURIComponent(
       message
     )}`;
 

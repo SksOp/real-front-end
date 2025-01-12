@@ -166,7 +166,8 @@ function HomeTransactionCard() {
           <Info size={16} className="stroke-accent" />
           {auth.user ? (
             <h3 className="text-sm font-normal truncate text-accent">
-              2024 data in comparison with previous year is shown.
+              {new Date().getFullYear()} data in comparison with previous year
+              is shown.
             </h3>
           ) : (
             <h3 className="text-sm font-normal truncate text-accent flex gap-1">

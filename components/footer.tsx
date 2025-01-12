@@ -14,7 +14,7 @@ function Footer() {
   const [email, setEmail] = useState("");
   const [concern, setConcern] = useState("");
 
-  const whatsappContactUrl = `https://wa.me/<phone_number>?text=Hello%20%F0%9F%91%8B%2C%20my%20name%20is%20${encodeURIComponent(
+  const whatsappContactUrl = `https://wa.me/+971508864725?text=Hello%20%F0%9F%91%8B%2C%20my%20name%20is%20${encodeURIComponent(
     name
   )}%20and%20my%20email%20is%20${encodeURIComponent(
     email
