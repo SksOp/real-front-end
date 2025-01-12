@@ -15,6 +15,7 @@ export const FetchAndStoreOptions = async (
     storedTimestamp &&
     now - parseInt(storedTimestamp) < expirationTime
   ) {
+    console.log("Data fetched from local storage");
     return JSON.parse(storedData);
   }
 
@@ -25,7 +26,7 @@ export const FetchAndStoreOptions = async (
       },
     });
     const data = response.data;
-    const uniqueData = data.data.result;
+    const uniqueData = data.result;
     // const uniqueData = ["All", ...data.data];
     if (Array.isArray(uniqueData)) {
       localStorage.setItem(key, JSON.stringify(uniqueData));

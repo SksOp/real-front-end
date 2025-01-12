@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 type NetworkStatus = "online" | "offline";
@@ -11,14 +13,12 @@ type NetworkStatus = "online" | "offline";
  */
 
 const useNetwork = (): NetworkStatus => {
-  const [status, setStatus] = useState<NetworkStatus>(
-    window.navigator.onLine ? "online" : "offline"
-  );
+  const [status, setStatus] = useState<NetworkStatus>("online");
 
   useEffect(() => {
-    /**
-     * Handles changes in the online status of the browser.
-     */
+    // Set initial status on the client side
+    const initialStatus = window.navigator.onLine ? "online" : "offline";
+    setStatus(initialStatus);
 
     const handleOnlineStatusChange = () => {
       setStatus(window.navigator.onLine ? "online" : "offline");

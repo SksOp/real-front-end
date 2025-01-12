@@ -110,7 +110,7 @@ export const Calculators: Calculator[] = [
       },
       { key: "insights", label: "Insights", type: "insights" },
     ],
-    calculate: async (inputs) => {
+    calculate: async (inputs, token) => {
       const {
         usage_type,
         choose_location,
@@ -132,8 +132,11 @@ export const Calculators: Calculator[] = [
             usage: usage_type,
             project: choose_project,
             prop_sub_type: "",
-            room: "",
+            room: no_of_bedrooms,
             IS_OFFPLAN_EN: "",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
@@ -187,7 +190,7 @@ export const Calculators: Calculator[] = [
         key: "sale_type",
         label: "Sale Type",
         type: "radio",
-        options: ["First Rental", "Renewal"],
+        options: ["New", "Renew"],
         is_mandatory: true,
       },
       {
@@ -275,7 +278,7 @@ export const Calculators: Calculator[] = [
       { key: "insights", label: "Insights", type: "insights" },
     ],
 
-    calculate: async (inputs) => {
+    calculate: async (inputs, token) => {
       const {
         usage_type,
         sale_type,
@@ -283,43 +286,27 @@ export const Calculators: Calculator[] = [
         choose_project,
         property_type,
       } = inputs;
-      const current_year = new Date().getFullYear();
+      const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
       try {
-        const response = await axios.get(`${BASE_URL}/api/rental`, {
-          params: {
-            year: current_year,
-            area_en: choose_location,
-            property_type: property_type,
-            usage_type: usage_type,
+        const response = await axios.post(`${BASE_URL}/api/calculator/rental`, {
+          start_year: current_year,
+          end_year: current_year,
+          saleType: sale_type,
+          room: "",
+          location: choose_location,
+          propType: property_type,
+          usage: usage_type,
+          project: choose_project,
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         });
         console.log("response: ", response);
-        //step 2: calculate the average value based on the above filter [per sqft value]
-        const rentalDatas = response.data.data.data;
-        if (rentalDatas.length === 0) {
-          throw new Error("No transactions found for the specified filters.");
-        }
-        console.log("rentalDatas Calc: ", rentalDatas);
-        const totalValue = rentalDatas.reduce((sum: number, rents: any) => {
-          const startDate = new Date(rents.START_DATE.value);
-          const endDate = new Date(rents.END_DATE.value);
-          const totalYears = endDate.getFullYear() - startDate.getFullYear();
 
-          const rentPerMonth = rents.ANNUAL_AMOUNT
-            ? rents.ANNUAL_AMOUNT
-            : rents.CONTRACT_AMOUNT / totalYears;
-          return sum + rentPerMonth;
-        }, 0);
+        const totalConfidence = response.data.result.row_used;
 
-        const totalConfidence = rentalDatas.reduce(
-          (sum: number, rentalData: any) => {
-            return sum + rentalData.number_of_Row_Used;
-          },
-          0
-        );
-
-        const estimated_rental_value = totalValue / rentalDatas.length;
+        const estimated_rental_value = response.data.result.avg_annual_amount;
         return {
           estimated_rental_value: estimated_rental_value.toFixed(2),
           confidenceLevel: totalConfidence,
@@ -334,8 +321,8 @@ export const Calculators: Calculator[] = [
       } catch (error) {
         console.error(`Error fetching data :`, error);
         return {
-          estimated_rental_value: "Data not found for the specified filters.",
-          insights: `Cannot calculate the estimated sales value.`,
+          estimated_rental_value: "N/A",
+          insights: `N/A`,
         };
       }
       //calculation approach is same as the sales_value_estimator
