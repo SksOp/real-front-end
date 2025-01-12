@@ -578,7 +578,7 @@ export const RentalTransactionApi = async (
         date,
         pricePerSqFt: DIFFERENCE, // Assuming static for now
         badges: [
-          transaction?.isOffplan ? "OffPlan" : "Resale",
+          transaction?.VERSION === "Renewed" ? "Renew" : transaction?.VERSION,
           transaction?.PROP_TYPE_EN || "N/A",
           transaction?.USAGE_EN || "N/A",
         ],
