@@ -95,8 +95,7 @@ export const AnnualPropertySalesVolume = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -146,8 +145,7 @@ export const AnnualPropertySalesValue = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -219,8 +217,7 @@ export const SalesVolumeProportion = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -292,8 +289,7 @@ export const SalesValueProportion = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -348,8 +344,7 @@ export const OffPlanPricePErSqft = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartData, // Calculated data will be here
     };
   } catch (error) {
@@ -437,8 +432,7 @@ export const AverageValueByRoom = async (token?: string | null) => {
         Penthouse: { color: "#FCF8D1" },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: chartsData, // Calculated data will be here
     };
   } catch (error) {
@@ -457,8 +451,7 @@ export const AverageValueByRoom = async (token?: string | null) => {
         Penthouse: { color: "#FCF8D1" },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+
       data: [], // Calculated data will be here
     };
   }

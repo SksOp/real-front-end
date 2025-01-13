@@ -25,12 +25,12 @@ export const ToolboxItems: ToolboxItem[] = [
   {
     title: "Insights",
     svg: <InsightLogo />,
-    linkto: "/app/dashboard",
+    linkto: "/app/dashboards",
   },
   {
     title: "Calculators",
     svg: <CalculatorLogo />,
-    linkto: "/app/calculator",
+    linkto: "/app/calculators",
   },
   {
     title: "Key Metrics",

@@ -125,6 +125,8 @@ export interface ChartDescription {
     | percentile_bar;
   chartConfig: ChartConfig;
   data: any[];
+  xAxisKey?: string;
+  yAxisKey?: string[];
   columns?: string[];
   styles?: ClassValue;
   otherInfo?: {

@@ -14,6 +14,7 @@ function IntoCard({
   linkto,
   soon = false,
   selected = false,
+  className,
 }: IntroCardProps) {
   const router = useRouter();
 
@@ -21,7 +22,8 @@ function IntoCard({
     <Card
       className={cn(
         "relative flex flex-row items-center gap-4 px-4 py-5 bg-[#F7F6F8] rounded-2xl shadow-none cursor-pointer group",
-        selected && "border border-primary-700"
+        selected && "border border-primary-700",
+        className
       )}
       onClick={() => linkto && router.push(linkto)}
     >

@@ -20,6 +20,7 @@ function HomeKeypilot() {
             avatar={item.avatar}
             avatarBg={item.avatarBg}
             linkto={item.linkto}
+            className="cursor-default"
           />
         ))}
       </CardContent>

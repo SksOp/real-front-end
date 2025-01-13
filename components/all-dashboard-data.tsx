@@ -42,7 +42,7 @@ function DashboardData({ className }: { className?: ClassValue }) {
     dashboard.key === "explore" ? (
       <Link
         key={dashboard.key}
-        href={`/app/dashboard/explore`}
+        href={`/app/dashboards/explore`}
         onClick={() => setSelectedDashboard(dashboard.key)}
         className={cn("col-span-2 bg-background")}
         shallow={true}
@@ -75,7 +75,7 @@ function DashboardData({ className }: { className?: ClassValue }) {
     ) : (
       <Link
         key={dashboard.key}
-        href={`/app/dashboard/${dashboard.key}`}
+        href={`/app/dashboards/${dashboard.key}`}
         onClick={() => setSelectedDashboard(dashboard.key)}
         shallow={true}
       >
@@ -84,7 +84,7 @@ function DashboardData({ className }: { className?: ClassValue }) {
           title={dashboard.name}
           description={dashboard.description}
           avatar={<TransactionInsightLogo />}
-          linkto={`/app/dashboard/${dashboard.key}`}
+          linkto={`/app/dashboards/${dashboard.key}`}
         />
       </Link>
     );

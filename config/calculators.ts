@@ -158,7 +158,7 @@ export const Calculators: Calculator[] = [
         console.error(`Error fetching data :`, error);
         return {
           estimated_sales_value: "N/A",
-          insights: "N/A",
+          insights: "Data not found for the area",
         };
       }
       //step 4: exception: when the query by sending developer and project returns more than 25 values, average of this value is also displayed in the UI, ill show you how in the design.
@@ -322,7 +322,7 @@ export const Calculators: Calculator[] = [
         console.error(`Error fetching data :`, error);
         return {
           estimated_rental_value: "N/A",
-          insights: `N/A`,
+          insights: "Data not found for the area",
         };
       }
       //calculation approach is same as the sales_value_estimator

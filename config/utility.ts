@@ -557,8 +557,8 @@ export const RentalTransactionApi = async (
     );
 
     const transactionData = response.result.data.map((transaction: any) => {
-      const date = transaction?.START_DATE?.value
-        ? new Date(transaction.START_DATE.value)
+      const date = transaction?.REGISTRATION_DATE?.value
+        ? new Date(transaction.REGISTRATION_DATE.value)
         : null;
       const areaInSqft =
         FormatValue((transaction?.ACTUAL_AREA * 10.764).toFixed(2)) || "N/A";

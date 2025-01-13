@@ -162,8 +162,7 @@ export const RentalValueTrend = async (
         },
       },
       sub_charts: [],
-      insights:
-        "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+      
       data: [], // Calculated data will be here
     };
   }
@@ -772,8 +771,7 @@ export const RentalSegmentation = async (
             },
           ],
           data: allData?.free_hold_en, // Calculated data will be here
-          insights:
-            "Lorem ipsum 4% sit amet consectetur. Gravida augue aliquam interdum morbi eu elit. Neque Average price: 750000. ",
+          
         },
         {
           key: "property_status",

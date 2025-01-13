@@ -96,7 +96,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/dashboard")}
+          onClick={() => router.push("/app/dashboards")}
         >
           <DashboardIcon />
           Dashboards
@@ -104,7 +104,7 @@ function SidebarContent() {
         <Button
           variant="ghost"
           className="w-full justify-start items-center flex gap-3 text-secondary font-normal text-sm px-2"
-          onClick={() => router.push("/app/calculator")}
+          onClick={() => router.push("/app/calculators")}
         >
           <CalculatorIcon />
           Calculators

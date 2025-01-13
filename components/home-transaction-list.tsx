@@ -54,7 +54,7 @@ function HomeTransactionList() {
           {auth.user ? (
             <h3
               className="text-sm font-semibold text-primary cursor-pointer"
-              onClick={() => router.push("/app/dashboard")}
+              onClick={() => router.push("/app/dashboards")}
             >
               View All
             </h3>

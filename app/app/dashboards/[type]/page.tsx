@@ -175,7 +175,7 @@ function DashboardDetailPage() {
                     ))}
                     <Feedback />
                     <SharingCard
-                      link={`https://www.keypilot.io/app/dashboard/${dashboard?.key}`}
+                      link={`https://www.keypilot.io/app/dashboards/${dashboard?.key}`}
                     />
                   </>
                 )}
@@ -309,7 +309,7 @@ function DashboardDetailPage() {
                             )}{" "}
                             <Feedback />
                             <SharingCard
-                              link={`https://www.keypilot.io/app/dashboard/${dashboard?.key}`}
+                              link={`https://www.keypilot.io/app/dashboards/${dashboard?.key}`}
                             />
                           </div>
                         </div>

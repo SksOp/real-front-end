@@ -52,7 +52,7 @@ function Navbar({
               <TabsTrigger
                 value="dashboards"
                 className="text-sm"
-                onClick={() => router.push("/app/dashboard")}
+                onClick={() => router.push("/app/dashboards")}
               >
                 Dashboards
               </TabsTrigger>
@@ -66,7 +66,7 @@ function Navbar({
               <TabsTrigger
                 value="calculators"
                 className="text-sm"
-                onClick={() => router.push("/app/calculator")}
+                onClick={() => router.push("/app/calculators")}
               >
                 Calculators
               </TabsTrigger>

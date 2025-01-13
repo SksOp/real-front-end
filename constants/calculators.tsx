@@ -16,7 +16,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Sales Value Estimator",
     description:
       "Estimate current property sales value based on market trends and attributes.",
-    linkto: "/app/calculator/sales_value_estimator",
+    linkto: "/app/calculators/sales_value_estimator",
     avatar: <SalesValueIcon />,
     avatarBg: "bg-[#F8CBDB]",
   },
@@ -25,7 +25,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Rental Value Estimator",
     description:
       "Calculate the optimal rental price using property features and market benchmarks.",
-    linkto: "/app/calculator/rental_value_estimator",
+    linkto: "/app/calculators/rental_value_estimator",
     avatar: <RentalInsightLogo />,
     avatarBg: "bg-[#A6E5FF]",
   },
@@ -34,7 +34,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Mortgage Payment Calculator",
     description:
       "Calculate mortgage payments, rates, and affordability for property financing.",
-    linkto: "/app/calculator/mortgage_payment_calculator",
+    linkto: "/app/calculators/mortgage_payment_calculator",
     avatar: <MortgageInsightLogo />,
     avatarBg: "bg-[#F7CFB4]",
   },
@@ -43,7 +43,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Investment ROI Estimator",
     description:
       "Estimate property investment returns and future profitability for better decision-making.",
-    linkto: "/app/calculator/investment_roi_calculator",
+    linkto: "/app/calculators/investment_roi_calculator",
     avatar: <ROIIcon />,
     avatarBg: "bg-[#C5DCFF]",
   },
@@ -52,7 +52,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Rent vs Buy Comparison Tool",
     description:
       "Compare financial benefits of renting versus buying a property over time.",
-    linkto: "/app/calculator/rent_vs_buy_comparison_tool",
+    linkto: "/app/calculators/rent_vs_buy_comparison_tool",
     avatar: <RentVsBuyIcon />,
     avatarBg: "bg-[#F9F09D]",
   },
@@ -61,7 +61,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Home Affordability Calculator",
     description:
       "Assess the budget and affordability of purchasing a property based on finances.",
-    linkto: "/app/calculator/home_affordability_calculator",
+    linkto: "/app/calculators/home_affordability_calculator",
     avatar: <HomeAffIcon />,
     avatarBg: "bg-[#BAF1CA]",
   },
@@ -70,7 +70,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Incentive Calculator",
     description:
       "Calculate agent incentives based on sales performance and targets.",
-    linkto: "/app/calculator/incentive_calculator",
+    linkto: "/app/calculators/incentive_calculator",
     avatar: <IncentiveIcon />,
     avatarBg: "bg-[#C5DCFF]",
     soon: true,
@@ -79,7 +79,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     key: "commission_goal_planner",
     title: "Commission Goal Planner",
     description: "Set and plan commission goals to achieve earnings targets.",
-    linkto: "/app/calculator/commission_goal_planner",
+    linkto: "/app/calculators/commission_goal_planner",
     avatar: <GoalPlannerIcon />,
     avatarBg: "bg-[#F8CBDB]",
     soon: true,
@@ -89,7 +89,7 @@ export const CalculatorsItems: IntroCardProps[] = [
     title: "Service Charges Estimator",
     description:
       "Estimate service charges for different property types and locations.",
-    linkto: "/app/calculator/service_charges_estimator",
+    linkto: "/app/calculators/service_charges_estimator",
     avatar: <ServiceCharge />,
     avatarBg: "bg-[#BAF1CA]",
     soon: true,

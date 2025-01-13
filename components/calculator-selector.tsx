@@ -18,7 +18,7 @@ function CalculatorSelector({ className }: { className?: ClassValue }) {
   const createLink = (calculator: Calculator) => (
     <Link
       key={calculator.key}
-      href={`/app/calculator/${calculator.key}`}
+      href={`/app/calculators/${calculator.key}`}
       onClick={() => setSelectedCalculator(calculator.key)}
     >
       <DataCards

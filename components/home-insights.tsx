@@ -14,7 +14,7 @@ function HomeInsights() {
         <>
           <DataCards
             className="bg-[#EEFBFC]"
-            onClick={() => router.push("/app/dashboard")}
+            onClick={() => router.push("/app/dashboards")}
           >
             <div className="flex flex-col gap-3">
               <DashboardIcon className="w-6 h-6" />
@@ -29,7 +29,7 @@ function HomeInsights() {
           </DataCards>
           <DataCards
             className="bg-[#EEFCEF]"
-            onClick={() => router.push("/app/calculator")}
+            onClick={() => router.push("/app/calculators")}
           >
             <div className="flex flex-col gap-3">
               <CalculatorIcon className="w-6 h-6" />

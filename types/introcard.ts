@@ -9,4 +9,5 @@ export interface IntroCardProps {
   avatarBg?: ClassValue;
   soon?: boolean;
   selected?: boolean;
+  className?: ClassValue;
 }

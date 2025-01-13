@@ -16,7 +16,7 @@ export const useCaseItems: IntroCardProps[] = [
     title: "Sales Insights",
     description:
       "All sales related insights including bench marking for advanced user friendly insights.",
-    linkto: "/app/dashboard/overall_market_transactions",
+    linkto: "/app/dashboards/overall_market_transactions",
     avatar: <SalesInsightLogo />,
     avatarBg: "bg-[#F8CBDB]",
   },
@@ -25,7 +25,7 @@ export const useCaseItems: IntroCardProps[] = [
     title: "Rental Insights",
     description:
       "Rental data insights with complete market overview. Various usecases covered.",
-    linkto: "/app/dashboard/rental_market_trends",
+    linkto: "/app/dashboards/rental_market_trends",
     avatar: <RentalInsightLogo />,
     avatarBg: "bg-[#A6E5FF]",
   },
@@ -34,7 +34,7 @@ export const useCaseItems: IntroCardProps[] = [
     title: "Mortgage Analytics",
     description:
       "Mortgage trends & complete market overview. Advanced filters and segmentation.",
-    linkto: "/app/dashboard/mortgage_transactions_analysis",
+    linkto: "/app/dashboards/mortgage_transactions_analysis",
     avatar: <MortgageInsightLogo />,
     avatarBg: "bg-[#F7CFB4]",
   },
@@ -43,7 +43,7 @@ export const useCaseItems: IntroCardProps[] = [
     title: "Supply Analysis",
     description:
       "Overview of current and upcoming supply in comparison with the demand and price.",
-    linkto: "/app/dashboard/supply_trends_dashboard",
+    linkto: "/app/dashboards/supply_trends_dashboard",
     avatar: <SupplyInsightLogo />,
     avatarBg: "bg-[#CBD5E1]",
   },
@@ -52,7 +52,7 @@ export const useCaseItems: IntroCardProps[] = [
     title: "Offplan Analysis",
     description:
       "Keep yourself updated on offplan properties and selling prices. A detailed analysis.",
-    linkto: "/app/dashboard/offplan_market_insights",
+    linkto: "/app/dashboards/offplan_market_insights",
     avatar: <OffplanInsightLogo />,
     avatarBg: "bg-[#D9F99D]",
   },
@@ -79,7 +79,7 @@ export const useCaseItems: IntroCardProps[] = [
     title: "Price Indexes",
     description:
       "DLD provided index ranges segmented by property types. All index compared.",
-    linkto: "/app/dashboard/sales_price_index",
+    linkto: "/app/dashboards/sales_price_index",
     avatar: <PriceIndexInsightLogo />,
     avatarBg: "bg-[#A7F3D0]",
   },

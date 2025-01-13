@@ -134,7 +134,7 @@ function Navbar({
               <TabsTrigger
                 value="dashboards"
                 className="text-sm flex items-center gap-1 rounded-sm"
-                onClick={() => router.push("/app/dashboard")}
+                onClick={() => router.push("/app/dashboards")}
               >
                 {selectedTab === "dashboards" && <DashboardIcon />}
                 Dashboards
@@ -143,7 +143,7 @@ function Navbar({
               <TabsTrigger
                 value="calculators"
                 className="text-sm flex items-center gap-1 rounded-sm"
-                onClick={() => router.push("/app/calculator")}
+                onClick={() => router.push("/app/calculators")}
               >
                 {selectedTab === "calculators" && <CalculatorIcon />}
                 Calculators

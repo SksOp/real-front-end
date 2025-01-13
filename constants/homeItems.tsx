@@ -22,7 +22,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     title: "Dashboards",
     description:
       "Customizable dashboards tailored for Dubai’s property market insights and trends.",
-    linkto: "/app/dashboard",
+    linkto: "/app/dashboards",
     avatar: <DashboardsIcon />,
     avatarBg: "bg-[#F7CFB4]",
   },
@@ -31,7 +31,7 @@ export const HomeMatricsItems: IntroCardProps[] = [
     title: "Calculators",
     description:
       "Advanced calculators, AI estimators, and ROI tools for brokers in Dubai.",
-    linkto: "/app/calculator",
+    linkto: "/app/calculators",
     avatar: <CalculatorsIcon />,
     avatarBg: "bg-[#F8CBDB]",
   },

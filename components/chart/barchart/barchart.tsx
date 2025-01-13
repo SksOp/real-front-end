@@ -125,7 +125,10 @@ const Barchart: React.FC<BarChartComponentProps> = ({
             domain={[0, yAxisMax]} // Use the padded Y-axis max
             ticks={yAxisTicks} // Explicitly set ticks
           />
-          <Tooltip cursor={false} content={<ChartTooltipContent />} />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent indicator="line" />}
+          />
 
           {yAxisDataKeys.map((key, index) => (
             <Bar
