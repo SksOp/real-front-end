@@ -75,22 +75,20 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
   showInsideLabel = false,
   className,
 }) => {
-  const minBarWidth = 45;
-
   return (
     <ChartContainer
       config={chartConfig}
       className={cn(
-        "min-h-[280px] max-h-[400px] min-w-fit w-full overflow-x-auto",
+        "min-h-[280px] max-h-[400px] w-full min-w-fit overflow-x-auto",
         className
       )}
     >
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width={"100%"} height={400}>
         <BarChart
           data={data}
           margin={{ left: -15, top: 10 }}
-          barGap={10}
-          barCategoryGap={30}
+          barGap={5}
+          barCategoryGap={8}
         >
           <CartesianGrid
             vertical={false}
@@ -104,8 +102,7 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
               tickMargin={tickMargin}
               axisLine={axisLine}
               tickFormatter={tickFormatter}
-              interval={"preserveStart"}
-              {...customXAxisProps}
+              interval={"preserveStartEnd"}
             />
           )}
           <YAxis
@@ -124,7 +121,7 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
               fill={barColors[index % barColors.length]}
               radius={barRadius}
               stroke={"#121212"}
-              barSize={minBarWidth}
+              barSize={30}
               {...customBarProps}
             >
               {!showXAxis && (

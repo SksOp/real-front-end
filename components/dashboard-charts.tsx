@@ -118,7 +118,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
           <StackedBarchart
             chartConfig={chartConfig}
             data={selectedFilter?.data ?? data}
-            xAxisDataKey={"month"}
+            xAxisDataKey={"year"}
             yAxisDataKeys={["offplan", "ready"]}
           />
         );

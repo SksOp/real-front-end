@@ -56,6 +56,8 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
   isSelected,
   onClick,
 }) => {
+  const capitalizeWords = (str: string) =>
+    str.replace(/\b\w/g, (char) => char.toUpperCase());
   return (
     <TableRow
       className={cn(
@@ -78,7 +80,7 @@ const TransactionTableRow: React.FC<TransactionTableRowProps> = ({
               "bg-[#CBE5FB] text-muted-foreground font-semibold py-1 truncate max-w-[150px]"
             }
           >
-            {areaName}
+            {capitalizeWords(areaName.toLowerCase())}
           </Badge>
           <div className="flex gap-1 ml-2">
             <h3 className="text-secondary text-sm font-semibold">

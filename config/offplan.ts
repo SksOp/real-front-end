@@ -71,7 +71,7 @@ export const AnnualPropertySalesVolume = async (token?: string | null) => {
     const response = await ApiService(
       "transaction",
       "offplan",
-      { start_year: 2010, end_year: 2024 },
+      { start_year: 2019, end_year: 2024 },
       token
     );
 
@@ -122,7 +122,7 @@ export const AnnualPropertySalesValue = async (token?: string | null) => {
     const response = await ApiService(
       "transaction",
       "offplan",
-      { start_year: 2010, end_year: 2024 },
+      { start_year: 2019, end_year: 2024 },
       token
     );
 

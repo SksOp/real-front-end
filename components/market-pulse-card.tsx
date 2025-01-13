@@ -46,6 +46,10 @@ function MarketPulseCard({
       />
     );
   };
+
+  const capitalizeWords = (str: string) =>
+    str.replace(/\b\w/g, (char) => char.toUpperCase());
+
   return (
     <Card className="relative border rounded-2xl bg-background w-full p-3 flex flex-col gap-3">
       <CardHeader className="p-0 flex flex-col gap-1">
@@ -53,7 +57,7 @@ function MarketPulseCard({
           variant="outline"
           className="bg-[#CBE5FB] text-muted-foreground font-semibold py-1 truncate w-fit"
         >
-          {area_name}
+          {capitalizeWords(area_name.toLowerCase())}
         </Badge>
         <div className="flex justify-between items-center">
           <div className="flex flex-col items-center justify-start gap-2 w-1/4 ">

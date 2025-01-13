@@ -14,7 +14,12 @@ function EstimationCard({
   value,
   confidenceLevel = 0,
 }: CalculatorResultHeaderProps) {
-  console.log(value);
+  const formatValue = (val: number | string) => {
+    const numValue = typeof val === "string" ? Number(val) : val;
+    return !isNaN(numValue)
+      ? new Intl.NumberFormat("en-US").format(numValue)
+      : val;
+  };
   return (
     <Card className="border rounded-lg p-4 flex flex-col gap-3 w-full">
       {value === "N/A" ? (
@@ -24,7 +29,7 @@ function EstimationCard({
           <h3 className="text-muted-foreground text-sm font-normal">{title}</h3>
           <div className="flex gap-1">
             <h3 className="text-secondary font-bold text-[1.6rem]">
-              {value} AED{" "}
+              {formatValue(value)} AED{" "}
             </h3>
           </div>
           <div className="w-full flex justify-center items-center gap-1">

@@ -70,6 +70,9 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
   //   props.PROP_TYPE_EN,
   // ];
 
+  const capitalizeWords = (str: string) =>
+    str.replace(/\b\w/g, (char) => char.toUpperCase());
+
   return (
     <Card className="relative border rounded-2xl bg-background w-full p-3 flex flex-col gap-3">
       <CardHeader className="p-0 flex flex-col gap-1">
@@ -123,7 +126,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ ...props }) => {
         <div className="flex justify-start gap-2 items-center">
           <LocationIcon />
           <p className="text-muted-foreground text-xs font-normal">
-            {props.areaName}
+            {capitalizeWords(props.areaName.toLowerCase())}
           </p>
         </div>
       </CardHeader>

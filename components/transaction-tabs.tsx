@@ -80,7 +80,12 @@ function TransactionTabs({
 
   const handleOrderChange = (order: string) => {
     setSortedBy(order);
-    setFilters((prev) => ({ ...prev, ["orderBy"]: order }));
+    setFilters((prev) => ({
+      ...prev,
+      orderBy: order,
+      sequence:
+        prev.orderBy === order && prev.sequence === "asc" ? "dsc" : "asc",
+    }));
   };
 
   const hasFilters =
@@ -125,7 +130,7 @@ function TransactionTabs({
                   onClick={() => handleOrderChange("area")}
                   className="cursor-pointer flex items-center gap-2"
                 >
-                  By Name
+                  By Area Name
                   {sortedBy === "area" && <Check size={20} />}
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -190,7 +195,7 @@ function TransactionTabs({
                   onClick={() => handleOrderChange("area")}
                   className="cursor-pointer flex items-center gap-2 "
                 >
-                  By Name
+                  By Area Name
                   {sortedBy === "area" && <Check size={20} />}
                 </DropdownMenuItem>
                 <DropdownMenuItem

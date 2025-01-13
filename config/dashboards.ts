@@ -857,7 +857,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "annual_property_sales_volume",
         calculate: async (params, token) => {
-          return await AnnualPropertySalesVolume(token);
+          return (await AnnualPropertySalesVolume(token)) as any;
         },
       },
       {
