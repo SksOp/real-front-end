@@ -138,9 +138,8 @@ export const RentalValueTrend = async (
       ],
       chart_type: "bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -162,7 +161,7 @@ export const RentalValueTrend = async (
         },
       },
       sub_charts: [],
-      
+
       data: [], // Calculated data will be here
     };
   }
@@ -290,8 +289,8 @@ export const RentalTrend = async (
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
+        value1: {
+          label: "Total Value",
           color: "hsl(var(--chart-1))",
         },
       },
@@ -771,7 +770,6 @@ export const RentalSegmentation = async (
             },
           ],
           data: allData?.free_hold_en, // Calculated data will be here
-          
         },
         {
           key: "property_status",

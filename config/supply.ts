@@ -29,9 +29,8 @@ export const YearlyCompletedUnits = async (
       description: "Total number of units completed each year.",
       chart_type: "bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -85,9 +84,8 @@ export const YearlyLaunchedProperties = async (
       description: "Total properties launched annually.",
       chart_type: "bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -138,9 +136,8 @@ export const FuturePlannedSupply = async (
       description: "Total properties launched annually.",
       chart_type: "bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -160,7 +157,7 @@ export const FuturePlannedSupply = async (
         },
       },
       sub_charts: [],
-      
+
       data: [], // Calculated data will be here
     };
   }
@@ -266,8 +263,8 @@ export const FuturePropertySupplyPerArea = async (
       description: "Forecasted supply of properties by area.",
       chart_type: "horizontal_bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
+        value: {
+          label: "Total Value",
           color: "hsl(var(--chart-1))",
         },
       },
@@ -324,8 +321,8 @@ export const DeliveredUnitsPerAreaDubai = async (
       description: "Total units delivered per area in Dubai.",
       chart_type: "horizontal_bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
+        value: {
+          label: "Total Value",
           color: "hsl(var(--chart-1))",
         },
       },

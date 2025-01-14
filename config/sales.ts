@@ -159,9 +159,8 @@ export const SalesValueTrend = async (
       ],
       chart_type: "bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -293,9 +292,8 @@ export const SalesTrend = async (
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],

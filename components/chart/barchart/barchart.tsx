@@ -17,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { FormatValue } from "@/utils/formatNumbers";
 
 interface BarChartComponentProps {
   chartConfig: any; // Adjust this type according to the actual ChartConfig type
@@ -127,7 +128,7 @@ const Barchart: React.FC<BarChartComponentProps> = ({
           />
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent indicator="line" />}
+            content={<ChartTooltipContent hideLabel />}
           />
 
           {yAxisDataKeys.map((key, index) => (

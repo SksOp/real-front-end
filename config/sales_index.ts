@@ -62,9 +62,8 @@ export const OverallSalesIndex = async (token?: string | null) => {
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -153,9 +152,8 @@ export const OverallSalesValue = async (token?: string | null) => {
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -244,9 +242,8 @@ export const VillaSalesIndex = async (token?: string | null) => {
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -335,9 +332,8 @@ export const VillaSalesValue = async (token?: string | null) => {
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -426,9 +422,8 @@ export const FlatSalesIndex = async (token?: string | null) => {
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],
@@ -517,9 +512,8 @@ export const FlatSalesValue = async (token?: string | null) => {
       ],
       chart_type: "line",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Total Value",
         },
       },
       sub_charts: [],

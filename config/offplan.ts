@@ -89,9 +89,11 @@ export const AnnualPropertySalesVolume = async (token?: string | null) => {
       description: "Annual comparison of sales volumes for all areas.",
       chart_type: "dual_bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Offplan",
+        },
+        value2: {
+          label: "Ready",
         },
       },
       sub_charts: [],
@@ -139,9 +141,11 @@ export const AnnualPropertySalesValue = async (token?: string | null) => {
       description: "Annual comparison of sales volumes for all areas.",
       chart_type: "dual_bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Offplan",
+        },
+        value2: {
+          label: "Ready",
         },
       },
       sub_charts: [],
@@ -211,9 +215,11 @@ export const SalesVolumeProportion = async (token?: string | null) => {
       description: "Proportion of total sales volume by area.",
       chart_type: "dual_bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Offplan",
+        },
+        value2: {
+          label: "Ready",
         },
       },
       sub_charts: [],
@@ -283,9 +289,11 @@ export const SalesValueProportion = async (token?: string | null) => {
       description: "Proportion of total sales volume by area.",
       chart_type: "dual_bar",
       chartConfig: {
-        desktop: {
-          label: "Desktop",
-          color: "hsl(var(--chart-1))",
+        value1: {
+          label: "Offplan",
+        },
+        value2: {
+          label: "Ready",
         },
       },
       sub_charts: [],

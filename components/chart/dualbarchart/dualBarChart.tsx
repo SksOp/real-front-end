@@ -83,13 +83,8 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
         className
       )}
     >
-      <ResponsiveContainer width={"100%"} height={400}>
-        <BarChart
-          data={data}
-          margin={{ left: -15, top: 10 }}
-          barGap={5}
-          barCategoryGap={8}
-        >
+      <ResponsiveContainer height={400}>
+        <BarChart data={data} margin={{ left: -15, top: 10 }}>
           <CartesianGrid
             vertical={false}
             stroke={gridStroke}
@@ -121,7 +116,6 @@ const DualBarchart: React.FC<DualBarChartComponentProps> = ({
               fill={barColors[index % barColors.length]}
               radius={barRadius}
               stroke={"#121212"}
-              barSize={30}
               {...customBarProps}
             >
               {!showXAxis && (

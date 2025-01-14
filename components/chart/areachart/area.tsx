@@ -149,7 +149,9 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
             domain={yAxisDomain}
             ticks={yAxisTicks}
           />
-          <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+          <ChartTooltip
+            content={<ChartTooltipContent hideLabel indicator="line" />}
+          />
 
           {areas.map((area, index) => (
             <Area
