@@ -20,7 +20,7 @@ export const SalesIndexMatrices: Matrix[] = [
     calculate_charts: {
       key: "overall_sales_index",
       calculate: async (params, token) => {
-        return await OverallSalesIndex(token);
+        return (await OverallSalesIndex(token)) as any;
       },
     },
   },

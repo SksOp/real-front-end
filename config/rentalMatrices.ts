@@ -100,7 +100,7 @@ export const RentalMatrices: Matrix[] = [
     calculate_charts: {
       key: "rental_value_trend",
       calculate: async (params, token) => {
-        return await RentalValueTrend(params, token);
+        return (await RentalValueTrend(params, token)) as any;
       },
     },
   },

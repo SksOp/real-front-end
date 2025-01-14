@@ -467,7 +467,7 @@ export const CalculateCharts = async (
       SalesSegmentation(params, token),
     ]);
 
-    allCharts.push(...charts);
+    allCharts.push(...(charts as any));
   } else {
     const charts = await Promise.all([
       RentalVersions(params, token),
@@ -479,7 +479,7 @@ export const CalculateCharts = async (
       RentalSegmentation(params, token),
     ]);
 
-    allCharts.push(...charts);
+    allCharts.push(...(charts as any));
   }
 
   return allCharts;

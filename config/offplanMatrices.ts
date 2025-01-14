@@ -36,7 +36,7 @@ export const OffPlanMatrices: Matrix[] = [
     calculate_charts: {
       key: "annual_properties_in_all areas",
       calculate: async (params, token) => {
-        return await AnnualPropertySalesVolume(token);
+        return (await AnnualPropertySalesVolume(token)) as any;
       },
     },
   },

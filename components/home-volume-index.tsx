@@ -61,8 +61,8 @@ function HomeVolumeIndex() {
       };
       const response = await SalesTrend(params);
       const response2 = await SalesValueTrend(params);
-      setVolume(response);
-      setValue(response2);
+      // setVolume(response);
+      // setValue(response2);
       console.log(volume);
     };
     fetchData();
