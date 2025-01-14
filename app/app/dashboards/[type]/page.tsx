@@ -72,7 +72,7 @@ function DashboardDetailPage() {
     const fetchMatrixData = async () => {
       const date = new Date();
       const token = await auth.user?.getIdToken(true);
-      if (filters && !filters?.end_year) filters.end_year = 12;
+      if (filters && !filters?.end_year) filters.end_year = "12";
 
       const matrixOutput = await dashboard?.calculate_matrics?.(filters, token);
       if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
@@ -82,15 +82,19 @@ function DashboardDetailPage() {
 
     const fetchChartsData = async () => {
       const date = new Date();
-      const token = await auth.user?.getIdToken(true);
-      if (filters && !filters?.end_year) filters.end_year = 12;
-      if (dashboard?.calculate_charts) {
-        const allCharts = await Promise.all(
-          dashboard.calculate_charts.map(async (chart) => {
-            return await chart.calculate(filters, token);
-          })
-        );
-        setCharts(allCharts);
+      try {
+        const token = await auth.user?.getIdToken(true);
+        if (filters && !filters?.end_year) filters.end_year = "12";
+        if (dashboard?.calculate_charts) {
+          const allCharts = await Promise.all(
+            dashboard.calculate_charts.map(async (chart) => {
+              return await chart.calculate(filters, token);
+            })
+          );
+          setCharts(allCharts);
+        }
+      } catch {
+        console.log("error");
       }
     };
 

@@ -92,13 +92,14 @@ export const Calculators: Calculator[] = [
         is_mandatory: true,
       },
       {
-        key: "no_of_bedrooms",
-        label: "No. of Bedrooms",
+        key: "property_sub_type",
+        label: "Property Subtype",
         type: "dropdown",
+        searchable: true,
         options: [1, 2, 3, 4, 5, "6+"],
         //all the unique values from relevent column from transactions should be listed here;
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_subtype",
         is_mandatory: true,
       },
     ],
@@ -117,7 +118,7 @@ export const Calculators: Calculator[] = [
         property_type,
         property_area,
         choose_project,
-        no_of_bedrooms,
+        property_sub_type,
       } = inputs;
       const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
@@ -131,8 +132,8 @@ export const Calculators: Calculator[] = [
             propType: property_type,
             usage: usage_type,
             project: choose_project,
-            prop_sub_type: "",
-            room: no_of_bedrooms,
+            prop_sub_type: property_sub_type,
+            room: property_sub_type,
             IS_OFFPLAN_EN: "",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -260,12 +261,13 @@ export const Calculators: Calculator[] = [
       //   is_mandatory: true,
       // },
       {
-        key: "no_of_bedrooms",
-        label: "No. of Bedrooms",
+        key: "property_sub_type",
+        label: "Property Subtype",
         type: "dropdown",
         options: [1, 2, 3, 4, 5, "6+"],
+        searchable: true,
         source:
-          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=rooms",
+          "https://us-central1-psyched-span-426722-q0.cloudfunctions.net/real/api/constants?type=property_subtype",
         is_mandatory: true,
       },
     ],
@@ -285,6 +287,7 @@ export const Calculators: Calculator[] = [
         choose_location,
         choose_project,
         property_type,
+        property_sub_type,
       } = inputs;
       const current_year = 2024;
       // step 1: query the data base for properties which satisfies usage_type, choose_location, property_type from transactions data in the current year.
@@ -293,7 +296,7 @@ export const Calculators: Calculator[] = [
           start_year: current_year,
           end_year: current_year,
           saleType: sale_type,
-          room: "",
+          room: property_sub_type,
           location: choose_location,
           propType: property_type,
           usage: usage_type,

@@ -104,11 +104,13 @@ export const SalesValueTrend = async (
   token?: string | null
 ) => {
   try {
-    if (params.end_year === 12) {
-      params.end_year = new Date().getFullYear();
-    }
     params.start_year = Number(params?.end_year) - 9;
-    const response = await ApiService("transaction", "trends", params, token);
+    const temp = params;
+    if (temp.end_year === "12" || temp.end_year === 12) {
+      temp.end_year = new Date().getFullYear();
+      temp.start_year = Number(temp.end_year) - 9;
+    }
+    const response = await ApiService("transaction", "trends", temp, token);
 
     console.log("response barrr", response.result);
     const data = response.result || [];
@@ -198,11 +200,13 @@ export const SalesTrend = async (
   token?: string | null
 ) => {
   try {
-    if (params.end_year === 12) {
-      params.end_year = new Date().getFullYear();
-    }
     params.start_year = Number(params?.end_year) - 9;
-    const response = await ApiService("transaction", "trends", params, token);
+    const temp = params;
+    if (temp.end_year === "12" || temp.end_year === 12) {
+      temp.end_year = new Date().getFullYear();
+      temp.start_year = Number(temp.end_year) - 9;
+    }
+    const response = await ApiService("transaction", "trends", temp, token);
     const data = response.result || [];
     console.log("chddd", data);
 

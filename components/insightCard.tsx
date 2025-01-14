@@ -36,9 +36,9 @@ function InsightCard({
           <div className="flex">
             <CardDescription>
               {children}{" "}
-              <span className="text-sm font-semibold text-primary cursor-pointer">
+              {/* <span className="text-sm font-semibold text-primary cursor-pointer">
                 {linkText}
-              </span>
+              </span> */}
             </CardDescription>
           </div>{" "}
         </div>

@@ -10,7 +10,7 @@ interface MatrixCardProp {
 }
 
 function MatrixCard({ title, value, growth }: MatrixCardProp) {
-  console.log(value);
+  console.log(growth);
   return (
     <Card className=" rounded-xl flex w-full flex-col py-3 px-3 gap-4">
       <CardHeader className="p-0 w-full">
@@ -25,16 +25,12 @@ function MatrixCard({ title, value, growth }: MatrixCardProp) {
         {growth && Number(growth) > 0 ? (
           <div className="flex items-center justify-start gap-1">
             <CircularUpIcon className="h-4 w-4" />
-            <p className="text-green-600 font-medium text-sm">
-              {parseInt(String(growth))}%
-            </p>
+            <p className="text-green-600 font-medium text-sm">{growth}%</p>
           </div>
         ) : growth && Number(growth) < 0 ? (
           <div className="flex items-center justify-start gap-1">
             <CircularDownIcon className="h-4 w-4" />
-            <p className="text-red-600 font-medium text-sm">
-              {-parseInt(String(growth))}%
-            </p>
+            <p className="text-red-600 font-medium text-sm">{-growth}%</p>
           </div>
         ) : null}
       </CardContent>

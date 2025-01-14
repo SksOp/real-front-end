@@ -20,6 +20,7 @@ import Exceptions from "@/components/exceptions";
 import { FlaskException, SelectDataException } from "@/public/svg/exceptions";
 import MatrixSkeleton from "@/components/matrixSkeleton";
 import { Separator } from "@/components/ui/separator";
+import { BASE_URL } from "@/config/constant";
 
 function CalculatorPage() {
   const [showOutput, setShowOutput] = useState<boolean>(false);
@@ -209,7 +210,12 @@ function CalculatorPage() {
                     {input.type === "read_only_auto_compute" ? (
                       <CalculatorInputs
                         key={input.key}
-                        uniqueKey={input.key}
+                        uniqueKey={
+                          input.key === "property_sub_type" &&
+                          inputValues["usage_type"] === "Residential"
+                            ? "rooms"
+                            : input.key
+                        }
                         type={input.type}
                         title={input.label}
                         value={inputValues[input.key]}
@@ -222,7 +228,12 @@ function CalculatorPage() {
                         max={input.max}
                         step={input.step}
                         options={input.options}
-                        source={input.source}
+                        source={
+                          input.key === "property_sub_type" &&
+                          inputValues["usage_type"] === "Residential"
+                            ? `${BASE_URL}/api/constants?type=rooms`
+                            : input.source
+                        }
                         is_mandatory={input.is_mandatory}
                         placeholder={input.placeholder ?? "Enter value"}
                         default_value={input.default_value}
@@ -231,7 +242,12 @@ function CalculatorPage() {
                     ) : (
                       <CalculatorInputs
                         key={input.key}
-                        uniqueKey={input.key}
+                        uniqueKey={
+                          input.key === "property_sub_type" &&
+                          inputValues["usage_type"] === "Residential"
+                            ? "rooms"
+                            : input.key
+                        }
                         type={input.type}
                         title={input.label}
                         value={inputValues[input.key]}
@@ -244,7 +260,12 @@ function CalculatorPage() {
                         max={input.max}
                         step={input.step}
                         options={input.options}
-                        source={input.source}
+                        source={
+                          input.key === "property_sub_type" &&
+                          inputValues["usage_type"] === "Residential"
+                            ? `${BASE_URL}/api/constants?type=rooms`
+                            : input.source
+                        }
                         is_mandatory={input.is_mandatory}
                         placeholder={input.placeholder ?? "Enter value"}
                         default_value={input.default_value}
@@ -324,7 +345,12 @@ function CalculatorPage() {
                     {calculator?.inputs.map((input) => (
                       <CalculatorInputs
                         key={input.key}
-                        uniqueKey={input.key}
+                        uniqueKey={
+                          input.key === "property_sub_type" &&
+                          inputValues["usage_type"] === "Residential"
+                            ? "rooms"
+                            : input.key
+                        }
                         type={input.type}
                         title={input.label}
                         value={inputValues[input?.key]}
@@ -337,7 +363,12 @@ function CalculatorPage() {
                         max={input.max}
                         step={input.step}
                         options={input.options}
-                        source={input.source}
+                        source={
+                          input.key === "property_sub_type" &&
+                          inputValues["usage_type"] === "Residential"
+                            ? `${BASE_URL}/api/constants?type=rooms`
+                            : input.source
+                        }
                         is_mandatory={input.is_mandatory}
                         placeholder={input.placeholder ?? "Enter value"}
                         default_value={input.default_value}
