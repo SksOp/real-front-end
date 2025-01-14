@@ -101,7 +101,7 @@ export const SalesMatrices: Matrix[] = [
     calculate_charts: {
       key: "transaction_value_trend",
       calculate: async (params, token) => {
-        return await SalesValueTrend(params, token);
+        return await SalesValueTrend(params, token) as any;
       },
     },
   },

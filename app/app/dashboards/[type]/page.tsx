@@ -72,7 +72,7 @@ function DashboardDetailPage() {
     const fetchMatrixData = async () => {
       const date = new Date();
       const token = await auth.user?.getIdToken(true);
-      if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
+      if (filters && !filters?.end_year) filters.end_year = 12;
 
       const matrixOutput = await dashboard?.calculate_matrics?.(filters, token);
       if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
@@ -83,7 +83,7 @@ function DashboardDetailPage() {
     const fetchChartsData = async () => {
       const date = new Date();
       const token = await auth.user?.getIdToken(true);
-      if (filters && !filters?.end_year) filters.end_year = date.getFullYear();
+      if (filters && !filters?.end_year) filters.end_year = 12;
       if (dashboard?.calculate_charts) {
         const allCharts = await Promise.all(
           dashboard.calculate_charts.map(async (chart) => {

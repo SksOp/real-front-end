@@ -132,7 +132,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "transactions_value_trend",
         calculate: async (params, token) => {
-          return SalesValueTrend(params, token);
+          return SalesValueTrend(params, token) as any;
         },
       },
       {
@@ -202,7 +202,7 @@ export const dashboards: Dashboard[] = [
         key: "transactions_value_trend",
         calculate: async (params, token) => {
           params.group_en = "Sales";
-          return SalesValueTrend(params, token);
+          return SalesValueTrend(params, token) as any;
         },
       },
       {
@@ -285,7 +285,7 @@ export const dashboards: Dashboard[] = [
         key: "sales_transactions_trend",
         calculate: async (params, token) => {
           params.group_en = "Mortgage";
-          return await SalesTrend(params, token);
+          return (await SalesTrend(params, token)) as any;
         },
       },
       {
@@ -352,7 +352,7 @@ export const dashboards: Dashboard[] = [
         key: "transactions_value_trend",
         calculate: async (params, token) => {
           params.group_en = "Gifts";
-          return SalesValueTrend(params, token);
+          return SalesValueTrend(params, token) as any;
         },
       },
       {
@@ -427,7 +427,7 @@ export const dashboards: Dashboard[] = [
         key: "transactions_value_trend",
         calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return SalesValueTrend(params, token);
+          return SalesValueTrend(params, token) as any;
         },
       },
       {
@@ -505,7 +505,7 @@ export const dashboards: Dashboard[] = [
         key: "transactions_value_trend",
         calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return SalesValueTrend(params, token);
+          return SalesValueTrend(params, token) as any;
         },
       },
       {
@@ -581,7 +581,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "rental_transactions_value_trend",
         calculate: async (params, token) => {
-          return RentalValueTrend(params, token);
+          return RentalValueTrend(params, token) as any;
         },
       },
       {
@@ -650,7 +650,7 @@ export const dashboards: Dashboard[] = [
         key: "rental_transactions_value_trend",
         calculate: async (params, token) => {
           params.usage_en = "Residential";
-          return RentalValueTrend(params, token);
+          return RentalValueTrend(params, token) as any;
         },
       },
       {
@@ -726,7 +726,7 @@ export const dashboards: Dashboard[] = [
         key: "rental_transactions_value_trend",
         calculate: async (params, token) => {
           params.usage_en = "Commercial";
-          return RentalValueTrend(params, token);
+          return RentalValueTrend(params, token) as any;
         },
       },
       {
@@ -914,7 +914,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "overall_sales_index",
         calculate: async (params, token) => {
-          return await OverallSalesIndex(token);
+          return (await OverallSalesIndex(token)) as any;
         },
       },
       {

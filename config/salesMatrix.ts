@@ -17,6 +17,10 @@ export const CalculateMatrixSales = async (
   if (!params.start_year) {
     params.start_year = new Date().getFullYear() - 1;
   }
+  if (params.end_year === 12) {
+    params.start_year = 12;
+  }
+
   const response = await ApiService("transaction", "trends", params, token);
   console.log("transactions", response);
   if (!response.result || response.status === "error") {
@@ -52,43 +56,23 @@ export const CalculateMatrixSales = async (
     ];
   }
 
-  const currentData = transactions[1] || transactions[0];
-  const previousData = transactions[1] ? transactions[0] : null;
+  const avgSalesValue =
+    transactions[transactions.length - 1].current_avg_transaction_value;
+  const avgPricePerSqft =
+    transactions[transactions.length - 1].current_avg_sqft_price;
+  const totalValue = transactions[transactions.length - 1].current_total_value;
+  const noOfTransactions =
+    transactions[transactions.length - 1].current_transactions;
 
-  const getMetric = (data: any, key: string) =>
-    data[key] !== undefined && data[key] !== null ? parseFloat(data[key]) : 0;
-
-  const avgSalesValue = getMetric(currentData, "average_value_of_transactions");
-  const avgSalesValueGrowth = previousData
-    ? growthCalculator(
-        avgSalesValue,
-        getMetric(previousData, "average_value_of_transactions")
-      )
-    : null;
-
-  const avgPricePerSqft = getMetric(currentData, "average_Price_per_sqft");
-  const salesPerSqftGrowth = previousData
-    ? growthCalculator(
-        avgPricePerSqft,
-        getMetric(previousData, "average_Price_per_sqft")
-      )
-    : null;
-
-  const totalValue = getMetric(currentData, "Total_Value_of_Transaction");
-  const totalValueGrowth = previousData
-    ? growthCalculator(
-        totalValue,
-        getMetric(previousData, "Total_Value_of_Transaction")
-      )
-    : null;
-
-  const noOfTransactions = getMetric(currentData, "number_of_Row_Used");
-  const noOfTransactionsGrowth = previousData
-    ? growthCalculator(
-        noOfTransactions,
-        getMetric(previousData, "number_of_Row_Used")
-      )
-    : null;
+  const avgSalesValueGrowth =
+    transactions[transactions.length - 1]
+      .avg_transaction_value_growth_percentage;
+  const salesPerSqftGrowth =
+    transactions[transactions.length - 1].avg_sqft_price_growth_percentage;
+  const totalValueGrowth =
+    transactions[transactions.length - 1].total_value_growth_percentage;
+  const noOfTransactionsGrowth =
+    transactions[transactions.length - 1].transaction_count_growth_percentage;
 
   return [
     {

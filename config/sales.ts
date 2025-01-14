@@ -104,6 +104,9 @@ export const SalesValueTrend = async (
   token?: string | null
 ) => {
   try {
+    if (params.end_year === 12) {
+      params.end_year = new Date().getFullYear();
+    }
     params.start_year = Number(params?.end_year) - 9;
     const response = await ApiService("transaction", "trends", params, token);
 
@@ -112,12 +115,12 @@ export const SalesValueTrend = async (
 
     const totalValue = data.map((item: any) => ({
       year: item.Year,
-      value: item.Total_Value_of_Transaction?.toFixed(2) || "0.00",
+      value: item.current_total_value?.toFixed(2) || "0.00",
     }));
 
     const pricePerSqft = data.map((item: any) => ({
       year: item.Year,
-      value: item.average_Price_per_sqft?.toFixed(2) || "0.00",
+      value: item.current_avg_sqft_price?.toFixed(2) || "0.00",
     }));
 
     console.log("totalValue", totalValue);
@@ -195,6 +198,9 @@ export const SalesTrend = async (
   token?: string | null
 ) => {
   try {
+    if (params.end_year === 12) {
+      params.end_year = new Date().getFullYear();
+    }
     params.start_year = Number(params?.end_year) - 9;
     const response = await ApiService("transaction", "trends", params, token);
     const data = response.result || [];
@@ -202,7 +208,7 @@ export const SalesTrend = async (
 
     const yearlyData = data.map((item: any) => ({
       year: item.Year,
-      value1: item.number_of_Row_Used || 0,
+      value1: item.current_transactions || 0,
     }));
 
     const months = [
