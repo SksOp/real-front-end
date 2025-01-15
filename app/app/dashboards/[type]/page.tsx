@@ -115,7 +115,6 @@ function DashboardDetailPage() {
     fetchData();
   }, [dashboard, filters]);
 
-  console.log("fffilterrest", filters);
   return (
     <Layout
       page="dashboards"

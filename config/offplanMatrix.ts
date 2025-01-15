@@ -12,8 +12,8 @@ export const CalculateOffplanMatrix = async (
   token?: string | null
 ) => {
   try {
-    const response = await ApiService("transaction", "offplan", params, token);
-
+    const response = await ApiService("transaction", "offplan", {}, token);
+    console.log(response);
     const data = response.result[0];
 
     const avg_value_unit = data.avg_worth_offplan_unit.toFixed(2);

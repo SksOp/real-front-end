@@ -29,6 +29,7 @@ export default async function ApiService(
         },
       }
     );
+    console.log("Response from ApiService:", response.data, subroute);
     return response.data;
   } catch (error) {
     console.error("Error in ApiService:", error);

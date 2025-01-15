@@ -467,7 +467,11 @@ export const SalesIndex = async (
   token?: string | null
 ) => {
   try {
+    if (!params.end_year) {
+      params.end_year = new Date().getFullYear();
+    }
     params.start_year = Number(params?.end_year);
+
     const response = await ApiService("transaction", "index", params, token);
 
     // Will do the required calculation here and return the data to build graph
