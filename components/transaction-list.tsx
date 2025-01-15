@@ -31,19 +31,32 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
     setIsLoading(true);
     try {
       const token = await auth.user?.getIdToken(true);
+      const extractYear = filters?.end_date
+        ? new Date(filters.end_date).getFullYear()
+        : NaN;
+      const presentYear = !Number.isNaN(extractYear)
+        ? extractYear
+        : new Date().getFullYear();
+
+      const filterParams = {
+        ...filters,
+        start_year: presentYear - 1,
+        end_year: presentYear,
+      };
+
       const response =
         selectedTab === "sales"
-          ? await SalesTransactionApi(page, filters, token)
+          ? await SalesTransactionApi(page, filterParams, token)
           : selectedTab === "mortgage"
           ? await SalesTransactionApi(
               page,
               {
-                ...filters,
+                ...filterParams,
                 group_en: "Mortgage",
               },
               token
             )
-          : await RentalTransactionApi(page, filters, token);
+          : await RentalTransactionApi(page, filterParams, token);
 
       setTransactions((prev) =>
         page === 1 ? response.transactions : [...prev, ...response.transactions]

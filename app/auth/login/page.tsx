@@ -45,8 +45,8 @@ const SignIn = () => {
           <HomeIntro />
           <HomeKeypilot />
           <FrequentQuestions />
-          <HomeClaimCard />
-          <Feedback />
+          {/* <HomeClaimCard /> */}
+          {/* <Feedback /> */}
           <SharingCard />
         </div>
         <div className="w-3/4  max-h-[calc(100vh-6rem)] overflow-y-auto flex flex-col gap-3">

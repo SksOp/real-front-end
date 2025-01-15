@@ -199,18 +199,30 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   const fetchTransactions = async (page: number) => {
     setLoading(true); // Start loading
     try {
+      const extractYear = filters?.end_date
+        ? new Date(filters.end_date).getFullYear()
+        : NaN;
+      const presentYear = !Number.isNaN(extractYear)
+        ? extractYear
+        : new Date().getFullYear();
+
+      const filterParams = {
+        ...filters,
+        start_year: presentYear - 1,
+        end_year: presentYear,
+      };
       const token = await auth.user?.getIdToken(true);
       if (selectedTab === "sales") {
-        const response = await SalesTransactionApi(page, filters, token);
+        const response = await SalesTransactionApi(page, filterParams, token);
         setData(response.transactions);
       } else if (selectedTab === "rental") {
-        const response = await RentalTransactionApi(page, filters, token);
+        const response = await RentalTransactionApi(page, filterParams, token);
         setData(response.transactions);
       } else if (selectedTab === "mortgage") {
         const response = await SalesTransactionApi(
           page,
           {
-            ...filters,
+            ...filterParams,
             group_en: "Mortgage",
           },
           token

@@ -44,14 +44,20 @@ function TransactionPage() {
       setIsLoading(true); // Start loading
       try {
         const token = await auth.user?.getIdToken(true);
-        const date = new Date();
-        const presentYear = date.getFullYear();
+        const extractYear = filters?.end_date
+          ? new Date(filters.end_date).getFullYear()
+          : NaN;
+        const presentYear = !Number.isNaN(extractYear)
+          ? extractYear
+          : new Date().getFullYear();
 
         const filterParams = {
           ...filters,
           start_year: presentYear - 1,
           end_year: presentYear,
         };
+
+        console.log("Filter Params", filterParams);
 
         if (selectedTab === "sales") {
           const response = await SalesTransactionApi(1, filterParams, token);
