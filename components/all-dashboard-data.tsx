@@ -104,12 +104,12 @@ function DashboardData({ className }: { className?: ClassValue }) {
           className={className}
           selectedCard={selectedDashboard}
         />
-        <HomeMatrics
+        {/* <HomeMatrics
           title="Rental Insights"
           items={RentalDashboards}
           className={className}
           selectedCard={selectedDashboard}
-        />
+        /> */}
         <HomeMatrics
           title="Current/Planned Supply(Ready & Offplan)"
           items={SupplyAndOffPlanDashboards}

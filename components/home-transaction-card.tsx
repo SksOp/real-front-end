@@ -38,39 +38,44 @@ function HomeTransactionCard() {
       const presentYear = date.getFullYear();
 
       setIsLoading(true);
-      const token = await auth?.user?.getIdToken(true);
-      const matrixOutputSales = await CalculateMatrixSales(
-        {
-          start_year: presentYear - 1,
-          end_year: presentYear,
-          usage_en: "Residential",
-        },
-        token
-      );
-      setSalesMatrix(matrixOutputSales);
+      try {
+        const token = await auth?.user?.getIdToken(true);
+        const matrixOutputSales = await CalculateMatrixSales(
+          {
+            start_year: presentYear - 1,
+            end_year: presentYear,
+            usage_en: "Residential",
+          },
+          token
+        );
+        setSalesMatrix(matrixOutputSales);
 
-      const matrixOutputMortgage = await CalculateMatrixSales(
-        {
-          start_year: presentYear - 1,
-          end_year: presentYear,
-          usage_en: "Residential",
-          group_en: "Mortgage",
-        },
-        token
-      );
-      setMortageMatrix(matrixOutputMortgage);
+        const matrixOutputMortgage = await CalculateMatrixSales(
+          {
+            start_year: presentYear - 1,
+            end_year: presentYear,
+            usage_en: "Residential",
+            group_en: "Mortgage",
+          },
+          token
+        );
+        setMortageMatrix(matrixOutputMortgage);
 
-      const matrixOutputRental = await CalculateMatrixRental(
-        {
-          start_year: presentYear - 1,
-          end_year: presentYear,
-          usage_en: "Residential",
-        },
-        token
-      );
+        // const matrixOutputRental = await CalculateMatrixRental(
+        //   {
+        //     start_year: presentYear - 1,
+        //     end_year: presentYear,
+        //     usage_en: "Residential",
+        //   },
+        //   token
+        // );
 
-      setRentalMatrix(matrixOutputRental);
-      setIsLoading(false);
+        // setRentalMatrix(matrixOutputRental);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
     };
 
     fetchTransactions();
@@ -104,12 +109,12 @@ function HomeTransactionCard() {
             >
               Sales
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value="rental"
               className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
             >
               Rental
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger
               value="mortgage"
               className="rounded-full border border-muted text-sm text-center font-medium text-muted data-[state=active]:bg-secondary data-[state=active]:border-0 data-[state=active]:text-white"
@@ -133,7 +138,7 @@ function HomeTransactionCard() {
                   ))}
             </div>
           </TabsContent>
-          <TabsContent value="rental" className="w-full flex  mt-0">
+          {/* <TabsContent value="rental" className="w-full flex  mt-0">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
               {isLoading
                 ? Array.from({ length: 4 }).map((_, index) => (
@@ -148,7 +153,7 @@ function HomeTransactionCard() {
                     />
                   ))}
             </div>
-          </TabsContent>
+          </TabsContent> */}
           <TabsContent value="mortgage" className="w-full flex  mt-0">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
               {mortageMatrix.map((item, index) => (

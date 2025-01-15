@@ -126,6 +126,7 @@ export const dashboards: Dashboard[] = [
       {
         key: "transactions_type",
         calculate: async (params, token) => {
+          console.log("params", params);
           return await SalesTypeChart(params, token);
         },
       },

@@ -101,7 +101,8 @@ function TransactionTabs({
       >
         <div className="flex justify-between items-center">
           <TabsList className="w-full gap-2 items-center justify-start bg-background overflow-x-scroll">
-            {["sales", "rental", "mortgage"].map((tab) => (
+            {/* ["sales", "rental", "mortgage"] */}
+            {["sales", "mortgage"].map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
@@ -247,7 +248,8 @@ function TransactionTabs({
             </DropdownMenu>
           </div>
         </div>
-        {["sales", "rental", "mortgage"].map((tab) => (
+        {/* ["sales", "rental", "mortgage"] */}
+        {["sales", "mortgage"].map((tab) => (
           <TabsContent key={tab} value={tab} className="w-full flex mt-0">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1">
               {isLoading

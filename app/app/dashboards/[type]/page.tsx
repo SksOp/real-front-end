@@ -70,21 +70,27 @@ function DashboardDetailPage() {
 
   useEffect(() => {
     const fetchMatrixData = async () => {
-      const date = new Date();
-      const token = await auth.user?.getIdToken(true);
-      if (filters && !filters?.end_year) filters.end_year = "12";
+      try {
+        const token = await auth.user?.getIdToken(true);
+        if (filters && !filters?.end_year) filters.end_year = 12;
 
-      const matrixOutput = await dashboard?.calculate_matrics?.(filters, token);
-      if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
-        setMatrixData(matrixOutput);
+        const matrixOutput = await dashboard?.calculate_matrics?.(
+          filters,
+          token
+        );
+        if (Array.isArray(matrixOutput) && matrixOutput.length > 0) {
+          setMatrixData(matrixOutput);
+        }
+      } catch (error) {
+        console.log("error", error);
       }
     };
 
     const fetchChartsData = async () => {
-      const date = new Date();
       try {
         const token = await auth.user?.getIdToken(true);
-        if (filters && !filters?.end_year) filters.end_year = "12";
+        console.log("filters", filters);
+        if (filters && !filters?.end_year) filters.end_year = 12;
         if (dashboard?.calculate_charts) {
           const allCharts = await Promise.all(
             dashboard.calculate_charts.map(async (chart) => {
@@ -109,6 +115,7 @@ function DashboardDetailPage() {
     fetchData();
   }, [dashboard, filters]);
 
+  console.log("fffilterrest", filters);
   return (
     <Layout
       page="dashboards"

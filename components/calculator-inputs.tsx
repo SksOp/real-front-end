@@ -66,12 +66,16 @@ function CalculatorInputs({
   const auth = useAuth();
   useEffect(() => {
     const fetchOptions = async () => {
-      if (source) {
-        const token = await auth.user?.getIdToken(true);
-        const data = await FetchAndStoreOptions(uniqueKey, source, token);
+      try {
+        if (source) {
+          const token = await auth.user?.getIdToken(true);
+          const data = await FetchAndStoreOptions(uniqueKey, source, token);
 
-        console.log(title, data);
-        if (Array.isArray(data) && data?.length > 0) setFetchedOptions(data);
+          console.log(title, data);
+          if (Array.isArray(data) && data?.length > 0) setFetchedOptions(data);
+        }
+      } catch (e) {
+        console.log(e);
       }
     };
     fetchOptions();

@@ -59,12 +59,12 @@ function TransactionPage() {
           setMatrixDataPage(matrixOutput);
           setTotalPages(response.totalPages);
           setTransactions(response.transactions);
-        } else if (selectedTab === "rental") {
-          const response = await RentalTransactionApi(1, filterParams, token);
-          const matrixOutput = await CalculateMatrixRental(filterParams, token);
-          setMatrixDataPage(matrixOutput);
-          setTotalPages(response.totalPages);
-          setTransactions(response.transactions);
+          // } else if (selectedTab === "rental") {
+          //   const response = await RentalTransactionApi(1, filterParams, token);
+          //   const matrixOutput = await CalculateMatrixRental(filterParams, token);
+          //   setMatrixDataPage(matrixOutput);
+          //   setTotalPages(response.totalPages);
+          //   setTransactions(response.transactions);
         } else if (selectedTab === "mortgage") {
           const response = await SalesTransactionApi(
             1,

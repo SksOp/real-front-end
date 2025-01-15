@@ -301,7 +301,7 @@ export const DeliveredUnitsPerAreaDubai = async (
   try {
     const response = await ApiService(
       "projects",
-      "delveredUnits",
+      "deliveredUnits",
       params,
       token
     );

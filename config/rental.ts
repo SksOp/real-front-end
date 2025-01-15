@@ -152,7 +152,7 @@ export const RentalValueTrend = async (
       name: "Transactions Value Trend",
       description:
         "Compare transactional total value and value per sqft over time.",
-      filters: ["Total Value", "Value per SQFT"],
+      filters: [],
       chart_type: "bar",
       chartConfig: {
         desktop: {
