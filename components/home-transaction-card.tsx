@@ -11,7 +11,10 @@ import { useAuth } from "@/lib/auth";
 import LoginTrigger from "./loginTrigger";
 import MatrixSkeleton from "./matrixSkeleton";
 import SignupTrigger from "./signupTrigger";
-import { CalculateMatrixSales } from "@/config/salesMatrix";
+import {
+  CalculateFourMatrix,
+  CalculateMatrixSales,
+} from "@/config/salesMatrix";
 import { CalculateMatrixRental } from "@/config/rentalMatrix";
 
 interface MatrixCardProps {
@@ -35,25 +38,30 @@ function HomeTransactionCard() {
   useEffect(() => {
     const fetchTransactions = async () => {
       const date = new Date();
-      const presentYear = date.getFullYear();
+      const year = date.getFullYear();
+      const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
+      const startDate = new Date(year, 0, 1);
+
+      const presentYear = formatDate(date);
+      const lastYearDate = formatDate(startDate);
       setIsLoading(true);
       try {
         const token = await auth?.user?.getIdToken(true);
-        const matrixOutputSales = await CalculateMatrixSales(
+        const matrixOutputSales = await CalculateFourMatrix(
           {
-            start_year: presentYear - 1,
-            end_year: presentYear,
+            start_date: lastYearDate,
+            end_date: presentYear,
             usage_en: "Residential",
           },
           token
         );
         setSalesMatrix(matrixOutputSales);
 
-        const matrixOutputMortgage = await CalculateMatrixSales(
+        const matrixOutputMortgage = await CalculateFourMatrix(
           {
-            start_year: presentYear - 1,
-            end_year: presentYear,
+            start_date: lastYearDate,
+            end_date: presentYear,
             usage_en: "Residential",
             group_en: "Mortgage",
           },

@@ -31,17 +31,24 @@ const TransactionsList = ({ selectedTab, filters }: TransactionsListProps) => {
     setIsLoading(true);
     try {
       const token = await auth.user?.getIdToken(true);
-      const extractYear = filters?.end_date
-        ? new Date(filters.end_date).getFullYear()
-        : NaN;
-      const presentYear = !Number.isNaN(extractYear)
-        ? extractYear
-        : new Date().getFullYear();
+      const date = new Date();
+      const year = date.getFullYear();
+      const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
+      const startDate = new Date(year, 0, 1);
+
+      const presentYear = filters?.end_date
+        ? filters?.end_date
+        : formatDate(date);
+      const lastYearDate = filters?.start_date
+        ? filters?.start_date
+        : formatDate(startDate);
       const filterParams = {
         ...filters,
-        start_year: presentYear - 1,
-        end_year: presentYear,
+        start_date: lastYearDate,
+        end_date: presentYear,
+        end_year: new Date(presentYear).getFullYear(),
+        start_year: new Date(lastYearDate).getFullYear(),
       };
 
       const response =

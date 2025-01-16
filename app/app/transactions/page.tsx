@@ -8,7 +8,10 @@ import TransactionTabs from "@/components/transaction-tabs";
 import TransactionTable from "@/components/transactionTable";
 import { BASE_URL } from "@/config/constant";
 import { CalculateMatrixRental } from "@/config/rentalMatrix";
-import { CalculateMatrixSales } from "@/config/salesMatrix";
+import {
+  CalculateFourMatrix,
+  CalculateMatrixSales,
+} from "@/config/salesMatrix";
 import {
   CalculateMatrix,
   RentalTransactionApi,
@@ -44,24 +47,36 @@ function TransactionPage() {
       setIsLoading(true); // Start loading
       try {
         const token = await auth.user?.getIdToken(true);
-        const extractYear = filters?.end_date
-          ? new Date(filters.end_date).getFullYear()
-          : NaN;
-        const presentYear = !Number.isNaN(extractYear)
-          ? extractYear
-          : new Date().getFullYear();
+        const date = new Date();
+        const year = date.getFullYear();
+        const formatDate = (date: Date) => date.toISOString().split("T")[0];
+
+        const startDate = new Date(year, 0, 1);
+
+        const presentYear = filters?.end_date
+          ? filters?.end_date
+          : formatDate(date);
+        const lastYearDate = filters?.start_date
+          ? filters?.start_date
+          : formatDate(startDate);
+
+        if (!filters.usage_en) {
+          filters.usage_en = "Residential";
+        }
 
         const filterParams = {
           ...filters,
-          start_year: presentYear - 1,
-          end_year: presentYear,
+          start_date: lastYearDate,
+          end_date: presentYear,
+          end_year: new Date(presentYear).getFullYear(),
+          start_year: new Date(lastYearDate).getFullYear(),
         };
 
         console.log("Filter Params", filterParams);
 
         if (selectedTab === "sales") {
           const response = await SalesTransactionApi(1, filterParams, token);
-          const matrixOutput = await CalculateMatrixSales(filterParams, token);
+          const matrixOutput = await CalculateFourMatrix(filterParams, token);
           setMatrixDataPage(matrixOutput);
           setTotalPages(response.totalPages);
           setTransactions(response.transactions);
@@ -80,7 +95,7 @@ function TransactionPage() {
             },
             token
           );
-          const matrixOutput = await CalculateMatrixSales(
+          const matrixOutput = await CalculateFourMatrix(
             {
               ...filterParams,
               group_en: "Mortgage",

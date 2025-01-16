@@ -4,7 +4,6 @@ import { Button } from "./ui/button";
 import DatePicker from "./date-picker";
 import CalculatorInputs from "./calculator-inputs";
 import { TransactionFilterOptions } from "@/config/filters";
-import { set } from "date-fns";
 
 function TransactionFilter({
   filters,
@@ -22,6 +21,7 @@ function TransactionFilter({
   const [localFilters, setLocalFilters] = useState<{
     [key: string]: string | number;
   }>(filters);
+  const [error, setError] = useState<string>("");
 
   const handleFilterChange = (name: string, value: string | number) => {
     setLocalFilters((prevFilters) => ({
@@ -32,12 +32,10 @@ function TransactionFilter({
 
   const handleDateChange = (name: string, date: Date | undefined) => {
     if (date) {
-      // Format date in local timezone
-      const formattedDate = date.toISOString().split("T")[0]; // If you need UTC format
       const localDate = date.toLocaleDateString("en-CA"); // "YYYY-MM-DD" in local time
       setLocalFilters((prevFilters) => ({
         ...prevFilters,
-        [name]: localDate, // Use localDate to avoid UTC shift
+        [name]: localDate,
       }));
     } else {
       setLocalFilters((prevFilters) => {
@@ -49,6 +47,25 @@ function TransactionFilter({
   };
 
   const applyFilters = () => {
+    const { start_date, end_date } = localFilters;
+
+    // Validation: Both dates must be provided
+    if ((start_date && !end_date) || (!start_date && end_date)) {
+      setError("Both start and end dates must be provided.");
+      return;
+    }
+
+    // Validation: Start date cannot be greater than end date
+    if (start_date && end_date) {
+      const startDate = new Date(start_date as string);
+      const endDate = new Date(end_date as string);
+      if (startDate > endDate) {
+        setError("Start date cannot be greater than end date.");
+        return;
+      }
+    }
+
+    setError(""); // Clear error if validation passes
     console.log(localFilters);
     setIsOpen(false);
     setFilters(localFilters);
@@ -113,6 +130,7 @@ function TransactionFilter({
               />
             </div>
           </div>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
       </div>
       <div className="w-full flex justify-end items-center gap-4 pt-4">
@@ -123,6 +141,7 @@ function TransactionFilter({
             setLocalFilters({});
             setFilters({});
             setIsOpen(false);
+            setError("");
           }}
         >
           Clear All
