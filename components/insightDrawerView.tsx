@@ -34,7 +34,11 @@ function InsightDrawerView({ location_name }: { location_name: string }) {
   const getAllChartData = async () => {
     const year = 2024;
     const token = await auth.user?.getIdToken(true);
-    let params = { end_year: year, location: location_name };
+    let params = {
+      end_year: year,
+      location: location_name,
+      usage_en: "Residential",
+    };
     const allChartsSales = await CalculateCharts("sales", params, token);
     const allChartsRental = await CalculateCharts("rental", params, token);
 
@@ -64,6 +68,7 @@ function InsightDrawerView({ location_name }: { location_name: string }) {
           start_year: presentYear - 1,
           end_year: presentYear,
           location: location_name,
+          usage_en: "Residential",
         },
         token
       );
@@ -75,6 +80,7 @@ function InsightDrawerView({ location_name }: { location_name: string }) {
           start_year: presentYear - 1,
           end_year: presentYear,
           location: location_name,
+          usage_en: "Residential",
         },
         token
       );
