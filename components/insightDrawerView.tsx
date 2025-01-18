@@ -110,7 +110,7 @@ function InsightDrawerView({ location_name }: { location_name: string }) {
         </h3>
       </div>
 
-      <ChartWrapper title="Similar Transaction Rules">
+      <ChartWrapper title="Summary">
         <Tabs
           value={selectedFilter}
           onValueChange={(value: string) => setSelectedFilter(value)}
