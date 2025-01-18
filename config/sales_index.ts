@@ -86,8 +86,6 @@ export const OverallSalesIndex = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
       data: [], // Calculated data will be here
     };
   }
@@ -176,8 +174,6 @@ export const OverallSalesValue = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
       data: [], // Calculated data will be here
     };
   }
@@ -247,8 +243,7 @@ export const VillaSalesIndex = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: monthlyData, // Calculated data will be here
     };
   } catch (error) {
@@ -266,8 +261,7 @@ export const VillaSalesIndex = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: [], // Calculated data will be here
     };
   }
@@ -337,8 +331,7 @@ export const VillaSalesValue = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: monthlyData, // Calculated data will be here
     };
   } catch (error) {
@@ -356,8 +349,7 @@ export const VillaSalesValue = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: [], // Calculated data will be here
     };
   }
@@ -427,8 +419,7 @@ export const FlatSalesIndex = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: monthlyData, // Calculated data will be here
     };
   } catch (error) {
@@ -446,8 +437,7 @@ export const FlatSalesIndex = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: [], // Calculated data will be here
     };
   }
@@ -517,8 +507,7 @@ export const FlatSalesValue = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: monthlyData, // Calculated data will be here
     };
   } catch (error) {
@@ -536,8 +525,7 @@ export const FlatSalesValue = async (token?: string | null) => {
         },
       },
       sub_charts: [],
-      insights:
-        "This type of properties has high demand in this area and demand is 10% higher than the overall Dubai overage. ",
+
       data: [], // Calculated data will be here
     };
   }

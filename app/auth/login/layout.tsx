@@ -80,11 +80,10 @@ function LoginLayout({ children }: { children: React.ReactNode }) {
   };
 
   const navItems = [
-    { icon: <DashboardIcon />, label: "Dashboard" },
+    { icon: <DashboardIcon />, label: "Dashboards" },
     { icon: <CalculatorIcon />, label: "Calculators" },
     { icon: <TransactionIcon />, label: "Sales Transactions" },
     { icon: <TransactionIcon />, label: "Rental Transactions" },
-    { icon: <MyPropertiesIcon />, label: "My Properties" },
     { icon: <KeyMatricIcon />, label: "Key Metrics" },
     { icon: <MarketPulseIcon />, label: "Market Pulse" },
   ];
