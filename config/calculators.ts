@@ -188,8 +188,8 @@ export const Calculators: Calculator[] = [
         is_mandatory: true,
       },
       {
-        key: "sale_type",
-        label: "Sale Type",
+        key: "rent_type",
+        label: "Rent Type",
         type: "radio",
         options: ["New", "Renew"],
         is_mandatory: true,
@@ -283,7 +283,7 @@ export const Calculators: Calculator[] = [
     calculate: async (inputs, token) => {
       const {
         usage_type,
-        sale_type,
+        rent_type,
         choose_location,
         choose_project,
         property_type,
@@ -295,7 +295,7 @@ export const Calculators: Calculator[] = [
         const response = await axios.post(`${BASE_URL}/api/calculator/rental`, {
           start_year: current_year,
           end_year: current_year,
-          saleType: sale_type,
+          saleType: rent_type,
           room: property_sub_type,
           location: choose_location,
           propType: property_type,
