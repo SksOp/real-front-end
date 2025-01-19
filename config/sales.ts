@@ -630,9 +630,13 @@ export const SalesPriceComparison = async (
       avgPrice: item.avg_trans_value_current.toFixed(2),
       pricePerSqFt: item.avg_price_per_sqft_current.toFixed(2),
       transactions: item.num_sales_current.toFixed(2),
-      avgPriceGrowth: item.growth_rate_avg_trans_value.toFixed(2),
-      pricePerSqFtGrowth: item.growth_rate_avg_price_per_sqft.toFixed(2),
-      transactionsGrowth: item.growth_rate_count_transactions.toFixed(2),
+      avgPriceGrowth: Number(item.growth_rate_avg_trans_value).toFixed(2),
+      pricePerSqFtGrowth: Number(item.growth_rate_avg_price_per_sqft).toFixed(
+        2
+      ),
+      transactionsGrowth: Number(item.growth_rate_count_transactions).toFixed(
+        2
+      ),
     }));
     const capitalizeFirstLetter = (str: string | undefined): string =>
       str
@@ -643,14 +647,14 @@ export const SalesPriceComparison = async (
       name: `${capitalizeFirstLetter(
         item.IS_OFFPLAN_EN
       )} ${capitalizeFirstLetter(item.PROP_TYPE_EN)}`,
-      avgPrice: (item.avg_current_price || 0).toFixed(2),
-      pricePerSqFt: (item.avg_current_price_per_sqft || 0).toFixed(2),
-      transactions: (item.total_current_count_transactions || 0).toFixed(2),
-      avgPriceGrowth: (item.avg_price_growth || 0).toFixed(2),
-      pricePerSqFtGrowth: (item.avg_price_per_sqft_growth || 0).toFixed(2),
-      transactionsGrowth: (item.transaction_count_growth || 0).toFixed(2),
+      avgPrice: (item.avg_current_price || 0)?.toFixed(2),
+      pricePerSqFt: (item.avg_current_price_per_sqft || 0)?.toFixed(2),
+      transactions: (item.total_current_count_transactions || 0)?.toFixed(2),
+      avgPriceGrowth: (item.avg_price_growth || 0)?.toFixed(2),
+      pricePerSqFtGrowth: (item.avg_price_per_sqft_growth || 0)?.toFixed(2),
+      transactionsGrowth: (item.transaction_count_growth || 0)?.toFixed(2),
     }));
-
+    console.log("chartDatahiiiiiiiiiiiii", chartDataProp);
     return {
       name: "Price Comparison",
       chart_type: "comparison_table",

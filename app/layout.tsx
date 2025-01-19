@@ -6,6 +6,7 @@ import Head from "next/head";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import ChatWidget from "@/components/chatWidget";
 
 const inter = Inter({ subsets: ["greek"], display: "swap" });
 

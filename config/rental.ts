@@ -578,12 +578,14 @@ export const RentalComparison = async (
     console.log("compare data", data);
     const chartData = data.map((item: any) => ({
       name: item.AREA_EN,
-      avgPrice: item.avg_rent_value.toFixed(2),
+      avgPrice: Number(item.avg_rent_value_current).toFixed(2),
       pricePerSqFt:
-        item.renewal_ratio != null
-          ? (item.renewal_ratio * 100).toFixed(2) + "%"
+        item.renewal_ratio_current != null
+          ? (item.renewal_ratio_current * 100).toFixed(2) + "%"
           : "N/A",
-      transactions: item.num_rents.toFixed(2),
+      transactions: item.num_rents_current,
+      avgPriceGrowth: Number(item.growth_rate_avg_rent_value).toFixed(2),
+      transactionsGrowth: Number(item.growth_rate_in_no_of_rents).toFixed(2),
     }));
 
     return {
